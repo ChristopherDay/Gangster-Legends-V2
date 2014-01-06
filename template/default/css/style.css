@@ -1,0 +1,11 @@
+.game {
+	.make-row();
+}
+
+.left-menu, .right-menu {
+	.make-md-column(3);
+}
+
+.game-main {
+	.make-md-column(6);
+}
