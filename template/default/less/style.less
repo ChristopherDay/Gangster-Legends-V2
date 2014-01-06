@@ -1,0 +1,147 @@
+
+@import "bootstrap.min.css";
+
+a {
+    color: inherit;
+}
+a:hover {
+    color: inherit;
+}
+
+.gray {
+	color:#555;
+}
+
+.white {
+	color:#fff !important;
+}
+
+.gold {
+	color:#FFDF40;
+}
+
+body {
+	background:#000 !important;
+	.white;
+	margin:10px;
+	font-size:12px;
+}
+
+.game-logo {
+	.make-row();
+}
+
+.game-logo .logo {
+	.make-md-column(6);
+	font-size: 64px;
+	text-align:center;
+	margin: 20px 0px;
+}
+
+.game-logo .user-info {
+	.make-md-column(3);
+}
+
+.game-logo .logo small {
+	font-size: 18px;
+	.gray;
+}
+
+.game-logo .logo small .new {
+	.gold;
+}
+
+.game {
+	.make-row();
+}
+
+.left-menu, .right-menu {
+	.make-md-column(2.5);
+	text-align:center;
+}
+
+.game-main {
+	.make-md-column(7);
+}
+
+.user-info .user-info-row {
+	width:100%;
+	border:1px solid rgba(255, 255, 255, 0.2);
+	background:rgba(255, 255, 255, 0.1);
+	.clearfix();
+	margin-top:10px;
+}
+
+.user-info .user-info-col-main {
+	.make-md-column(4);
+	text-align:right;
+}
+
+.user-info .user-info-col-stat {
+	.make-md-column(8);
+}
+
+.panel {
+	border:1px solid rgba(255, 255, 255, 0.3);
+	background:#000;
+	border-radius: 0px;
+}
+
+.panel-default > .panel-heading {
+	border:none;
+	border-bottom:1px solid rgba(255, 255, 255, 0.3);
+	background:rgba(255, 255, 255, 0.1);
+}
+
+.crime-holder {
+    border:1px solid rgba(255, 255, 255, 0.2);
+    background:1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom:10px;
+}
+
+.crime-holder p {
+    padding:10px;
+    margin:0px;
+}
+
+.crime-holder .commit {
+    float: right;
+}
+
+.crime-holder .crime-perc {
+    width:100%;
+    height:2px;
+    background-color:#900;
+}
+
+.crime-holder .crime-perc .perc {
+    height:2px;
+    background-color:#090;
+}
+
+.panel-heading {
+    text-transform:capitalize;
+}
+
+.form-control {
+    background-color: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.form-control:focus {
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    box-shadow: none;
+}
+
+.loginRow {
+    .make-row();
+    margin-top:150px;
+}
+
+.loginCol {
+    .make-md-column(4);
+}
+
+.loginHolder {
+    .make-md-column(4);
+}
