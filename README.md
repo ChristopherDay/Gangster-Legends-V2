@@ -21,6 +21,8 @@ How To Install
 
 3) Run the sql in sql.sql
 
-4) The game should now be made with some sample data
+4) Open up dbconn.php and alter the connection string with your username, password and database name
 
-5) You can login with the username admin and the password adminPass
+5) The game should now be made with some sample data
+
+6) You can login with the username admin and the password adminPass
