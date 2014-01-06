@@ -26,3 +26,11 @@ How To Install
 5) The game should now be made with some sample data
 
 6) You can login with the username admin and the password adminPass
+
+
+Example
+=======
+
+A demo can be founf at http://cdhost.co.uk/my_sites/gangsterlegendsv2/
+
+The username is admin and the password is adminPass
