@@ -3,20 +3,15 @@
     class policeChase extends module {
         
         public $pageName = 'Police Chase';
+        public $allowedMethods = array('move'=>array('type'=>'get'));
         
         public function constructModule() {
-            
-            if (isset($_GET['move'])) {
-                
-                $this->move();
-            
-            }
             
             $this->html .= $this->page->buildElement('policeChase', array());
             
         }
         
-        private function move() {
+        public function method_move() {
             
             if (time() < $this->user->info->US_chaseTimer) {
                 $time = $this->user->info->US_chaseTimer - time();

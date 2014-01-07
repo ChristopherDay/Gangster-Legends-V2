@@ -2,7 +2,7 @@
 
     class module {
         
-        public $html = '', $page, $user, $db;
+        public $html = '', $page, $user, $db, $methodData;
         
         public function __construct() {
         
@@ -13,6 +13,20 @@
             
             if (isset($user->id)) {
                 $this->user = $user;
+            }
+            
+            $this->buildMethodData();
+            
+            if (isset($this->methodData->action)) {
+            
+                $methodAction = 'method_'.$this->methodData->action;
+                
+                if (method_exists($this, $methodAction)) {
+                    
+                    $this->$methodAction();
+                
+                }
+                
             }
             
             $this->constructModule();
@@ -35,6 +49,31 @@
         
         public function htmlOutput() {
             return $this->html;
+        }
+        
+        private function buildMethodData() {
+        
+            $data = $this->allowedMethods;
+            
+            foreach ($data as $key => $val) {
+                
+                if ($val['type'] == 'get') {
+                    if (isset($_GET[$key])) {
+                        $this->methodData->$key = $_GET[$key];
+                    }
+                } else if ($val['type'] == 'post') {
+                    if (isset($_POST[$key])) {
+                        $this->methodData->$key = $_POST[$key];
+                    }
+                }
+            }
+            
+            if (isset($_GET['action'])) {
+            
+                $this->methodData->action = $_GET['action'];
+                
+            }
+            
         }
         
         public function getLocation($locationID, $info = false) {

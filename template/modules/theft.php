@@ -6,7 +6,7 @@
         public $jailPage = false; // True means you can view this page in prison
         
         public $theftHolder = '<div class="crime-holder">
-            <p>{var1} <span class="commit"><a href="?page=theft&commit={var2}">Commit</a></span></p>
+            <p>{var1} <span class="commit"><a href="?page=theft&action=commit&id={var2}">Commit</a></span></p>
             <div class="crime-perc">
                 <div class="perc" style="width:{var3}%;"></div>
             </div>

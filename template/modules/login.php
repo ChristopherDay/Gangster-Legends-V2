@@ -12,7 +12,7 @@
                 <h3 class="panel-title">Login</h3>
             </div>
             <div class="panel-body">
-                <form action="?page=login" method="post">
+                <form action="?page=login&action=login" method="post">
                     <input type="input" class="form-control" name="username" placeholder="Username" /><br />
                     <input type="password" class="form-control" name="password" placeholder="Password" /><br />
                     <input type="submit" value="Login" class="btn pull-right" />

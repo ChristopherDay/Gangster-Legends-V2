@@ -3,14 +3,9 @@
     class bullets extends module {
         
         public $pageName = 'Bullet Factory';
+        public $allowedMethods = array('bullets'=>array('type'=>'post'));
         
         public function constructModule() {
-            
-            if (isset($_POST['bullets'])) {
-            
-                $this->buy($_POST['bullets']);
-                
-            }
             
             $location = $this->db->prepare("SELECT * FROM locations WHERE L_id = ?");
             $location->execute(array($this->user->info->US_location));
@@ -27,9 +22,9 @@
             
         }
         
-        private function buy($qty) {
+        public function method_buy() {
             
-            $qty = abs(intval($qty));
+            $qty = abs(intval($this->methodData->bullets));
             
             $location = $this->db->prepare("SELECT * FROM locations WHERE L_id = ?");
             $location->execute(array($this->user->info->US_location));

@@ -2,13 +2,9 @@
 
     class travel extends module {
         
+        public $allowedMethods = array('location'=>array('type'=>'get'));
+        
         public function constructModule() {
-            
-            if (isset($_GET['location'])) {
-             
-                $this->fly($_GET['location']);
-                
-            }
             
             $locations = $this->db->prepare("SELECT * from locations WHERE L_id != ".$this->user->info->US_location." ORDER BY L_id");
             $locations->execute();
@@ -26,9 +22,9 @@
             
         }
         
-        private function fly($id) {
+        public function method_fly() {
         
-            $id = abs(intval($id));
+            $id = abs(intval($this->methodData->location));
             
             $location = $this->db->prepare("SELECT * from locations WHERE L_id = :id ORDER BY L_id");
             $location->bindParam(':id', $id);

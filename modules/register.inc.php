@@ -2,16 +2,26 @@
 
     class register extends module {
         
+        public $allowedMethods = array(
+            'password'=>array('type'=>'post'),
+            'cpassword'=>array('type'=>'post'),
+            'username'=>array('type'=>'post'),
+            'email'=>array('type'=>'post')
+        );
+        
         public function constructModule() {
+            
+            $this->html .= $this->page->buildElement('registerForm', array());
+            
+        }
+        
+        public function method_register() {
             
             $user = @new user();
 	
-            if (
-                !empty($_POST['password']) && 
-                ($_POST['password'] == $_POST['cpassword'])
-            ) {
+            if (!empty($this->methodData->password) && ($this->methodData->password == $this->methodData->cpassword)) {
                 
-                $makeUser = $user->makeUser($_POST['username'], $_POST['email'], $_POST['password']);
+                $makeUser = $user->makeUser($this->methodData->username, $this->methodData->email, $this->methodData->password);
                 
                 if ($makeUser != 'success') {
                     $this->html .= $this->page->buildElement('error', array($makeUser));
@@ -19,13 +29,11 @@
                     $this->html .= $this->page->buildElement('success', array('You have registered successfuly, you can now log in!'));
                 }
                 
-            } else if (isset($_POST['password'])) {
+            } else if (isset($this->methodData->password)) {
                 
                 $this->html .= $this->page->buildElement('error', array('Your passwords do not match!'));	
             
             }
-            
-            $this->html .= $this->page->buildElement('registerForm', array());
             
         }
         
