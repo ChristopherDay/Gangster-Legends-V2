@@ -23,38 +23,46 @@
         
         private function load($page) {
             
-            if (file_exists('template/'.$this->theme.'/'.$page.'.php')) {
-                        
-                include 'template/'.$this->theme.'/'.$page.'.php';
+            if (file_exists('modules/'.$page.'.inc.php')) {
                 
-                $this->template = new template();
-                
-                if (file_exists('modules/'.$page.'.inc.php')) {
+                if (file_exists('template/modules/'.$page.'.php')) {
                     
+                    include 'class/template.php';
+                
+                    include 'template/modules/'.$page.'.php';
+                    
+                    $templateMethod = $page.'Template';
+                    
+                    $this->template = new $templateMethod();
+                
                     include 'class/module.php';
                     include 'modules/'.$page.'.inc.php';
                     
                     $module = new $page();
-                
-                }
-                
-                if (isset($module)) {
-                
-                    $this->addToTemplate('game', $module->htmlOutput());
                     
-                }
-                
-                $pageName = $page;
-                
-                if (isset($module->pageName)) {
-                
-                    $pageName = $module->pageName;
+                    if (isset($module)) {
                     
+                        $this->addToTemplate('game', $module->htmlOutput());
+                        
+                    }
+                    
+                    $pageName = $page;
+                    
+                    if (isset($module->pageName)) {
+                    
+                        $pageName = $module->pageName;
+                        
+                    }
+                    
+                    $this->addToTemplate('page', $pageName);
+                    
+                    $this->pageHTML = $this->template->mainTemplate->pageMain;
+                
+                } else {
+                    
+                    die("Module template not found!".'template/modules/'.$page.'.php');
+                
                 }
-                
-                $this->addToTemplate('page', $pageName);
-                
-                $this->pageHTML = $this->template->pageMain;
                 
             } else {
             
