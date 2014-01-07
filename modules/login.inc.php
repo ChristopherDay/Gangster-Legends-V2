@@ -34,6 +34,8 @@
                 
             }
             
+            $this->html .= $this->page->buildElement('loginForm', array());
+            
         }
         
     }

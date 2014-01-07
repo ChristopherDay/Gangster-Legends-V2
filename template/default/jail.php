@@ -1,5 +1,0 @@
-<?php
-
-    include 'loggedin.php';
-
-?>

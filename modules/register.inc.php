@@ -25,6 +25,8 @@
             
             }
             
+            $this->html .= $this->page->buildElement('registerForm', array());
+            
         }
         
     }
