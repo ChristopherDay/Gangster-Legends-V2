@@ -2,13 +2,9 @@
 
     class theft extends module {
         
+        public $allowedMethods = array('id'=>array('type'=>'get'));
+        
         public function constructModule() {
-            
-            if (isset($_GET['commit'])) {
-                
-                $this->commitTheft($_GET['commit']);
-            
-            }
             
             $theft = $this->db->prepare("SELECT * FROM theft");
             $theft->execute();
@@ -32,9 +28,9 @@
         
         }
         
-        public function commitTheft($id) {
+        public function method_commit() {
             
-            $id = abs(intval($id));
+            $id = abs(intval($this->methodData->id));
             
             if (time() < $this->user->info->US_theftTimer) {
                 $time = $this->user->info->US_theftTimer - time();

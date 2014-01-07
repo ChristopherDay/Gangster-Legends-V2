@@ -2,23 +2,9 @@
 
     class garage extends module {
         
+        public $allowedMethods = array('id'=>array('type'=>'get'));
+        
         public function constructModule() {
-            
-            if (isset($_GET['action'])) {
-            
-                if ($_GET['action'] == 'sell') {
-                    $this->sell($_GET['id']);
-                }
-            
-                if ($_GET['action'] == 'crush') {
-                    $this->crush($_GET['id']);
-                }
-            
-                if ($_GET['action'] == 'repair') {
-                    $this->repair($_GET['id']);
-                }
-                
-            }
             
             $garage = $this->db->prepare("SELECT * from garage WHERE GA_uid = :uid");
             $garage->bindParam(':uid', $this->user->info->US_id);
@@ -55,7 +41,9 @@
             
         }
         
-        public function sell($id) {
+        public function method_sell() {
+            
+            $id = $this->methodData->id;
             
             $car = $this->db->prepare("SELECT * FROM garage INNER JOIN cars ON (CA_id = GA_car) WHERE GA_id = :car");
             $car->bindParam(':car', $id);
@@ -80,7 +68,9 @@
             
         }
         
-        public function crush($id) {
+        public function method_crush() {
+            
+            $id = $this->methodData->id;
             
             $car = $this->db->prepare("SELECT * FROM garage INNER JOIN cars ON (CA_id = GA_car) WHERE GA_id = :car");
             $car->bindParam(':car', $id);
@@ -105,7 +95,9 @@
             
         }
         
-        public function repair($id) {
+        public function method_repair() {
+            
+            $id = $this->methodData->id;
             
             $car = $this->db->prepare("SELECT * FROM garage INNER JOIN cars ON (CA_id = GA_car) WHERE GA_id = :car");
             $car->bindParam(':car', $id);

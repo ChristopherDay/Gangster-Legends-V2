@@ -12,7 +12,7 @@
                 <h3 class="panel-title">Register</h3>
             </div>
             <div class="panel-body">
-                <form action="?page=register" method="post">
+                <form action="?page=register&action=register" method="post">
                     <input class="form-control" type="text" name="username" placeholder="Username" /><br />
                     <input class="form-control" type="text" name="email" placeholder="EMail" /><br />
                     <input class="form-control" type="password" name="password" placeholder="Password" /><br />

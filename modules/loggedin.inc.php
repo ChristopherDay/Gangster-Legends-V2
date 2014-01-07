@@ -2,6 +2,8 @@
 
     class loggedin extends module {
         
+        public $allowedMethods = array();
+        
         public function constructModule() {
             
             $news = $this->db->prepare("SELECT * FROM gameNews ORDER BY GN_date DESC LIMIT 0, 5");

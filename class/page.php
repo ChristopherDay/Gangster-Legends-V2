@@ -34,7 +34,7 @@
                     $templateMethod = $page.'Template';
                     
                     $this->template = new $templateMethod();
-                
+                    
                     include 'class/module.php';
                     include 'modules/'.$page.'.inc.php';
                     

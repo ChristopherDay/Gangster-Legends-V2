@@ -2,13 +2,9 @@
 
     class crimes extends module {
         
+        public $allowedMethods = array('crime'=>array('type'=>'get'));
+        
         public function constructModule() {
-            
-            if (isset($_GET['commit'])) {
-            
-                $this->commitCrime($_GET['commit']);
-                
-            }
             
             $crimes = $this->db->prepare("SELECT * FROM crimes WHERE C_level <= :level");
             $crimes->bindParam(':level', $this->user->info->US_rank);
@@ -33,7 +29,9 @@
             
         }
         
-        private function commitCrime($id) {
+        public function method_commit() {
+            
+            $id = abs(intval($this->methodData->crime));
             
             if (time() < $this->user->info->US_crimeTimer) {
                 $time = $this->user->info->US_crimeTimer - time();
@@ -44,7 +42,7 @@
             
                 $chance = mt_rand(1, 100);
                 $jailChance = mt_rand(1, 3);
-                $crimeID = abs(intval($_GET['commit']));
+                $crimeID = $id;
                 
                 $crime = $this->db->prepare("SELECT * FROM crimes WHERE C_id = :crime");
                 $crime->bindParam(':crime', $crimeID);
