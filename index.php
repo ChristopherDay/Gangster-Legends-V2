@@ -2,7 +2,7 @@
 
 	session_start();
 	
-	require 'start.php';
+	require 'init.php';
 	
 	
 

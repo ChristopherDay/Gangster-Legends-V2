@@ -13,7 +13,6 @@
 				
 				if (@$this->info->U_id == $_SESSION['userID']) {
 					while ($this->checkRank()){}
-					$this->bindVarsToTemplate();
 				}
 			}
 		}	
@@ -142,7 +141,7 @@
 			}
 		}
 		
-		private function bindVarsToTemplate() {
+		public function bindVarsToTemplate() {
 			
 			global $page;
 			$this->getNotificationCount($this->info->U_id); 
@@ -247,6 +246,42 @@
             $return = $location->fetch(PDO::FETCH_ASSOC);
             
             return $return['L_name'];
+        }
+        
+        public function checkTimer($timer, $returnTime = false) {
+        
+            $timer = 'US_'.$timer.'Timer';
+            
+            if (isset($this->info->$timer)) {
+                
+                $time = $this->info->$timer;
+                
+                if ($returnTime) {
+                    if ($time > time()) {
+                        return $time - time();
+                    } else {
+                        return 0;
+                    }
+                } else {
+                    
+                    if ($time < time()) {
+                    
+                        return true;
+                        
+                    } else {
+                    
+                        return false;
+                        
+                    }
+                    
+                }
+            
+            } else {
+                
+                return 'Timer does not exists!';
+                
+            }
+        
         }
         
         public function logout() {
