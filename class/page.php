@@ -2,7 +2,7 @@
 
 class page {
     
-    public $loginPages = array('login', 'register'), $theme, $template, $jailPages = array('jail', 'loggedin', 'logout');
+    public $theme, $template, $success = false;
     private $pageHTML, $pageFind, $pageReplace;
     
     public function loadPage($page) {

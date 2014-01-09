@@ -6,6 +6,8 @@
         
         public function constructModule() {
             
+			echo $b;
+			
             $news = $this->db->prepare("SELECT * FROM gameNews ORDER BY GN_date DESC LIMIT 0, 5");
             $news->execute();
             
@@ -23,7 +25,7 @@
                 $this->html .= $this->page->buildElement('newsArticle', $articleInfo);
                 
             }
-            
+		
         }
         
     }

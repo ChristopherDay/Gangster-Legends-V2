@@ -2,9 +2,10 @@
 
     session_start();
 
-	ini_set('display_errors',1); 
-	error_reporting(E_ALL);
-	
+	require 'class/error.php';
+
+	$error = new error();
+
 	include 'dbconn.php';
 	
 	require 'class/page.php';
@@ -44,5 +45,7 @@
 	}
 	
 	$page->printPage();
+
+	$page->success = true;
 	
 ?>
