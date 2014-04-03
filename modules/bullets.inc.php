@@ -30,7 +30,11 @@
             $location->execute(array($this->user->info->US_location));
             $loc = $location->fetchObject();
             
-            if (!$this->user->checkTimer('bullets')) {
+			if ($qty == 0) {
+			
+				$this->html .= $this->page->buildElement('error', array('Please enter a value greater then 0!'));
+            
+			} else if (!$this->user->checkTimer('bullets')) {
                 
 				$timeLeft = $this->user->getTimer('bullets') - time();
 				$timeLeft = $this->timeLeft($timeLeft);
@@ -51,7 +55,7 @@
             
             } else {
             
-                $this->html .= $this->page->buildElement('success', array('You brought '.$qty.' bullets for $'.number_format(($qty * $loc->L_bulletCost))));
+                $this->html .= $this->page->buildElement('success', array('You bought '.$qty.' bullets for $'.number_format(($qty * $loc->L_bulletCost))));
                 
                 $query = "
                     UPDATE userStats SET 
