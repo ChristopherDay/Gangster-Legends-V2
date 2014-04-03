@@ -2,150 +2,140 @@
 
     class mainTemplate {
     
-        public $pageMain =  '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-        <html xmlns="http://www.w3.org/1999/xhtml">
-            <head>
-                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-                <title>{game_name} - {page} {all_notifications}</title>
-                <link rel="stylesheet/less" href="template/default/css/bootstrap.min.css">
-                <link rel="stylesheet/less" href="template/default/less/bootstrap.less">
-                <script src="template/default/js/less.js"></script>
-            </head>
-            
-            <body>
-                
-                <div class="game-logo">
-                    <div class="user-info">
-                        <div class="user-info-row">
-                            <div class="user-info-col-main">Rank:</div>
-                            <div class="user-info-col-stat">{rank} {exp_perc}</div>
-                        </div>
-                        <div class="user-info-row">
-                            <div class="user-info-col-main">Gang:</div>
-                            <div class="user-info-col-stat">{gang}</div>
-                        </div>
-                        <div class="user-info-row">
-                            <div class="user-info-col-main">Health:</div>
-                            <div class="user-info-col-stat">{health}</div>
-                        </div>
-                        <div class="user-info-row">
-                            <div class="user-info-col-main">Weapon:</div>
-                            <div class="user-info-col-stat">{weapon}</div>
-                        </div>
-                    </div>
-                    <div class="logo">
-                        {game_name}<br />
-                        <small><span class="{mail_class}">Mail {mail} -</span> <span class="{notifications_class}">Notifications {notifications}</span></small>
-                    </div>
-                    <div class="user-info">
-                        <div class="user-info-row">
-                            <div class="user-info-col-main">Money:</div>
-                            <div class="user-info-col-stat">{money}</div>
-                        </div>
-                        <div class="user-info-row">
-                            <div class="user-info-col-main">Bullets:</div>
-                            <div class="user-info-col-stat">{bullets}</div>
-                        </div>
-                        <div class="user-info-row">
-                            <div class="user-info-col-main">Backfire:</div>
-                            <div class="user-info-col-stat">{backfire}</div>
-                        </div>
-                        <div class="user-info-row">
-                            <div class="user-info-col-main">Credits:</div>
-                            <div class="user-info-col-stat">{credits}</div>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="game">
-                    <div class="left-menu">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Actions</h3>
-                            </div>
-                            <div class="panel-body">
-                                <a href="?page=crimes">Crimes</a> <br />
-                                <a href="?page=theft">Theft</a> <br />
-                                <a href="?page=policeChase">Police Chase</a> <br />
-                                <!--Organised Crime<br />
-                                Murder-->
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">{location}</h3>
-                            </div>
-                            <div class="panel-body">
-                                <a href="?page=bullets">Bullet Factory</a><br />
-                                <a href="?page=travel">Travel</a> <br />
-                                <a href="?page=garage">Garage</a> <br />
-                                <!--Search <br />
-                                Jail-->
-                            </div>
-                        </div>
-                        <!--<div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Casinos</h3>
-                            </div>
-                            <div class="panel-body">
-                                Blackjack<br />
-                                Race Track<br />
-                                Lottery
-                            </div>
-                        </div>-->
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Account</h3>
-                            </div>
-                            <div class="panel-body">
-                                <!--My Profile<br />
-                                Edit Profile<br />-->
-                                <a href="?page=logout">Logout</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="game-main">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">{page}</h3>
-                            </div>
-                            <div class="panel-body">
-                                {game}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="right-menu">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Chat</h3>
-                            </div>
-                            <div class="panel-body">
-                                Dayo: some text<br />
-                                Dayo: some text<br />
-                                Dayo: some text<br />
-                                Dayo: some text<br />
-                                Dayo: some text<br />
-                                Dayo: some text<br />
-                                Dayo: some text<br />
-                                Dayo: some text<br />
-                                Dayo: some text<br />
-                                Dayo: some text<br />
-                                Dayo: some text<br />
-                                Dayo: some text<br />
-                                Dayo: some text<br />
-                                Dayo: some text<br />
-                                Dayo: some text<br />
-                                Dayo: some text<br />
-                                Dayo: some text<br />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
-                <script src="template/default/js/bootstrap.min.js"></script>
-            </body>
-        </html>';
+        public $pageMain =  '<!DOCTYPE html>
+<html>
+	<head>
+		<link href="template/default/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="template/default/css/style.css" rel="stylesheet" />
+		<link rel="shortcut icon" href="template/default/images/icon.png" />
+		<title>{game_name} - {page}</title>
+	</head>
+	<body>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-12 header text-center">
+					<img src="template/default/images/logo.png" alt="Gangster Legends" />
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-12 sub-header hidden-xs">
+					
+					<div class="row">
+						<div class="col-md-3 col-sm-3 sub-header"><strong>Money:</strong> {money}</div>
+						<div class="col-md-3 col-sm-3 sub-header"><strong>Bullets:</strong> {bullets}</div>
+						<div class="col-md-3 col-sm-3 sub-header"><strong>Rank:</strong> {rank} {exp_perc}</div>
+						<div class="col-md-3 col-sm-3 sub-header"><strong>Family:</strong> {gang}</div>
+					</div>
+					
+				</div>
+				<div class="col-md-12 sub-header timers hidden-xs">
+					<div class="row">
+						<div class="col-md-2 col-sm-2" data-timer-type="name" data-timer="{crime_timer}">
+							<a href="?page=crimes">
+								<span>Crime</span><span></span>
+							</a>
+						</div>
+						<div class="col-md-2 col-sm-2" data-timer-type="name" data-timer="{theft_timer}">
+							<a href="?page=theft">
+								<span>Theft</span><span></span>
+							</a>
+						</div>
+						<div class="col-md-2 col-sm-2" data-timer-type="name" data-timer="{chase_timer}">
+							<a href="?page=policeChase">
+								<span>Police Chase</span><span></span>
+							</a>
+						</div>
+						<div class="col-md-2 col-sm-2" data-timer-type="name" data-timer="{jail_timer}">
+							<a href="#">
+								<span>Jail</span><span></span>
+							</a>
+						</div>
+						<div class="col-md-2 col-sm-2" data-timer-type="name" data-timer="{bullet_timer}">
+							<a href="?page=bullets">
+								<span>Bullet Factory</span><span></span>
+							</a>
+						</div>
+						<div class="col-md-2 col-sm-2" data-timer-type="name" data-timer="{travel_timer}">
+							<a href="?page=travel">
+								<span>Travel</span><span></span>
+							</a>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+			
+			<div class="row padding">
+				
+				<div class="col-md-3 navigation text-center"> 
+					<div class="panel panel-danger">
+						<div class="panel-heading">
+							Actions
+						</div>
+						<div class="panel-body hidden-xs">
+							<a href="?page=crimes">Crimes </a> <br />
+							<a href="?page=theft">Theft</a><br />
+							<a href="?page=policeChase">Police Chase</a><br />
+							<!--Organised Crime<br />
+							Murder-->
+						</div>
+					</div>
+					<div class="panel panel-danger">
+						<div class="panel-heading">
+							{location}
+						</div>
+						<div class="panel-body hidden-xs">
+							<a href="?page=bullets">Bullet Factory</a><br />
+							<a href="?page=bank">Bank</a><br />
+							<a href="?page=travel">Travel</a> <br />
+							<a href="?page=garage">Garage</a> <br />
+							<!--Search <br />
+							Jail-->
+						</div>
+					</div>
+					<!--<div class="panel panel-danger">
+						<div class="panel-heading">
+							Casinos
+						</div>
+						<div class="panel-body hidden-xs">
+							Blackjack<br />
+							Race Track<br />
+							Lottery
+						</div>
+					</div>-->
+					<div class="panel panel-danger">
+						<div class="panel-heading">
+							Account
+						</div>
+						<div class="panel-body hidden-xs">
+							<a href="?page=profile">My Profile</a><br />
+							<a href="?page=usersOnline">Users Online</a><br />
+							<a href="?page=leaderboards">Leaderboards</a><br />
+							<a href="?page=logout">Logout</a>
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-md-9">
+					<div class="panel panel-danger">
+						<div class="panel-heading">
+							{page}
+						</div>
+						<div class="panel-body text-center">
+							{game}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+		<!--<script src="template/default/js/bootstrap.min.js"></script>-->
+		<script src="template/default/js/timer.js"></script>
+		<script src="template/default/js/mobile.js"></script>
+	</body>
+</html>';
         
     }
 

@@ -1,11 +1,217 @@
-.game {
-	.make-row();
+
+
+body {
+	background-image: url("../images/main-background.jpg") !important;
+	background-position: top center !important;
+	background-repeat: repeat-y !important;
+	background-color: #000000 !important;
+	color: #ffffff;
 }
 
-.left-menu, .right-menu {
-	.make-md-column(3);
+a, a:hover {
+	color: inherit !important;
 }
 
-.game-main {
-	.make-md-column(6);
+.padding {
+	padding: 0 10%;
+}
+
+.header {
+	height: 80px;
+	background-color: #131313;
+	border-bottom: 1px solid #272727;
+	line-height:80px;
+}
+
+.sub-header {
+	height: 60px;
+	background-color: #000000;
+	line-height: 60px;
+	text-align: center;
+	font-size: 14px;
+}
+
+.timers {
+	background-color: transparent;
+}
+
+.btn, .btn:hover {
+	color:#fff;
+	background-image: url("../images/btn.png") !important;
+	position: relative;
+	margin: 0px 10px;
+	border: none;
+	background-color: transparent !important;
+}
+
+.btn:before, .panel-heading:before {
+	width: 10px;
+	background-image: url("../images/btn-before.png");
+	content: " ";
+	position: absolute;
+	left: -4px;
+	top:-1px;
+	height: 34px;
+}
+
+.btn:after, .panel-heading:after {
+	width: 10px;
+	background-image: url("../images/btn-after.png");
+	content: " ";
+	position: absolute;
+	right: -4px;
+	top:-1px;
+	height: 34px;
+}
+
+
+.panel-danger .panel-heading, .btn-danger {
+	background-image: url("../images/btn-danger.png") !important;
+}
+
+.panel-danger .panel-heading:before, .btn-danger:before {
+	background-image: url("../images/btn-danger-before.png");
+}
+
+.panel-danger .panel-heading:after, .btn-danger:after {
+	background-image: url("../images/btn-danger-after.png");
+}
+
+.panel-primary .panel-heading, .btn-primary {
+	background-image: url("../images/btn-primary.png") !important;
+}
+
+.panel-primary .panel-heading:before, .btn-primary:before {
+	background-image: url("../images/btn-primary-before.png");
+}
+
+.panel-primary .panel-heading:after, .btn-primary:after {
+	background-image: url("../images/btn-primary-after.png");
+}
+
+.panel-success .panel-heading, .btn-success {
+	background-image: url("../images/btn-success.png") !important;
+}
+
+.panel-success .panel-heading:before, .btn-success:before {
+	background-image: url("../images/btn-success-before.png");
+}
+
+.panel-success .panel-heading:after, .btn-success:after {
+	background-image: url("../images/btn-success-after.png");
+}
+
+.panel-info .panel-heading, .btn-info {
+	background-image: url("../images/btn-info.png") !important;
+}
+
+.panel-info .panel-heading:before, .btn-info:before {
+	background-image: url("../images/btn-info-before.png");
+}
+
+.panel-info .panel-heading:after, .btn-info:after {
+	background-image: url("../images/btn-info-after.png");
+}
+
+.panel{
+	background-color: transparent;
+	border: none;
+}
+
+.panel-body {
+	background: rgba(0, 0, 0, 0.6);
+	border: none;
+	border-bottom-left-radius: 6px;
+	border-bottom-right-radius: 6px;
+}
+
+.panel-heading{
+	position: relative;
+	color: #fff !important;
+	background-image: url("../images/btn.png");
+	border-bottom: none;
+	height: 34px;
+	background-color: rgba(0, 0, 0, 0.6) !important;
+	padding: 0px;
+	text-align: center;
+	line-height: 34px;
+}
+
+.crime-holder {
+    border:1px solid rgba(255, 255, 255, 0.2);
+    background: #000000;
+    margin-bottom:10px;
+}
+
+.crime-holder p {
+    padding:10px;
+    margin:0px;
+	text-align: left;
+}
+
+.crime-holder .commit {
+    float: right;
+}
+
+.crime-holder .crime-perc {
+    width:100%;
+    height:2px;
+    background-color:#900;
+}
+
+.crime-holder .crime-perc .perc {
+    height:2px;
+    background-color:#090;
+}
+
+.navigation .label {
+	float: right;
+}
+
+.panel-heading {
+    text-transform:capitalize;
+}
+
+.form-control {
+    background-color: rgba(0, 0, 0, 0.67);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.form-control:focus {
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    box-shadow: none;
+}
+
+table tr td, table tr th {
+	text-align: left;
+}
+
+.login-logo {
+	padding-top: 150px;
+	padding-bottom:50px;
+	text-align: center;
+}
+
+.timer-active {
+	color: #a94442 !important;
+}
+
+.timer-done {
+	color: #3c763d !important;
+}
+
+.img-thumbnail {
+	background-color: transparent;
+	border-color: #555;
+}
+
+.table-borderless tr, .table-borderless tr td, .table-borderless tr th {
+    border: none !important;
+}
+
+
+@media (max-width: 767px) {
+	.padding {
+		padding: 0 2%;
+	}
 }

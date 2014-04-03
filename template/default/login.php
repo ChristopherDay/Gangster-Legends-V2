@@ -7,19 +7,19 @@
             <head>
                 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
                 <title>{game_name} - {page}</title>
-                <link rel="stylesheet/less" href="template/default/css/bootstrap.min.css">
-                <link rel="stylesheet/less" href="template/default/less/bootstrap.less">
-                <script src="template/default/js/less.js"></script>
+                <link rel="stylesheet" href="template/default/css/bootstrap.min.css">
+                <link rel="stylesheet" href="template/default/css/style.css">
+        		<link rel="shortcut icon" href="template/default/images/icon.png" />
             </head>
             
             <body>
             
-                <div class="loginRow">
-                    <div class="loginCol"></div>
-                        <div class="loginHolder">
+                <div class="row">
+                    <div class="col-md-4"></div>
+                        <div class="col-md-4">
                             {game}
                         </div>
-                    <div class="loginCol"></div>
+                    <div class="col-md-4"></div>
                 </div>
             </body>
         </html>';

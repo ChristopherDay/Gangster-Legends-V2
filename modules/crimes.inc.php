@@ -3,6 +3,8 @@
     class crimes extends module {
         
         public $allowedMethods = array('crime'=>array('type'=>'get'));
+		
+		public $pageName = 'Crimes';
         
         public function constructModule() {
             
@@ -31,11 +33,12 @@
         
         public function method_commit() {
             
-            $id = abs(intval($this->methodData->crime));
-            
-            if (time() < $this->user->info->US_crimeTimer) {
-                $time = $this->user->info->US_crimeTimer - time();
-                $crimeError = array('You cant commit another crime untill your timer is up! ('.$this->timeLeft($time).')');
+            $id = abs(intval($this->methodData->crime)); 
+			
+            if (!$this->user->checkTimer('crime')) {
+				
+                $time = $this->user->getTimer('crime') - time();
+                $crimeError = array('You cant commit another crime untill your timer is up! (<span data-timer-type="inline" data-timer="'.($this->user->getTimer("crime") - time()).'"></span>)');
                 $this->html .= $this->page->buildElement('error', $crimeError);
                 
             } else {
@@ -56,22 +59,26 @@
                 if ($chance > $userChance && $jailChance == 1) {
                     $crimeError = array('You failed to commit the crime, you were caught and sent to jail!');
                     $this->html .= $this->page->buildElement('error', $crimeError);
-                    $query = "UPDATE userStats SET US_jailTime = ".(time()+($crimeInfo->C_id * 15)).", US_crimeTimer = ".(time() + $crimeInfo->C_cooldown).", US_crimes = :crimes WHERE US_id = :user";
+                    $query = "UPDATE userStats SET US_crimes = :crimes WHERE US_id = :user";
+					$this->user->updateTimer('crime', ($crimeInfo->C_id * 15), true);
                     $add = 0;
                 } else if ($chance > $userChance) {
                     $crimeError = array('You failed to commit the crime!');
                     $this->html .= $this->page->buildElement('error', $crimeError);
-                    $query = "UPDATE userStats SET US_crimeTimer = ".(time() + $crimeInfo->C_cooldown).", US_crimes = :crimes WHERE US_id = :user";
+                    $query = "UPDATE userStats SET US_crimes = :crimes WHERE US_id = :user";
                     $add = mt_rand(1, 2);
                 } else {
                     $crimeError = array('You successfuly commited the crime and earned $'.number_format($reward).'!');
                     $this->html .= $this->page->buildElement('success', $crimeError);
-                    $query = "UPDATE userStats SET US_money = US_money + ".$reward.", US_exp = US_exp + 1, US_crimeTimer = ".(time() + $crimeInfo->C_cooldown).", US_crimes = :crimes WHERE US_id = :user";
+                    $query = "UPDATE userStats SET US_money = US_money + ".$reward.", US_exp = US_exp + 1, US_crimes = :crimes WHERE US_id = :user";
                     $add = mt_rand(1, 4);
                 }
                 
                 $update = $this->db->prepare($query);
                 $update->bindParam(':user', $this->user->info->US_id);
+				
+				$this->user->updateTimer('crime', $crimeInfo->C_cooldown, true);
+				
                 $userCrimeChance[($crimeID-1)] = $userCrimeChance[($crimeID-1)] + $add;
                 
                 if ($userCrimeChance[($crimeID-1)] > 100) {

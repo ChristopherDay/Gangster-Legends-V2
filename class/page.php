@@ -2,7 +2,7 @@
 
 class page {
     
-    public $theme, $template, $success = false;
+    public $theme, $template, $success = false, $loginPages = array('login', 'register'), $jailPages = array(), $loginPage, $jailPage;
     private $pageHTML, $pageFind, $pageReplace;
     
     public function loadPage($page) {
@@ -34,6 +34,9 @@ class page {
                 $templateMethod = $page . 'Template';
                 
                 $this->template = new $templateMethod();
+				
+				$this->loginPage = $this->template->loginPage;
+				$this->jailPage = $this->template->jailPage;
                 
                 include 'class/module.php';
                 include 'modules/' . $page . '.inc.php';

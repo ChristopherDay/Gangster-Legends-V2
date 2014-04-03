@@ -3,6 +3,8 @@
     class theft extends module {
         
         public $allowedMethods = array('id'=>array('type'=>'get'));
+		
+		public $pageName = 'Car Theft';
         
         public function constructModule() {
             
@@ -32,9 +34,9 @@
             
             $id = abs(intval($this->methodData->id));
             
-            if (time() < $this->user->info->US_theftTimer) {
-                $time = $this->user->info->US_theftTimer - time();
-                $crimeError = array('You cant commit another theft untill your timer is up! ('.$this->timeLeft($time).')');
+            if (!$this->user->checkTimer('theft')) {
+                $time = $this->user->getTimer('theft') - time();
+                $crimeError = array('You cant commit another theft untill your timer is up! (<span data-timer-type="inline" data-timer="'.($this->user->getTimer("theft") - time()).'"></span>)');
                 $this->html .= $this->page->buildElement('error', $crimeError);
                 
             } else {
@@ -87,30 +89,30 @@
                 if ($chance > $userChance && $jailChance == 1) {
                     
                     $this->html .= $this->page->buildElement('error', array('You failed to steal a '.$carName.', you were caught and sent to jail'));
-                    $query = "UPDATE userStats SET US_theftTimer = ".(time()+$theftTime).", US_jailTimer=".(time()+($id*35))." WHERE US_id = :uid";
+					
+					$this->user->updateTimer('jail', ($id*35), true);
                     
                 } else if ($chance > $userChance) {
                     
                     $this->html .= $this->page->buildElement('error', array('You failed to steal a '.$carName.'.'));
-                    $query = "UPDATE userStats SET US_theftTimer = ".(time()+$theftTime)." WHERE US_id = :uid";
                 
                 } else {
                     
                     $this->html .=$this->page->buildElement('success', array('You successfuly stole a '.$carName.' with '.$carDamage.'% damage.'));
-                    $query = "UPDATE userStats SET US_theftTimer = ".(time()+$theftTime).", US_exp = US_exp + ".$car." WHERE US_id = :uid";
+                    $query = "UPDATE userStats SET US_exp = US_exp + ".$car." WHERE US_id = :uid";
+                	$u = $this->db->prepare($query);
+                	$u->bindParam(':uid', $this->user->info->US_id);
+                	$u->execute();
+					
                     $insert = $this->db->prepare("INSERT INTO garage (GA_uid, GA_car, GA_damage, GA_location) VALUES (:uid, :car, :damage, :loc)");
                     $insert->bindParam(':uid', $this->user->info->US_id);
                     $insert->bindParam(':loc', $this->user->info->US_location);
                     $insert->bindParam(':car', $car);
                     $insert->bindParam(':damage', $carDamage);
                     $insert->execute();
-                
-                }
-                
-                $u = $this->db->prepare($query);
-                $u->bindParam(':uid', $this->user->info->US_id);
-                $u->execute();
-                    
+				}
+				
+				$this->user->updateTimer('theft', $theftTime, true);
             }
         
         }

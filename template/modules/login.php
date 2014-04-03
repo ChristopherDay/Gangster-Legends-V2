@@ -7,16 +7,21 @@
         
         public $blankElement = '{var1} {var2} {var3}';
         
-        public $loginForm = '<div class="panel panel-default">
+        public $loginForm = '
+		<div class="login-logo">
+			<img src="template/default/images/logo.png" alt="Ganger Legends" />
+		</div>
+		<div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Login</h3>
+                Login
             </div>
             <div class="panel-body">
+				{var1}
                 <form action="?page=login&action=login" method="post">
-                    <input type="input" class="form-control" name="username" placeholder="Username" /><br />
+                    <input autocomplete="off" type="input" class="form-control" name="username" placeholder="Username" /><br />
                     <input type="password" class="form-control" name="password" placeholder="Password" /><br />
-                    <input type="submit" value="Login" class="btn pull-right" />
-                    <input type="button" value="Register" class="btn btn-link pull-right" onClick="document.location = \'?page=register\';" />
+                    <button type="submit" class="btn pull-right">Login</button>
+                    <a class="btn btn-link pull-right" href="?page=register">Register</a>
                 </form>
             </div>
         </div>';

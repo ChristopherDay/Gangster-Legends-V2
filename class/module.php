@@ -2,7 +2,7 @@
 
     class module {
         
-        public $html = '', $page, $user, $db, $methodData;
+        public $html = '', $page, $user, $db, $methodData, $construct = true;
         
         public function __construct() {
         
@@ -29,8 +29,10 @@
                 
             }
             
-            $this->constructModule();
-            
+			if ($this->construct) {
+            	$this->constructModule();
+			}
+			
             if (isset($user->info->U_id)) {
             
                 // Update the user info after the module has run.
@@ -54,16 +56,17 @@
         private function buildMethodData() {
         
             $data = $this->allowedMethods;
+			
             
             foreach ($data as $key => $val) {
-                
-                if ($val['type'] == 'get') {
+				
+				if (strtolower($val['type']) == 'get') {
                     if (isset($_GET[$key])) {
-                        $this->methodData->$key = $_GET[$key];
+                      @$this->methodData->$key = $_GET[$key];
                     }
-                } else if ($val['type'] == 'post') {
+                } else if (strtolower($val['type']) == 'post') {
                     if (isset($_POST[$key])) {
-                        $this->methodData->$key = $_POST[$key];
+                        @$this->methodData->$key = $_POST[$key];
                     }
                 }
             }
