@@ -10,7 +10,9 @@
 	
 	require 'class/page.php';
 	require 'class/user.php';
-	require 'config.php';
+	require 'class/settings.php'; 
+
+	$settings = new settings();
 	
 	if (!isset($_GET['page'])) {
 		
@@ -21,10 +23,12 @@
 	if (!empty($_SESSION['userID'])) {
 		
 		$user = new user($_SESSION['userID']);
+		
+		$user->updateTimer('laston', time());
         
         $pageToLoad = $_GET['page'];
 		
-        if ($user->info->US_jailTimer > time() && !in_array($pageToLoad, $page->jailPages)) {
+        if (!$user->checkTimer('jail')) {
 		  
             $page->loadPage('jail');
         

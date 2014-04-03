@@ -30,9 +30,12 @@
             $location->execute(array($this->user->info->US_location));
             $loc = $location->fetchObject();
             
-            if (time() < $this->user->info->US_bulletTimer) {
+            if (!$this->user->checkTimer('bullets')) {
                 
-                $this->html .= $this->page->buildElement('error', array('You can only buy bullets once every 60 seconds ('.($this->timeLeft(($this->user->info->US_bulletTimer - time()))).').'));
+				$timeLeft = $this->user->getTimer('bullets') - time();
+				$timeLeft = $this->timeLeft($timeLeft);
+				
+                $this->html .= $this->page->buildElement('error', array('You can only buy bullets once every 60 seconds (<span data-timer-type="inline" data-timer="'.($this->user->getTimer("bullets") - time()).'"></span>).'));
                 
             } else if ($qty > ($this->user->info->US_rank * 25)) {
             
@@ -53,16 +56,22 @@
                 $query = "
                     UPDATE userStats SET 
                         US_bullets = US_bullets + $qty, 
-                        US_money = US_money - ".($qty * $loc->L_bulletCost).", 
-                        US_bulletTimer = ".(time()+60)."
+                        US_money = US_money - :money
                     WHERE
-                        US_id = ".$this->user->id."
-                "; 
+                        US_id = :id"; 
                 
-                $this->db->query($query);
-                
-                $this->db->query("UPDATE locations SET L_bullets = L_bullets - $qty WHERE L_id=".$loc->L_id);
-                
+				$money = ($qty * $loc->L_bulletCost);
+				
+                $uUser = $this->db->prepare($query);
+                $uUser->bindParam(":money", $money);
+                $uUser->bindParam(":id", $this->user->id);
+                $uUser->execute();
+				
+				$this->user->updateTimer('bullets', 60, true);
+				
+                $uLoc = $this->db->prepare("UPDATE locations SET L_bullets = L_bullets - $qty WHERE L_id= :loc");
+                $uLoc->bindParam(":loc", $loc->L_id);
+				$uLoc->execute();
             }
             
         }

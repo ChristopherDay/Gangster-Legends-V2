@@ -3,10 +3,10 @@
     class loggedin extends module {
         
         public $allowedMethods = array();
+		
+		public $pageName = 'Welcome back';
         
         public function constructModule() {
-            
-			echo $b;
 			
             $news = $this->db->prepare("SELECT * FROM gameNews ORDER BY GN_date DESC LIMIT 0, 5");
             $news->execute();

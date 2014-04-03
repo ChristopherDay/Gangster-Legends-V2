@@ -2,10 +2,15 @@
 
 	class user {
 		
-		public $id, $info, $name;
+		public $id, $info, $name, $db;
 		
 		// Pass the ID to the class
 		function __construct($id = FALSE, $name = FALSE) {
+			
+			global $db;
+			
+			$this->db = $db;
+			
 			if (isset($id) || isset($name)) {
 				$this->id = $id;
 				$this->name = $name;
@@ -20,13 +25,11 @@
 		// This function will return all the information for the user
 		public function getInfo($return = false) {
 			
-			global $db;
-			
 			if (!empty($this->name)) {
-				$userInfo = $db->prepare("SELECT * FROM users LEFT OUTER JOIN userStats ON (U_id = US_id) WHERE U_name = :userName");
+				$userInfo = $this->db->prepare("SELECT * FROM users LEFT OUTER JOIN userStats ON (U_id = US_id) WHERE U_name = :userName");
 				$userInfo->bindParam(':userName', $this->name);
 			} else {
-				$userInfo = $db->prepare("SELECT * FROM users LEFT OUTER JOIN userStats ON (U_id = US_id) WHERE U_id = :userID");
+				$userInfo = $this->db->prepare("SELECT * FROM users LEFT OUTER JOIN userStats ON (U_id = US_id) WHERE U_id = :userID");
 				$userInfo->bindParam(':userID', $this->id);
 			}
 			
@@ -43,7 +46,6 @@
 				return $this->info;
 			}
 			
-			
 		}
 		
 		public function encrypt($var) {
@@ -54,9 +56,7 @@
 		
 		public function makeUser($username, $email, $password, $userLevel = 1, $userStatus = 1) {
 			
-			global $db;
-			
-			$check = $db->prepare("SELECT U_id FROM users WHERE U_name = :username OR (U_email = :email AND U_status = 1)");
+			$check = $this->db->prepare("SELECT U_id FROM users WHERE U_name = :username OR (U_email = :email AND U_status = 1)");
 			$check->bindParam(':username', $username);	
 			$check->bindParam(':email', $email);	
 			$check->execute();
@@ -68,7 +68,7 @@
 				
 			} else {
 				
-				$addUser = $db->prepare("INSERT INTO users (U_name, U_email, U_password, U_userLevel, U_status) 
+				$addUser = $this->db->prepare("INSERT INTO users (U_name, U_email, U_password, U_userLevel, U_status) 
 							VALUES (:username, :email, :password, :userLevel, :userStatus)");
 				$addUser->bindParam(':username', $username);
 				$addUser->bindParam(':email', $email);
@@ -77,7 +77,7 @@
 				$addUser->bindParam(':userStatus', $userStatus);
 				$addUser->execute();
 				
-				$db->query("INSERT INTO userStats (US_id) VALUES (".$db->lastInsertId().")");
+				$this->db->query("INSERT INTO userStats (US_id) VALUES (".$this->db->lastInsertId().")");
 				
 				return 'success';
 				
@@ -87,11 +87,11 @@
 		
 		public function getNotificationCount($id, $type = 'all') {
 				
-			global $db, $page;
+			global $page;
 			
 			if ($type == 'all') {
 				
-				$notifications = $db->prepare("SELECT COUNT(M_id)+(SELECT COUNT(N_id) FROM notifications WHERE N_uid = :user1 AND N_read = 0) as count FROM mail WHERE M_uid = :user2 AND M_read = 0");
+				$notifications = $this->db->prepare("SELECT COUNT(M_id)+(SELECT COUNT(N_id) FROM notifications WHERE N_uid = :user1 AND N_read = 0) as count FROM mail WHERE M_uid = :user2 AND M_read = 0");
 				$notifications->bindParam(':user1', $id);
 				$notifications->bindParam(':user2', $id);
 				$notifications->execute();
@@ -106,7 +106,7 @@
 				
 			} else if ($type == 'mail') {
 				
-				$notifications = $db->prepare("SELECT COUNT(M_id) as count FROM mail WHERE M_uid = :user1 AND M_read = 0");
+				$notifications = $this->db->prepare("SELECT COUNT(M_id) as count FROM mail WHERE M_uid = :user1 AND M_read = 0");
 				$notifications->bindParam(':user1', $id);
 				$notifications->execute();
 				$result = $notifications->fetchObject();
@@ -123,7 +123,7 @@
 				
 			} else if ($type == 'notifications') {
 				
-				$notifications = $db->prepare("SELECT COUNT(N_id) as count FROM notifications WHERE N_uid = :user1 AND N_read = 0");
+				$notifications = $this->db->prepare("SELECT COUNT(N_id) as count FROM notifications WHERE N_uid = :user1 AND N_read = 0");
 				$notifications->bindParam(':user1', $id);
 				$notifications->execute();
 				$result = $notifications->fetchObject();
@@ -154,6 +154,42 @@
 			$page->addToTemplate('health', $this->info->US_health.'%');
 			$page->addToTemplate('location', $this->getLocation());
 			
+			if (($this->getTimer("crime")-time()) > 0) {
+				$page->addToTemplate('crime_timer', ($this->getTimer("crime")-time()));
+			} else {
+				$page->addToTemplate('crime_timer', '0');
+			}
+			
+			if (($this->getTimer("theft")-time()) > 0) {
+				$page->addToTemplate('theft_timer', ($this->getTimer("theft")-time()));
+			} else {
+				$page->addToTemplate('theft_timer', '0');
+			}
+			
+			if (($this->getTimer("chase")-time()) > 0) {
+				$page->addToTemplate('chase_timer', ($this->getTimer("chase")-time()));
+			} else {
+				$page->addToTemplate('chase_timer', '0');
+			}
+			
+			if (($this->getTimer("jail")-time()) > 0) {
+				$page->addToTemplate('jail_timer', ($this->getTimer("jail")-time()));
+			} else {
+				$page->addToTemplate('jail_timer', '0');
+			}
+			
+			if (($this->getTimer("bullets")-time()) > 0) {
+				$page->addToTemplate('bullet_timer', ($this->getTimer("bullets")-time()));
+			} else {
+				$page->addToTemplate('bullet_timer', '0');
+			}
+			
+			if (($this->getTimer("travel")-time()) > 0) {
+				$page->addToTemplate('travel_timer', ($this->getTimer("travel")-time()));
+			} else {
+				$page->addToTemplate('travel_timer', '0');
+			}
+			
 			$rank = $this->getRank();
 			$gang = $this->getGang();
 			$weapon = $this->getWeapon();
@@ -174,10 +210,8 @@
 		}
 		
 		public function getRank() {
-		
-			global $db;
 			
-			$query = $db->prepare("SELECT * FROM ranks WHERE R_id = :rank");
+			$query = $this->db->prepare("SELECT * FROM ranks WHERE R_id = :rank");
 			$query->bindParam(":rank", $this->info->US_rank);
 			$query->execute();
 			$result = $query->fetchObject();
@@ -187,10 +221,8 @@
 		}
 		
 		public function getGang() {
-		
-			global $db;
 			
-			$query = $db->prepare("SELECT * FROM gangs WHERE G_id = :gang");
+			$query = $this->db->prepare("SELECT * FROM gangs WHERE G_id = :gang");
 			$query->bindParam(":gang", $this->info->US_gang);
 			$query->execute();
 			$result = $query->fetchObject();
@@ -200,10 +232,8 @@
 		}
 		
 		public function getWeapon() {
-		
-			global $db;
 			
-			$query = $db->prepare("SELECT * FROM weapons WHERE W_id = :weapon");
+			$query = $this->db->prepare("SELECT * FROM weapons WHERE W_id = :weapon");
 			$query->bindParam(":weapon", $this->info->US_weapon);
 			$query->execute();
 			$result = $query->fetchObject();
@@ -214,13 +244,11 @@
 		
 		public function checkRank() {
 			
-			global $db;
-			
 			$rank = $this->getRank();
 			
 			if ($rank->R_exp < $this->info->US_exp || $rank->R_exp == $this->info->US_exp) {
 				
-				$db->query("UPDATE userStats SET US_money = US_money + ".$rank->R_cashReward.", US_bullets = US_bullets + ".$rank->R_bulletReward.", US_rank = US_rank + 1, US_exp = ".($this->info->US_exp - $rank->R_exp)." WHERE US_id = ".$this->info->US_id);
+				$this->db->query("UPDATE userStats SET US_money = US_money + ".$rank->R_cashReward.", US_bullets = US_bullets + ".$rank->R_bulletReward.", US_rank = US_rank + 1, US_exp = ".($this->info->US_exp - $rank->R_exp)." WHERE US_id = ".$this->info->US_id);
 				
 				$this->info->US_exp = ($this->info->US_exp - $rank->R_exp);
 				$this->info->US_rank++;
@@ -238,51 +266,92 @@
 		}
         
         public function getLocation() {
-        
-            global $db;
             
-            $location = $db->prepare("SELECT L_name FROM locations WHERE L_id = ?");
-            $location->execute(array($this->info->US_location));
+            $location = $this->db->prepare("SELECT L_name FROM locations WHERE L_id = :location");
+            $location->bindParam(':location', $this->info->US_location);
+            $location->execute();
+			
             $return = $location->fetch(PDO::FETCH_ASSOC);
             
             return $return['L_name'];
         }
-        
-        public function checkTimer($timer, $returnTime = false) {
-        
-            $timer = 'US_'.$timer.'Timer';
-            
-            if (isset($this->info->$timer)) {
-                
-                $time = $this->info->$timer;
-                
-                if ($returnTime) {
-                    if ($time > time()) {
-                        return $time - time();
-                    } else {
-                        return 0;
-                    }
-                } else {
-                    
-                    if ($time < time()) {
-                    
-                        return true;
-                        
-                    } else {
-                    
-                        return false;
-                        
-                    }
-                    
-                }
-            
-            } else {
-                
-                return 'Timer does not exists!';
-                
-            }
-        
-        }
+		
+		public function checkTimer($timer) {
+		
+			$time = $this->getTimer($timer);
+			
+			if (time() > $time) {
+				return true;
+			} else {
+				return false;
+			}
+			
+		}
+		
+		public function getTimer($timer) {
+		
+			$userID = $this->id;
+			
+			$select = $this->db->prepare("SELECT * FROM userTimer WHERE UT_desc = :desc AND UT_user = :user");
+			$select->bindParam(':user', $userID);
+			$select->bindParam(':desc', $timer);
+			$select->execute();
+			
+			$array = $select->fetch(PDO::FETCH_ASSOC);
+			
+			// If the array is empty we make the user timer, this way the developer does not have to make any changes to the database to make a new timer.
+			if (empty($array['UT_time'])) {
+				
+				$time = time()-1;
+				$insert = $this->db->prepare("INSERT INTO userTimer (UT_user, UT_desc, UT_time) VALUES (:user, :desc, :time)");
+				$insert->bindParam(':user', $userID);
+				$insert->bindParam(':desc', $timer);
+				$insert->bindParam(':time', $time);
+				$insert->execute();
+				return $time;
+				
+			} else {
+				
+				return $array['UT_time'];
+				
+			}
+			
+		}
+		
+		public function updateTimer($timer, $time, $add = false) {
+		
+			$user = $this->id;
+			
+			// Check that the timer exists, if it dosent this function will automaticly make it.
+			// We do this so the user does not have to make any database changes to make a module.
+			$this->getTimer($timer);
+			
+			if ($add) {
+				$time = time() + $time;
+			}
+			
+			$update = $this->db->prepare("UPDATE userTimer SET UT_time = :time WHERE UT_user = :user AND UT_desc = :desc");
+			$update->bindParam(':time', $time);
+			$update->bindParam(':user', $user);
+			$update->bindParam(':desc', $timer);
+			$update->execute();
+			
+		}
+		
+		public function getStatus() {
+			
+			$time =(time() - $this->getTimer("laston"));
+			global $page;
+			
+			if ($time > 300 && $time <= 900) {
+				return $page->buildElement("AFK", array());
+			} else if ($time > 900) {
+				return $page->buildElement("offline", array());
+			} else {
+				return $page->buildElement("online", array());
+			}
+			
+		}
         
         public function logout() {
         

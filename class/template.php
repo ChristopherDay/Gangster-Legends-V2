@@ -6,11 +6,15 @@
         
         public function __construct() {
         
-            global $page;
+            global $page, $user;
             
             $this->page = $page;
-            
-            if ($this->loginPage) {
+			
+			if (isset($this->adminPage) && $this->adminPage && $user->info->U_userLevel == 5) {
+				
+				$this->loadMainPage('admin');
+			
+			} else if ($this->loginPage) {
                 
                 $this->loadMainPage('login');
                 

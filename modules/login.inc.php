@@ -10,13 +10,13 @@
         
         public function constructModule() {
             
-            $this->html .= $this->page->buildElement('loginForm', array());
+            $this->html .= $this->page->buildElement('loginForm', array($this->loginError));
             
         }
         
         public function method_logout() {
             
-            $this->html .= $this->page->buildElement('info', array('You have been logged out!'));
+            $this->loginError = $this->page->buildElement('info', array('You have been logged out!'));
         
         }
         
@@ -33,12 +33,12 @@
                     
                 } else {
                     
-                    $this->html .= $this->page->buildElement('error', array('You have entered a wrong password!'));;
+                    $this->loginError = $this->page->buildElement('error', array('You have entered a wrong password!'));;
                     
                 }
             } else {
             
-                $this->html .= $this->page->buildElement('error', array('Invalid username!'));	
+                $this->loginError = $this->page->buildElement('error', array('Invalid username!'));	
             
             }
             

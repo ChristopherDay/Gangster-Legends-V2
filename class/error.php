@@ -3,7 +3,7 @@
 	
 	class error{
 		
-		private $user, $db, $page;
+		private $user, $db, $page, $minorLog = true, $majorLog = true;
 		
 		public function __construct() {
 			
@@ -47,10 +47,15 @@
 			);
 			
 			$return = '';
-			$return .= '<pre>';
-			$return .= print_r($errorArray, true);
+			$return .= '<div class="well" style="color:#000;">';
+			$return .= '<h1>There was an error!</h1>';
+			$return .= '<p style="font-family: monospace;">';
+			$return .= '<strong>File:</strong> '.$file;
+			$return .= '<br /><strong>Line:</strong> '.$line;
+			$return .= '<br /><strong>Error: '.$type.'</strong> '.$string;
+			$return .= '</p>';
 			
-			$return .= '</pre>';
+			$return .= '</div>';
 			
 				
 			if (!$config->debug && $major) {
@@ -105,9 +110,23 @@
 				fclose($logFile);
 				
 			} else {
-			
-				echo 'Log file is not writable!';
 				
+				if ($major) {
+					if ($this->majorLog) {
+						$file = 'major.txt';
+						$return = '<pre>The log file '.$file.' is not writable!</pre>';	
+						$this->majorLog = false;
+					}
+				} else {
+					if ($this->minorLog) {
+						$file = 'minor.txt';
+						$return = '<pre>The log file '.$file.' is not writable!</pre>';	
+						$this->minorLog = false;
+					}
+				}
+				if ($config->debug) {
+					echo $return;
+				}	
 			}
 		
 		}

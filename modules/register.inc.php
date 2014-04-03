@@ -10,12 +10,16 @@
         );
         
         public function constructModule() {
+			
+			global $regError;
             
-            $this->html .= $this->page->buildElement('registerForm', array());
+            $this->html .= $this->page->buildElement('registerForm', array($this->regError));
             
         }
         
         public function method_register() {
+			
+			$this->regError = '';
             
             $user = @new user();
 	
@@ -24,14 +28,14 @@
                 $makeUser = $user->makeUser($this->methodData->username, $this->methodData->email, $this->methodData->password);
                 
                 if ($makeUser != 'success') {
-                    $this->html .= $this->page->buildElement('error', array($makeUser));
+                    $this->regError = $this->page->buildElement('error', array($makeUser));
                 } else {
-                    $this->html .= $this->page->buildElement('success', array('You have registered successfuly, you can now log in!'));
+                    $this->regError =  $this->page->buildElement('success', array('You have registered successfuly, you can now log in!'));
                 }
                 
             } else if (isset($this->methodData->password)) {
                 
-                $this->html .= $this->page->buildElement('error', array('Your passwords do not match!'));	
+                $this->regError =  $this->page->buildElement('error', array('Your passwords do not match!'));	
             
             }
             
