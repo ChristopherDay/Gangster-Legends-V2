@@ -323,6 +323,16 @@ INSERT INTO `userStats` (`US_id`, `US_health`, `US_exp`, `US_money`, `US_bullets
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `userTimers`
+--
+
+CREATE TABLE IF NOT EXISTS `userTimers` (
+  `UT_user` int(11) NOT NULL,
+  `UT_desc` varchar(32) NOT NULL,
+  `UT_time` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
 -- Table structure for table `weapons`
 --
 
