@@ -2,12 +2,12 @@
 
 	class user {
 		
-		public $id, $info, $name, $db;
+		public $id, $info, $name, $db, $loggedin = false;
 		
 		// Pass the ID to the class
 		function __construct($id = FALSE, $name = FALSE) {
-			
-			global $db;
+
+            global $db;
 			
 			$this->db = $db;
 			
@@ -20,6 +20,11 @@
 					while ($this->checkRank()){}
 				}
 			}
+
+            if ($_SESSION['userID'] == $this->id) {
+                $this->loggedin = true;
+            }
+
 		}	
 		
 		// This function will return all the information for the user
@@ -243,25 +248,29 @@
 		}
 		
 		public function checkRank() {
+
+            if ($this->loggedin) {
 			
-			$rank = $this->getRank();
-			
-			if ($rank->R_exp < $this->info->US_exp || $rank->R_exp == $this->info->US_exp) {
-				
-				$this->db->query("UPDATE userStats SET US_money = US_money + ".$rank->R_cashReward.", US_bullets = US_bullets + ".$rank->R_bulletReward.", US_rank = US_rank + 1, US_exp = ".($this->info->US_exp - $rank->R_exp)." WHERE US_id = ".$this->info->US_id);
-				
-				$this->info->US_exp = ($this->info->US_exp - $rank->R_exp);
-				$this->info->US_rank++;
-				$this->info->US_bullets = $this->info->US_bullets + $rank->R_bulletReward;
-				$this->info->US_money = $this->info->US_money + $rank->R_cashReward;
-				
-				return true;
-				
-			} else {
-			
-				return false;
-				
-			}
+                $rank = $this->getRank();
+
+                if ($rank->R_exp < $this->info->US_exp || $rank->R_exp == $this->info->US_exp) {
+
+                    $this->db->query("UPDATE userStats SET US_money = US_money + ".$rank->R_cashReward.", US_bullets = US_bullets + ".$rank->R_bulletReward.", US_rank = US_rank + 1, US_exp = ".($this->info->US_exp - $rank->R_exp)." WHERE US_id = ".$this->info->US_id);
+
+                    $this->info->US_exp = ($this->info->US_exp - $rank->R_exp);
+                    $this->info->US_rank++;
+                    $this->info->US_bullets = $this->info->US_bullets + $rank->R_bulletReward;
+                    $this->info->US_money = $this->info->US_money + $rank->R_cashReward;
+
+                    return true;
+
+                } else {
+
+                    return false;
+
+                }
+
+            }
 		
 		}
         
