@@ -109,6 +109,7 @@
 							Account
 						</div>
 						<div class="panel-body hidden-xs">
+                            {adminLink}
 							<a href="?page=profile">My Profile</a><br />
 							<a href="?page=usersOnline">Users Online</a><br />
 							<a href="?page=leaderboards">Leaderboards</a><br />
