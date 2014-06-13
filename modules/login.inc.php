@@ -10,7 +10,7 @@
         
         public function constructModule() {
             
-            $this->html .= $this->page->buildElement('loginForm', array($this->loginError));
+            $this->html .= $this->page->buildElement('loginForm', array((isset($this->loginError)?$this->loginError:'')));
             
         }
         

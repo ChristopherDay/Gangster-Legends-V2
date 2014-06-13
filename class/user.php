@@ -16,7 +16,7 @@
 				$this->name = $name;
 				$this->getInfo();	
 				
-				if (@$this->info->U_id == $_SESSION['userID']) {
+				if ((is_array($this->info) && isset($_SESSION['userID'])) && $this->info->U_id == $_SESSION['userID']) {
 					while ($this->checkRank()){}
 				}
 			}
@@ -158,6 +158,14 @@
 			$page->addToTemplate('credits', $this->info->US_credits);
 			$page->addToTemplate('health', $this->info->US_health.'%');
 			$page->addToTemplate('location', $this->getLocation());
+			$page->addToTemplate('username', $this->info->U_name);
+
+            if ($this->info->U_userLevel > 1) {
+                $adminLink = '<a href="?page=admin">Admin</a><br />';
+            } else {
+                $adminLink = "";
+            }
+			$page->addToTemplate('adminLink', $adminLink);
 			
 			if (($this->getTimer("crime")-time()) > 0) {
 				$page->addToTemplate('crime_timer', ($this->getTimer("crime")-time()));

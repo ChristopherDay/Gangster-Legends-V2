@@ -10,7 +10,7 @@
             
             $this->page = $page;
 			
-			if (isset($this->adminPage) && $this->adminPage && $user->info->U_userLevel == 5) {
+			if (isset($this->adminPage) && $this->adminPage && $user->info->U_userLevel > 1) {
 				
 				$this->loadMainPage('admin');
 			
