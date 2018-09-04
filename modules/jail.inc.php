@@ -8,8 +8,12 @@
         
         public function constructModule() {
             
-            $this->html .= $this->page->buildElement('error', array('You are in jail for <span data-timer-type="inline" data-timer="'.($this->user->getTimer("jail") - time()).'"></span>!'));
-            
+            if (!$this->user->checkTimer("jail")) {
+            	$this->html .= $this->page->buildElement(
+            	'error', array('You are in jail for <span data-timer-type="inline" data-timer="'.($this->user->getTimer("jail") - time()).'"></span>!'));
+            }   
+
+            $this->html .= $this->page->buildElement("jailUsers");
         }
         
     }
