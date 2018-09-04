@@ -309,7 +309,7 @@
 		
 			$userID = $this->id;
 			
-			$select = $this->db->prepare("SELECT * FROM userTimer WHERE UT_desc = :desc AND UT_user = :user");
+			$select = $this->db->prepare("SELECT * FROM userTimers WHERE UT_desc = :desc AND UT_user = :user");
 			$select->bindParam(':user', $userID);
 			$select->bindParam(':desc', $timer);
 			$select->execute();
@@ -320,7 +320,7 @@
 			if (empty($array['UT_time'])) {
 				
 				$time = time()-1;
-				$insert = $this->db->prepare("INSERT INTO userTimer (UT_user, UT_desc, UT_time) VALUES (:user, :desc, :time)");
+				$insert = $this->db->prepare("INSERT INTO userTimers (UT_user, UT_desc, UT_time) VALUES (:user, :desc, :time)");
 				$insert->bindParam(':user', $userID);
 				$insert->bindParam(':desc', $timer);
 				$insert->bindParam(':time', $time);
@@ -341,13 +341,13 @@
 			
 			// Check that the timer exists, if it dosent this function will automaticly make it.
 			// We do this so the user does not have to make any database changes to make a module.
-			$this->getTimer($timer);
-			
+			$oldTimer = $this->getTimer($timer);
+
 			if ($add) {
 				$time = time() + $time;
 			}
 			
-			$update = $this->db->prepare("UPDATE userTimer SET UT_time = :time WHERE UT_user = :user AND UT_desc = :desc");
+			$update = $this->db->prepare("UPDATE userTimers SET UT_time = :time WHERE UT_user = :user AND UT_desc = :desc");
 			$update->bindParam(':time', $time);
 			$update->bindParam(':user', $user);
 			$update->bindParam(':desc', $timer);
