@@ -139,43 +139,91 @@ class pageElement {
     public function each($matches) {
         $var = $matches[1];
         $template = $matches[2];
-
         $rtn = "";
-
         foreach ($this->items[$var] as $key => $items) {
             $html = new pageElement($items, $this->template, $this->templateName);
             $rtn .= $html->parse($template);
         }
-
         return $rtn;
-
+    }
+    
+    public function if($matches) {
+        $var = $matches[1];
+        $template = $matches[2];
+        $items = $this->items;
+        $item = $this->stringToArrayConversion($var, $items);
+        if ($item) {
+            $html = new pageElement($items, $this->template, $this->templateName);
+            $rtn = $html->parse($template);
+            return $rtn;
+        }
+        return "";
+    }
+    
+    public function unless($matches) {
+        $var = $matches[1];
+        $template = $matches[2];
+        $items = $this->items;
+        $item = $this->stringToArrayConversion($var, $items);
+        if (!$item) {
+            $html = new pageElement($items, $this->template, $this->templateName);
+            $rtn = $html->parse($template);
+            return $rtn;
+        }
+        return "";
+    }
+    
+    public function replace($matches) {
+        $var = $matches[1];
+        $items = $this->items;
+        return $this->stringToArrayConversion($var, $this->items);  
     }
 
     public function parse($html = false) {
         $find = array();
         $replace = array();
-        foreach ($this->items as $key => $val) {
 
-            if (is_array($val)) continue;
-
-            if (abs(intval($key)) === $key) {
-                $find[] = '{var' . ($key + 1) . '}';
-            } else {
-                $find[] = '{' . $key . '}';
-            }
-                
-            $replace[] = $val;
-            
-        }
-        
         $templateName = $this->templateName;
 
         if (!$html) $html = $this->template->$templateName;
         
-        $html = preg_replace_callback('#\{\#each (.+)\}(((?R)|.+)+)\{\/each}#iUs', array($this, "each"), $html);
+        // process each blocks
+        $html = preg_replace_callback(
+            '#\{\#each (.+)\}(((?R)|.+)+)\{\/each}#iUs', 
+            array($this, "each"), 
+            $html
+        );
+        // process if blocks
+        $html = preg_replace_callback(
+            '#\{\#if (.+)\}(((?R)|.+)+)\{\/if}#iUs', 
+            array($this, "if"), 
+            $html
+        );
+        // process unless blocks
+        $html = preg_replace_callback(
+            '#\{\#unless (.+)\}(((?R)|.+)+)\{\/unless}#iUs', 
+            array($this, "unless"), 
+            $html
+        );
+        // replace variables
+        $html = preg_replace_callback(
+            '#\{(.+)\}#iUs', 
+            array($this, "replace"), 
+            $html
+        );
 
 
         return str_replace($find, $replace, $html);
+    }
+
+    public function stringToArrayConversion ($string, $arr) {
+        $parts = explode(".", $string);
+        foreach ($parts as $part) {
+            if (!isset($arr[$part])) return "";
+            $arr = $arr[$part];
+        }
+        if (is_array($arr)) return json_encode($arr);
+        return $arr;
     }
 
 }
