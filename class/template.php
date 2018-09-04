@@ -44,10 +44,10 @@
         
         /* Global elements */
         
-        public $success = '<div class="alert alert-success">{var1}</div>';
-        public $error = '<div class="alert alert-danger">{var1}</div>';
-        public $info = '<div class="alert alert-info">{var1}</div>';
-        public $warning = '<div class="alert alert-warning">{var1}</div>';
+        public $success = '<div class="alert alert-success">{text}</div>';
+        public $error = '<div class="alert alert-danger">{text}</div>';
+        public $info = '<div class="alert alert-info">{text}</div>';
+        public $warning = '<div class="alert alert-warning">{text}</div>';
         
     }
 

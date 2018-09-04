@@ -11,17 +11,21 @@
             $theft = $this->db->prepare("SELECT * FROM theft");
             $theft->execute();
             
+            $theftArray = array();
             while ($row = $theft->fetchObject()) {
             
-                $theftArray = array(
-                    $row->T_name, 
-                    $row->T_id, 
-                    $row->T_chance + (@$this->user->info->US_rank*2)
+                $theftArray[] = array(
+                    "name" => $row->T_name, 
+                    "id" => $row->T_id, 
+                    "percent" => $row->T_chance + (@$this->user->info->US_rank*2)
                 );
                 
-                $this->html .= $this->page->buildElement('theftHolder', $theftArray);
             
             }
+            
+            $this->html .= $this->page->buildElement('theftHolder', array(
+                "theft" => $theftArray
+            ));
         }
         
         public function timeLeft($ts) {
@@ -36,7 +40,7 @@
             
             if (!$this->user->checkTimer('theft')) {
                 $time = $this->user->getTimer('theft') - time();
-                $crimeError = array('You cant commit another theft untill your timer is up! (<span data-timer-type="inline" data-timer="'.($this->user->getTimer("theft") - time()).'"></span>)');
+                $crimeError = array("text"=>'You cant commit another theft untill your timer is up! (<span data-timer-type="inline" data-timer="'.($this->user->getTimer("theft") - time()).'"></span>)');
                 $this->html .= $this->page->buildElement('error', $crimeError);
                 
             } else {
@@ -88,17 +92,17 @@
                 
                 if ($chance > $userChance && $jailChance == 1) {
                     
-                    $this->html .= $this->page->buildElement('error', array('You failed to steal a '.$carName.', you were caught and sent to jail'));
+                    $this->html .= $this->page->buildElement('error', array("text"=>'You failed to steal a '.$carName.', you were caught and sent to jail'));
 					
 					$this->user->updateTimer('jail', ($id*35), true);
                     
                 } else if ($chance > $userChance) {
                     
-                    $this->html .= $this->page->buildElement('error', array('You failed to steal a '.$carName.'.'));
+                    $this->html .= $this->page->buildElement('error', array("text"=>'You failed to steal a '.$carName.'.'));
                 
                 } else {
                     
-                    $this->html .=$this->page->buildElement('success', array('You successfuly stole a '.$carName.' with '.$carDamage.'% damage.'));
+                    $this->html .=$this->page->buildElement('success', array("text" => 'You successfuly stole a '.$carName.' with '.$carDamage.'% damage.'));
                     $query = "UPDATE userStats SET US_exp = US_exp + ".$car." WHERE US_id = :uid";
                 	$u = $this->db->prepare($query);
                 	$u->bindParam(':uid', $this->user->info->US_id);

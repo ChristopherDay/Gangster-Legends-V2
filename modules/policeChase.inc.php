@@ -15,7 +15,7 @@
             
             if (!$this->user->checkTimer('chase')) {
                 $time = $this->user->getTimer('chase') - time();
-                $crimeError = array('You cant commit another police chase untill your timer is up! (<span data-timer-type="inline" data-timer="'.($this->user->getTimer("chase") - time()).'"></span>)');
+                $crimeError = array("text"=>'You cant commit another police chase untill your timer is up! (<span data-timer-type="inline" data-timer="'.($this->user->getTimer("chase") - time()).'"></span>)');
                 $this->html .= $this->page->buildElement('error', $crimeError);
                 
             } else {
@@ -31,18 +31,18 @@
 					
 					$this->user->updateTimer('chase', 300, true);
                     
-                    $this->html .= $this->page->buildElement('success', array('You got away, you were paid $'.number_format($winnings).'!'));
+                    $this->html .= $this->page->buildElement('success', array("text"=>'You got away, you were paid $'.number_format($winnings).'!'));
                     
                 } else if ($rand == 3) {
                 					
 					$this->user->updateTimer('jail', 150, true);
 					$this->user->updateTimer('chase', 300, true);
                     
-                    $this->html .= $this->page->buildElement('error', array('You crashed and was sent to jail!'));
+                    $this->html .= $this->page->buildElement('error', array("text"=>'You crashed and was sent to jail!'));
                     
                 } else {
                     
-                    $this->html .= $this->page->buildElement('info', array('You are still going, what dirrection do you want to go now?'));
+                    $this->html .= $this->page->buildElement('info', array("text"=>'You are still going, what dirrection do you want to go now?'));
                 
                 }
                 

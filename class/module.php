@@ -73,7 +73,7 @@
             
             if (isset($_GET['action'])) {
             
-                $this->methodData->action = $_GET['action'];
+                @$this->methodData->action = $_GET['action'];
                 
             }
             

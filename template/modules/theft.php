@@ -5,12 +5,15 @@
         public $loginPage = false; // Ture means you can access this page without being logged in
         public $jailPage = false; // True means you can view this page in prison
         
-        public $theftHolder = '<div class="crime-holder">
-            <p>{var1} <span class="commit"><a href="?page=theft&action=commit&id={var2}">Commit</a></span></p>
+        public $theftHolder = '
+        {#each theft}
+        <div class="crime-holder">
+            <p>{name} <span class="commit"><a href="?page=theft&action=commit&id={id}">Commit</a></span></p>
             <div class="crime-perc">
-                <div class="perc" style="width:{var3}%;"></div>
+                <div class="perc" style="width:{percent}%;"></div>
             </div>
-        </div>';
+        </div>
+        {/each}';
         
     }
 

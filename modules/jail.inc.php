@@ -13,7 +13,13 @@
             	'error', array('You are in jail for <span data-timer-type="inline" data-timer="'.($this->user->getTimer("jail") - time()).'"></span>!'));
             }   
 
-            $this->html .= $this->page->buildElement("jailUsers");
+            $this->html .= $this->page->buildElement("jailUsers", 
+	        	array(
+	        		"test" => array(
+	        			"test2" => "hi"
+	        		)
+		        )
+	        );
         }
         
     }
