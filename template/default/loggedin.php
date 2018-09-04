@@ -47,7 +47,7 @@
 							</a>
 						</div>
 						<div class="col-md-2 col-sm-2" data-timer-type="name" data-timer="{jail_timer}">
-							<a href="#">
+							<a href="?page=jail">
 								<span>Jail</span><span></span>
 							</a>
 						</div>
