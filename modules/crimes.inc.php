@@ -85,7 +85,9 @@
                     $userCrimeChance[($crimeID-1)] = 100;
                 }
                 
-                $update->bindParam(':crimes', implode('-', $userCrimeChance));
+                $newCrimePercentages = implode('-', $userCrimeChance);
+
+                $update->bindParam(':crimes', $newCrimePercentages);
                 $update->execute();
                 
             }
