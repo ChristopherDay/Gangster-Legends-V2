@@ -95,23 +95,18 @@ class page {
         echo $this->pageHTML;
         
     }
+
+
     
-    public function buildElement($element, $vars) {
-        
-        $find = array();
-        $i    = 1;
-        
-        foreach ($vars as $vars2) {
-            
-            $find[] = '{var' . $i . '}';
-            $i++;
-            
-        }
-        
-        return str_replace($find, $vars, $this->template->$element);
-        
+    public function each($matches) {
+        print_r($matches);
     }
-    
+
+    public function buildElement($templateName, $vars = array()) {
+        $template = new pageElement($vars, $this->template, $templateName);
+        return $template->parse();        
+    }
+
     public function redirectTo($page, $vars = array()) {
         
         $get = '';
@@ -131,5 +126,58 @@ class page {
 }
 
 $page = new page();
+
+
+class pageElement {
+    
+    public function __construct($items, $template, $templateName) {
+        $this->items = $items;
+        $this->template = $template;
+        $this->templateName = $templateName;
+    }
+
+    public function each($matches) {
+        $var = $matches[1];
+        $template = $matches[2];
+
+        $rtn = "";
+
+        foreach ($this->items[$var] as $key => $items) {
+            $html = new pageElement($items, $this->template, $this->templateName);
+            $rtn .= $html->parse($template);
+        }
+
+        return $rtn;
+
+    }
+
+    public function parse($html = false) {
+        $find = array();
+        $replace = array();
+        foreach ($this->items as $key => $val) {
+
+            if (is_array($val)) continue;
+
+            if (abs(intval($key)) === $key) {
+                $find[] = '{var' . ($key + 1) . '}';
+            } else {
+                $find[] = '{' . $key . '}';
+            }
+                
+            $replace[] = $val;
+            
+        }
+        
+        $templateName = $this->templateName;
+
+        if (!$html) $html = $this->template->$templateName;
+        
+        $html = preg_replace_callback('#\{\#each (.+)\}(((?R)|.+)+)\{\/each}#iUs', array($this, "each"), $html);
+
+
+        return str_replace($find, $replace, $html);
+    }
+
+}
 
 ?>
