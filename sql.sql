@@ -277,14 +277,14 @@ CREATE TABLE IF NOT EXISTS `users` (
   `U_userLevel` int(1) NOT NULL,
   `U_status` int(1) NOT NULL,
   PRIMARY KEY (`U_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`U_id`, `U_name`, `U_email`, `U_password`, `U_userLevel`, `U_status`) VALUES
-(6, 'Admin', 'Admin@yourgame.com', '0f4afdf3a12e95916d9750debbcff3999a502aa9', 1, 1);
+(1, 'Admin', 'Admin@yourgame.com', '0f4afdf3a12e95916d9750debbcff3999a502aa9', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -297,6 +297,7 @@ CREATE TABLE IF NOT EXISTS `userStats` (
   `US_health` int(11) NOT NULL DEFAULT '100',
   `US_exp` int(11) NOT NULL DEFAULT '0',
   `US_money` int(11) NOT NULL DEFAULT '250',
+  `US_bank` int(11) NOT NULL DEFAULT '0'
   `US_bullets` int(11) NOT NULL DEFAULT '100',
   `US_backfire` int(11) NOT NULL DEFAULT '50',
   `US_credits` int(11) NOT NULL DEFAULT '0',
@@ -317,8 +318,7 @@ CREATE TABLE IF NOT EXISTS `userStats` (
 -- Dumping data for table `userStats`
 --
 
-INSERT INTO `userStats` (`US_id`, `US_health`, `US_exp`, `US_money`, `US_bullets`, `US_backfire`, `US_credits`, `US_weapon`, `US_rank`, `US_gang`, `US_location`, `US_crimes`, `US_crimeTimer`, `US_jailTimer`, `US_theftTimer`, `US_chaseTimer`, `US_bulletTimer`, `US_travelTimer`) VALUES
-(6, 100, 0, 250, 100, 50, 0, 1, 1, 0, 1, '35-25-15-5-5-5-5-5-5-5-5-5-5-5-5', 0, 0, 0, 0, 0, 0);
+INSERT INTO `userStats` (`US_id`) VALUES (1);
 
 -- --------------------------------------------------------
 
