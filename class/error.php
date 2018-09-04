@@ -1,7 +1,7 @@
 <?php
 
 	
-	class error{
+	class custom_error_handler {
 		
 		private $user, $db, $page, $minorLog = true, $majorLog = true;
 		
