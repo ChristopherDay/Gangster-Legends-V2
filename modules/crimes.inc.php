@@ -14,21 +14,24 @@
             
             $crimePercs = explode('-', $this->user->info->US_crimes);
             
+            $crimeInfo = array();
             while ($crime = $crimes->fetchObject()) {
                 
                 $crimeID = $crime->C_id;
                 
-                $crimeInfo = array(
-                    $crime->C_name,
-                    $this->timeLeft($crime->C_cooldown),
-                    $crimePercs[($crimeID-1)], 
-                    $crimeID
+                $crimeInfo[] = array(
+                    "name" => $crime->C_name,
+                    "cooldown" => $this->timeLeft($crime->C_cooldown),
+                    "percent" => $crimePercs[($crimeID-1)], 
+                    "id" => $crimeID
                 );
                 
-                $this->html .= $this->page->buildElement('crimeHolder', $crimeInfo);
                 
             }
             
+            $this->html .= $this->page->buildElement('crimeHolder', array(
+                "crimes" =>$crimeInfo
+            ));
         }
         
         public function method_commit() {
@@ -38,7 +41,7 @@
             if (!$this->user->checkTimer('crime')) {
 				
                 $time = $this->user->getTimer('crime') - time();
-                $crimeError = array('You cant commit another crime untill your timer is up! (<span data-timer-type="inline" data-timer="'.($this->user->getTimer("crime") - time()).'"></span>)');
+                $crimeError = array("text"=>'You cant commit another crime untill your timer is up! (<span data-timer-type="inline" data-timer="'.($this->user->getTimer("crime") - time()).'"></span>)');
                 $this->html .= $this->page->buildElement('error', $crimeError);
                 
             } else {
@@ -57,13 +60,13 @@
                 $reward = mt_rand($crimeInfo->C_money, $crimeInfo->C_maxMoney);
                 
                 if ($chance > $userChance && $jailChance == 1) {
-                    $crimeError = array('You failed to commit the crime, you were caught and sent to jail!');
+                    $crimeError = array("text"=>'You failed to commit the crime, you were caught and sent to jail!');
                     $this->html .= $this->page->buildElement('error', $crimeError);
                     $query = "UPDATE userStats SET US_crimes = :crimes WHERE US_id = :user";
 					$this->user->updateTimer('crime', ($crimeInfo->C_id * 15), true);
                     $add = 0;
                 } else if ($chance > $userChance) {
-                    $crimeError = array('You failed to commit the crime!');
+                    $crimeError = array("text"=>'You failed to commit the crime!');
                     $this->html .= $this->page->buildElement('error', $crimeError);
                     $query = "UPDATE userStats SET US_crimes = :crimes WHERE US_id = :user";
                     $add = mt_rand(1, 2);

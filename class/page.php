@@ -140,6 +140,7 @@ class pageElement {
         $var = $matches[1];
         $template = $matches[2];
         $rtn = "";
+        if (!isset($this->items[$var])) return "";
         foreach ($this->items[$var] as $key => $items) {
             $html = new pageElement($items, $this->template, $this->templateName);
             $rtn .= $html->parse($template);
