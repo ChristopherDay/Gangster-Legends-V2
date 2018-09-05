@@ -15,10 +15,10 @@
             while ($row = $locations->fetchObject()) {
             
                 $this->html .= $this->page->buildElement('locationHolder', array(
-                    $row->L_name, 
-                    number_format($row->L_cost), 
-                    $row->L_id, 
-                    $this->timeLeft($row->L_cooldown))
+                    "location" => $row->L_name, 
+                    "cost" => number_format($row->L_cost), 
+                    "id" => $row->L_id, 
+                    "cooldown" => $this->timeLeft($row->L_cooldown))
                 );
                 
             }
@@ -35,16 +35,16 @@
             $location = $location->fetchObject();
             if ($location->L_id == $this->user->info->US_location) {
                 
-                $this->html .= $this->page->buildElement('error', array('You are already in '.$location->L_name.'!'));
+                $this->html .= $this->page->buildElement('error', array("text" => 'You are already in '.$location->L_name.'!'));
                 
             } else if (!$this->user->checkTimer('travel')) {
                 
                 $time = ($this->user->getTimer('travel') - time());
-                $this->html .= $this->page->buildElement('error', array('You cant travel yet, the next flight is in <span data-timer-type="inline" data-timer="'.($this->user->getTimer("travel") - time()).'"></span>)'));
+                $this->html .= $this->page->buildElement('error', array("text" => 'You cant travel yet, the next flight is in <span data-timer-type="inline" data-timer="'.($this->user->getTimer("travel") - time()).'"></span>)'));
                 
             } else if ($this->user->info->US_money < $location->L_cost) {
             
-                $this->html .= $this->page->buildElement('error', array('You cant afford to travel here!'));
+                $this->html .= $this->page->buildElement('error', array("text" => 'You cant afford to travel here!'));
                 
             } else {
             
@@ -56,7 +56,7 @@
 				
 				$this->user->updateTimer('travel', $location->L_cooldown, true);
 				
-                $this->html .= $this->page->buildElement('success', array('You traveled to '.$location->L_name.' for $'.number_format($location->L_cost).'!'));
+                $this->html .= $this->page->buildElement('success', array("text" => 'You traveled to '.$location->L_name.' for $'.number_format($location->L_cost).'!'));
                 
             }
             

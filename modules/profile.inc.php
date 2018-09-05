@@ -21,7 +21,7 @@
 				
 				$this->pageName = 'Viewing '.$profile->info->U_name.'\'s Profile';
 			
-				$edit = '';
+				$edit = false;
 				
 			} else {
 			
@@ -29,25 +29,25 @@
 				
 				$this->pageName = 'My Profile';
 				
-				$edit = $this->page->buildElement("edit", array());
+				$edit = true;
 			
 				
 			}
 			
 			$bio =  ((strlen($profile->info->US_bio)>0)?nl2br($profile->info->US_bio):'<em><small>The user has not set up there bio yet!</small></em>');
 			
-			$pic = (is_array(@getimagesize($profile->info->US_pic))?$profile->info->US_pic:"http://home/MobGame/template/default/images/default-profile-picture.png");
+			// Make sure it is an image
+			$pic = (is_array(@getimagesize($profile->info->US_pic))?$profile->info->US_pic:"template/default/images/default-profile-picture.png");
 			
             $this->html .= $this->page->buildElement('profile', array(
-				$pic,
-				$profile->info->U_name, 
-				$profile->getRank()->R_name, 
-				$profile->getGang()->G_name, 
-				$profile->getStatus(), 
-				$bio
+				"picture" => $pic,
+				"name" => $profile->info->U_name, 
+				"rank" => $profile->getRank()->R_name, 
+				"family" => $profile->getGang()->G_name, 
+				"status" => $profile->getStatus(), 
+				"bio" => $bio, 
+				"edit" => $edit
 			));
-			
-			$this->html .= $edit;
             
         }
 		
@@ -61,10 +61,10 @@
 				$update->bindParam(":id", $this->user->info->US_id);
 				$update->execute();
 				
-				$this->html .= $this->page->buildElement("success", array('Profile Updated, <a href="?page=profile">View</a>.'));
+				$this->html .= $this->page->buildElement("success", array("text" => 'Profile Updated, <a href="?page=profile">View</a>.'));
 				
 				$this->user->info->US_bio = $this->methodData->bio;
-				$this->user->info->US_pic - $this->methodData->pic;
+				$this->user->info->US_pic = $this->methodData->pic;
 			
 			}
 			
@@ -73,8 +73,8 @@
 			$this->pageName = 'Edit Profile';
 		
 			$this->html .= $this->page->buildElement("editProfile", array(
-				$this->user->info->US_bio, 
-				$this->user->info->US_pic
+				"bio" => $this->user->info->US_bio, 
+				"picture" => $this->user->info->US_pic
 			));
 			
 		}
