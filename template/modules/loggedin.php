@@ -5,7 +5,12 @@
         public $loginPage = false; // Ture means you can access this page without being logged in
         public $jailPage = true; // True means you can view this page in prison
         
-        public $newsArticle = '<h3>{var1} <small>{var2} at {var3}</small></h3><p>{var4}</p>';
+        public $newsArticle = '
+        	{#each news}
+	        	<h3>{title} <small>{author} at {date}</small></h3>
+	        	<p>{text}</p>
+        	{/each}
+        ';
         
     }
 

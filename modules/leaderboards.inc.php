@@ -8,27 +8,39 @@
         
         public function constructModule() {
 			
-			switch ($this->methodData->top10) {
-				case 'money': $order = 'US_money'; $title = "Top 10 Richest Players"; break;
-				case 'rank': $order = 'US_rank DESC, US_exp'; $title = "Top 10 Players"; break;
-				default: $order = 'US_money'; $title = "Top 10 Richest Players"; break;
+			switch (@$this->methodData->top10) {
+				case 'rank': 
+					$order = 'US_rank DESC, US_exp'; 
+					$title = "Top 10 Players"; 
+				break;
+				default: 
+					$order = 'US_money'; 
+					$title = "Top 10 Richest Players"; 
+				break;
 			}
             
-			$select = $this->db->prepare("SELECT * FROM userStats ORDER BY ".$order." DESC LIMIT 0, 10");
+			$select = $this->db->prepare("
+				SELECT * FROM userStats ORDER BY ".$order." DESC LIMIT 0, 10
+			");
 			$select->execute();
 			
 			$i = 1;
-			$rows = '';
+			$users = array();
 			
 			while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
 				$username = new user($row['US_id']);
-				$rows .= $this->page->buildElement('leaderboardRow', array($i, $username->info->U_name, $username->info->U_id)); 
-				unset($username);
+				$users[] = array(
+					"rank" => $i, 
+					"name" => $username->info->U_name, 
+					"id" => $username->info->U_id
+				); 
 				$i++;
 			}
 			
-            $this->html .= $this->page->buildElement('buttons', array());
-            $this->html .= $this->page->buildElement('leaderboard', array($title, $rows));
+            $this->html .= $this->page->buildElement('leaderboard', array(
+            	"title" => $title, 
+            	"users" => $users
+            ));
             
         }
         

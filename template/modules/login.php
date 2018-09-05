@@ -5,8 +5,6 @@
         public $loginPage = true; // Ture means you can access this page without being logged in
         public $jailPage = true; // True means you can view this page in prison
         
-        public $blankElement = '{var1} {var2} {var3}';
-        
         public $loginForm = '
 		<div class="login-logo">
 			<img src="template/default/images/logo.png" alt="Ganger Legends" />
@@ -16,7 +14,7 @@
                 Login
             </div>
             <div class="panel-body">
-				{var1}
+				{text}
                 <form action="?page=login&action=login" method="post">
                     <input autocomplete="off" type="input" class="form-control" name="username" placeholder="Username" /><br />
                     <input type="password" class="form-control" name="password" placeholder="Password" /><br />

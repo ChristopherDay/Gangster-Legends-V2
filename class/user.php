@@ -73,11 +73,12 @@
 				
 			} else {
 				
+				$encryptedPassword = $this->encrypt($password);
 				$addUser = $this->db->prepare("INSERT INTO users (U_name, U_email, U_password, U_userLevel, U_status) 
 							VALUES (:username, :email, :password, :userLevel, :userStatus)");
 				$addUser->bindParam(':username', $username);
 				$addUser->bindParam(':email', $email);
-				$addUser->bindParam(':password', $this->encrypt($password));
+				$addUser->bindParam(':password', $encryptedPassword);
 				$addUser->bindParam(':userLevel', $userLevel);
 				$addUser->bindParam(':userStatus', $userStatus);
 				$addUser->execute();
