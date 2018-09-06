@@ -31,6 +31,6 @@ How To Install
 Example
 =======
 
-A demo can be founf at http://cdhost.co.uk/my_sites/gangsterlegendsv2/
+A demo can be founf at http://glscript.cdcoding.com/demo/
 
 The username is admin and the password is adminPass
