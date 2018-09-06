@@ -20,7 +20,6 @@
                     "percent" => $row->T_chance + (@$this->user->info->US_rank*2)
                 );
                 
-            
             }
             
             $this->html .= $this->page->buildElement('theftHolder', array(

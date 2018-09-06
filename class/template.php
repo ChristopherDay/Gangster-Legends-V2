@@ -2,13 +2,15 @@
 
     class template {
     
-        public $page;
+        public $page, $dontRun = false;
         
-        public function __construct() {
+        public function __construct($dontRun) {
         
             global $page, $user;
             
             $this->page = $page;
+
+            if ($dontRun) return;
 			
 			if (isset($this->adminPage) && $this->adminPage && $user->info->U_userLevel > 1) {
 				

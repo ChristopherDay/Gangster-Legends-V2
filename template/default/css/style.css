@@ -162,6 +162,7 @@ a, a:hover {
 .crime-holder .crime-perc .perc {
     height:2px;
     background-color:#090;
+    width: 0px;
 }
 
 .navigation .label {
