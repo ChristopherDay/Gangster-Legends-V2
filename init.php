@@ -29,13 +29,14 @@
         $pageToLoad = $_GET['page'];
 		
         if (!$user->checkTimer('jail')) {
-		  
-            $page->loadPage('jail');
-        
+            $jailPageCheck = $page->loadPage($pageToLoad, true);
+            if ($jailPageCheck->jailPage) {
+            	$page->loadPage($pageToLoad);
+            } else {
+            	$page->loadPage('jail');
+            }
         } else {
-            
             $page->loadPage($pageToLoad);
-        
         }
             
 	} else if (in_array($_GET['page'], $page->loginPages)) {

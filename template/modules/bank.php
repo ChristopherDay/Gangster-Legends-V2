@@ -3,7 +3,7 @@
     class bankTemplate extends template {
     
         public $loginPage = false; // Ture means you can access this page without being logged in
-        public $jailPage = true; // True means you can view this page in prison
+        public $jailPage = false; // True means you can view this page in prison
 		
 		public $bank = '
 		<form action="?page=bank&action=process" method="post">

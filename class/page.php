@@ -2,16 +2,18 @@
 
 class page {
     
-    public $theme, $template, $success = false, $loginPages = array('login', 'register'), $jailPages = array(), $loginPage, $jailPage;
+    public $theme, $template, $success = false, $loginPages = array('login', 'register'), $jailPages = array(), $loginPage, $jailPage, $dontRun = false;
     private $pageHTML, $pageFind, $pageReplace;
     
-    public function loadPage($page) {
+    public function loadPage($page, $dontRun = false) {
         
         global $user;
+
+        $this->dontRun = $dontRun;
         
         if (ctype_alpha($page)) {
             
-            $this->load($page);
+            return $this->load($page);
             
         } else {
             
@@ -24,20 +26,22 @@ class page {
     private function load($page) {
         
         if (file_exists('modules/' . $page . '.inc.php')) {
-            
             if (file_exists('template/modules/' . $page . '.php')) {
                 
-                include 'class/template.php';
-                
-                include 'template/modules/' . $page . '.php';
+                include_once 'class/template.php';
+                include_once 'template/modules/' . $page . '.php';
                 
                 $templateMethod = $page . 'Template';
                 
-                $this->template = new $templateMethod();
+                $this->template = new $templateMethod($this->dontRun);
 				
 				$this->loginPage = $this->template->loginPage;
 				$this->jailPage = $this->template->jailPage;
                 
+                if ($this->dontRun) {
+                    return $this;
+                }
+
                 include 'class/module.php';
                 include 'modules/' . $page . '.inc.php';
                 
@@ -153,7 +157,8 @@ class pageElement {
         $template = $matches[2];
         $items = $this->items;
         $item = $this->stringToArrayConversion($var, $items);
-        if ($item) {
+        if (is_array($item)) $item = count($item);
+        if ($item && $item != "0") {
             $html = new pageElement($items, $this->template, $this->templateName);
             $rtn = $html->parse($template);
             return $rtn;
@@ -166,7 +171,8 @@ class pageElement {
         $template = $matches[2];
         $items = $this->items;
         $item = $this->stringToArrayConversion($var, $items);
-        if (!$item) {
+        if (is_array($item)) $item = count($item);
+        if (!$item || $item == "0") {
             $html = new pageElement($items, $this->template, $this->templateName);
             $rtn = $html->parse($template);
             return $rtn;
@@ -223,7 +229,6 @@ class pageElement {
             if (!isset($arr[$part])) return "";
             $arr = $arr[$part];
         }
-        if (is_array($arr)) return json_encode($arr);
         return $arr;
     }
 
