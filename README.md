@@ -31,6 +31,6 @@ How To Install
 Example
 =======
 
-A demo can be founf at http://glscript.cdcoding.com/demo/
+A demo can be found at http://glscript.cdcoding.com/demo/
 
 The username is admin and the password is adminPass
