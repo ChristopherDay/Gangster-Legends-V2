@@ -25,7 +25,7 @@
 						<div class="col-md-3 col-sm-3 sub-header"><strong>Money:</strong> {money}</div>
 						<div class="col-md-3 col-sm-3 sub-header"><strong>Bullets:</strong> {bullets}</div>
 						<div class="col-md-3 col-sm-3 sub-header"><strong>Rank:</strong> {rank} {exp_perc}</div>
-						<div class="col-md-3 col-sm-3 sub-header"><strong>Family:</strong> {gang}</div>
+						<div class="col-md-3 col-sm-3 sub-header"><strong>Family:</strong> {gang.name}</div>
 					</div>
 					
 				</div>
@@ -114,6 +114,23 @@
 							<a href="?page=usersOnline">Users Online</a><br />
 							<a href="?page=leaderboards">Leaderboards</a><br />
 							<a href="?page=logout">Logout</a>
+						</div>
+					</div>
+					<div class="panel panel-danger">
+						<div class="panel-heading">
+							Families
+						</div>
+						<div class="panel-body hidden-xs">
+							{#if gang.id}
+								<a href="?page=families">Other Families</a><br />	
+								<a href="?page=family">Family</a><br />	
+								<a href="?page=family_bank">Family Bank</a>	
+								
+							{/if}
+							{#unless gang.id}
+								<a href="?page=families">All Families</a><br />	
+								<a href="?page=new_family">New Family</a>	
+							{/unless}
 						</div>
 					</div>
 				</div>

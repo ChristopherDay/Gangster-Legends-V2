@@ -153,6 +153,7 @@
 			$this->getNotificationCount($this->info->U_id); 
 			$this->getNotificationCount($this->info->U_id, 'mail'); 
 			$this->getNotificationCount($this->info->U_id, 'notifications'); 
+
 			$page->addToTemplate('money', '$'.number_format($this->info->US_money));
 			$page->addToTemplate('bullets', number_format($this->info->US_bullets));
 			$page->addToTemplate('backfire', number_format($this->info->US_backfire));
@@ -218,7 +219,7 @@
 			
 			$page->addToTemplate('rank', $rank->R_name);
 			@$page->addToTemplate('exp_perc', '('.$expperc.'%)');
-			$page->addToTemplate('gang', $gang->G_name);
+			$page->addToTemplate('gang', $gang);
 			$page->addToTemplate('weapon', $weapon->W_name);
 			
 		}
@@ -236,10 +237,18 @@
 		
 		public function getGang() {
 			
-			$query = $this->db->prepare("SELECT * FROM gangs WHERE G_id = :gang");
+			if (!$this->info->US_gang) {
+				return array(
+					"id" => 0, 
+					"name" => "None"
+				);
+			}
+
+
+			$query = $this->db->prepare("SELECT G_id as 'id', G_name as 'name' FROM gangs WHERE G_id = :gang");
 			$query->bindParam(":gang", $this->info->US_gang);
 			$query->execute();
-			$result = $query->fetchObject();
+			$result = $query->fetch(PDO::FETCH_ASSOC);
 			
 			return $result;
 			

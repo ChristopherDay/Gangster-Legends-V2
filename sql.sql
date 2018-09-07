@@ -107,16 +107,15 @@ INSERT INTO `gameNews` (`GN_id`, `GN_author`, `GN_title`, `GN_text`, `GN_date`) 
 CREATE TABLE IF NOT EXISTS `gangs` (
   `G_id` int(11) NOT NULL AUTO_INCREMENT,
   `G_name` varchar(120) NOT NULL,
-  `G_desc` text NOT NULL,
+  `G_bank` int(11) NOT NULL DEFAULT 0,
+  `G_desc` text NOT NULL DEFAULT '',
+  `G_level` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`G_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `gangs`
 --
-
-INSERT INTO `gangs` (`G_id`, `G_name`, `G_desc`) VALUES
-(0, 'None', 'This user is not in a gang!');
 
 -- --------------------------------------------------------
 
