@@ -3,7 +3,7 @@
 class page {
     
     public $theme, $template, $success = false, $loginPages = array('login', 'register'), $jailPages = array(), $loginPage, $jailPage, $dontRun = false;
-    private $pageHTML, $pageFind, $pageReplace;
+    private $pageHTML, $pageItems, $pageReplace;
     
     public function loadPage($page, $dontRun = false) {
         
@@ -80,15 +80,12 @@ class page {
     }
     
     public function addToTemplate($find, $replace) {
-        
-        $this->pageFind[]    = '{' . $find . '}';
-        $this->pageReplace[] = $replace;
-        
+        $this->pageItems[$find] = $replace;
     }
     
     private function replaceVars() {
-        
-        $this->pageHTML = str_replace($this->pageFind, $this->pageReplace, $this->pageHTML);
+        $template = new pageElement($this->pageItems);
+        $this->pageHTML = $template->parse($this->pageHTML);
         
     }
     
@@ -134,7 +131,7 @@ $page = new page();
 
 class pageElement {
     
-    public function __construct($items, $template, $templateName) {
+    public function __construct($items, $template = false, $templateName = false) {
         $this->items = $items;
         $this->template = $template;
         $this->templateName = $templateName;
