@@ -133,9 +133,13 @@
 		
 	}
 
-	function debug ($error) {
+	function debug ($error, $usePrint = false) {
 		echo "<pre>"; 
-		var_dump($error);
+		if ($usePrint) {
+			print_r($error);
+		} else {
+			var_dump($error);
+		}
 		echo "</pre>";
 	}
 

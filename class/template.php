@@ -4,26 +4,24 @@
     
         public $page, $dontRun = false;
         
-        public function __construct($dontRun) {
+        public function __construct($moduleName) {
         
             global $page, $user;
             
             $this->page = $page;
+			
+            $moduleInfo = $page->modules[$moduleName];
 
-            if ($dontRun) return;
-			
-			if (isset($this->adminPage) && $this->adminPage && $user->info->U_userLevel > 1) {
-				
+			if (
+                isset($this->adminPage) && 
+                $this->adminPage && 
+                $user->info->U_userLevel > 1
+            ) {
 				$this->loadMainPage('admin');
-			
-			} else if ($this->loginPage) {
-                
+			} else if (!$moduleInfo["requireLogin"]) {
                 $this->loadMainPage('login');
-                
             } else {
-                
                 $this->loadMainPage('loggedin');
-                
             }
         
         }
