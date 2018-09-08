@@ -2,6 +2,7 @@
 
     session_start();
 
+	require 'class/hooks.php';
 	require 'class/error.php';
 
 	$error = new error();
@@ -13,12 +14,15 @@
 	require 'class/settings.php'; 
 
 	$settings = new settings();
+
+	$page->loadModuleMetaData();
 	
 	if (!isset($_GET['page'])) {
-		
 		$_GET['page'] = 'loggedin';
-		
 	}
+
+    $pageToLoad = $_GET['page'];
+    $jailPageCheck = $page->modules[$pageToLoad];
 	
 	if (!empty($_SESSION['userID'])) {
 		
@@ -26,11 +30,9 @@
 		
 		$user->updateTimer('laston', time());
         
-        $pageToLoad = $_GET['page'];
 		
         if (!$user->checkTimer('jail')) {
-            $jailPageCheck = $page->loadPage($pageToLoad, true);
-            if ($jailPageCheck->jailPage) {
+            if ($jailPageCheck["accessInJail"]) {
             	$page->loadPage($pageToLoad);
             } else {
             	$page->loadPage('jail');
@@ -39,18 +41,17 @@
             $page->loadPage($pageToLoad);
         }
             
-	} else if (in_array($_GET['page'], $page->loginPages)) {
-		
+	} else if (!$jailPageCheck["requireLogin"]) {
 		$page->loadPage($_GET['page']);
-		
 	} else {
 		
 		$page->loadPage("login");
 		
 	}
-	
+
 	$page->printPage();
 
 	$page->success = true;
+
 	
 ?>

@@ -2,9 +2,21 @@
 
 class page {
     
-    public $theme, $template, $success = false, $loginPages = array('login', 'register'), $jailPages = array(), $loginPage, $jailPage, $dontRun = false;
+    public $theme, $template, $success = false, $loginPages = array('login', 'register'), $jailPages = array(), $loginPage, $jailPage, $dontRun = false, $modules = array();
     private $pageHTML, $pageItems, $pageReplace;
     
+    public function loadModuleMetaData() {
+        $moduleDirectories = scandir("modules/");
+        foreach ($moduleDirectories as $moduleName) {
+            if ($moduleName[0] == ".") continue;
+            $moduleInfoFile = "modules/" . $moduleName . "/moduleInfo.php";
+            if (file_exists($moduleInfoFile)) {
+                include $moduleInfoFile;
+                $this->modules[$moduleName] = $info;
+            }
+        }
+    }
+
     public function loadPage($page, $dontRun = false) {
         
         global $user;
@@ -25,27 +37,32 @@ class page {
     
     private function load($page) {
         
-        if (file_exists('modules/' . $page . '.inc.php')) {
-            if (file_exists('template/modules/' . $page . '.php')) {
+        $moduleInfo = $this->modules[$page];
+        $moduleController = 'modules/' . $page . '/' . $page . '.inc.php';
+        $moduleView = 'modules/' . $page . '/' . $page . '.php';
+
+        if (file_exists($moduleController)) {
+            if (file_exists($moduleView)) {
                 
                 include_once 'class/template.php';
-                include_once 'template/modules/' . $page . '.php';
+                include_once $moduleView;
                 
                 $templateMethod = $page . 'Template';
                 
-                $this->template = new $templateMethod($this->dontRun);
-				
-				$this->loginPage = $this->template->loginPage;
-				$this->jailPage = $this->template->jailPage;
+                $this->template = new $templateMethod($page);
+                
+                $this->loginPage = $moduleInfo["requireLogin"];
+                $this->jailPage = $moduleInfo["accessInJail"];
                 
                 if ($this->dontRun) {
                     return $this;
                 }
 
                 include 'class/module.php';
-                include 'modules/' . $page . '.inc.php';
+                include $moduleController;
                 
                 $module = new $page();
+
                 
                 if (isset($module)) {
                     
@@ -54,29 +71,66 @@ class page {
                 }
                 
                 $pageName = $page;
-                
-                if (isset($module->pageName)) {
+
+                if (isset($moduleInfo["pageName"])) {
                     
-                    $pageName = $module->pageName;
+                    $pageName = $moduleInfo["pageName"];
                     
                 }
                 
                 $this->addToTemplate('page', $pageName);
+
+                $actionMenu = new hook("actionMenu");
+                $locationMenu = new hook("locationMenu");
+                $accountMenu = new hook("accountMenu");
+                $customMenu = new hook("customMenus");
                 
+                $menus = array(
+                    array(
+                        "title" => "Actions", 
+                        "items" => $this->sortArray($actionMenu->run()), 
+                        "sort" => 100
+                    ), 
+                    array(
+                        "title" => "{location}", 
+                        "items" => $this->sortArray($locationMenu->run()), 
+                        "sort" => 200
+                    ),
+                    array(
+                        "title" => "Account", 
+                        "items" => $this->sortArray($accountMenu->run()), 
+                        "sort" => 300
+                    )
+                );
+
+                foreach ($customMenu->run() as $menu) {
+                    $menus[] = $menu;
+                }
+
+                $this->addToTemplate('menus', $this->sortArray($menus));
+
                 $this->pageHTML = $this->template->mainTemplate->pageMain;
                 
             } else {
-                
                 die("Module template not found!" . 'template/modules/' . $page . '.php');
-                
             }
             
         } else {
-            
             die("404 The page $page was not found!");
-            
         }
         
+    }
+
+    public function cmp ($a, $b) {
+        if (!isset($a["sort"])) $a["sort"] = 0;
+        if (!isset($b["sort"])) $b["sort"] = 0;
+        return $a["sort"] - $b["sort"];
+    }
+
+    public function sortArray($arr) {
+        usort($arr, array($this, "cmp"));
+        return $arr;
+
     }
     
     public function addToTemplate($find, $replace) {
@@ -95,12 +149,6 @@ class page {
         
         echo $this->pageHTML;
         
-    }
-
-
-    
-    public function each($matches) {
-        print_r($matches);
     }
 
     public function buildElement($templateName, $vars = array()) {

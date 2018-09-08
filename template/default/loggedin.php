@@ -69,70 +69,20 @@
 			<div class="row padding">
 				
 				<div class="col-md-3 navigation text-center"> 
-					<div class="panel panel-danger">
-						<div class="panel-heading">
-							Actions
+
+					{#each menus}
+						<div class="panel panel-danger">
+							<div class="panel-heading">
+								{title}
+							</div>
+							<div class="panel-body hidden-xs">
+								{#each items}
+									<a href="{url}">{text}</a> <br />
+								{/each}
+							</div>
 						</div>
-						<div class="panel-body hidden-xs">
-							<a href="?page=crimes">Crimes </a> <br />
-							<a href="?page=theft">Theft</a><br />
-							<a href="?page=policeChase">Police Chase</a><br />
-							<!--Organised Crime<br />
-							Murder-->
-						</div>
-					</div>
-					<div class="panel panel-danger">
-						<div class="panel-heading">
-							{location}
-						</div>
-						<div class="panel-body hidden-xs">
-							<a href="?page=bullets">Bullet Factory</a><br />
-							<a href="?page=bank">Bank</a><br />
-							<a href="?page=travel">Travel</a> <br />
-							<a href="?page=garage">Garage</a> <br />
-							<!--Search <br />
-							Jail-->
-						</div>
-					</div>
-					<!--<div class="panel panel-danger">
-						<div class="panel-heading">
-							Casinos
-						</div>
-						<div class="panel-body hidden-xs">
-							Blackjack<br />
-							Race Track<br />
-							Lottery
-						</div>
-					</div>-->
-					<div class="panel panel-danger">
-						<div class="panel-heading">
-							Account
-						</div>
-						<div class="panel-body hidden-xs">
-                            {adminLink}
-							<a href="?page=profile">My Profile</a><br />
-							<a href="?page=usersOnline">Users Online</a><br />
-							<a href="?page=leaderboards">Leaderboards</a><br />
-							<a href="?page=logout">Logout</a>
-						</div>
-					</div>
-					<div class="panel panel-danger">
-						<div class="panel-heading">
-							Families
-						</div>
-						<div class="panel-body hidden-xs">
-							{#if gang.id}
-								<a href="?page=families">Other Families</a><br />	
-								<a href="?page=family">Family</a><br />	
-								<a href="?page=family_bank">Family Bank</a>	
-								
-							{/if}
-							{#unless gang.id}
-								<a href="?page=families">All Families</a><br />	
-								<a href="?page=new_family">New Family</a>	
-							{/unless}
-						</div>
-					</div>
+					{/each}
+
 				</div>
 				
 				<div class="col-md-9">
