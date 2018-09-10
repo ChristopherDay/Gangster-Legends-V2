@@ -24,10 +24,18 @@
 					<div class="col-md-12 sub-header hidden-xs">
 						
 						<div class="row">
-							<div class="col-md-3 col-sm-3 sub-header"><strong>Money:</strong> {money}</div>
-							<div class="col-md-3 col-sm-3 sub-header"><strong>Bullets:</strong> {bullets}</div>
-							<div class="col-md-3 col-sm-3 sub-header"><strong>Rank:</strong> {rank} {exp_perc}</div>
-							<div class="col-md-3 col-sm-3 sub-header"><strong>Family:</strong> {gang.name}</div>
+							<div class="col-md-3 col-sm-3 sub-header">
+								<strong>Money:</strong> {money}
+							</div>
+							<div class="col-md-3 col-sm-3 sub-header">
+								<strong>Bullets:</strong> {bullets}
+							</div>
+							<div class="col-md-3 col-sm-3 sub-header">
+								<strong>Rank:</strong> {rank} {#unless maxRank}{exp_perc}{/unless}
+							</div>
+							<div class="col-md-3 col-sm-3 sub-header">
+								<strong>Family:</strong> {gang.name}
+							</div>
 						</div>
 						
 					</div>
