@@ -10,6 +10,7 @@
             
             $this->db = $db;
             $this->page = $page;
+            $this->methodData = (object) array();
             
             if (isset($user->id)) {
                 $this->user = $user;
@@ -29,10 +30,10 @@
                 
             }
             
-			if ($this->construct) {
-            	$this->constructModule();
-			}
-			
+            if ($this->construct) {
+                $this->constructModule();
+            }
+            
             if (isset($user->info->U_id)) {
             
                 // Update the user info after the module has run.
@@ -53,11 +54,23 @@
             return $this->html;
         }
         
+
         private function buildMethodData() {
         
             $data = $this->allowedMethods;
 			
-            
+            if ($data == "*") {
+
+                foreach ($_GET as $key => $value) {
+                    $this->methodData->$key = $value;
+                }
+                foreach ($_POST as $key => $value) {
+                    $this->methodData->$key = $value;
+                }
+
+                return;
+            }
+
             foreach ($data as $key => $val) {
 				
 				if (strtolower($val['type']) == 'get') {

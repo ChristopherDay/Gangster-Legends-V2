@@ -9,7 +9,21 @@
 		), 
 		"pageName" => "Crimes",
 		"accessInJail" => false, 
-		"requireLogin" => true
+		"requireLogin" => true, 
+		"admin" => array(
+			array(
+				"text" => "View Crimes", 
+				"method" => "view",
+			),
+			array(
+				"text" => "New Crime", 
+				"method" => "new",
+			),
+			array(
+				"text" => "Edit Crime", 
+				"method" => "edit",
+			)
+		)
 	);
 
 	new hook("actionMenu", function () {
