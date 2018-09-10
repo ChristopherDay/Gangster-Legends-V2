@@ -63,7 +63,7 @@
                     $crimeError = array("text"=>'You failed to commit the crime, you were caught and sent to jail!');
                     $this->html .= $this->page->buildElement('error', $crimeError);
                     $query = "UPDATE userStats SET US_crimes = :crimes WHERE US_id = :user";
-					$this->user->updateTimer('crime', ($crimeInfo->C_id * 15), true);
+					$this->user->updateTimer('jail', ($crimeInfo->C_id * 15), true);
                     $add = 0;
                 } else if ($chance > $userChance) {
                     $crimeError = array("text"=>'You failed to commit the crime!');
