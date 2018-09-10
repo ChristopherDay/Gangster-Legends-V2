@@ -20,8 +20,14 @@
 				"method" => "new",
 			),
 			array(
+				"hide" => true,
 				"text" => "Edit Crime", 
 				"method" => "edit",
+			),
+			array(
+				"hide" => true,
+				"text" => "Delete Crime", 
+				"method" => "delete",
 			)
 		)
 	);

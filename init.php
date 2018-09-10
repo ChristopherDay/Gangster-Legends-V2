@@ -1,5 +1,7 @@
 <?php
 
+	$start = microtime();
+
     session_start();
 
 	require 'class/hooks.php';
@@ -52,6 +54,5 @@
 	$page->printPage();
 
 	$page->success = true;
-
 	
 ?>

@@ -79,7 +79,9 @@
 								</div>
 								<div class="panel-body hidden-xs">
 									{#each items}
-										<a href="{url}">{text}</a> <br />
+										{#unless hide}
+											<a href="{url}">{text}</a> <br />
+										{/unless}
 									{/each}
 								</div>
 							</div>

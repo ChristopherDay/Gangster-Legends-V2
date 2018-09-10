@@ -35,13 +35,17 @@ a, a:hover {
 	background-color: transparent;
 }
 
-.btn, .btn:hover {
+.btn {
 	color:#fff;
 	background-image: url("../images/btn.png") !important;
 	position: relative;
 	margin: 0px 10px;
 	border: none;
 	background-color: transparent !important;
+}
+
+.btn:hover {
+	text-decoration: underline;
 }
 
 .btn:before, .panel-heading:before {
@@ -181,6 +185,10 @@ a, a:hover {
 .form-control:focus {
     border: 1px solid rgba(255, 255, 255, 0.35);
     box-shadow: none;
+}
+
+.form-group .form-control {
+	color: #aaa;
 }
 
 table tr td, table tr th {
