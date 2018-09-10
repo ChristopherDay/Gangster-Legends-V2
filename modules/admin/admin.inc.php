@@ -1,61 +1,126 @@
 <?php
 
     class admin extends module {
-		
-		public $pageName = 'Admin';
         
-        public $allowedMethods = array();
+        public $allowedMethods = "*";
         
         public function constructModule() {
             
             /* Redirect the user to the home page if they are a user */
             if ($this->user->info->U_userLevel == 1) {
-                header("Location:/");
+                header("Location:?page=loggedin");
                 exit;
             }
+
+            $adminModule = @$this->methodData->module;
             
-            /* Now we know the user is a staff member lets load the navigation */
-            $path = dirname(__FILE__)."/admin/";
+            new hook("menus", function ($menus) {
+                return array(
+                    array(
+                        "title" => "Admin", 
+                        "items" => array(
+                            array(
+                                "url" => "?page=admin", 
+                                "text" => "Admin Home", 
+                                "sort" => 100
+                            ),
+                            array(
+                                "url" => "?page=loggedin", 
+                                "text" => "Back To Game", 
+                                "sort" => 100
+                            )
+                        ), 
+                        "sort" => 100
+                    ), 
+                );
+            });
 
-            /* Make the firs link a link back to the game */
-            $link = '<li><a href="/">Back To the game</a></li>';
+            if ($adminModule) {
+                $this->viewModule();
+            }
+            
+            $this->viewModules();
 
-            if ($handle = opendir($path)) {
-                while (false !== ($file = readdir($handle))) {
-                    if ('.' === $file) continue;
-                    if ('..' === $file) continue;
+        }
 
-                    $fileDir = dirname(__FILE__)."/admin/".$file."/functions.php";
+        private function viewModule() {
+            $adminModule = $this->methodData->module;
+            $this->moduleInfo = @$this->page->modules[$adminModule];
 
-                    if (file_exists($fileDir)) {
-
-                        include $fileDir;
-
-                        $num = 0;
-                        $nLink = '<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="?page=admin&module='.$file.'">'.$adminPage.'</a><ul class="dropdown-menu">';
-
-                            foreach ($adminLinks as $l => $a) {
-
-                                if ($this->user->info->U_userLevel >= $a['userLevel']) {
-                                    $nLink .= '<li><a href="?page=admin&module='.$file.'&action='.$a['link'].'">'.$l.'</a></li>';
-                                    $num++;
-                                }
-
-                            }
-
-                        $nLink .= '</ul></li>';
-
-                        if ($num >0) {
-                            $link .= $nLink;
-                        }
-                    }
-
+            if (!$this->moduleInfo || !$this->moduleInfo["admin"]) {
+                return $this->html = $this->page->buildElement("error", array("text"=>"This module does not exits or have an admin panel"));
+            }
+            
+            new hook("menus", function ($menus) {
+                $items = array();
+                foreach ($this->moduleInfo["admin"] as $adminLink) {
+                    $adminLink["url"] = "?page=admin&module=".$this->methodData->module."&action=".$adminLink["method"];
+                    $items[] = $adminLink;
                 }
-                closedir($handle);
+                $menus[] = array(
+                    "title" => $this->moduleInfo["pageName"], 
+                    "items" => $items, 
+                    "sort" => 200
+                );
+                return $menus;
+            });
+
+            include_once "modules/$adminModule/$adminModule.admin.php";
+
+            if (isset($this->methodData->action)) {
+                $action = "method_" . $this->methodData->action;
+            } else {
+                $action = "method_" . $this->moduleInfo["admin"][0]["method"];
             }
 
-            /* Bind Linkjs to the template */
-            $this->page->addToTemplate("adminLinks", $link);
+            $moduleViewFile = "modules/$adminModule/$adminModule.tpl.php";
+
+            if (file_exists($moduleViewFile)) {
+                
+                include_once 'class/template.php';
+                include_once $moduleViewFile;
+                
+                $templateMethod = $adminModule . 'Template';
+                
+                $this->page->template = new $templateMethod("admin");
+            }
+
+            $adminModule = new adminModule();
+            $adminModule->db = $this->db;
+            $adminModule->user = $this->user;
+            $adminModule->html = $this->html;
+            $adminModule->page = $this->page;
+            $adminModule->methodData = $this->methodData;
+
+            if (method_exists($adminModule, $action)) {
+                $adminModule->$action();
+                $this->html = $adminModule->html;
+            }
+
+        }
+
+        private $moduleLinks = array();
+            
+        private function viewModules() {
+
+            $this->moduleLinks = array();
+            foreach ($this->page->modules as $moduleName => $moduleInfo) {
+                if (isset($moduleInfo["admin"])) {
+                    $this->moduleLinks[] = array(
+                        "url" => "?page=admin&module=".$moduleName, 
+                        "text" => $moduleInfo["pageName"]
+                    );
+                } 
+            }
+            
+            new hook("menus", function ($menus) {
+                $menus[] = array(
+                    "title" => "Modules", 
+                    "items" => $this->moduleLinks, 
+                    "sort" => 300
+                );
+                return $menus;
+            });
             
         }
         

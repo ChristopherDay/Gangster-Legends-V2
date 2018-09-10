@@ -134,12 +134,17 @@
 	}
 
 	function debug ($error, $usePrint = false) {
+		$bt = debug_backtrace();
+		$caller = array_shift($bt);
+		
 		echo "<pre>"; 
 		if ($usePrint) {
 			print_r($error);
 		} else {
 			var_dump($error);
 		}
+		echo "<strong>File:" . $caller['file'] . " Line:";
+		echo $caller['line'] . "</srong>";
 		echo "</pre>";
 	}
 

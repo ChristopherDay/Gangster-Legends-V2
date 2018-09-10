@@ -18,8 +18,6 @@ class page {
     }
 
     public function loadPage($page, $dontRun = false) {
-        
-        global $user;
 
         $this->dontRun = $dontRun;
         
@@ -37,15 +35,17 @@ class page {
     
     private function load($page) {
         
+        global $user;
+        
         $moduleInfo = $this->modules[$page];
-        $moduleController = 'modules/' . $page . '/' . $page . '.inc.php';
-        $moduleView = 'modules/' . $page . '/' . $page . '.php';
+        $this->moduleController = 'modules/' . $page . '/' . $page . '.inc.php';
+        $this->moduleView = 'modules/' . $page . '/' . $page . '.tpl.php';
 
-        if (file_exists($moduleController)) {
-            if (file_exists($moduleView)) {
+        if (file_exists($this->moduleController)) {
+            if (file_exists($this->moduleView)) {
                 
                 include_once 'class/template.php';
-                include_once $moduleView;
+                include_once $this->moduleView;
                 
                 $templateMethod = $page . 'Template';
                 
@@ -59,7 +59,7 @@ class page {
                 }
 
                 include 'class/module.php';
-                include $moduleController;
+                include $this->moduleController;
                 
                 $module = new $page();
 
@@ -84,30 +84,34 @@ class page {
                 $locationMenu = new hook("locationMenu");
                 $accountMenu = new hook("accountMenu");
                 $customMenu = new hook("customMenus");
-                
+
                 $menus = array(
                     array(
                         "title" => "Actions", 
-                        "items" => $this->sortArray($actionMenu->run()), 
+                        "items" => $this->sortArray($actionMenu->run($user)), 
                         "sort" => 100
                     ), 
                     array(
                         "title" => "{location}", 
-                        "items" => $this->sortArray($locationMenu->run()), 
+                        "items" => $this->sortArray($locationMenu->run($user)), 
                         "sort" => 200
                     ),
                     array(
                         "title" => "Account", 
-                        "items" => $this->sortArray($accountMenu->run()), 
+                        "items" => $this->sortArray($accountMenu->run($user)), 
                         "sort" => 300
                     )
                 );
 
-                foreach ($customMenu->run() as $menu) {
-                    $menus[] = $menu;
+                foreach ($customMenu->run($user) as $menu) {
+                    if ($menu) $menus[] = $menu;
                 }
+    
+                $allMenus = new hook("menus", function ($menus) {
+                    return $this->sortArray($menus);
+                });
 
-                $this->addToTemplate('menus', $this->sortArray($menus));
+                $this->addToTemplate('menus', $allMenus->run($menus, true));
 
                 $this->pageHTML = $this->template->mainTemplate->pageMain;
                 
@@ -237,35 +241,45 @@ class pageElement {
 
         $templateName = $this->templateName;
 
-        if (!$html) $html = $this->template->$templateName;
-        
-        // process each blocks
-        $html = preg_replace_callback(
-            '#\{\#each (.+)\}(((?R)|.+)+)\{\/each}#iUs', 
-            array($this, "each"), 
-            $html
-        );
-        // process if blocks
-        $html = preg_replace_callback(
-            '#\{\#if (.+)\}(((?R)|.+)+)\{\/if}#iUs', 
-            array($this, "if"), 
-            $html
-        );
-        // process unless blocks
-        $html = preg_replace_callback(
-            '#\{\#unless (.+)\}(((?R)|.+)+)\{\/unless}#iUs', 
-            array($this, "unless"), 
-            $html
-        );
-        // replace variables
-        $html = preg_replace_callback(
-            '#\{(.+)\}#iUs', 
-            array($this, "replace"), 
-            $html
-        );
+        if ($templateName && !isset($this->template->$templateName)) {
 
+            global $page;
 
-        return str_replace($find, $replace, $html);
+            $html = $page->buildElement("error", array(
+                "text" => "Template '" . $templateName . "' does not exist in '" . $page->moduleView . "'"
+            ));
+
+        } else {
+            if (!$html) $html = $this->template->$templateName;
+            
+            // process each blocks
+            $html = preg_replace_callback(
+                '#\{\#each (.+)\}(((?R)|.+)+)\{\/each}#iUs', 
+                array($this, "each"), 
+                $html
+            );
+            // process if blocks
+            $html = preg_replace_callback(
+                '#\{\#if (.+)\}(((?R)|.+)+)\{\/if}#iUs', 
+                array($this, "if"), 
+                $html
+            );
+            // process unless blocks
+            $html = preg_replace_callback(
+                '#\{\#unless (.+)\}(((?R)|.+)+)\{\/unless}#iUs', 
+                array($this, "unless"), 
+                $html
+            );
+            // replace variables
+            $html = preg_replace_callback(
+                '#\{(.+)\}#iUs', 
+                array($this, "replace"), 
+                $html
+            );
+
+        }
+
+        return $html;
     }
 
     public function stringToArrayConversion ($string, $arr) {

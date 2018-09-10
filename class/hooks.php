@@ -4,8 +4,11 @@
 
 	class hook {
 		private $hookName = null;
+		public $args;
 		public function __construct($hookName, $callback = false) {
 			global $hooks;
+
+			$this->args = func_get_args();
 
 			$this->hookName = $hookName;
 
@@ -18,13 +21,22 @@
 			return $this;
 
 		}
-		public function run() {
+
+		public function run(&$opts, $returnSingleItem = false) {
 			global $hooks;
-			$rtn = array();
-			$args = func_get_args();
-			array_shift($args);
+			if ($returnSingleItem) {
+				$rtn = array();
+			} else {
+				$rtn = null;
+			}
+
 			foreach ($hooks[$this->hookName] as $hook) {
-				$rtn[] = $hook(...$args);
+				if ($returnSingleItem) {
+					$opts = $hook($opts);
+					$rtn = $opts;
+				} else {
+					$rtn[] = $hook($opts);
+				}
 			}
 			return $rtn;
 		}
