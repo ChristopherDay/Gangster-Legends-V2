@@ -2,7 +2,7 @@
 
 	class user {
 		
-		public $id, $info, $name, $db, $loggedin = false;
+		public $id, $info, $name, $db, $loggedin = false, $nextRank;
 		
 		// Pass the ID to the class
 		function __construct($id = FALSE, $name = FALSE) {
@@ -15,15 +15,15 @@
 				$this->id = $id;
 				$this->name = $name;
 				$this->getInfo();	
-				
-				if ((is_array($this->info) && isset($_SESSION['userID'])) && $this->info->U_id == $_SESSION['userID']) {
-					while ($this->checkRank()){}
-				}
+	            
+	            if ($_SESSION['userID'] == $this->id) {
+	                $this->loggedin = true;
+	            }
+
+	           	$this->nextRank = $this->checkRank();
+
 			}
 
-            if ($_SESSION['userID'] == $this->id) {
-                $this->loggedin = true;
-            }
 
 		}	
 		
@@ -208,15 +208,17 @@
 			$rank = $this->getRank();
 			$gang = $this->getGang();
 			$weapon = $this->getWeapon();
+
 			
-			$expperc = round(
-				( 
-					(
-						@$this->info->US_exp/$rank->R_exp 
-					)*100 
-				)
-			, 2);
+			$this->info->maxRank = true;
+			if (isset($this->nextRank->R_exp)) {
+				$expIntoNextRank =  $this->info->US_exp - $rank->R_exp;
+				$expNeededForNextRank = $this->nextRank->R_exp - $rank->R_exp;
+				$expperc = round($expIntoNextRank / $expNeededForNextRank * 100, 2);
+				$this->info->maxRank = false;
+			}
 			
+			$page->addToTemplate('maxRank', $this->info->maxRank);
 			$page->addToTemplate('rank', $rank->R_name);
 			@$page->addToTemplate('exp_perc', '('.$expperc.'%)');
 			$page->addToTemplate('gang', $gang);
@@ -266,29 +268,37 @@
 		}
 		
 		public function checkRank() {
-
-            if ($this->loggedin) {
 			
-                $rank = $this->getRank();
+            $rank = $this->getRank();
 
-                if ($rank->R_exp < $this->info->US_exp || $rank->R_exp == $this->info->US_exp) {
+        	$nextRank = $this->db->prepare("SELECT * FROM ranks WHERE R_exp > :oldExp ORDER BY R_exp LIMIT 0, 1");
+        	$nextRank->bindParam(":oldExp", $rank->R_exp);
+        	$nextRank->execute();
+        	$newRank = (object) $nextRank->fetch(PDO::FETCH_ASSOC);
 
-                    $this->db->query("UPDATE userStats SET US_money = US_money + ".$rank->R_cashReward.", US_bullets = US_bullets + ".$rank->R_bulletReward.", US_rank = US_rank + 1, US_exp = ".($this->info->US_exp - $rank->R_exp)." WHERE US_id = ".$this->info->US_id);
+            if (isset($newRank->R_exp) && $newRank->R_exp <= $this->info->US_exp) {
 
-                    $this->info->US_exp = ($this->info->US_exp - $rank->R_exp);
-                    $this->info->US_rank++;
-                    $this->info->US_bullets = $this->info->US_bullets + $rank->R_bulletReward;
-                    $this->info->US_money = $this->info->US_money + $rank->R_cashReward;
 
-                    return true;
+                $this->db->query("
+                	UPDATE userStats SET 
+                		US_money = US_money + ".$newRank->R_cashReward.", 
+                		US_bullets = US_bullets + ".$newRank->R_bulletReward.", 
+                		US_rank = ".$newRank->R_id."
+                	WHERE 
+                		US_id = ".$this->info->US_id);
 
-                } else {
+                $this->info->US_rank = $newRank->R_id;
+                $this->info->US_bullets = $this->info->US_bullets + $newRank->R_bulletReward;
+                $this->info->US_money = $this->info->US_money + $newRank->R_cashReward;
 
-                    return false;
+                return $this->checkRank();
 
-                }
+            } else {
+
+                return $newRank;
 
             }
+
 		
 		}
         
