@@ -83,6 +83,7 @@
                 $templateMethod = $adminModule . 'Template';
                 
                 $this->page->template = new $templateMethod("admin");
+                $this->page->moduleView = $moduleViewFile;
             }
 
             $adminModule = new adminModule();

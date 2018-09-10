@@ -144,7 +144,7 @@
 			var_dump($error);
 		}
 		echo "<strong>File:" . $caller['file'] . " Line:";
-		echo $caller['line'] . "</srong>";
+		echo $caller['line'] . "</strong>";
 		echo "</pre>";
 	}
 
