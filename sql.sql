@@ -231,7 +231,7 @@ CREATE TABLE IF NOT EXISTS `ranks` (
 --
 
 INSERT INTO `ranks` (`R_id`, `R_name`, `R_exp`, `R_limit`, `R_cashReward`, `R_bulletReward`) VALUES
-(1, 'Lowlife', 20, 0, 75, 25),
+(1, 'Lowlife', 0, 0, 75, 25),
 (2, 'Thug', 50, 0, 150, 60),
 (3, 'Criminal', 100, 0, 250, 100);
 
