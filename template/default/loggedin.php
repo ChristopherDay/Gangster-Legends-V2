@@ -87,8 +87,13 @@
 								</div>
 								<div class="panel-body hidden-xs">
 									{#each items}
-										{#unless hide}
-											<a href="{url}">{text}</a> <br />
+										{#if seperator}
+											<hr />
+										{/if}
+										{#unless seperator}
+											{#unless hide}
+												<a href="{url}">{text}</a> <br />
+											{/unless}
 										{/unless}
 									{/each}
 								</div>

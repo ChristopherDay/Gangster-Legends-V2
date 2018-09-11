@@ -54,7 +54,9 @@
             new hook("menus", function ($menus) {
                 $items = array();
                 foreach ($this->moduleInfo["admin"] as $adminLink) {
-                    $adminLink["url"] = "?page=admin&module=".$this->methodData->module."&action=".$adminLink["method"];
+                    if (!isset($adminLink["seperator"])) {
+                        $adminLink["url"] = "?page=admin&module=".$this->methodData->module."&action=".$adminLink["method"];
+                    }
                     $items[] = $adminLink;
                 }
                 $menus[] = array(

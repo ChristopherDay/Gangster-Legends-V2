@@ -1,6 +1,6 @@
 <?php
 	$info = array(
-		"name" => "Loggedin", 
+		"name" => "Game News", 
 		"version" => "1.0.0", 
 		"description" => "",
 		"author" => array(
