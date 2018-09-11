@@ -51,7 +51,7 @@
 		private function validateUser($user) {
 			$errors = array();
 
-			if (strlen($user["name"]) < 6) {
+			if (strlen($user["name"]) < 5) {
 				$errors[] = "User name is to short, this must be atleast 5 characters";
 			}
 
