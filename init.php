@@ -31,9 +31,10 @@
 		$user = new user($_SESSION['userID']);
 		
 		$user->updateTimer('laston', time());
-        
-		
-        if (!$user->checkTimer('jail')) {
+
+        if ($user->info->U_userLevel == 0 && $_GET["page"] != "logout") {
+            $page->loadPage('banned');
+        } else if (!$user->checkTimer('jail')) {
             if ($jailPageCheck["accessInJail"]) {
             	$page->loadPage($pageToLoad);
             } else {

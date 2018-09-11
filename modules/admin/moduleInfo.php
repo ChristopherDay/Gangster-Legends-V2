@@ -14,7 +14,7 @@
 
 
 	new hook("customMenus", function ($user) {
-		if ($user && $user->info->U_userLevel != 1) {
+		if ($user && $user->info->U_userLevel == 2) {
 			return array(
 				"title" => "Admin", 
 	            "items" => array(
