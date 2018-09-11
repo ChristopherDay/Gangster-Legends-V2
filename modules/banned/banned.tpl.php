@@ -1,6 +1,6 @@
 <?php
 
-    class blankTemplate extends template {
+    class bannedTemplate extends template {
         
         public $blankElement = '';
         

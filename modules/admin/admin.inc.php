@@ -7,7 +7,7 @@
         public function constructModule() {
             
             /* Redirect the user to the home page if they are a user */
-            if ($this->user->info->U_userLevel == 1) {
+            if ($this->user->info->U_userLevel != 2) {
                 header("Location:?page=loggedin");
                 exit;
             }
