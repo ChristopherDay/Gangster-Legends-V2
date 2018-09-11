@@ -22,6 +22,7 @@
 					(U_userLevel = 1) as 'isUser',  
 					(U_userLevel = 2) as 'isAdmin', 
 					(U_userLevel = 0) as 'isBanned', 
+					(U_userLevel = -1) as 'isDead', 
 					US_money as 'money', 
 					US_exp as 'exp', 
 					US_bank as 'bank', 
@@ -52,6 +53,10 @@
 
 			if (strlen($user["name"]) < 6) {
 				$errors[] = "User name is to short, this must be atleast 5 characters";
+			}
+
+			if ($user["id"] == 1 && $user["userLevel"] != 2) {
+				$errors[] = "User ID 1 must be an admin";
 			}
 
 			return $errors;
