@@ -16,7 +16,7 @@
             
             new hook("menus", function ($menus) {
                 return array(
-                    array(
+                    "homeLinks" => array(
                         "title" => "Admin", 
                         "items" => array(
                             array(
@@ -27,6 +27,11 @@
                             array(
                                 "url" => "?page=loggedin", 
                                 "text" => "Back To Game", 
+                                "sort" => 100
+                            ),
+                            array(
+                                "url" => "?page=logout", 
+                                "text" => "Logout", 
                                 "sort" => 100
                             )
                         ), 
@@ -59,11 +64,12 @@
                     }
                     $items[] = $adminLink;
                 }
-                $menus[] = array(
+                $menus["moduleActions"] = array(
                     "title" => $this->moduleInfo["pageName"], 
                     "items" => $items, 
                     "sort" => 200
                 );
+
                 return $menus;
             });
 
@@ -117,7 +123,7 @@
             }
             
             new hook("menus", function ($menus) {
-                $menus[] = array(
+                $menus["moduleLinks"] = array(
                     "title" => "Modules", 
                     "items" => $this->moduleLinks, 
                     "sort" => 300
