@@ -74,7 +74,7 @@
                                     {/unless}
                                     {#if hide}
                                         {#if active}
-                                            <li role="presentation" class="{#if active}active{/if}"><a href="{url}">{text}</a></li>
+                                            <li role="presentation" class="active"><a href="#">{text}</a></li>
                                         {/if}
                                     {/if}
                                 {/each}
