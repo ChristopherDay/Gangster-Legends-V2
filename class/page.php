@@ -86,32 +86,51 @@ class page {
                 $customMenu = new hook("customMenus");
 
                 $menus = array(
-                    array(
+                    "actions" => array(
                         "title" => "Actions", 
                         "items" => $this->sortArray($actionMenu->run($user)), 
                         "sort" => 100
                     ), 
-                    array(
+                    "location" => array(
                         "title" => "{location}", 
                         "items" => $this->sortArray($locationMenu->run($user)), 
                         "sort" => 200
                     ),
-                    array(
+                    "account" => array(
                         "title" => "Account", 
                         "items" => $this->sortArray($accountMenu->run($user)), 
                         "sort" => 300
                     )
                 );
 
-                foreach ($customMenu->run($user) as $menu) {
-                    if ($menu) $menus[] = $menu;
+                foreach ($customMenu->run($user) as $key => $menu) {
+                    if ($menu) $menus[$key] = $menu;
                 }
     
                 $allMenus = new hook("menus", function ($menus) {
                     return $this->sortArray($menus);
                 });
 
-                $this->addToTemplate('menus', $allMenus->run($menus, true));
+                $allMenus = $allMenus->run($menus, true);
+
+                $idPos = strpos($_SERVER["QUERY_STRING"], "&id=");
+                if ($idPos) {
+                    $queryString = substr($_SERVER["QUERY_STRING"], 0, $idPos);
+                } else {
+                    $queryString = $_SERVER["QUERY_STRING"];
+                }
+
+                foreach ($allMenus as $key => $menu) {
+                    foreach ($menu["items"] as $k => $item) {
+                        if (strpos($item["url"], $queryString) !== false) {
+                            $menu["items"][$k]["active"] = true;
+                            break;
+                        }
+                    }
+                    $allMenus[$key] = $menu;
+                }
+
+                $this->addToTemplate('menus', $allMenus);
 
                 $this->pageHTML = $this->template->mainTemplate->pageMain;
                 
@@ -132,7 +151,7 @@ class page {
     }
 
     public function sortArray($arr) {
-        usort($arr, array($this, "cmp"));
+        uasort($arr, array($this, "cmp"));
         return $arr;
 
     }
@@ -191,10 +210,14 @@ class pageElement {
 
     public function each($matches) {
         $var = $matches[1];
+
+
+        $items = $this->items;
+        $item = $this->stringToArrayConversion($var, $items);
         $template = $matches[2];
         $rtn = "";
-        if (!isset($this->items[$var])) return "";
-        foreach ($this->items[$var] as $key => $items) {
+        if (!$item) return "";
+        foreach ($item as $key => $items) {
             $html = new pageElement($items, $this->template, $this->templateName);
             $rtn .= $html->parse($template);
         }
