@@ -10,13 +10,11 @@
             
             $this->page = $page;
 			
+
+
             $moduleInfo = $page->modules[$moduleName];
 
-			if (
-                isset($this->adminPage) && 
-                $this->adminPage && 
-                $user->info->U_userLevel > 1
-            ) {
+			if ($moduleName == "admin") {
 				$this->loadMainPage('admin');
 			} else if (!$moduleInfo["requireLogin"]) {
                 $this->loadMainPage('login');
