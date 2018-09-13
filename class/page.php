@@ -116,13 +116,15 @@ class page {
                 $idPos = strpos($_SERVER["QUERY_STRING"], "&id=");
                 if ($idPos) {
                     $queryString = substr($_SERVER["QUERY_STRING"], 0, $idPos);
-                } else {
+                } else if ($_SERVER["QUERY_STRING"]) {
                     $queryString = $_SERVER["QUERY_STRING"];
+                } else {
+                    $queryString = "?page=loggedin";
                 }
 
                 foreach ($allMenus as $key => $menu) {
                     foreach ($menu["items"] as $k => $item) {
-                        if (strpos($item["url"], $queryString) !== false) {
+                        if ($item["url"] && strpos($item["url"], $queryString) !== false) {
                             $menu["items"][$k]["active"] = true;
                             break;
                         }
