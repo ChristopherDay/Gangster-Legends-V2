@@ -8,7 +8,7 @@
         
         public function constructModule() {
 			
-            $news = $this->db->prepare("SELECT * FROM gameNews ORDER BY GN_date DESC LIMIT 0, 5");
+            $news = $this->db->prepare("SELECT * FROM gameNews ORDER BY GN_date DESC LIMIT 0, 10");
             $news->execute();
             $articleInfo = array();
             while ($newsArticle = $news->fetch(PDO::FETCH_ASSOC)) {
@@ -17,7 +17,7 @@
                 
                 $articleInfo[] = array(
                     "title" => $newsArticle['GN_title'],
-                    "author" => $author->name,
+                    "author" => $newsArticle['GN_author'],
                     "date" => $this->date($newsArticle['GN_date']),
                     "text" => $newsArticle['GN_text']
                 );
