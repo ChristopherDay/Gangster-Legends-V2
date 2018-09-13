@@ -26,3 +26,7 @@ html, body {
 	border-bottom-left-radius: 5px;
 	padding: 10px;
 }
+
+.navbar-brand {
+    width: 235px;
+}

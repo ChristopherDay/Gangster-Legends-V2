@@ -9,11 +9,14 @@
                 <link href="template/default/css/bootstrap.min.css" rel="stylesheet" />
                 <link href="template/default/css/admin.css" rel="stylesheet" />
                 <link rel="shortcut icon" href="template/default/images/icon.png" />
+                <link rel="stylesheet" href="template/default/3rdparty/sidebar/assets/css/jquery.mCustomScrollbar.min.css" />
+                <link rel="stylesheet" href="template/default/3rdparty/sidebar/assets/css/custom.css">
+                <link rel="stylesheet" href="template/default/3rdparty/sidebar/assets/css/custom-themes.css">
                 <title>{game_name} - {page}</title>
             </head>
             <body>
 
-                <nav class="navbar navbar-default">
+                <nav class="navbar navbar-inverse navbar-static-top">
                     <div class="container-fluid">
                         <!-- Brand and toggle get grouped for better mobile display -->
                         <div class="navbar-header">
@@ -44,26 +47,75 @@
                 </nav>
 
                 <div class="admin-container">
-                    <div class="admin-sidenav">
-                        <ul class="nav nav-pills nav-stacked">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    {menus.moduleLinks.title}
+                    <div class="admin-sidenav chiller-theme">
+                        <nav id="sidebar" class="sidebar-wrapper">
+                            <div class="sidebar-content">
+                                <div class="sidebar-header">
+                                    <div class="user-pic">
+                                        <img class="img-responsive img-rounded" src="{pic}" alt="User picture">
+                                    </div>
+                                    <div class="user-info">
+                                        <span class="user-name">
+                                            {username}
+                                        </span>
+                                        <span class="user-role">Administrator</span>
+                                        <span class="user-status">
+                                            <i class="fa fa-circle"></i>
+                                            <span>Online</span>
+                                        </span>
+                                    </div>
                                 </div>
-                                <div class="panel-body hidden-xs">
-                                    {#each menus.moduleLinks.items}
-                                        {#if seperator}
-                                            <hr />
-                                        {/if}
-                                        {#unless seperator}
-                                            {#unless hide}
-                                                <a href="{url}">{text}</a> <br />
+                                <!-- sidebar-header  -->
+                                <div class="sidebar-search">
+                                    <div>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control search-menu" placeholder="Search...">
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-search"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- sidebar-search  -->
+                                <div class="sidebar-menu">
+                                    <ul>
+                                        <li class="header-menu">
+                                            <span>{menus.moduleLinks.title}</span>
+                                        </li>
+
+                                        {#each menus.moduleLinks.items}
+                                            {#if seperator}
+                                                <hr />
+                                            {/if}
+                                            {#unless seperator}
+                                                {#unless hide}
+                                                    <li><a href="{url}">{text}</a></li>
+                                                {/unless}
                                             {/unless}
-                                        {/unless}
-                                    {/each}
+                                        {/each}
+                                    </ul>
                                 </div>
+                                <!-- sidebar-menu  -->
                             </div>
-                        </ul>
+                            <!-- sidebar-content  -->
+                            <div class="sidebar-footer">
+                                <a href="#">
+                                    <i class="fa fa-bell"></i>
+                                    <span class="label label-warning notification">3</span>
+                                </a>
+                                <a href="#">
+                                    <i class="fa fa-envelope"></i>
+                                    <span class="label label-success notification">7</span>
+                                </a>
+                                <a href="#">
+                                    <i class="fa fa-gear"></i>
+                                    <span class="badge-sonar"></span>
+                                </a>
+                                <a href="#">
+                                    <i class="fa fa-power-off"></i>
+                                </a>
+                            </div>
+                        </nav>
                     </div>
                     <div class="admin-page">
                         {#if menus.moduleActions.items}
@@ -89,6 +141,8 @@
 
                 <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
                 <script src="template/default/js/bootstrap.min.js"></script>
+                <script src="template/default/3rdparty/sidebar/assets/js//jquery.mCustomScrollbar.concat.min.js"></script>
+                <script src="template/default/3rdparty/sidebar/assets/js/custom.js"></script>
             </body>
             </html>';
     }    
