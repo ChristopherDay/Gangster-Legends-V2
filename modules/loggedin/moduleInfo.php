@@ -8,8 +8,29 @@
 			"url" => "http://glscript.cdcoding.com"
 		), 
 		"pageName" => "Game News",
-		"accessInJail" => true, 
-		"requireLogin" => true
+		"accessInJail" => false, 
+		"requireLogin" => true, 
+		"adminGroup" => "Communication",
+		"admin" => array(
+			array(
+				"text" => "View News", 
+				"method" => "view",
+			),
+			array(
+				"text" => "Add News", 
+				"method" => "new",
+			),
+			array(
+				"hide" => true,
+				"text" => "Edit News", 
+				"method" => "edit",
+			),
+			array(
+				"hide" => true,
+				"text" => "Delete News", 
+				"method" => "delete",
+			)
+		)
 	);
 
 	new hook("accountMenu", function () {
