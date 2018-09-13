@@ -262,6 +262,10 @@
     display: inline-block;
 }
 
+.sidebar-wrapper .sidebar-menu .sidebar-submenu ul li a {
+    padding: 8px 30px 8px 10px;
+}
+
 .sidebar-wrapper .sidebar-menu ul li a {
     display: inline-block;
     width: 100%;
@@ -286,8 +290,8 @@
 }
 
 .sidebar-wrapper .sidebar-menu .sidebar-dropdown>a:after {
-    content: "\f105";
-    font-family: FontAwesome;
+    content: "\e080";
+    font-family: 'Glyphicons Halflings';
     font-weight: 400;
     font-style: normal;
     display: inline-block;
@@ -298,7 +302,7 @@
     -moz-osx-font-smoothing: grayscale;
     position: absolute;
     right: 15px;
-    top: 14px;
+    top: 10px;
 }
 
 .sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu ul {
@@ -311,8 +315,8 @@
 }
 
 .sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li a:before {
-    content: "\f10c";
-    font-family: FontAwesome;
+    content: "\002a";
+    font-family: 'Glyphicons Halflings';
     font-weight: 400;
     font-style: normal;
     display: inline-block;

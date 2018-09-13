@@ -15,29 +15,7 @@
             $adminModule = @$this->methodData->module;
             
             new hook("menus", function ($menus) {
-                return array(
-                    "homeLinks" => array(
-                        "title" => "Admin", 
-                        "items" => array(
-                            array(
-                                "url" => "?page=admin", 
-                                "text" => "Admin Home", 
-                                "sort" => 100
-                            ),
-                            array(
-                                "url" => "?page=loggedin", 
-                                "text" => "Back To Game", 
-                                "sort" => 100
-                            ),
-                            array(
-                                "url" => "?page=logout", 
-                                "text" => "Logout", 
-                                "sort" => 100
-                            )
-                        ), 
-                        "sort" => 100
-                    ), 
-                );
+                return array();
             });
 
             if ($adminModule) {
@@ -56,22 +34,21 @@
                 return $this->html = $this->page->buildElement("error", array("text"=>"This module does not exits or have an admin panel"));
             }
             
-            new hook("menus", function ($menus) {
-                $items = array();
-                foreach ($this->moduleInfo["admin"] as $adminLink) {
-                    if (!isset($adminLink["seperator"])) {
-                        $adminLink["url"] = "?page=admin&module=".$this->methodData->module."&action=".$adminLink["method"];
-                    }
-                    $items[] = $adminLink;
+            $items = array();
+            foreach ($this->moduleInfo["admin"] as $adminLink) {
+                if (!isset($adminLink["seperator"])) {
+                    $adminLink["url"] = "?page=admin&module=".$this->methodData->module."&action=".$adminLink["method"];
                 }
-                $menus["moduleActions"] = array(
-                    "title" => $this->moduleInfo["pageName"], 
-                    "items" => $items, 
-                    "sort" => 200
-                );
+                $items[] = $adminLink;
+            }
 
-                return $menus;
-            });
+            $moduleActions = array(
+                "title" => $this->moduleInfo["pageName"], 
+                "items" => $items, 
+                "sort" => 200
+            );
+
+            $this->page->addToTemplate("moduleActions", $this->page->setActiveLinks(array($moduleActions))[0]); 
 
             include_once "modules/$adminModule/$adminModule.admin.php";
 
@@ -113,21 +90,26 @@
         private function viewModules() {
 
             $this->moduleLinks = array();
-            foreach ($this->page->modules as $moduleName => $moduleInfo) {
-                if (isset($moduleInfo["admin"])) {
-                    $this->moduleLinks[] = array(
+            
+            new hook("menus", function ($menus) {
+            
+                foreach ($this->page->modules as $moduleName => $moduleInfo) {
+                    if (!isset($moduleInfo["adminGroup"])) continue;
+
+                    if (!isset($menus[$moduleInfo["adminGroup"]])) {
+                        $menus[$moduleInfo["adminGroup"]] = array(
+                            "title" => $moduleInfo["adminGroup"], 
+                            "items" => array(), 
+                            "sort" => 300
+                        );
+                    }
+                        
+                    $menus[$moduleInfo["adminGroup"]]["items"][] = array(
                         "url" => "?page=admin&module=".$moduleName, 
                         "text" => $moduleInfo["pageName"]
                     );
-                } 
-            }
-            
-            new hook("menus", function ($menus) {
-                $menus["moduleLinks"] = array(
-                    "title" => "Modules", 
-                    "items" => $this->moduleLinks, 
-                    "sort" => 300
-                );
+
+                }
                 return $menus;
             });
             

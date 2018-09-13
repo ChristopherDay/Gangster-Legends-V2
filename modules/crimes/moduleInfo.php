@@ -10,6 +10,7 @@
 		"pageName" => "Crimes",
 		"accessInJail" => false, 
 		"requireLogin" => true, 
+		"adminGroup" => "Game Mechanics",
 		"admin" => array(
 			array(
 				"text" => "View Crimes", 

@@ -10,6 +10,7 @@
 		"pageName" => "User Administration",
 		"accessInJail" => false, 
 		"requireLogin" => true, 
+		"adminGroup" => "User Management",
 		"admin" => array(
 			array(
 				"text" => "Find User", 
