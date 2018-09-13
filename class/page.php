@@ -113,26 +113,8 @@ class page {
 
                 $allMenus = $allMenus->run($menus, true);
 
-                $idPos = strpos($_SERVER["QUERY_STRING"], "&id=");
-                if ($idPos) {
-                    $queryString = substr($_SERVER["QUERY_STRING"], 0, $idPos);
-                } else if ($_SERVER["QUERY_STRING"]) {
-                    $queryString = $_SERVER["QUERY_STRING"];
-                } else {
-                    $queryString = "?page=loggedin";
-                }
 
-                foreach ($allMenus as $key => $menu) {
-                    foreach ($menu["items"] as $k => $item) {
-                        if ($item["url"] && strpos($item["url"], $queryString) !== false) {
-                            $menu["items"][$k]["active"] = true;
-                            break;
-                        }
-                    }
-                    $allMenus[$key] = $menu;
-                }
-
-                $this->addToTemplate('menus', $allMenus);
+                $this->addToTemplate('menus', $this->setActiveLinks($allMenus));
 
                 $this->pageHTML = $this->template->mainTemplate->pageMain;
                 
@@ -144,6 +126,28 @@ class page {
             die("404 The page $page was not found!");
         }
         
+    }
+
+    public function setActiveLinks($menus) {
+        $idPos = strpos($_SERVER["QUERY_STRING"], "&id=");
+        if ($idPos) {
+            $queryString = substr($_SERVER["QUERY_STRING"], 0, $idPos);
+        } else if ($_SERVER["QUERY_STRING"]) {
+            $queryString = $_SERVER["QUERY_STRING"];
+        } else {
+            $queryString = "?page=loggedin";
+        }
+
+        foreach ($menus as $key => $menu) {
+            foreach ($menu["items"] as $k => $item) {
+                if ($item["url"] && strpos($item["url"], $queryString) !== false) {
+                    $menu["items"][$k]["active"] = true;
+                    break;
+                }
+            }
+            $menus[$key] = $menu;
+        }
+        return $menus;
     }
 
     public function cmp ($a, $b) {

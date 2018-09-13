@@ -38,9 +38,8 @@
                                 <button type="submit" class="btn btn-default">Find User</button>
                             </form>
                             <ul class="nav navbar-nav navbar-right">
-                                {#each menus.homeLinks.items}
-                                    <li><a href="{url}">{text}</a></li>
-                                {/each}
+                                    <li><a href="?page=loggedin">Back To The Game</a></li>
+                                    <li><a href="?page=logout">Logout</a></li>
                             </ul>
                         </div><!-- /.navbar-collapse -->
                     </div><!-- /.container-fluid -->
@@ -83,15 +82,27 @@
                                             <span>{menus.moduleLinks.title}</span>
                                         </li>
 
-                                        {#each menus.moduleLinks.items}
-                                            {#if seperator}
-                                                <hr />
-                                            {/if}
-                                            {#unless seperator}
-                                                {#unless hide}
-                                                    <li><a href="{url}">{text}</a></li>
-                                                {/unless}
-                                            {/unless}
+                                        {#each menus}
+                                            <li class="sidebar-dropdown"> 
+                                                <a href="#">
+                                                    <span>{title}</span>
+                                                </a>
+                                                <div class="sidebar-submenu">
+                                                    <ul>
+                                                        {#each items}
+                                                            {#if seperator}
+                                                                <hr />
+                                                            {/if}
+                                                            {#unless seperator}
+                                                                {#unless hide}
+                                                                    <li><a href="{url}">{text}</a></li>
+                                                                {/unless}
+                                                            {/unless}
+                                                        {/each}
+                                                    </ul>
+                                                </div>
+                                            </li>
+
                                         {/each}
                                     </ul>
                                 </div>
@@ -118,9 +129,9 @@
                         </nav>
                     </div>
                     <div class="admin-page">
-                        {#if menus.moduleActions.items}
+                        {#if moduleActions.items}
                             <ul class="nav nav-tabs">
-                                {#each menus.moduleActions.items}
+                                {#each moduleActions.items}
                                     {#unless hide}
                                         <li role="presentation" class="{#if active}active{/if}"><a href="{url}">{text}</a></li>
                                     {/unless}
