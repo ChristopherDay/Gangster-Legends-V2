@@ -1,6 +1,7 @@
 jQuery(function ($) {
 
-    $(".sidebar-dropdown > a").click(function () {
+    $(".sidebar-dropdown > a").click(function (e) {
+        e.preventDefault();
         $(".sidebar-submenu").slideUp(200);
         if ($(this).parent().hasClass("active")) {
             $(".sidebar-dropdown").removeClass("active");
@@ -16,6 +17,7 @@ jQuery(function ($) {
     $("#toggle-sidebar").click(function () {
         $(".page-wrapper").toggleClass("toggled");
     });
+
     var themes = "chiller-theme ice-theme cool-theme light-theme green-theme spicy-theme purple-theme";
     $('[data-theme]').click(function () {
         $('.page-wrapper').removeClass(themes);
