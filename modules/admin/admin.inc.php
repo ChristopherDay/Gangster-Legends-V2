@@ -103,9 +103,17 @@
                             "sort" => 300
                         );
                     }
-                        
+                    
+                    $add = "";
+
+                    if (!isset($this->methodData->action) || $this->methodData->module != $moduleName) {
+                        $add = "&action=" . $moduleInfo["admin"][0]["method"];
+                    } else {
+                        $add = "&action=" . $this->methodData->action;
+                    }
+
                     $menus[$moduleInfo["adminGroup"]]["items"][] = array(
-                        "url" => "?page=admin&module=".$moduleName."&action=" . $moduleInfo["admin"][0]["method"], 
+                        "url" => "?page=admin&module=".$moduleName . $add,
                         "text" => $moduleInfo["pageName"]
                     );
 

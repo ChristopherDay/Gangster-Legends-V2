@@ -251,6 +251,10 @@
 
 /*----------------------sidebar-menu-------------------------*/
 
+.sidebar-menu li {
+    cursor: pointer;
+}
+
 .sidebar-wrapper .sidebar-menu {
     padding-bottom: 10px;
 }

@@ -84,7 +84,7 @@
 
                                         {#each menus}
                                             <li class="sidebar-dropdown {#each items}{#if active}active{/if}{/each}"> 
-                                                <a href="#">
+                                                <a>
                                                     <span>{title}</span>
                                                 </a>
                                                 <div class="sidebar-submenu">
