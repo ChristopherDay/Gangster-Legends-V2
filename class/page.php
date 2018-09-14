@@ -9,10 +9,15 @@ class page {
         $moduleDirectories = scandir("modules/");
         foreach ($moduleDirectories as $moduleName) {
             if ($moduleName[0] == ".") continue;
-            $moduleInfoFile = "modules/" . $moduleName . "/moduleInfo.php";
+            $moduleInfoFile = "modules/" . $moduleName . "/module.json";
+            $moduleHooksFile = "modules/" . $moduleName . "/" . $moduleName . ".hooks.php";
+
             if (file_exists($moduleInfoFile)) {
-                include $moduleInfoFile;
+                $info = json_decode(file_get_contents($moduleInfoFile), true);
                 $this->modules[$moduleName] = $info;
+            }
+            if (file_exists($moduleHooksFile)) {
+                include_once $moduleHooksFile;
             }
         }
     }
@@ -157,6 +162,7 @@ class page {
     }
 
     public function sortArray($arr) {
+        if (!$arr) return $arr;
         uasort($arr, array($this, "cmp"));
         return $arr;
 

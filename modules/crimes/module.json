@@ -1,0 +1,33 @@
+{
+    "name": "Crimes",
+    "version": "1.0.0",
+    "description": "This module allows a user to comit crimes",
+    "author": {
+        "name": "Chris Day",
+        "url": "http:\/\/glscript.cdcoding.com"
+    },
+    "pageName": "Crimes",
+    "accessInJail": false,
+    "requireLogin": true,
+    "adminGroup": "Game Mechanics",
+    "admin": [
+        {
+            "text": "View Crimes",
+            "method": "view"
+        },
+        {
+            "text": "New Crime",
+            "method": "new"
+        },
+        {
+            "hide": true,
+            "text": "Edit Crime",
+            "method": "edit"
+        },
+        {
+            "hide": true,
+            "text": "Delete Crime",
+            "method": "delete"
+        }
+    ]
+}

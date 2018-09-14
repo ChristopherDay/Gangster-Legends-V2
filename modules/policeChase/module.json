@@ -1,0 +1,12 @@
+{
+    "name": "Police Chase",
+    "version": "1.0.0",
+    "description": "",
+    "author": {
+        "name": "Chris Day",
+        "url": "http:\/\/glscript.cdcoding.com"
+    },
+    "pageName": "Police Chase",
+    "accessInJail": false,
+    "requireLogin": true
+}
