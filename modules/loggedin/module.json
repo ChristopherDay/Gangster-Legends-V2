@@ -1,0 +1,33 @@
+{
+    "name": "Game News",
+    "version": "1.0.0",
+    "description": "",
+    "author": {
+        "name": "Chris Day",
+        "url": "http:\/\/glscript.cdcoding.com"
+    },
+    "pageName": "Game News",
+    "accessInJail": false,
+    "requireLogin": true,
+    "adminGroup": "Communication",
+    "admin": [
+        {
+            "text": "View News",
+            "method": "view"
+        },
+        {
+            "text": "Add News",
+            "method": "new"
+        },
+        {
+            "hide": true,
+            "text": "Edit News",
+            "method": "edit"
+        },
+        {
+            "hide": true,
+            "text": "Delete News",
+            "method": "delete"
+        }
+    ]
+}

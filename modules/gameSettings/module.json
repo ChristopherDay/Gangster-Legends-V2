@@ -1,0 +1,33 @@
+{
+    "name": "Game Settings",
+    "version": "1.0.0",
+    "description": "This module allows a admin to modify core game settings",
+    "author": {
+        "name": "Chris Day",
+        "url": "http:\/\/glscript.cdcoding.com"
+    },
+    "pageName": "Game Settings",
+    "accessInJail": false,
+    "requireLogin": true,
+    "adminGroup": "Game Mechanics",
+    "admin": [
+        {
+            "text": "View Ranks",
+            "method": "viewRank"
+        },
+        {
+            "text": "New Rank",
+            "method": "newRank"
+        },
+        {
+            "hide": true,
+            "text": "Edit Rank",
+            "method": "editRank"
+        },
+        {
+            "hide": true,
+            "text": "Delete Rank",
+            "method": "deleteRank"
+        }
+    ]
+}
