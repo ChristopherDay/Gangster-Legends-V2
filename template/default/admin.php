@@ -12,6 +12,8 @@
                 <link rel="stylesheet" href="template/default/3rdparty/sidebar/assets/css/jquery.mCustomScrollbar.min.css" />
                 <link rel="stylesheet" href="template/default/3rdparty/sidebar/assets/css/custom.css">
                 <link rel="stylesheet" href="template/default/3rdparty/sidebar/assets/css/custom-themes.css">
+                <link rel="stylesheet" href="template/default/3rdparty/datatables/datatables.min.css">
+
                 <title>{game_name} - {page}</title>
             </head>
             <body>
@@ -152,6 +154,7 @@
 
                 <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
                 <script src="template/default/js/bootstrap.min.js"></script>
+                <script src="template/default/3rdparty/datatables/datatables.min.js"></script>
                 <script src="template/default/3rdparty/sidebar/assets/js//jquery.mCustomScrollbar.concat.min.js"></script>
                 <script src="template/default/3rdparty/sidebar/assets/js/custom.js"></script>
             </body>

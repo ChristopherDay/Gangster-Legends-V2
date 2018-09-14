@@ -11,7 +11,7 @@
   
 
         public $loggedinList = '
-            <table class="table table-condensed table-responsive">
+            <table class="table table-condensed table-responsive table-striped table-bordered">
                 <thead>
                     <tr>
                         <th width="150px">Author</th>

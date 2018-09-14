@@ -36,7 +36,9 @@
 
             </form>
 
-            <table class="table table-condensed table-responsive">
+            <hr />
+
+            <table class="table table-condensed table-responsive table-striped table-bordered">
                 <thead>
                     <tr>
                         <th width="50px">ID</th>
@@ -45,11 +47,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {#unless users}
-                        <tr>
-                            <td colspan="3" class="text-center"><em>No users were found</em></td>
-                        </tr>
-                    {/unless}
                     {#each users}
                         <tr>
                             <td>{id}</td>
