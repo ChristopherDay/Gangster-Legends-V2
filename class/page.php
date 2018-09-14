@@ -129,18 +129,18 @@ class page {
     }
 
     public function setActiveLinks($menus) {
-        $idPos = strpos($_SERVER["QUERY_STRING"], "&id=");
-        if ($idPos) {
-            $queryString = substr($_SERVER["QUERY_STRING"], 0, $idPos);
-        } else if ($_SERVER["QUERY_STRING"]) {
-            $queryString = $_SERVER["QUERY_STRING"];
+        if ($_SERVER["QUERY_STRING"]) {
+            $queryString = "?" . $_SERVER["QUERY_STRING"];
         } else {
             $queryString = "?page=loggedin";
         }
 
         foreach ($menus as $key => $menu) {
             foreach ($menu["items"] as $k => $item) {
-                if ($item["url"] && strpos($item["url"], $queryString) !== false) {
+                //debug(array(
+                //    strpos($item["url"], $queryString), $queryString, $item["url"]
+                //));
+                if ($item["url"] && strpos($queryString, $item["url"]) !== false) {
                     $menu["items"][$k]["active"] = true;
                     break;
                 }

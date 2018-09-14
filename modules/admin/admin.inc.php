@@ -105,7 +105,7 @@
                     }
                         
                     $menus[$moduleInfo["adminGroup"]]["items"][] = array(
-                        "url" => "?page=admin&module=".$moduleName, 
+                        "url" => "?page=admin&module=".$moduleName."&action=" . $moduleInfo["admin"][0]["method"], 
                         "text" => $moduleInfo["pageName"]
                     );
 

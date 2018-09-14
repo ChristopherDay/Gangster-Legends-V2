@@ -83,7 +83,7 @@
                                         </li>
 
                                         {#each menus}
-                                            <li class="sidebar-dropdown"> 
+                                            <li class="sidebar-dropdown {#each items}{#if active}active{/if}{/each}"> 
                                                 <a href="#">
                                                     <span>{title}</span>
                                                 </a>
@@ -95,7 +95,7 @@
                                                             {/if}
                                                             {#unless seperator}
                                                                 {#unless hide}
-                                                                    <li><a href="{url}">{text}</a></li>
+                                                                    <li {#if active}class="active"{/if}><a href="{url}">{text}</a></li>
                                                                 {/unless}
                                                             {/unless}
                                                         {/each}
