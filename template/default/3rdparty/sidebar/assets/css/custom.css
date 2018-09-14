@@ -164,10 +164,10 @@
 
 .sidebar-wrapper {
     width: 265px;
-    height: 100%;
     max-height: 100%;
     position: fixed;
     top: 51px;
+    bottom: 0px;
     left: -15px;
 }
 
@@ -370,6 +370,7 @@
     width: 100%;
     bottom: 0;
     display: flex;
+    padding-top: 5px;
 }
 
 .sidebar-footer>a {
@@ -383,6 +384,10 @@
 .sidebar-footer>a .notification {
     position: absolute;
     top: 0;
+}
+
+.sidebar-footer i {
+    top: 6px;
 }
 
 .badge-sonar {

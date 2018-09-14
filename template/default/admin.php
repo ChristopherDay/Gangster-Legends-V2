@@ -61,7 +61,7 @@
                                         </span>
                                         <span class="user-role">Administrator</span>
                                         <span class="user-status">
-                                            <i class="fa fa-circle"></i>
+                                            <i class="glyphicon glyphicon-certificate"></i>
                                             <span>Online</span>
                                         </span>
                                     </div>
@@ -72,7 +72,7 @@
                                         <div class="input-group">
                                             <input type="text" class="form-control search-menu" placeholder="Search...">
                                             <span class="input-group-addon">
-                                                <i class="fa fa-search"></i>
+                                                <i class="glyphicon glyphicon-search"></i>
                                             </span>
                                         </div>
                                     </div>
@@ -113,19 +113,19 @@
                             <!-- sidebar-content  -->
                             <div class="sidebar-footer">
                                 <a href="#">
-                                    <i class="fa fa-bell"></i>
+                                    <i class="glyphicon glyphicon-bell"></i>
                                     <span class="label label-warning notification">3</span>
                                 </a>
                                 <a href="#">
-                                    <i class="fa fa-envelope"></i>
+                                    <i class="glyphicon glyphicon-envelope"></i>
                                     <span class="label label-success notification">7</span>
                                 </a>
                                 <a href="#">
-                                    <i class="fa fa-gear"></i>
+                                    <i class="glyphicon glyphicon-cog"></i>
                                     <span class="badge-sonar"></span>
                                 </a>
                                 <a href="#">
-                                    <i class="fa fa-power-off"></i>
+                                    <i class="glyphicon glyphicon-off"></i>
                                 </a>
                             </div>
                         </nav>
