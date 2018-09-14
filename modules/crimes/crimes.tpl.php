@@ -16,7 +16,7 @@
         {/unless}';
 
         public $crimeList = '
-            <table class="table table-condensed table-responsive">
+            <table class="table table-condensed table-striped table-bordered table-responsive">
                 <thead>
                     <tr>
                         <th>Crime</th>
