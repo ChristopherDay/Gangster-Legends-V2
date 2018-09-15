@@ -2,6 +2,48 @@
 
     class themeManagerTemplate extends template {
 
+        public $themeOptions = '
+
+            <form method="post" action="?page=admin&module=themeManager&action=options">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="pull-left">Game Name</label>
+                            <input type="text" class="form-control" name="game_name" value="{game_name}" />
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="pull-left">Game Theme</label>
+                            <select class="form-control" name="theme">
+                                {#each themes}
+                                    <option value="{id}" {#if selected}selected{/if}>
+                                        {name}
+                                    </option>
+                                {/each}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="pull-left">Game Theme</label>
+                            <select class="form-control" name="adminTheme">
+                                {#each adminThemes}
+                                    <option value="{id}" {#if selected}selected{/if}>
+                                        {name}
+                                    </option>
+                                {/each}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <button class="btn btn-default" name="submit" type="submit" value="1">Save</button>
+                </div>
+            </form>
+        ';
+
         public $themeHolder = '
         {#each themes}
         <div class="theme-holder">
@@ -21,11 +63,11 @@
             <table class="table table-condensed table-responsive table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th width="90px">Name</th>
+                        <th width="200px">Name</th>
                         <th>Description</th>
                         <th width="70px">Version</th>
                         <th width="90px">Author</th>
-                        <th width="100px">Actions</th>
+                        <th width="60px">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,10 +78,7 @@
                             <td>{version}</td>
                             <td><a href="{author.url}" target="_blank">{author.name}</a></td>
                             <td>
-                                [<a href="?page=admin&module=themes&action=edit&themeName={id}">Edit</a>] 
-                                {#unless themeCantBeDisabled}
-                                [<a href="?page=admin&module=themes&action=delete&themeName={id}">Deactivate</a>]
-                                {/unless}
+                                [<a href="?page=admin&module=themes&action=edit&themeName={id}">View</a>] 
                             </td>
                         </tr>
                     {/each}
@@ -62,7 +101,7 @@
         public $themeForm = '
             <form method="post" action="?page=admin&module=themeManager&action=install">
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-12">
                         <div class="form-group">
                             <label class="pull-left">Theme File (Zipped)</label>
                             <input type="file" class="form-control" name="file" />

@@ -1,0 +1,32 @@
+html, body {
+	padding
+    margin: 0px;
+}
+
+.admin-container {
+	position: relative;
+}
+
+.admin-sidenav {
+	position: fixed;
+	left: 15px;
+	width: 250px;
+}
+
+.admin-page {
+	position: absolute;
+	left: 280px;
+	right: 15px;
+}
+
+.page {
+	border: 1px solid #ddd;
+	border-top: none;
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+	padding: 10px;
+}
+
+.navbar-brand {
+    width: 235px;
+}

@@ -86,7 +86,7 @@
 			
 		}
 		
-		public function updateSetting($setting, $value) {
+		public function update($setting, $value) {
 				
 			if (is_array($value)) {
 
@@ -99,7 +99,7 @@
 			$update = $this->db->prepare("UPDATE settings SET S_value = :value WHERE S_desc = :desc");
 			$update->bindParam(":value", $value);
 			$update->bindParam(":desc", $setting);
-			$update->ececute();
+			$update->execute();
 		
 		}
 		
