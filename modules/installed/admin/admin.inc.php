@@ -13,14 +13,13 @@
             }
 
             $adminModule = @$this->methodData->module;
+            if (!$adminModule) $this->methodData->module = "admin";
             
             new hook("menus", function ($menus) {
                 return array();
             });
 
-            if ($adminModule) {
-                $this->viewModule();
-            }
+            $this->viewModule();
             
             $this->viewModules();
 

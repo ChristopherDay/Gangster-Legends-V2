@@ -61,6 +61,8 @@
 				$this->html .= $this->page->buildElement("success", array(
 					"text" => "Theme options updated."
 				));
+				$this->page->addToTemplate("game_name", $this->methodData->game_name);
+				$this->page->loadedTheme = $this->methodData->adminTheme;
 			}
 
 
