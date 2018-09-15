@@ -50,7 +50,7 @@
 
             $this->page->addToTemplate("moduleActions", $this->page->setActiveLinks(array($moduleActions))[0]); 
 
-            include_once "modules/$adminModule/$adminModule.admin.php";
+            include_once "modules/installed/$adminModule/$adminModule.admin.php";
 
             if (isset($this->methodData->action)) {
                 $action = "method_" . $this->methodData->action;
@@ -58,7 +58,7 @@
                 $action = "method_" . $this->moduleInfo["admin"][0]["method"];
             }
 
-            $moduleViewFile = "modules/$adminModule/$adminModule.tpl.php";
+            $moduleViewFile = "modules/installed/$adminModule/$adminModule.tpl.php";
 
             if (file_exists($moduleViewFile)) {
                 

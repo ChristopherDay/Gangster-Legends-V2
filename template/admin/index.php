@@ -6,13 +6,13 @@
         public $pageMain =  '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
             <html xmlns="http://www.w3.org/1999/xhtml">
             <head>
-                <link href="template/default/css/bootstrap.min.css" rel="stylesheet" />
-                <link href="template/default/css/admin.css" rel="stylesheet" />
-                <link rel="shortcut icon" href="template/default/images/icon.png" />
-                <link rel="stylesheet" href="template/default/3rdparty/sidebar/assets/css/jquery.mCustomScrollbar.min.css" />
-                <link rel="stylesheet" href="template/default/3rdparty/sidebar/assets/css/custom.css">
-                <link rel="stylesheet" href="template/default/3rdparty/sidebar/assets/css/custom-themes.css">
-                <link rel="stylesheet" href="template/default/3rdparty/datatables/datatables.min.css">
+                <link href="template/admin/css/bootstrap.min.css" rel="stylesheet" />
+                <link href="template/admin/css/admin.css" rel="stylesheet" />
+                <link rel="shortcut icon" href="template/admin/images/icon.png" />
+                <link rel="stylesheet" href="template/admin/3rdparty/sidebar/assets/css/jquery.mCustomScrollbar.min.css" />
+                <link rel="stylesheet" href="template/admin/3rdparty/sidebar/assets/css/custom.css">
+                <link rel="stylesheet" href="template/admin/3rdparty/sidebar/assets/css/custom-themes.css">
+                <link rel="stylesheet" href="template/admin/3rdparty/datatables/datatables.min.css">
 
                 <title>{game_name} - {page}</title>
             </head>
@@ -153,10 +153,10 @@
                 
 
                 <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
-                <script src="template/default/js/bootstrap.min.js"></script>
-                <script src="template/default/3rdparty/datatables/datatables.min.js"></script>
-                <script src="template/default/3rdparty/sidebar/assets/js//jquery.mCustomScrollbar.concat.min.js"></script>
-                <script src="template/default/3rdparty/sidebar/assets/js/custom.js"></script>
+                <script src="template/admin/js/bootstrap.min.js"></script>
+                <script src="template/admin/3rdparty/datatables/datatables.min.js"></script>
+                <script src="template/admin/3rdparty/sidebar/assets/js//jquery.mCustomScrollbar.concat.min.js"></script>
+                <script src="template/admin/3rdparty/sidebar/assets/js/custom.js"></script>
             </body>
             </html>';
     }    

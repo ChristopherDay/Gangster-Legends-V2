@@ -11,9 +11,10 @@
 
 	include 'dbconn.php';
 	
+	require 'class/settings.php'; 
+	
 	require 'class/page.php';
 	require 'class/user.php';
-	require 'class/settings.php'; 
 
 	$settings = new settings();
 
