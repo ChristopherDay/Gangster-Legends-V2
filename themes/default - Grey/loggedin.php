@@ -115,7 +115,7 @@
 				</div>
 			</div>
 
-			<script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+			<script src="themes/default/js/jquery.js"></script>
 			<!--<script src="themes/default/js/bootstrap.min.js"></script>-->
 			<script src="themes/default/js/timer.js"></script>
 			<script src="themes/default/js/mobile.js"></script>
