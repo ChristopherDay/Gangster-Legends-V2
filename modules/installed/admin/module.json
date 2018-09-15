@@ -9,5 +9,12 @@
     "pageName": "Admin",
     "moduleCantBeDisabled": true,
     "accessInJail": true,
-    "requireLogin": true
+    "requireLogin": true,
+    "adminGroup": "Dashboard",
+    "admin": [
+        {
+            "text": "Admin Dashboard",
+            "method": "view"
+        }
+    ]
 }
