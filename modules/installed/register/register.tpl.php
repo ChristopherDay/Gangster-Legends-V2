@@ -4,7 +4,7 @@
     
         public $registerForm = '
 		<div class="login-logo">
-			<img src="template/default/images/logo.png" alt="Ganger Legends" />
+			<img src="themes/default/images/logo.png" alt="Ganger Legends" />
 		</div>
 		<div class="panel panel-default">
             <div class="panel-heading">

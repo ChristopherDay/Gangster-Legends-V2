@@ -154,7 +154,7 @@
 			$this->getNotificationCount($this->info->U_id, 'mail'); 
 			$this->getNotificationCount($this->info->U_id, 'notifications'); 
 
-			$pic = (is_array(@getimagesize($this->info->US_pic))?$this->info->US_pic:"template/default/images/default-profile-picture.png");
+			$pic = (is_array(@getimagesize($this->info->US_pic))?$this->info->US_pic:"themes/default/images/default-profile-picture.png");
 
 			$page->addToTemplate('pic', $pic);
 			$page->addToTemplate('money', '$'.number_format($this->info->US_money));

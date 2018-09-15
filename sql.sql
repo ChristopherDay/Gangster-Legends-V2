@@ -317,7 +317,7 @@ CREATE TABLE IF NOT EXISTS `userStats` (
   `US_bullets` int(11) NOT NULL DEFAULT '100',
   `US_backfire` int(11) NOT NULL DEFAULT '50',
   `US_credits` int(11) NOT NULL DEFAULT '0',
-  `US_pic` varchar(200) NOT NULL DEFAULT 'template/default/images/default-profile-picture.png',
+  `US_pic` varchar(200) NOT NULL DEFAULT 'themes/default/images/default-profile-picture.png',
   `US_bio` varchar(1000) NOT NULL DEFAULT '0',
   `US_weapon` int(11) NOT NULL DEFAULT '1',
   `US_rank` int(11) NOT NULL DEFAULT '1',

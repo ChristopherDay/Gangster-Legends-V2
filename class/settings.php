@@ -15,6 +15,7 @@
 			$page->addToTemplate('game_name', $this->loadSetting('game_name', true, 'Game Name'));
 			$page->theme = $this->loadSetting('theme', true, 'default');
 			$page->adminTheme = $this->loadSetting('adminTheme', true, 'admin');
+			$page->landingPage = $this->loadSetting('landingPage', true, 'loggedin');
 			
 		}
 		

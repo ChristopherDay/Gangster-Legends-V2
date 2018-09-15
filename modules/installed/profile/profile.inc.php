@@ -37,7 +37,7 @@
 			$bio =  ((strlen($profile->info->US_bio)>0)?nl2br($profile->info->US_bio):'<em><small>The user has not set up there bio yet!</small></em>');
 			
 			// Make sure it is an image
-			$pic = (is_array(@getimagesize($profile->info->US_pic))?$profile->info->US_pic:"template/default/images/default-profile-picture.png");
+			$pic = (is_array(@getimagesize($profile->info->US_pic))?$profile->info->US_pic:"themes/default/images/default-profile-picture.png");
 			
             $this->html .= $this->page->buildElement('profile', array(
 				"picture" => $pic,

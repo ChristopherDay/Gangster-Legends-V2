@@ -21,7 +21,7 @@
 	$page->loadModuleMetaData();
 	
 	if (!isset($_GET['page'])) {
-		$_GET['page'] = 'loggedin';
+		$_GET['page'] = $page->landingPage;
 	}
 
     $pageToLoad = $_GET['page'];

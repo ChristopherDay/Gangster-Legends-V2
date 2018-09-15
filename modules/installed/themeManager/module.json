@@ -1,0 +1,31 @@
+{
+    "name": "Theme Manager",
+    "version": "1.0.0",
+    "description": "This allows an admin to manage existing themes and install new ones",
+    "author": {
+        "name": "Chris Day",
+        "url": "http:\/\/glscript.cdcoding.com"
+    },
+    "pageName": "Theme Manager",
+    "moduleCantBeDisabled": true,
+    "adminGroup": "Modules & Themes",
+    "admin": [
+        {
+            "text": "Theme Options",
+            "method": "options"
+        },
+        {
+            "text": "View Themes",
+            "method": "view"
+        },
+        {
+            "text": "Install Theme",
+            "method": "install"
+        },
+        {
+            "hide": true,
+            "text": "Diactivate Themes",
+            "method": "deactivate"
+        }
+    ]
+}

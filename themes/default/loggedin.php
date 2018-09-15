@@ -7,16 +7,16 @@
 	        public $pageMain =  '<!DOCTYPE html>
 	<html>
 		<head>
-			<link href="template/default/css/bootstrap.min.css" rel="stylesheet" />
-			<link href="template/default/css/style.css" rel="stylesheet" />
-			<link rel="shortcut icon" href="template/default/images/icon.png" />
+			<link href="themes/default/css/bootstrap.min.css" rel="stylesheet" />
+			<link href="themes/default/css/style.css" rel="stylesheet" />
+			<link rel="shortcut icon" href="themes/default/images/icon.png" />
 			<title>{game_name} - {page}</title>
 		</head>
 		<body>
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-md-12 header text-center">
-						<img src="template/default/images/logo.png" alt="Gangster Legends" />
+						<img src="themes/default/images/logo.png" alt="Gangster Legends" />
 					</div>
 				</div>
 
@@ -116,9 +116,9 @@
 			</div>
 
 			<script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
-			<!--<script src="template/default/js/bootstrap.min.js"></script>-->
-			<script src="template/default/js/timer.js"></script>
-			<script src="template/default/js/mobile.js"></script>
+			<!--<script src="themes/default/js/bootstrap.min.js"></script>-->
+			<script src="themes/default/js/timer.js"></script>
+			<script src="themes/default/js/mobile.js"></script>
 		</body>
 	</html>';
 	        

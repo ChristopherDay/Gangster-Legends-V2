@@ -1,0 +1,31 @@
+{
+    "name": "Module Manager",
+    "version": "1.0.0",
+    "description": "This allows an admin to manage existing modules and install new ones",
+    "author": {
+        "name": "Chris Day",
+        "url": "http:\/\/glscript.cdcoding.com"
+    },
+    "pageName": "Module Manager",
+    "moduleCantBeDisabled": true,
+    "adminGroup": "Modules & Themes",
+    "admin": [
+        {
+            "text": "View Modules",
+            "method": "view"
+        },
+        {
+            "text": "Deactivated Modules",
+            "method": "viewDeactivated"
+        },
+        {
+            "text": "Install Module",
+            "method": "install"
+        },
+        {
+            "hide": true,
+            "text": "Diactivate Module",
+            "method": "deactivate"
+        }
+    ]
+}
