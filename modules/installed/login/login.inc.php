@@ -29,7 +29,7 @@
                     
                     $_SESSION['userID'] = $user->info->U_id;
                     
-                    header("Location:?page=loggedin");
+                    header("Location:?page=" . $this->page->landingPage);
                     
                 } else {
                     

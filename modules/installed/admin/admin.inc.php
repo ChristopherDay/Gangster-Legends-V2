@@ -8,7 +8,7 @@
             
             /* Redirect the user to the home page if they are a user */
             if ($this->user->info->U_userLevel != 2) {
-                header("Location:?page=loggedin");
+                header("Location:?page=" . $this->page->landingPage);
                 exit;
             }
 
@@ -30,7 +30,9 @@
             $adminModule = $this->methodData->module;
             $this->moduleInfo = @$this->page->modules[$adminModule];
 
+
             if (!$this->moduleInfo || !$this->moduleInfo["admin"]) {
+
                 return $this->html = $this->page->buildElement("error", array("text"=>"This module does not exits or have an admin panel"));
             }
             

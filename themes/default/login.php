@@ -7,9 +7,9 @@
             <head>
                 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
                 <title>{game_name} - {page}</title>
-                <link rel="stylesheet" href="template/default/css/bootstrap.min.css">
-                <link rel="stylesheet" href="template/default/css/style.css">
-        		<link rel="shortcut icon" href="template/default/images/icon.png" />
+                <link rel="stylesheet" href="themes/default/css/bootstrap.min.css">
+                <link rel="stylesheet" href="themes/default/css/style.css">
+        		<link rel="shortcut icon" href="themes/default/images/icon.png" />
             </head>
             
             <body>

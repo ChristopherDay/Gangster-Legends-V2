@@ -133,19 +133,26 @@
 		
 	}
 
-	function debug ($error, $usePrint = false) {
+	function debug ($error, $usePrint = false, $returnString = false) {
 		$bt = debug_backtrace();
 		$caller = array_shift($bt);
 		
-		echo "<pre>"; 
+		$e = "";
+
+		$e .= "<pre>"; 
 		if ($usePrint) {
-			print_r($error);
+			$e .= print_r($error, true);
 		} else {
 			var_dump($error);
 		}
-		echo "<strong>File:" . $caller['file'] . " Line:";
-		echo $caller['line'] . "</strong>";
-		echo "</pre>";
+		$e .= "<strong>File:" . $caller['file'] . " Line:";
+		$e .= $caller['line'] . "</strong>";
+		$e .= "</pre>";
+
+		if ($returnString) return $e;
+
+		echo $e;
+
 	}
 
 ?>

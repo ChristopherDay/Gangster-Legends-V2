@@ -29,9 +29,9 @@
         
         private function loadMainPage($pageType = "index") {
         
-            if (file_exists('template/'.$this->page->loadedTheme.'/'.$pageType.'.php')) {
+            if (file_exists('themes/'.$this->page->loadedTheme.'/'.$pageType.'.php')) {
             
-                include 'template/'.$this->page->loadedTheme.'/'.$pageType.'.php';
+                include 'themes/'.$this->page->loadedTheme.'/'.$pageType.'.php';
                 
                 $this->mainTemplate = new mainTemplate();
                 

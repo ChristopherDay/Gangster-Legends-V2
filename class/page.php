@@ -14,6 +14,7 @@ class page {
 
             if (file_exists($moduleInfoFile)) {
                 $info = json_decode(file_get_contents($moduleInfoFile), true);
+                $info["id"] = $moduleName;
                 $this->modules[$moduleName] = $info;
             }
             if (file_exists($moduleHooksFile)) {
@@ -137,7 +138,7 @@ class page {
         if ($_SERVER["QUERY_STRING"]) {
             $queryString = "?" . $_SERVER["QUERY_STRING"];
         } else {
-            $queryString = "?page=loggedin";
+            $queryString = "?page=" . $this->landingPage;
         }
 
         foreach ($menus as $key => $menu) {
