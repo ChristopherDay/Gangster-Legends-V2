@@ -27,7 +27,7 @@
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label class="pull-left">Game Theme</label>
+                            <label class="pull-left">Admin Theme</label>
                             <select class="form-control" name="adminTheme">
                                 {#each adminThemes}
                                     <option value="{id}" {#if selected}selected{/if}>
