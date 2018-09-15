@@ -62,7 +62,7 @@
         public $moduleForm = '
             <form method="post" action="?page=admin&module=moduleManager&action=install">
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-12">
                         <div class="form-group">
                             <label class="pull-left">Module File (Zipped)</label>
                             <input type="file" class="form-control" name="file" />
