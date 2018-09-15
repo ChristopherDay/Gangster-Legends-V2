@@ -241,6 +241,23 @@ INSERT INTO `ranks` (`R_id`, `R_name`, `R_exp`, `R_limit`, `R_cashReward`, `R_bu
 -- Table structure for table `theft`
 --
 
+CREATE TABLE IF NOT EXISTS `settings` (
+  `S_id` int(11) NOT NULL AUTO_INCREMENT,
+  `S_desc` varchar(255) NOT NULL,
+  `S_value` text NOT NULL,
+  PRIMARY KEY (`S_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+
+--
+-- Dumping data for table `theft`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `theft`
+--
+
 CREATE TABLE IF NOT EXISTS `theft` (
   `T_id` int(11) NOT NULL AUTO_INCREMENT,
   `T_name` varchar(255) NOT NULL,

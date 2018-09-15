@@ -14,9 +14,12 @@
 
             $moduleInfo = $page->modules[$moduleName];
 
-			if ($moduleName == "admin") {
-				$this->loadMainPage('admin');
-			} else if (!$moduleInfo["requireLogin"]) {
+            $this->page->loadedTheme = $this->page->theme;
+
+            if ($moduleName == "admin") {
+                $this->page->loadedTheme = $this->page->adminTheme;
+                $this->loadMainPage();
+            } else if (!$moduleInfo["requireLogin"]) {
                 $this->loadMainPage('login');
             } else {
                 $this->loadMainPage('loggedin');
@@ -24,17 +27,17 @@
         
         }
         
-        private function loadMainPage($type) {
+        private function loadMainPage($pageType = "index") {
         
-            if (file_exists('template/'.$this->page->theme.'/'.$type.'.php')) {
+            if (file_exists('template/'.$this->page->loadedTheme.'/'.$pageType.'.php')) {
             
-                include 'template/'.$this->page->theme.'/'.$type.'.php';
+                include 'template/'.$this->page->loadedTheme.'/'.$pageType.'.php';
                 
                 $this->mainTemplate = new mainTemplate();
                 
             } else {
             
-                die('Main template file not found!'.$this->page->theme);
+                die("Main template '".$this->page->loadedTheme."' file not found!");
                 
             }
             

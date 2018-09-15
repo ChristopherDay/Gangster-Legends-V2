@@ -6,11 +6,11 @@ class page {
     private $pageHTML, $pageItems, $pageReplace;
     
     public function loadModuleMetaData() {
-        $moduleDirectories = scandir("modules/");
+        $moduleDirectories = scandir("modules/installed/");
         foreach ($moduleDirectories as $moduleName) {
             if ($moduleName[0] == ".") continue;
-            $moduleInfoFile = "modules/" . $moduleName . "/module.json";
-            $moduleHooksFile = "modules/" . $moduleName . "/" . $moduleName . ".hooks.php";
+            $moduleInfoFile = "modules/installed/" . $moduleName . "/module.json";
+            $moduleHooksFile = "modules/installed/" . $moduleName . "/" . $moduleName . ".hooks.php";
 
             if (file_exists($moduleInfoFile)) {
                 $info = json_decode(file_get_contents($moduleInfoFile), true);
@@ -43,8 +43,8 @@ class page {
         global $user;
         
         $moduleInfo = $this->modules[$page];
-        $this->moduleController = 'modules/' . $page . '/' . $page . '.inc.php';
-        $this->moduleView = 'modules/' . $page . '/' . $page . '.tpl.php';
+        $this->moduleController = 'modules/installed/' . $page . '/' . $page . '.inc.php';
+        $this->moduleView = 'modules/installed/' . $page . '/' . $page . '.tpl.php';
 
         if (file_exists($this->moduleController)) {
             if (file_exists($this->moduleView)) {
@@ -124,7 +124,7 @@ class page {
                 $this->pageHTML = $this->template->mainTemplate->pageMain;
                 
             } else {
-                die("Module template not found!" . 'template/modules/' . $page . '.php');
+                die("Module template not found!" . 'modules/installed/' . $page . 'tpl..php');
             }
             
         } else {
