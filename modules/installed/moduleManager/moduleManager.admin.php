@@ -46,11 +46,11 @@
 				$this->html .= debug(get_current_user(), 1, 1);
 
 				// Lock down $installDir to read/write for the php user only
-				chmod($installDir, 0660);
+				chmod($installDir, 0760);
 
 				//Remove previous install of this module
 				if (file_exists($installLocation)) { 
-					chmod($installLocation, 0660);
+					chmod($installLocation, 0760);
 					array_map('unlink', glob("$installLocation/*"));
 				} else {
 					// Remake new directory
@@ -68,7 +68,7 @@
 					$zip->extractTo($installLocation);
 					$zip->close();
 					// Lock down the module to read only for the php user
-					chmod($installLocation, 0440);
+					chmod($installLocation, 0740);
 					$this->html .= debug(glob("$installLocation/*"), 1, 1);
 				} else {
 					return $this->page->buildElement("error", array(
