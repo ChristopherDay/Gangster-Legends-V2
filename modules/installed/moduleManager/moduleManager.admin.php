@@ -43,12 +43,14 @@
 				$installDir = "modules/installing/";
 				$installLocation = $installDir . $fileName . "/";
 
+				$this->html .= debug(get_current_user(), 1, 1);
+
 				// Lock down $installDir to read/write for the php user only
-				chmod($installDir, 0600);
+				chmod($installDir, 0660);
 
 				//Remove previous install of this module
 				if (file_exists($installLocation)) { 
-					chmod($installLocation, 0600);
+					chmod($installLocation, 0660);
 					array_map('unlink', glob("$installLocation/*"));
 				} else {
 					// Remake new directory
@@ -66,7 +68,7 @@
 					$zip->extractTo($installLocation);
 					$zip->close();
 					// Lock down the module to read only for the php user
-					chmod($installLocation, 0400);
+					chmod($installLocation, 0440);
 					$this->html .= debug(glob("$installLocation/*"), 1, 1);
 				} else {
 					return $this->page->buildElement("error", array(
