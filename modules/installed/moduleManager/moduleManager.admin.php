@@ -29,6 +29,52 @@
 
 			if (isset($this->methodData->submit)) {
 				$this->html .= debug($_FILES, 1, 1);
+
+				$moduleFile = $_FILES["file"];
+
+				$fileName = str_replace(".zip", "", $moduleFile["name"]);
+
+				if ($fileName == $moduleFile["name"]) {
+					return $this->page->buildElement("error", array(
+						"text" => "Please provide a module in the correctFormat (moduleName.zip)"
+					));
+				} 
+
+				$installDir = "modules/installing/";
+				$installLocation = $installDir . $fileName . "/";
+
+				// Lock down $installDir to read/write for the php user only
+				chmod($installDir, 0600);
+
+				//Remove previous install of this module
+				if (file_exists($installLocation)) { 
+					chmod($installLocation, 0600);
+					array_map('unlink', glob("$installLocation/*"));
+				} else {
+					// Remake new directory
+					mkdir($installLocation);
+				}
+
+
+				$this->html .= debug(glob("$installLocation/*"), 1, 1);
+
+				// Extract module
+				$zip = new ZipArchive;
+				$res = $zip->open($moduleFile["tmp_name"]);
+
+				if ($res === TRUE) {
+					$zip->extractTo($installLocation);
+					$zip->close();
+					// Lock down the module to read only for the php user
+					chmod($installLocation, 0400);
+					$this->html .= debug(glob("$installLocation/*"), 1, 1);
+				} else {
+					return $this->page->buildElement("error", array(
+						"text" => "Please provide a zipped module in the correctFormat (moduleName.zip)"
+					));
+				}
+
+
 			} else {
 				$this->html .= $this->page->buildElement("moduleForm");
 			}

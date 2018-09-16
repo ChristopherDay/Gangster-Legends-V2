@@ -60,7 +60,7 @@
         
         ';
         public $moduleForm = '
-            <form method="post" action="?page=admin&module=moduleManager&action=install">
+            <form method="post" action="?page=admin&module=moduleManager&action=install" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
