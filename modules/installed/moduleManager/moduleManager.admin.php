@@ -10,6 +10,37 @@
 			return $this->page->modules;
 		}
 
+		private function getOtherModules($dirType = "installing") {
+			$dir = "modules/$dirType/";
+	        $moduleDirectories = scandir($dir);
+	        $modules = array();
+	        foreach ($moduleDirectories as $moduleName) {
+	            if ($moduleName[0] == ".") continue;
+	            $moduleInfoFile = $dir . $moduleName . "/module.json";
+
+	            if (file_exists($moduleInfoFile)) {
+	                $info = json_decode(file_get_contents($moduleInfoFile), true);
+	                $info["id"] = $moduleName;
+	                $modules[$moduleName] = $info;
+	            }
+	        }
+	        return $modules;
+		}
+
+		private function viewInstall($moduleName) {
+			$moduleFolder = "modules/installing/$moduleName/";
+			$info = json_decode(file_get_contents($moduleFolder . "module.json"), true);
+			$info["id"] = $moduleName;
+			$info["_installing"] = true;
+			$this->html .= $this->page->buildElement("moduleOverview", $info);
+		}
+
+		private function removeDir($dir) {
+			if ($dir[0] == ".") return false;
+			array_map('unlink', glob("$dir/*"));
+			rmdir($dir);
+		}
+
 		private function validateModule($module) {
 			$errors = array();
 
@@ -27,8 +58,55 @@
 
 		public function method_install () {
 
-			if (isset($this->methodData->submit)) {
-				$this->html .= debug($_FILES, 1, 1);
+			if (isset($this->methodData->remove)) {
+
+				$this->removeDir("modules/installing/" . $this->methodData->remove);
+
+				$this->html .= $this->page->buildElement("success", array(
+					"text" => "Module removed successfully"
+				));
+
+				$this->html .= $this->page->buildElement("moduleForm", array(
+					"modules" => $this->getOtherModules()
+				));
+			} else if (isset($this->methodData->view)) {
+				$this->viewInstall($this->methodData->view);
+			} else if (isset($this->methodData->installModule)) {
+
+				$moduleName = $this->methodData->installModule;
+				$installDir = "modules/installing/";
+				$installLocation = $installDir . $moduleName . "/";
+
+				$sqlFile = $installLocation . "schema.sql";
+				if (file_exists($sqlFile)) {
+					$sql = file_get_contents($sqlFile);
+					if (!$this->db->query($sql)) {
+						if (!isset($this->methodData->force)) {
+							return $this->html .= $this->page->buildElement("continueWithError", array(
+								"error" => array(
+									"text" => "There was an error with the SQL when installing this module",
+									"output" => debug($this->db->errorInfo(), true, true)
+								),
+								"id" => $moduleName
+							));
+						}
+					}
+				}
+
+				// Move files over
+				$oldDir = "modules/installing/" . $moduleName;
+				$newDir = "modules/installed/" . $moduleName;
+				if (@rename($oldDir, $newDir)) {
+					chmod($newDir, 0760);
+					return $this->html .= $this->page->buildElement("success", array(
+						"text" => "Module installed successfully"
+					));
+				} else {
+					return $this->html .= $this->page->buildElement("error", array(
+						"text" => "Module failed to install"
+					));
+				}
+			} else if (isset($this->methodData->submit)) {
 
 				$moduleFile = $_FILES["file"];
 
@@ -43,22 +121,17 @@
 				$installDir = "modules/installing/";
 				$installLocation = $installDir . $fileName . "/";
 
-				$this->html .= debug(get_current_user(), 1, 1);
-
 				// Lock down $installDir to read/write for the php user only
 				chmod($installDir, 0760);
 
 				//Remove previous install of this module
 				if (file_exists($installLocation)) { 
 					chmod($installLocation, 0760);
-					array_map('unlink', glob("$installLocation/*"));
+					$this->removeDir($installLocation);
 				} else {
 					// Remake new directory
 					mkdir($installLocation);
 				}
-
-
-				$this->html .= debug(glob("$installLocation/*"), 1, 1);
 
 				// Extract module
 				$zip = new ZipArchive;
@@ -68,17 +141,18 @@
 					$zip->extractTo($installLocation);
 					$zip->close();
 					// Lock down the module to read only for the php user
-					chmod($installLocation, 0740);
-					$this->html .= debug(glob("$installLocation/*"), 1, 1);
+					chmod($installLocation, 0440);
+					$this->viewInstall($fileName);
 				} else {
 					return $this->page->buildElement("error", array(
 						"text" => "Please provide a zipped module in the correctFormat (moduleName.zip)"
 					));
 				}
 
-
 			} else {
-				$this->html .= $this->page->buildElement("moduleForm");
+				$this->html .= $this->page->buildElement("moduleForm", array(
+					"modules" => $this->getOtherModules()
+				));
 			}
 
 		}
@@ -116,10 +190,86 @@
 				$this->methodData->moduleName = false;
 			}
 
+			if ($this->methodData->moduleName) {
+				$info = $this->getModule($this->methodData->moduleName);
+				$info["_activated"] = true;
+				return $this->html .= $this->page->buildElement("moduleOverview", $info);
+			}
+
 			$this->html .= $this->page->buildElement("moduleList", array(
 				"modules" => $this->getModule($this->methodData->moduleName, true)
 			));
 
+		}
+
+		public function method_deactivated () {
+			if (!isset($this->methodData->moduleName)) {
+				$this->methodData->moduleName = false;
+			}
+			if ($this->methodData->moduleName) {
+				$info = $this->getOtherModules("disabled")[$this->methodData->moduleName];
+				$info["_deactivated"] = true;
+				return $this->html .= $this->page->buildElement("moduleOverview", $info);
+			}
+			$this->html .= $this->page->buildElement("deactivatedModuleList", array(
+				"modules" => $this->getOtherModules("disabled")
+			));
+		}
+
+		public function method_deactivate () {
+
+			$moduleName = @$this->methodData->moduleName;
+			$info = @$this->page->modules[$moduleName];
+
+			if (!$info) {
+				return $this->html .= $this->page->buildElement("error", array(
+					"text" => "This module does not exist"
+				));
+			}
+
+			if (isset($this->methodData->do)) {
+				if (!@rename("modules/installed/$moduleName", "modules/disabled/$moduleName")) {
+					return $this->html .= $this->page->buildElement("error", array(
+						"text" => "This module cant be deactivated"
+					));
+				}
+				return $this->html .= $this->page->buildElement("success", array(
+					"text" => "This module has been deactivated"
+				));
+			}
+
+			$this->html .= $this->page->buildElement("alterModuleConfirm", array(
+				"type" => "deactivate", 
+				"module" => $info
+			));
+		}
+
+		public function method_reactivate () {
+
+			$moduleName = @$this->methodData->moduleName;
+			$info = @$this->getOtherModules("disabled")[$moduleName];
+
+			if (!$info) {
+				return $this->html .= $this->page->buildElement("error", array(
+					"text" => "This module does not exist"
+				));
+			}
+
+			if (isset($this->methodData->do)) {
+				if (!@rename("modules/disabled/$moduleName", "modules/installed/$moduleName")) {
+					return $this->html .= $this->page->buildElement("error", array(
+						"text" => "This module cant be reactivated"
+					));
+				}
+				return $this->html .= $this->page->buildElement("success", array(
+					"text" => "This module has been reactivated"
+				));
+			}
+
+			$this->html .= $this->page->buildElement("alterModuleConfirm", array(
+				"type" => "reactivate", 
+				"module" => $info
+			));
 		}
 
 	}

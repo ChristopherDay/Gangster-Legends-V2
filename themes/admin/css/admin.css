@@ -1,6 +1,7 @@
 html, body {
 	padding
     margin: 0px;
+    background-color: #f9f9f9;
 }
 
 .admin-container {
@@ -25,8 +26,32 @@ html, body {
 	border-bottom-right-radius: 5px;
 	border-bottom-left-radius: 5px;
 	padding: 10px;
+	background-color: #fff;
 }
 
 .navbar-brand {
     width: 235px;
+}
+
+.navbar-form{
+	padding: 10px 15px 10px 30px;
+}    
+
+.sidebar-wrapper {
+	top: 63px !important;
+}
+
+.navbar-default {
+    background-color: #1d1d1d !important;
+    border-color: #2b2b2b !important;
+}
+
+.admin-page>.nav>li.active>a {
+    padding: 10px 15px;
+    bottom: 0px;
+}
+
+.admin-page>.nav>li>a {
+    padding: 8px 15px;
+    bottom: -4px;
 }

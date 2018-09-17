@@ -1,7 +1,7 @@
 {
     "name": "Crimes",
     "version": "1.0.0",
-    "description": "This module allows a user to comit crimes",
+    "description": "This module allows a user to commit crimes.",
     "author": {
         "name": "Chris Day",
         "url": "http:\/\/glscript.cdcoding.com"

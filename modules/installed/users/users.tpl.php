@@ -36,29 +36,30 @@
 
             </form>
 
-            <hr />
-
-            <table class="table table-condensed table-responsive table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th width="50px">ID</th>
-                        <th>User</th>
-                        <th width="100px">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {#each users}
+            {#if submit}
+                <hr />
+                <table class="table table-condensed table-responsive table-striped table-bordered">
+                    <thead>
                         <tr>
-                            <td>{id}</td>
-                            <td>{name}</td>
-                            <td>
-                                [<a href="?page=admin&module=users&action=edit&id={id}">Edit</a>] 
-                                [<a href="?page=admin&module=users&action=delete&id={id}">Delete</a>]
-                            </td>
+                            <th width="50px">ID</th>
+                            <th>User</th>
+                            <th width="100px">Actions</th>
                         </tr>
-                    {/each}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {#each users}
+                            <tr>
+                                <td>{id}</td>
+                                <td>{name}</td>
+                                <td>
+                                    [<a href="?page=admin&module=users&action=edit&id={id}">Edit</a>] 
+                                    [<a href="?page=admin&module=users&action=delete&id={id}">Delete</a>]
+                                </td>
+                            </tr>
+                        {/each}
+                    </tbody>
+                </table>
+            {/if}
         ';
 
         public $userDelete = '
