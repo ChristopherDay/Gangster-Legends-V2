@@ -140,6 +140,7 @@
 			}
 
 			$this->html .= $this->page->buildElement("userList", array(
+				"submit" => !!$this->methodData->user,
 				"users" => $this->getUser($this->methodData->user, true)
 			));
 

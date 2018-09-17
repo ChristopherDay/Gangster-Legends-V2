@@ -22,7 +22,7 @@
                         <th>Rank</th>
                         <th width="100px">EXP Needed</th>
                         <th width="80px">Limit</th>
-                        <th width="170px"> eward</th>
+                        <th width="170px">Reward</th>
                         <th width="100px">Actions</th>
                     </tr>
                 </thead>

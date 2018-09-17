@@ -16,7 +16,7 @@
         },
         {
             "text": "Deactivated Modules",
-            "method": "viewDeactivated"
+            "method": "deactivated"
         },
         {
             "text": "Install Module",
@@ -24,8 +24,13 @@
         },
         {
             "hide": true,
-            "text": "Diactivate Module",
+            "text": "Deactivate Module",
             "method": "deactivate"
+        },
+        {
+            "hide": true,
+            "text": "Reactivate Module",
+            "method": "reactivate"
         }
     ]
 }

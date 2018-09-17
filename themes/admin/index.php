@@ -18,7 +18,7 @@
             </head>
             <body>
 
-                <nav class="navbar navbar-inverse navbar-static-top">
+                <nav class="navbar navbar-default navbar-static-top">
                     <div class="container-fluid">
                         <!-- Brand and toggle get grouped for better mobile display -->
                         <div class="navbar-header">
@@ -33,12 +33,6 @@
 
                         <!-- Collect the nav links, forms, and other content for toggling -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                            <form class="navbar-form navbar-left" method="post" action="?page=admin&module=users&action=view">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" name="user" placeholder="Username or ID">
-                                </div>
-                                <button type="submit" class="btn btn-default">Find User</button>
-                            </form>
                             <ul class="nav navbar-nav navbar-right">
                                     <li><a href="?">Back To The Game</a></li>
                                     <li><a href="?page=logout">Logout</a></li>
@@ -68,20 +62,23 @@
                                 </div>
                                 <!-- sidebar-header  -->
                                 <div class="sidebar-search">
-                                    <div>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control search-menu" placeholder="Search...">
-                                            <span class="input-group-addon">
-                                                <i class="glyphicon glyphicon-search"></i>
-                                            </span>
+
+                                    <form class="navbar-form navbar-left" method="post" action="?page=admin&module=users&action=view">
+                                        <div>
+                                            <div class="input-group">
+                                                <input type="text" name="user" class="form-control search-menu" placeholder="Search username or ID ...">
+                                                <span class="input-group-addon">
+                                                    <i class="glyphicon glyphicon-search"></i>
+                                                </span>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </form>
                                 </div>
                                 <!-- sidebar-search  -->
                                 <div class="sidebar-menu">
                                     <ul>
                                         <li class="header-menu">
-                                            <span>{menus.moduleLinks.title}</span>
+                                            <span>Actions</span>
                                         </li>
 
                                         {#each menus}
