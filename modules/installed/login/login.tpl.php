@@ -11,7 +11,7 @@
                 Login
             </div>
             <div class="panel-body">
-				{text}
+				<{text}>
                 <form action="?page=login&action=login" method="post">
                     <input autocomplete="off" type="input" class="form-control" name="username" placeholder="Username" /><br />
                     <input type="password" class="form-control" name="password" placeholder="Password" /><br />

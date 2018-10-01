@@ -143,7 +143,7 @@
                             </ul>
                         {/if}
                         <div class="page">
-                            {game}
+                            <{game}>
                         </div>
                     </div>
                 </div>
