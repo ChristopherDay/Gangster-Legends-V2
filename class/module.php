@@ -193,7 +193,7 @@
                 $ts = time();
             }
             
-            return date('Y-m-d H:i:s', $ts);
+            return date('l jS F H:i', $ts);
         }
         
     }
