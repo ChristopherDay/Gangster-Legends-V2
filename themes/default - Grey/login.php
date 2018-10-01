@@ -10,6 +10,7 @@
                 <link rel="stylesheet" href="themes/default/css/bootstrap.min.css">
                 <link rel="stylesheet" href="themes/default/css/style.css">
         		<link rel="shortcut icon" href="themes/default/images/icon.png" />
+                <meta name="viewport" content="width=device-width, initial-scale=1">
             </head>
             
             <body>
@@ -17,7 +18,7 @@
                 <div class="row">
                     <div class="col-md-4"></div>
                         <div class="col-md-4">
-                            {game}
+                            <{game}>
                         </div>
                     <div class="col-md-4"></div>
                 </div>
