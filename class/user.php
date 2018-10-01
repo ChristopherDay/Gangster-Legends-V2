@@ -103,11 +103,7 @@
 				$notifications->execute();
 				$result = $notifications->fetchObject();
 				
-				if ($result->count == 0) {
-					$page->addToTemplate('all_notifications', ' '); 
-				} else {
-					$page->addToTemplate('all_notifications', ' ('.$result->count.')'); 
-				}
+				$page->addToTemplate('all_notifications', $result->count); 
 				return $result->count;
 				
 			} else if ($type == 'mail') {
@@ -117,13 +113,7 @@
 				$notifications->execute();
 				$result = $notifications->fetchObject();
 				
-				if ($result->count == 0) {
-					$page->addToTemplate('mail', ' '); 
-					$page->addToTemplate('mail_class', ' '); 
-				} else {
-					$page->addToTemplate('mail', ' ('.$result->count.')'); 
-					$page->addToTemplate('mail_class', 'new'); 
-				}
+				$page->addToTemplate('mail', $result->count);
 				
 				return $result->count;
 				
@@ -134,23 +124,18 @@
 				$notifications->execute();
 				$result = $notifications->fetchObject();
 				
-				if ($result->count == 0) {
-					$page->addToTemplate('notifications', ' '); 
-					$page->addToTemplate('notifications_class', ' '); 
-				} else {
-					$page->addToTemplate('notifications', ' ('.$result->count.')'); 
-					$page->addToTemplate('notifications_class', 'new'); 
-				}
-				
+				$page->addToTemplate('notifications', $result->count);
 				return $result->count;
 				
 			}
+
+			return 0;
 		}
 		
 		public function bindVarsToTemplate() {
 			
 			global $page;
-			$this->getNotificationCount($this->info->U_id); 
+			
 			$this->getNotificationCount($this->info->U_id, 'mail'); 
 			$this->getNotificationCount($this->info->U_id, 'notifications'); 
 
