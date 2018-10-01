@@ -17,18 +17,21 @@ a, a:hover {
 }
 
 .header {
-	height: 80px;
 	background-color: #131313;
 	border-bottom: 1px solid #272727;
-	line-height:80px;
+	line-height: 40px;
+}
+.header .logo-container {
+	line-height: 80px;
 }
 
 .sub-header {
-	height: 60px;
 	background-color: #000000;
 	line-height: 60px;
 	text-align: center;
 	font-size: 14px;
+	margin-bottom: 15px;
+	border-bottom: 1px solid #272727;
 }
 
 .timers {
@@ -68,6 +71,23 @@ a, a:hover {
 	height: 34px;
 }
 
+.well {
+	background-color: #000;
+	border: 1px solid #474747;
+	text-align: left;
+}
+.well h3 {
+	margin-top: 0px;
+}
+
+.tiny {
+	font-size: 12px;
+	line-height: 20px;
+}
+
+hr {
+    border-top: 1px solid #474747 !important;
+}
 
 .panel-danger .panel-heading, .btn-danger {
 	background-image: url("../images/btn-danger.png") !important;
@@ -218,9 +238,43 @@ table tr td, table tr th {
     border: none !important;
 }
 
+.table-bordered,
+.table-bordered th,
+.table-bordered td {
+	border-color: #272727 !important;
+}
+
+.table-striped>thead>tr:nth-child(odd)>td, .table-striped>thead>tr:nth-child(odd)>th {
+	background-color: #171717;
+}
+.table-striped>tbody>tr:nth-child(odd)>td, .table-striped>tbody>tr:nth-child(odd)>th {
+	background-color: #272727;
+}
+
+.table-striped>tbody>tr:nth-child(even)>td, .table-striped>tbody>tr:nth-child(even)>th {
+	background-color: #373737;
+}
+
+.table-condensed>thead>tr>th, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>tbody>tr>td, .table-condensed>tfoot>tr>td {
+    padding: 2px 5px;
+}
 
 @media (max-width: 767px) {
 	.padding {
 		padding: 0 2%;
 	}
+
+	.header,
+	.sub-header {
+		line-height: 25px;
+	}
+
+	.header .logo-container {
+		text-align: center !important;
+	}
+	.header .col-xs-6 {
+		padding: 0px; 
+		font-size: 12px;
+	}
+
 }

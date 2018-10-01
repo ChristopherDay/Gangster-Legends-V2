@@ -35,6 +35,11 @@ a, a:hover {
 	background-color: transparent;
 }
 
+.tiny {
+	font-size: 12px;
+	line-height: 20px;
+}
+
 .btn {
 	color:#fff;
 	background-image: url("../images/btn.png") !important;
@@ -68,6 +73,14 @@ a, a:hover {
 	height: 34px;
 }
 
+.well {
+	background-color: #000;
+	border: 1px solid #555;
+	text-align: left;
+}
+.well h3 {
+	margin-top: 0px;
+}
 
 .panel-danger .panel-heading, .btn-danger {
 	background-image: url("../images/btn-danger.png") !important;
@@ -217,7 +230,6 @@ table tr td, table tr th {
 .table-borderless tr, .table-borderless tr td, .table-borderless tr th {
     border: none !important;
 }
-
 
 @media (max-width: 767px) {
 	.padding {

@@ -6,11 +6,11 @@
         	{#each durations}
         		<div class="col-md-6">
         			<h4 class="text-left">{title}</h4>
-        			<p class="text-left">
+        			<ul class="text-left">
         				{#each users}
-							<a href="?page=profile&view={id}">{name}</a>
+							<li><a href="?page=profile&view={id}">{name}</a></li>
         				{/each}
-        			</p>
+        			</ul>
         		</div>
         	{/each}
         </div>';

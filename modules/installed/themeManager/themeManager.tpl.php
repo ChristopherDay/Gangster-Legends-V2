@@ -15,6 +15,18 @@
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
+                            <label class="pull-left">Landing Module</label>
+                            <select class="form-control" name="landingPage">
+                                {#each modules}
+                                    <option value="{id}" {#if selected}selected{/if}>
+                                        {name}
+                                    </option>
+                                {/each}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
                             <label class="pull-left">Game Theme</label>
                             <select class="form-control" name="theme">
                                 {#each themes}

@@ -55,6 +55,7 @@
 			$settings = new settings();
 
 			if (isset($this->methodData->submit)) {
+				$settings->update("landingPage", $this->methodData->landingPage);
 				$settings->update("game_name", $this->methodData->game_name);
 				$settings->update("theme", $this->methodData->theme);
 				$settings->update("adminTheme", $this->methodData->adminTheme);
@@ -67,14 +68,21 @@
 
 
 			$output = array(
+				"landingPage" => $settings->loadSetting("landingPage"),
 				"game_name" => $settings->loadSetting("game_name"),
 				"theme" => $settings->loadSetting("theme"),
 				"adminTheme" => $settings->loadSetting("adminTheme"),
 			);
 
+			$output["modules"] = $this->page->modules;
 			$output["themes"] = $this->getTheme(false, "game");
 			$output["adminThemes"] = $this->getTheme(false, "admin");
 
+			foreach ($output["modules"] as $key => $value) {
+				if ($value["id"] == $output["landingPage"]) {
+					$output["modules"][$key]["selected"] = true;
+				}
+			}
 			foreach ($output["themes"] as $key => $value) {
 				if ($value["id"] == $output["theme"]) {
 					$output["themes"][$key]["selected"] = true;
