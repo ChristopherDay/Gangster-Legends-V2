@@ -133,7 +133,7 @@
 		
 	}
 
-	function debug ($error, $usePrint = false, $returnString = false) {
+	function debug ($error, $usePrint = true, $returnString = false) {
 		$bt = debug_backtrace();
 		$caller = array_shift($bt);
 		
