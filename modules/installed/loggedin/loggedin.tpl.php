@@ -4,8 +4,17 @@
         
         public $newsArticle = '
         	{#each news}
-	        	<h3>{title} <small>{author} at {date}</small></h3>
-	        	<p>{text}</p>
+                <div class="well well-sm">
+    	        	<h3>
+                        {title} 
+                        <small class="pull-right tiny">
+                            By <a href="?page=profile&view={authorID}">{author}</a><br />
+                            {date}
+                        </small>
+                    </h3>
+                    <hr />
+    	        	<p>[{text}]</p>
+                </div>
         	{/each}
         ';
   
