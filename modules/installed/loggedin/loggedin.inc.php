@@ -8,7 +8,9 @@
         
         public function constructModule() {
 			
-            $news = $this->db->prepare("SELECT * FROM gameNews ORDER BY GN_date DESC LIMIT 0, 10");
+            $news = $this->db->prepare("
+                SELECT * FROM gameNews INNER JOIN users ON (GN_author = U_id) ORDER BY GN_date DESC LIMIT 0, 10
+            ");
             $news->execute();
             $articleInfo = array();
             while ($newsArticle = $news->fetch(PDO::FETCH_ASSOC)) {
@@ -17,7 +19,8 @@
                 
                 $articleInfo[] = array(
                     "title" => $newsArticle['GN_title'],
-                    "author" => $newsArticle['GN_author'],
+                    "authorID" => $newsArticle['U_id'],
+                    "author" => $newsArticle['U_name'],
                     "date" => $this->date($newsArticle['GN_date']),
                     "text" => $newsArticle['GN_text']
                 );
