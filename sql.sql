@@ -173,21 +173,16 @@ INSERT INTO `locations` (`L_id`, `L_name`, `L_cost`, `L_bullets`, `L_bulletCost`
 
 CREATE TABLE IF NOT EXISTS `mail` (
   `M_id` int(11) NOT NULL AUTO_INCREMENT,
+  `M_time` int(11) NOT NULL,
   `M_uid` int(11) NOT NULL,
   `M_sid` int(11) NOT NULL,
   `M_subject` varchar(120) NOT NULL,
+  `M_parent` int(11) NOT NULL,
   `M_text` text NOT NULL,
   `M_type` int(11) NOT NULL,
   `M_read` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`M_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
-
---
--- Dumping data for table `mail`
---
-
-INSERT INTO `mail` (`M_id`, `M_uid`, `M_sid`, `M_subject`, `M_text`, `M_type`, `M_read`) VALUES
-(1, 1, 2, 'cvdfdsfds', 'dsfdfadasfdasfad', 1, 0);
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 ;
 
 -- --------------------------------------------------------
 
