@@ -108,7 +108,7 @@
 								{page}
 							</div>
 							<div class="panel-body text-center">
-								{game}
+								<{game}>
 							</div>
 						</div>
 					</div>
