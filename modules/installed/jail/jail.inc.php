@@ -107,10 +107,15 @@
                     "text" => "You broke " . $jailUser["name"] . " out of jail"
                 ));
             } else {
+
+
                 if ($inJail) {
-                    $this->user->updateTimer("superMax", time() + 90);
-                } 
-                $this->user->updateTimer("jail", time() + 90);
+                    $jailTime = $this->user->getTimer("jail") + 90;
+                    $this->user->updateTimer("superMax", $jailTime);
+                } else {
+                    $jailTime = time() + 90;
+                }
+                $this->user->updateTimer("jail", $jailTime);
                 return $this->html .= $this->page->buildElement('error', array(
                     "text" => "You failed to break " . $jailUser["name"] . " out of jail"
                 ));
