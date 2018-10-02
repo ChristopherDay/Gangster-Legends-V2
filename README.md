@@ -7,9 +7,9 @@ A free to use text-based MMORPG script
 Requirements
 ==============
 
-PHP 5.X.X
+PHP 5.4.X or higher
 
-MySQL 5.X
+MySQL 5.5 or higher
 
 
 How To Install
