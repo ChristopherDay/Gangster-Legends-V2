@@ -258,10 +258,75 @@ table tr td, table tr th {
 .table-condensed>thead>tr>th, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>tbody>tr>td, .table-condensed>tfoot>tr>td {
     padding: 2px 5px;
 }
+.mobile-menu {
+		display: none;
+}
 
 @media (max-width: 767px) {
+	html, body {
+		height: 100%;
+		font-size: 12px;
+	}
+
+	.mobile-menu {
+		background-color: #272727;
+		height: 100%;
+		overflow: auto;
+		position: absolute;
+		top: 0px;
+		bottom: 0px;
+		left: 0px;
+		right: 0px;
+		padding-bottom: 30px;
+		display: none;
+		z-index: 1000;
+	}
+
+	.mobile-menu .close-mobile-menu {
+		position: absolute;
+		text-align: center;
+		bottom: 0px;
+		left: 0px;
+		right: 0px;
+		line-height: 30px;
+		color: #fff;
+		z-index: 1100;
+		background-color: #474747;
+	}
+	
+	.mobile-menu li {
+		float: left;
+		text-align: center;
+	}
+
+	.mobile-menu li a {
+		padding: 7px 15px;
+	}
+
+	.mobile-menu .title {
+		background-color: #171717;
+		display: block;
+		clear: both;
+		font-weight: bold;
+	}
+
 	.padding {
 		padding: 0 2%;
+	}
+
+	.game-container {
+		padding: 0px;
+	}
+
+	.navbar-toggle {
+		background-color: #272727;
+		border: 1px solid #474747;
+		margin-left: -5px;
+		margin-right: 0px;
+		float: left;
+	}
+	.navbar-toggle .icon-bar {
+		background-color: #fff;
 	}
 
 	.header,
@@ -274,7 +339,33 @@ table tr td, table tr th {
 	}
 	.header .col-xs-6 {
 		padding: 0px; 
+	}
+	.header .logo-container {
+		line-height: 60px;
+	}
+	.logo-container img {
+		height: 40px;
+	}
+
+	.crime-holder p {
+		text-align: center;
+	}
+	.crime-holder .action {
+		display: block;
+	}
+	.crime-holder .cooldown,
+	.crime-holder .commit {
+		width: 49%;
+		float: none;
+		display: inline-block !important;
+		text-align: center;
 		font-size: 12px;
+		margin-top: 8px;
+	}
+	.crime-holder .commit:after {
+		content: "";
+		clear: both;
+		display: block;
 	}
 
 }
