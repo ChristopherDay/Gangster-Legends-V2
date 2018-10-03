@@ -59,6 +59,10 @@
         public function constructModule() {
 
         	switch (@$this->methodData->view) {
+        		case "reply": 
+        			$this->reply();
+        			$this->viewInbox();
+        		break;
         		case "read": 
         			$this->readEmail();
         		break;
@@ -69,6 +73,20 @@
         			$this->viewInbox();
         		break;
         	}
+
+        }
+
+        public function reply() {
+
+            $replyTo = @$this->getMailList(false, $this->methodData->id)[0];
+
+            if (!$replyTo) {
+            	return $this->html .= $this->page->buildElement("error", array(
+            		"text" => "This mail does not exist"
+            	));
+            }
+
+            debug($this->);
 
         }
 

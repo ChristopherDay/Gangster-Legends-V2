@@ -19,7 +19,7 @@
         ';
 
         public $newMail = '
-            <form method="post" action="?page=mail&reply={id}">
+            <form method="post" action="?page=mail&view=reply&id={id}">
             	<input rows="6" name="subject" class="form-control" placeholder="Subject" / >
             	<br />
             	<textarea rows="6" name="message" class="form-control" placeholder="Your reply ..."></textarea>
@@ -73,7 +73,7 @@
 			                	{/unless}
 		                    </td>
 		                    <td>{subject}</td>
-		                    <td class="text-align">
+		                    <td class="text-center">
 		                        <a href="?page=mail&view=read&id={id}">Read</a>
 		                    </td>
 		                </tr>
