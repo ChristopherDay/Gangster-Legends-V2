@@ -1,78 +1,80 @@
+var timeOffset = 0;
 
-	function checkTimer(intval) {
+$(function () {
+	timeOffset = Math.floor(new Date() / 1000) - parseInt($("meta[name='timestamp']").attr("content"));
+});
 
-		$('[data-timer-type="name"], [data-timer-type="inline"]').each(function () {
-			
-			var time = parseInt($(this).attr("data-timer"));
-			
-			if (time > 0) {
-				$(this).attr('data-timer', (time-intval));
-				
-				if ((time-intval) == 0) {
-					$(this).removeClass('timer-active').addClass('timer-done');
-				} else {
-					$(this).removeClass('timer-done').addClass('timer-active');
-				}
-			} else {
-				$(this).removeClass('timer-active').addClass('timer-done');
-			}
-				
-			var hours = Math.floor((time/3600));
 
-			time -= (hours * 3600);
+function checkTimer(interval) {
 
-			var mins = Math.floor((time/60));
-
-			time -= (mins * 60);
-
-			var sec = time;
-
-			hours += '';
-			mins += '';
-			sec += '';
-
-			if (hours.length == 1) {hours = '0'+hours;}
-			if (mins.length == 1) {mins = '0'+mins;}
-			if (sec.length == 1) {sec = '0'+sec;}
-
-			if ($(this).attr('data-timer-type') == 'name') {
-				
-				$(this).find('span').eq(1).html(hours+":"+mins+":"+sec);
-			
-			} else {
-			
-				$(this).html(hours+":"+mins+":"+sec);
-			
-			}
-			
-		});
-	}
-
-	$(function () {
+	$('[data-timer-type="name"], [data-timer-type="inline"]').each(function () {
+		var ts = parseInt($(this).attr("data-timer"));
+		var now = Math.round(new Date() / 1000) - timeOffset;
+		var time = ts - now;
 		
-		checkTimer(1);
+		if (time > 0) {
+			if ((time - interval) == -1) {
+				var removeClass = 'timer-active';
+				var addClass = 'timer-done';
+			} else {
+				var removeClass = 'timer-done';
+				var addClass = 'timer-active';
+			}
+		} else {
+			var removeClass = 'timer-active';
+			var addClass = 'timer-done';
+		}
 
-		var timer = setInterval(function () {
+		if(addClass == 'timer-done' && $(this).attr('data-reload-when-done') != undefined) {
+			setTimeout(function () {
+				document.location.reload();
+			}, 2500);
+		}
+			
+		var hours = Math.floor(time/3600);
+		var mins = Math.floor((time - (hours * 3600))/60);
+		var sec = time % 60;
 
-			checkTimer(1);
+		if (hours < 10) hours = '0' + hours;
+		if (mins < 10) mins = '0' + mins;
+		if (sec < 10) sec = '0' + sec;
 
-		}, 1000);
+		if (time < 0) {
+			var hours = "00";
+			var mins = "00";
+			var sec = "00";
+		}
 
-		$('[data-timer-type="name"]').bind("mouseover", function () {
-
-			$(this).find('span').eq(0).hide();
-			$(this).find('span').eq(1).show();
-
-		});
-
-		$('[data-timer-type="name"]').bind("mouseout", function () {
-
-			$(this).find('span').eq(1).hide();
-			$(this).find('span').eq(0).show();
-
-		});
-
-		$('[data-timer-type="name"]').each(function () {
-			$(this).find('span').eq(1).hide();
-		});
+		if ($(this).attr('data-timer-type') == 'name') {
+			$(this).removeClass(removeClass).addClass(addClass).find('span').eq(1).html(hours+":"+mins+":"+sec);
+		} else {
+			$(this).removeClass(removeClass).addClass(addClass).html(hours+":"+mins+":"+sec);
+		}
+		
 	});
+}
+
+$(function () {
+	
+	var d = new Date();
+
+	checkTimer(0);
+
+	var timer = setInterval(function () {
+		checkTimer(1);
+	}, 1000);
+
+	$('[data-timer-type="name"]').bind("mouseover", function () {
+		$(this).find('span').eq(0).hide();
+		$(this).find('span').eq(1).show();
+	});
+
+	$('[data-timer-type="name"]').bind("mouseout", function () {
+		$(this).find('span').eq(1).hide();
+		$(this).find('span').eq(0).show();
+	});
+
+	$('[data-timer-type="name"]').each(function () {
+		$(this).find('span').eq(1).hide();
+	});
+});
