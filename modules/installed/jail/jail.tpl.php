@@ -16,8 +16,13 @@
         	{#each users}
 	        <div class="crime-holder">
 	            <p>
-	            	<span data-timer="{time}" data-timer-type="inline"></span>  
-	            	{name}
+	            	<span data-timer="{time}" data-timer-type="inline" class="hidden-xs"></span>  
+	            	<span class="action">
+	            		{name}
+	            	</span>
+	            	<span class="cooldown visible-xs">
+	            		<span data-timer="{time}" data-timer-type="inline"></span>  
+	            	</span>
 	            	<span class="commit">
 	            		{#if percent}
 	            			<a href="?page=jail&action=breakout&id={id}">
