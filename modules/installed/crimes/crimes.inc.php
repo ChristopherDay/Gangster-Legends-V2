@@ -40,8 +40,8 @@
 			
             if (!$this->user->checkTimer('crime')) {
 				
-                $time = $this->user->getTimer('crime') - time();
-                $crimeError = array("text"=>'You cant commit another crime untill your timer is up! (<span data-timer-type="inline" data-timer="'.($this->user->getTimer("crime") - time()).'"></span>)');
+                $time = $this->user->getTimer('crime');
+                $crimeError = array("text"=>'You cant commit another crime untill your timer is up! (<span data-reload-when-done data-timer-type="inline" data-timer="'.($this->user->getTimer("crime")).'"></span>)');
                 $this->html .= $this->page->buildElement('error', $crimeError);
                 
             } else {

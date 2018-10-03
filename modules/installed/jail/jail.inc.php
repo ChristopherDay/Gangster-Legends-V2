@@ -33,7 +33,7 @@
                     `U_name` as 'name', 
                     `U_id` as 'id', 
                     (`U_id` = ".$this->user->id.") as 'currentUser',
-                    `jail`.`UT_time` - UNIX_TIMESTAMP() as 'time', 
+                    `jail`.`UT_time` as 'time', 
                     (`max`.`UT_time` = `jail`.`UT_time`) as 'superMax',  
                     CASE 
                         WHEN `max`.`UT_time` = `jail`.`UT_time` THEN 0
@@ -129,7 +129,7 @@
             if (!$this->user->checkTimer("jail")) {
                 $inSuperMax = $this->user->getTimer("jail") == $this->user->getTimer("superMax")?"super max":"jail";
             	$this->html .= $this->page->buildElement('error', array(
-                    "text" => 'You are in '.$inSuperMax.' for <span data-timer-type="inline" data-timer="'.($this->user->getTimer("jail") - time()).'"></span>!'
+                    "text" => 'You are in '.$inSuperMax.' for <span data-reload-when-done data-timer-type="inline" data-timer="'.$this->user->getTimer("jail").'"></span>!'
                 ));
             }   
 

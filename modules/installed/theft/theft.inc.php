@@ -38,8 +38,8 @@
             $id = abs(intval($this->methodData->id));
             
             if (!$this->user->checkTimer('theft')) {
-                $time = $this->user->getTimer('theft') - time();
-                $crimeError = array("text"=>'You cant commit another theft untill your timer is up! (<span data-timer-type="inline" data-timer="'.($this->user->getTimer("theft") - time()).'"></span>)');
+                $time = $this->user->getTimer('theft');
+                $crimeError = array("text"=>'You cant commit another theft untill your timer is up! (<span data-reload-when-done data-timer-type="inline" data-timer="'.($this->user->getTimer("theft")).'"></span>)');
                 $this->html .= $this->page->buildElement('error', $crimeError);
                 
             } else {

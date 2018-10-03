@@ -36,10 +36,10 @@
             
 			} else if (!$this->user->checkTimer('bullets')) {
                 
-				$timeLeft = $this->user->getTimer('bullets') - time();
+				$timeLeft = $this->user->getTimer('bullets');
 				$timeLeft = $this->timeLeft($timeLeft);
 				
-                $this->html .= $this->page->buildElement('error', array("text"=>'You can only buy bullets once every 60 seconds (<span data-timer-type="inline" data-timer="'.($this->user->getTimer("bullets") - time()).'"></span>).'));
+                $this->html .= $this->page->buildElement('error', array("text"=>'You can only buy bullets once every 60 seconds (<span data-reload-when-done data-timer-type="inline" data-timer="'.($this->user->getTimer("bullets")).'"></span>).'));
                 
             } else if ($qty > ($this->user->info->US_rank * 25)) {
             
