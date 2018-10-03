@@ -39,8 +39,8 @@
                 
             } else if (!$this->user->checkTimer('travel')) {
                 
-                $time = ($this->user->getTimer('travel') - time());
-                $this->html .= $this->page->buildElement('error', array("text" => 'You cant travel yet, the next flight is in <span data-timer-type="inline" data-timer="'.($this->user->getTimer("travel") - time()).'"></span>)'));
+                $time = ($this->user->getTimer('travel'));
+                $this->html .= $this->page->buildElement('error', array("text" => 'You cant travel yet, the next flight is in <span data-reload-when-done data-timer-type="inline" data-timer="'.($this->user->getTimer("travel")).'"></span>)'));
                 
             } else if ($this->user->info->US_money < $location->L_cost) {
             
