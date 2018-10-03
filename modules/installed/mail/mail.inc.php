@@ -86,8 +86,6 @@
             	));
             }
 
-            debug($this->);
-
         }
 
         public function readEmail() {
