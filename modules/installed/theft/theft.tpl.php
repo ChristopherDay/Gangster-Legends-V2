@@ -6,7 +6,9 @@
         {#each theft}
         <div class="crime-holder">
             <p>
-                {name} 
+                <span class="action">
+                    {name} 
+                </span>
                 <span class="commit">
                     <a href="?page=theft&action=commit&id={id}">Steal</a>
                 </span>
