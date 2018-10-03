@@ -1,0 +1,12 @@
+.button-fixed-width {
+	display: inline-block;
+	width: 100px;
+}
+
+.move-icon {
+	font-size: 18px;
+}
+
+.move-icon .glyphicon {
+	top: 6px;
+}
