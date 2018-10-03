@@ -12,6 +12,10 @@ a, a:hover {
 	color: inherit !important;
 }
 
+.alert {
+	border: 1px solid;
+}
+
 .padding {
 	padding: 0 10%;
 }
