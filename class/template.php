@@ -45,10 +45,30 @@
         
         /* Global elements */
         
-        public $success = '<div class="alert alert-success"><{text}></div>';
-        public $error = '<div class="alert alert-danger"><{text}></div>';
-        public $info = '<div class="alert alert-info"><{text}></div>';
-        public $warning = '<div class="alert alert-warning"><{text}></div>';
+        public $success = '<div class="alert alert-success">
+            <button type="button" class="close">
+                <span>&times;</span>
+            </button>
+            <{text}>
+        </div>';
+        public $error = '<div class="alert alert-danger">
+            <button type="button" class="close">
+                <span>&times;</span>
+            </button>
+            <{text}>
+        </div>';
+        public $info = '<div class="alert alert-info">
+            <button type="button" class="close">
+                <span>&times;</span>
+            </button>
+            <{text}>
+        </div>';
+        public $warning = '<div class="alert alert-warning">
+            <button type="button" class="close">
+                <span>&times;</span>
+            </button>
+            <{text}>
+        </div>';
         
     }
 
