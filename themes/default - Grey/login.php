@@ -22,6 +22,10 @@
                         </div>
                     <div class="col-md-4"></div>
                 </div>
+                <script src="themes/default - Grey/js/jquery.js"></script>
+                <!--<script src="themes/default - Grey/js/bootstrap.min.js"></script>-->
+                <script src="themes/default - Grey/js/timer.js"></script>
+                <script src="themes/default - Grey/js/mobile.js"></script>
             </body>
         </html>';
     
