@@ -12,7 +12,7 @@
             </div>
             <div class="panel-body">
 				
-			{text}
+			<{text}>
                 <form action="?page=register&action=register" method="post">
                     <input class="form-control" type="text" name="username" placeholder="Username" /><br />
                     <input class="form-control" type="text" autocomplete="off" name="email" placeholder="EMail" /><br />
