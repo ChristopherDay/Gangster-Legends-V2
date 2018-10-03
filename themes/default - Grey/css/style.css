@@ -272,6 +272,12 @@ table tr td, table tr th {
 		font-size: 12px;
 	}
 
+	.login-logo {
+		padding-top: 25px;
+		padding-bottom: 25px;
+		text-align: center;
+	}
+
 	.mobile-menu {
 		background-color: #272727;
 		height: 100%;
