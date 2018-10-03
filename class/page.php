@@ -1,6 +1,10 @@
 <?php
 
 class page {
+
+    public function __construct() {
+        $this->addToTemplate("timestamp", time());
+    }
     
     public $theme, $template, $success = false, $loginPages = array('login', 'register'), $jailPages = array(), $loginPage, $jailPage, $dontRun = false, $modules = array();
     private $pageHTML, $pageItems, $pageReplace;
@@ -53,6 +57,11 @@ class page {
                 include_once 'class/template.php';
                 include_once $this->moduleView;
                 
+                $moduleCssFile = "modules/installed/" . $page . "/" . $page . ".styles.css";
+
+                if (file_exists($moduleCssFile)) {
+                    $this->addToTemplate("moduleCssFile", $moduleCssFile);
+                }
                 $templateMethod = $page . 'Template';
                 
                 $this->template = new $templateMethod($page);
