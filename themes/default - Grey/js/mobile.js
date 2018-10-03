@@ -1,16 +1,10 @@
-
-	$(function () {
-		
-		$('.navigation .panel-heading').bind('click', function () {
-			
-			var body = $(this).parent().find('.panel-body');
-			
-			if (body.hasClass('hidden-xs')) {
-				body.removeClass('hidden-xs');
-			} else {
-				body.addClass('hidden-xs');
-			} 
-			
-		});
-		
+$(function () {
+	$(".navbar-toggle, .close-mobile-menu").unbind().bind("click", function () {
+		var e = $(".mobile-menu");
+		if (e.is(":visible")) {
+			e.hide();
+		} else {
+			e.show();
+		}
 	});
+});
