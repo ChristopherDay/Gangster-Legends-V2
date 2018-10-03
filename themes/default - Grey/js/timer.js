@@ -4,7 +4,6 @@ $(function () {
 	timeOffset = Math.floor(new Date() / 1000) - parseInt($("meta[name='timestamp']").attr("content"));
 });
 
-
 function checkTimer(interval) {
 
 	$('[data-timer-type="name"], [data-timer-type="inline"]').each(function () {
@@ -56,6 +55,10 @@ function checkTimer(interval) {
 
 $(function () {
 	
+	$(".alert .close").bind("click", function () {
+		$(this).parent().remove();
+	});
+
 	var d = new Date();
 
 	checkTimer(0);
