@@ -90,7 +90,7 @@
 								</div>
 								<div class="col-md-12 col-xs-6 text-center">
 									<a href="?page=notifications">
-										Notifications {#if notifications} ({notifications}){/if}
+										Notifications {#if notificationCount} ({notificationCount}){/if}
 									</a>
 								</div>
 							</div>

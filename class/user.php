@@ -134,7 +134,7 @@
 				$notifications->execute();
 				$result = $notifications->fetchObject();
 				
-				$page->addToTemplate('notifications', $result->count);
+				$page->addToTemplate('notificationCount', $result->count);
 				return $result->count;
 				
 			}
@@ -267,7 +267,9 @@
 		
 		public function checkRank() {
 			
+            global $page;
             $rank = $this->getRank();
+
 
         	$nextRank = $this->db->prepare("SELECT * FROM ranks WHERE R_exp > :oldExp ORDER BY R_exp LIMIT 0, 1");
         	$nextRank->bindParam(":oldExp", $rank->R_exp);
@@ -275,7 +277,6 @@
         	$newRank = (object) $nextRank->fetch(PDO::FETCH_ASSOC);
 
             if (isset($newRank->R_exp) && $newRank->R_exp <= $this->info->US_exp) {
-
 
                 $this->db->query("
                 	UPDATE userStats SET 
@@ -288,6 +289,35 @@
                 $this->info->US_rank = $newRank->R_id;
                 $this->info->US_bullets = $this->info->US_bullets + $newRank->R_bulletReward;
                 $this->info->US_money = $this->info->US_money + $newRank->R_cashReward;
+
+                $notification = $this->db->prepare("
+                	INSERT INTO notifications (
+                		N_uid, N_text, N_read, N_time
+                	) VALUES (
+                		:id, :text, 0, UNIX_TIMESTAMP()
+                	);
+                ");
+
+                $rewards = array();
+
+                if ($newRank->R_bulletReward) $rewards[] = array( 
+                	"name" => "Bullets",
+                	"value" => number_format($newRank->R_bulletReward) 
+                );
+                
+                if ($newRank->R_cashReward) $rewards[] = array( 
+                	"name" => "Cash" ,
+                	"value" => "$" . number_format($newRank->R_cashReward) 
+                );
+
+                $text = $page->buildElement("levelUpNotification", array(
+                	"rankName" => $newRank->R_name,
+                	"rewards" => $rewards
+                ));
+
+                $notification->bindParam(":id", $this->id);
+                $notification->bindParam(":text", $text);
+                $notification->execute();
 
                 return $this->checkRank();
 
