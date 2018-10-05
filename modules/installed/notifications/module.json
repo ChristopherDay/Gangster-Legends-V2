@@ -1,0 +1,12 @@
+{
+    "name": "Notifications",
+    "version": "1.0.0",
+    "description": "This displays any notifications the user has",
+    "author": {
+        "name": "Chris Day",
+        "url": "http:\/\/glscript.cdcoding.com"
+    },
+    "pageName": "Notifications",
+    "accessInJail": true,
+    "requireLogin": true
+}
