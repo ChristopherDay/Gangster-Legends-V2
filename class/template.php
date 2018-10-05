@@ -7,11 +7,7 @@
         public function __construct($moduleName) {
         
             global $page, $user;
-            
             $this->page = $page;
-			
-
-
             $moduleInfo = $page->modules[$moduleName];
 
             $this->page->loadedTheme = $this->page->theme;
@@ -30,50 +26,42 @@
         private function loadMainPage($pageType = "index") {
         
             if (file_exists('themes/'.$this->page->loadedTheme.'/'.$pageType.'.php')) {
-            
                 include 'themes/'.$this->page->loadedTheme.'/'.$pageType.'.php';
-                
                 $this->mainTemplate = new mainTemplate();
-                
             } else {
-            
                 die("Main template '".$this->page->loadedTheme."' file not found!");
-                
+            }
+
+            if (isset($this->mainTemplate->globalTemplates)) {
+                foreach ($this->mainTemplate->globalTemplates as $templateName => $templateStructure) {
+                    $this->$templateName = $templateStructure;
+                }
             }
             
         }
         
         /* Global elements */
-        
         public $success = '<div class="alert alert-success">
-            <button type="button" class="close">
-                <span>&times;</span>
-            </button>
             <{text}>
         </div>';
+
         public $error = '<div class="alert alert-danger">
-            <button type="button" class="close">
-                <span>&times;</span>
-            </button>
             <{text}>
         </div>';
+
         public $info = '<div class="alert alert-info">
-            <button type="button" class="close">
-                <span>&times;</span>
-            </button>
             <{text}>
         </div>';
+
         public $warning = '<div class="alert alert-warning">
-            <button type="button" class="close">
-                <span>&times;</span>
-            </button>
             <{text}>
         </div>';
-        
+
+        public $userName = '<a href="?page=profile&view={user.id}" class="user user-status-{user.status} user-level-{user.userLevel}">
+            {user.name}
+        </a>';
+
     }
-
-
-
 
     class pageElement {
         
@@ -85,7 +73,6 @@
 
         public function each($matches) {
             $var = $matches[1];
-
 
             $items = $this->items;
             $item = $this->stringToArrayConversion($var, $items);
