@@ -3,6 +3,37 @@
 
 	if (!class_exists("mainTemplate")) {
 		class mainTemplate {
+
+			public $globalTemplates = array();
+
+			public function __construct() {
+     
+		        $this->globalTemplates["success"] = '<div class="alert alert-success">
+		            <button type="button" class="close">
+		                <span>&times;</span>
+		            </button>
+		            <{text}>
+		        </div>';
+		        $this->globalTemplates["error"] = '<div class="alert alert-danger">
+		            <button type="button" class="close">
+		                <span>&times;</span>
+		            </button>
+		            <{text}>
+		        </div>';
+		        $this->globalTemplates["info"] = '<div class="alert alert-info">
+		            <button type="button" class="close">
+		                <span>&times;</span>
+		            </button>
+		            <{text}>
+		        </div>';
+		        $this->globalTemplates["warning"] = '<div class="alert alert-warning">
+		            <button type="button" class="close">
+		                <span>&times;</span>
+		            </button>
+		            <{text}>
+		        </div>';
+
+			}
 	    
 	        public $pageMain =  '<!DOCTYPE html>
 	<html>
