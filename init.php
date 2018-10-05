@@ -13,6 +13,8 @@
 	
 	require 'class/settings.php'; 
 	
+	require 'class/template.php';
+	require 'class/templateRender.php';
 	require 'class/page.php';
 	require 'class/user.php';
 
