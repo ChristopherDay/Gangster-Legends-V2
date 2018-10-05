@@ -287,6 +287,11 @@ table tr td, table tr th {
 	font-weight: bold;
 }
 
+.new {
+	color: #3c763d ;
+	font-weight: bold;
+}
+
 @media (max-width: 767px) {
 	html, body {
 		height: 100%;
