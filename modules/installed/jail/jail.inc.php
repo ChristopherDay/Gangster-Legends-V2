@@ -29,8 +29,7 @@
             }
 
             $usersInJail = $this->db->prepare("
-                SELECT DISTINCT
-                    `U_name` as 'name', 
+                SELECT DISTINCT 
                     `U_id` as 'id', 
                     (`U_id` = ".$this->user->id.") as 'currentUser',
                     `jail`.`UT_time` as 'time', 
@@ -58,11 +57,18 @@
                 $usersInJail->bindParam($key, $value);
             }
             $usersInJail->execute();
+            $usersInJail = $usersInJail->fetchAll(PDO::FETCH_ASSOC);
+
+            foreach ($usersInJail as $key => $value) {
+                $u = new User($value["id"]);
+                $usersInJail[$key]["user"] = $u->user;
+            }
 
             if ($id) {
-                return $usersInJail->fetch(PDO::FETCH_ASSOC);
+                if (!count($usersInJail)) return false;
+                return $usersInJail[0];
             } else {
-                return $usersInJail->fetchAll(PDO::FETCH_ASSOC);
+                return $usersInJail;
             }
 
         }
