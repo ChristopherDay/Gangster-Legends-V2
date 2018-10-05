@@ -66,7 +66,7 @@
 		            {/unless}
 		            {#each mail}
 		                <tr>
-		                    <td class="text-center">{#unless read}*NEW*{/unless}</td>
+		                    <td class="text-center">{#unless read}<span class="new">*NEW*</span>{/unless}</td>
 		                    <td>{date}</td>
 		                    <td>
 			                	{>userName}
