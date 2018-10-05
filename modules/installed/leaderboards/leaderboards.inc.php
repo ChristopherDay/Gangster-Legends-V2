@@ -10,17 +10,22 @@
 			
 			switch (@$this->methodData->top10) {
 				case 'rank': 
-					$order = 'US_rank DESC, US_exp'; 
+					$order = 'US_exp'; 
 					$title = "Top 10 Players"; 
 				break;
 				default: 
-					$order = 'US_money'; 
+					$order = '(US_money + US_bank)'; 
 					$title = "Top 10 Richest Players"; 
 				break;
 			}
             
 			$select = $this->db->prepare("
-				SELECT * FROM userStats ORDER BY ".$order." DESC LIMIT 0, 10
+				SELECT 
+					* 
+				FROM 
+					userStats
+					INNER JOIN users ON (US_id = U_id) 
+				ORDER BY ".$order." DESC LIMIT 0, 10
 			");
 			$select->execute();
 			
@@ -28,11 +33,11 @@
 			$users = array();
 			
 			while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
-				$username = new user($row['US_id']);
+				$u = new User($row['U_id']);
 				$users[] = array(
 					"rank" => $i, 
-					"name" => $username->info->U_name, 
-					"id" => $username->info->U_id
+					"user" => $u->user, 
+					"id" => $row['U_id']
 				); 
 				$i++;
 			}

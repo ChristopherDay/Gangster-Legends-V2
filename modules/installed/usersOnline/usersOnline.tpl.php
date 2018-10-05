@@ -8,7 +8,7 @@
         			<h4 class="text-left">{title}</h4>
         			<ul class="text-left">
         				{#each users}
-							<li><a href="?page=profile&view={id}">{name}</a></li>
+							<li>{>userName}</li>
         				{/each}
         			</ul>
         		</div>

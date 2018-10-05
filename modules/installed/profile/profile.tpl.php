@@ -40,7 +40,7 @@
 					<table class="table table-borderless table-condensed">
 						<tr>
 							<th width="100px">Username</th>
-							<td class="text-left">{name}</td>
+							<td class="text-left">{>userName}</td>
 						</tr>
 						<tr>
 							<th width="100px">Rank</th>
@@ -49,6 +49,12 @@
 						<tr>
 							<th width="100px">Family</th>
 							<td class="text-left">{family}</td>
+						</tr>
+						<tr>
+							<th width="100px">Actions</th>
+							<td class="text-left">
+								<a href="?page=mail&action=new&id={user.id}"> Send Mail </a>
+							</td>
 						</tr>
 						<tr>
 							<th width="100px">Status</th>

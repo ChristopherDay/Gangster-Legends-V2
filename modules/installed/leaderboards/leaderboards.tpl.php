@@ -17,7 +17,7 @@
 					{#each users}
 						<tr>
 							<td>{rank}</td>
-							<td><a href="?page=profile&view={id}">{name}</a></td>
+							<td>{>userName}</td>
 						</tr>
 					{/each}
 				</tbody>

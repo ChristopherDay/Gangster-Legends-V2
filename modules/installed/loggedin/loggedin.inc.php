@@ -20,7 +20,7 @@
                 $articleInfo[] = array(
                     "title" => $newsArticle['GN_title'],
                     "authorID" => $newsArticle['U_id'],
-                    "author" => $newsArticle['U_name'],
+                    "user" => $author->user,
                     "date" => $this->date($newsArticle['GN_date']),
                     "text" => $newsArticle['GN_text']
                 );

@@ -18,7 +18,7 @@
 	            <p>
 	            	<span data-timer="{time}" data-timer-type="inline" class="hidden-xs"></span>  
 	            	<span class="action">
-	            		{name}
+	            		{>userName}
 	            	</span>
 	            	<span class="cooldown visible-xs">
 	            		<span data-timer="{time}" data-timer-type="inline"></span>  

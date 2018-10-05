@@ -16,22 +16,13 @@
         public function constructModule() {
 			
 			if (isset($this->methodData->view) && $this->methodData->view != $this->user->id) {
-				
 				$profile = new user($this->methodData->view);
-				
 				$this->pageName = 'Viewing '.$profile->info->U_name.'\'s Profile';
-			
 				$edit = false;
-				
 			} else {
-			
 				$profile = $this->user;
-				
 				$this->pageName = 'My Profile';
-				
 				$edit = true;
-			
-				
 			}
 			
 			$bio =  ((strlen($profile->info->US_bio)>0)?($profile->info->US_bio):false);
@@ -41,7 +32,7 @@
 			
             $this->html .= $this->page->buildElement('profile', array(
 				"picture" => $pic,
-				"name" => $profile->info->U_name, 
+				"user" => $profile->user, 
 				"rank" => $profile->getRank()->R_name, 
 				"family" => $profile->getGang()["name"], 
 				"status" => $profile->getStatus(), 

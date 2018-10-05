@@ -8,8 +8,11 @@ body {
 	color: #ffffff;
 }
 
-a, a:hover {
-	color: inherit !important;
+a, 
+a:focus,
+a:active,
+a:hover {
+	color: inherit;
 }
 
 .alert {
@@ -264,6 +267,20 @@ table tr td, table tr th {
 }
 .mobile-menu {
 		display: none;
+}
+
+.user-level-0:before {
+	content: "[BANNED]";
+}
+.user-level-0,
+.user-level-0:hover {
+	color: #777;
+}
+
+.user-level-2,
+.user-level-2:hover {
+	color: #ff0;
+	font-weight: bold;
 }
 
 @media (max-width: 767px) {
