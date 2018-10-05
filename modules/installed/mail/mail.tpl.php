@@ -23,8 +23,12 @@
             {>mailForm}
         ';
         public $mailForm = '
-            <form method="post" action="?page=mail&action={action}&id={id}">
-            	<input rows="6" name="subject" class="form-control" placeholder="Subject" value="{#if subject}RE: {subject}{/if}" / >
+            <form method="post" action="?page=mail&action={action}&id={id}{#if name}&name={name}{/if}">
+            	{#if showUser}
+	            	<input name="name" class="form-control" placeholder="User" value="{#if name}{name}{/if}" / >
+	            	<br />
+            	{/if}
+            	<input name="subject" class="form-control" placeholder="Subject" value="{#if subject}RE: {subject}{/if}" / >
             	<br />
             	<textarea rows="6" name="message" class="form-control" placeholder="Your reply ..."></textarea>
             	<br />
@@ -87,6 +91,9 @@
 	    		<span class="small pull-right">
 	    			<a href="?page=mail&action=outbox">Outbox</a>
 	    		</span>
+	    		<span class="small pull-right">
+	    			<a href="?page=mail&action=new">New Mail</a>&nbsp;&nbsp;
+	    		</span> 
 	    	</h4>
 
 	    	{>mailTable}
@@ -98,6 +105,9 @@
 	    		<span class="small pull-right">
 	    			<a href="?page=mail">Inbox</a>
 	    		</span>
+	    		<span class="small pull-right">
+	    			<a href="?page=new">New Mail</a>&nbsp;&nbsp;
+	    		</span> 
 	    	</h4>
 
 	    	{>mailTable}
