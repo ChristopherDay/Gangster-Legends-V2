@@ -53,7 +53,7 @@
 						<tr>
 							<th width="100px">Actions</th>
 							<td class="text-left">
-								<a href="?page=mail&action=new&id={user.id}"> Send Mail </a>
+								<a href="?page=mail&action=new&name={user.name}"> Send Mail </a>
 							</td>
 						</tr>
 						<tr>

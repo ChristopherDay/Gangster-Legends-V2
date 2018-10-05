@@ -49,13 +49,15 @@
 
             $pic = (is_array(@getimagesize($this->info->US_pic))?$this->info->US_pic:"themes/default/images/default-profile-picture.png");
 
-            $this->user = array(
-            	"name" => $this->info->U_name,
-            	"id" => $this->info->U_id,
-            	"userLevel" => $this->info->U_userLevel,
-            	"status" => $this->info->U_status, 
-            	"profilePicture" => $pic
-            );
+            if (isset($this->info->U_name)) {
+	            $this->user = array(
+	            	"name" => $this->info->U_name,
+	            	"id" => $this->info->U_id,
+	            	"userLevel" => $this->info->U_userLevel,
+	            	"status" => $this->info->U_status, 
+	            	"profilePicture" => $pic
+	            );
+            }
 			
             if ($return) {
 				return $this->info;

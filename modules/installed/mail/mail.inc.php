@@ -3,7 +3,9 @@
     class mail extends module {
         
         public $allowedMethods = array(
-        	"id" => array( "type" => "GET" ),
+            "id" => array( "type" => "GET" ),
+            "name" => array( "type" => "GET" ),
+        	"name" => array( "type" => "POST" ),
         	"reply" => array( "type" => "GET" ),
         	"message" => array( "type" => "POST" ),
         	"subject" => array( "type" => "POST" )
@@ -64,8 +66,9 @@
 
         public function method_read () {
 
-            $read = $this->db->prepare("UPDATE mail SET M_read = 1 WHERE M_id = :id");
+            $read = $this->db->prepare("UPDATE mail SET M_read = 1 WHERE M_id = :id AND M_uid = :uid");
             $read->bindParam(":id", $this->methodData->id);
+            $read->bindParam(":uid", $this->user->id);
             $read->execute();
 
             $opts = $this->getMailList(false, $this->methodData->id)[0];
@@ -125,19 +128,22 @@
 
         public function method_new() {
             $error = $this->validateMail();
-            
 
-            if ($this->methodData->id == $this->user->id) {
-                return $this->html .= $this->page->buildElement("error", array(
-                    "text" => "You cant message yourself"
-                ));
-            }
-            $to = new User($this->methodData->id);
+            if (isset($this->methodData->name)) {
 
-            if (!$to->info->U_id) {
-                return $this->html .= $this->page->buildElement("error", array(
-                    "text" => "This user does not exist"
-                ));
+                if ($this->methodData->name == $this->user->name) {
+                    return $this->html .= $this->page->buildElement("error", array(
+                        "text" => "You cant message yourself"
+                    ));
+                }
+
+                $to = new User(null, $this->methodData->name);
+
+                if (!isset($to->info->U_id)) {
+                    return $this->html .= $this->page->buildElement("error", array(
+                        "text" => "This user does not exist"
+                    ));
+                }
             }
 
             if (!$error) {
@@ -147,7 +153,7 @@
                     UNIX_TIMESTAMP(), :to, :from, :subject, :message
                 )");
 
-                $send->bindParam(":to", $this->methodData->id);
+                $send->bindParam(":to", $to->info->U_id);
                 $send->bindParam(":from", $this->user->id);
                 $send->bindParam(":subject", $this->methodData->subject);
                 $send->bindParam(":message", $this->methodData->message);
@@ -159,11 +165,17 @@
                 ));
             }
 
-            $this->html .= $this->page->buildElement("newMail", array(
-                "user" => $to->user, 
-                "id" => $this->methodData->id, 
+            $opts = array(
+                "showUser" => true,
                 "action" => "new"
-            ));
+            );
+
+            if (isset($to)) {
+                $opts["user"] = $to->user;
+                $opts["name"] = $this->methodData->name;
+            }
+
+            $this->html .= $this->page->buildElement("newMail", $opts);
 
         }
 
