@@ -15,6 +15,10 @@ a:hover {
 	color: inherit;
 }
 
+.no-scroll {
+	overflow: hidden;	
+}
+
 .alert {
 	border: 1px solid;
 }
