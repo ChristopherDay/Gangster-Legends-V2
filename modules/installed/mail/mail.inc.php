@@ -3,7 +3,6 @@
     class mail extends module {
         
         public $allowedMethods = array(
-        	"view" => array( "type" => "GET" ),
         	"id" => array( "type" => "GET" ),
         	"reply" => array( "type" => "GET" ),
         	"message" => array( "type" => "POST" ),
@@ -29,7 +28,7 @@
 					M_text as 'text', 
 					M_type as 'type', 
 					M_read as 'read' 
-				FROM mail WHERE $add
+				FROM mail WHERE $add ORDER BY M_time DESC
 			");
 			$mail->bindParam(":user", $this->user->id);
 
@@ -42,11 +41,14 @@
 
 			foreach ($allMail as $key => $mail) {
 
-				$receiver = new User($mail["receiver"]);
-				$mail["receiver"] = (array) $receiver->info;
+                if ($type == 'M_sid') {
+    				$receiver = new User($mail["receiver"]);
+    				$mail["user"] = (array) $receiver->user;
+                } else {
+    				$sender = new User($mail["sender"]);
+    				$mail["user"] = (array) $sender->user;
+                }
 
-				$sender = new User($mail["sender"]);
-				$mail["sender"] = (array) $sender->info;
 
 				$mail["date"] = date("jS M H:i", $mail["time"]);
 
@@ -57,69 +59,154 @@
 		}
 
         public function constructModule() {
+        	if (!isset($this->methodData->action)) $this->method_inbox();
+        }
 
-        	switch (@$this->methodData->view) {
-        		case "reply": 
-        			$this->reply();
-        			$this->viewInbox();
-        		break;
-        		case "read": 
-        			$this->readEmail();
-        		break;
-        		case "outbox": 
-        			$this->viewOutbox();
-        		break;
-        		default:
-        			$this->viewInbox();
-        		break;
-        	}
+        public function method_read () {
+
+            $read = $this->db->prepare("UPDATE mail SET M_read = 1 WHERE M_id = :id");
+            $read->bindParam(":id", $this->methodData->id);
+            $read->execute();
+
+            $opts = $this->getMailList(false, $this->methodData->id)[0];
+            $opts["action"] = "reply";
+            $this->html .= $this->page->buildElement(
+                "mail", 
+                $opts
+            );
+        }
+
+        public function method_inbox() {
+            $mail = $this->getMailList();
+            foreach ($mail as $key => $value) {
+                $mail[$key]["inbox"] = true;
+            }
+            $this->html .= $this->page->buildElement("mailInbox", array(
+                "inbox" => true,
+                "mail" => $mail
+            ));
+        }
+
+        public function method_outbox() {
+            $mail = $this->getMailList("M_sid");
+            foreach ($mail as $key => $value) {
+                $mail[$key]["inbox"] = false;
+            }
+            $this->html .= $this->page->buildElement("mailOutbox", array(
+                "inbox" => false,
+                "mail" => $mail
+            ));
+        }
+
+        public function validateMail() {
+            $error = false;
+
+            if (isset($this->methodData->subject)) {
+                if (strlen($this->methodData->subject) < 2) {
+                    $this->html .= $this->page->buildElement("error", array(
+                        "text" => "The subject must be at least two characters"
+                    ));
+                    $error = true;
+                }
+
+                if (strlen($this->methodData->message) < 6) {
+                    $this->html .= $this->page->buildElement("error", array(
+                        "text" => "The message must be at least six characters"
+                    ));
+                    $error = true;
+                }
+            } else {
+                return true;
+            }
+
+            return $error;
+            
+        } 
+
+        public function method_new() {
+            $error = $this->validateMail();
+            
+
+            if ($this->methodData->id == $this->user->id) {
+                return $this->html .= $this->page->buildElement("error", array(
+                    "text" => "You cant message yourself"
+                ));
+            }
+            $to = new User($this->methodData->id);
+
+            if (!$to->info->U_id) {
+                return $this->html .= $this->page->buildElement("error", array(
+                    "text" => "This user does not exist"
+                ));
+            }
+
+            if (!$error) {
+                $send = $this->db->prepare("INSERT INTO mail (
+                    M_time, M_uid, M_sid, M_subject, M_text  
+                ) VALUES(
+                    UNIX_TIMESTAMP(), :to, :from, :subject, :message
+                )");
+
+                $send->bindParam(":to", $this->methodData->id);
+                $send->bindParam(":from", $this->user->id);
+                $send->bindParam(":subject", $this->methodData->subject);
+                $send->bindParam(":message", $this->methodData->message);
+
+                $send->execute();
+
+                $this->html .= $this->page->buildElement("success", array(
+                    "text" => "Message Sent"
+                ));
+            }
+
+            $this->html .= $this->page->buildElement("newMail", array(
+                "user" => $to->user, 
+                "id" => $this->methodData->id, 
+                "action" => "new"
+            ));
 
         }
 
-        public function reply() {
+        public function method_reply() {
 
             $replyTo = @$this->getMailList(false, $this->methodData->id)[0];
 
             if (!$replyTo) {
-            	return $this->html .= $this->page->buildElement("error", array(
-            		"text" => "This mail does not exist"
-            	));
+                return $this->html .= $this->page->buildElement("error", array(
+                    "text" => "This mail does not exist"
+                ));
             }
 
-        }
+            if ($replyTo["sender"] == $this->user->id) {
+                return $this->html .= $this->page->buildElement("error", array(
+                    "text" => "You cant message yourself"
+                ));
+            }
 
-        public function readEmail() {
+            $error = $this->validateMail();
 
-        	$read = $this->db->prepare("UPDATE mail SET M_read = 1 WHERE M_id = :id");
-        	$read->bindParam(":id", $this->methodData->id);
-        	$read->execute();
+            if (!$error) {
 
-            $this->html .= $this->page->buildElement(
-            	"mail", 
-            	$this->getMailList(false, $this->methodData->id)[0]
-            );
-        }
+                $send = $this->db->prepare("INSERT INTO mail (
+                    M_time, M_uid, M_sid, M_subject, M_text  
+                ) VALUES(
+                    UNIX_TIMESTAMP(), :to, :from, :subject, :message
+                )");
 
-        public function viewInbox() {
-			$mail = $this->getMailList();
-			foreach ($mail as $key => $value) {
-				$mail[$key]["inbox"] = true;
-			}
-            $this->html .= $this->page->buildElement("mailInbox", array(
-				"inbox" => true,
-            	"mail" => $mail
-            ));
-        }
+                $send->bindParam(":to", $replyTo["sender"]);
+                $send->bindParam(":from", $this->user->id);
+                $send->bindParam(":subject", $this->methodData->subject);
+                $send->bindParam(":message", $this->methodData->message);
 
-        public function viewOutbox() {
-			$mail = $this->getMailList("M_sid");
-			foreach ($mail as $key => $value) {
-				$mail[$key]["inbox"] = false;
-			}
-            $this->html .= $this->page->buildElement("mailOutbox", array(
-				"inbox" => false,
-            	"mail" => $mail
-            ));
+                $send->execute();
+
+                $this->html .= $this->page->buildElement("success", array(
+                    "text" => "Reply Sent"
+                ));
+            }
+
+
+            $this->method_read();
         }
         
     }

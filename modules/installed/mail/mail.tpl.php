@@ -7,20 +7,24 @@
 	        	<h3>
                     {subject} 
                     <small class="pull-right tiny">
-                        By <a href="?page=profile&view={sender.U_id}">{sender.U_name}</a><br />
+                        By {>userName}<br />
                         {date}
                     </small>
                 </h3>
                 <hr />
 	        	<p>[{text}]</p>
             </div>
-            <h4 class="text-left">Reply to {sender.U_name}</h4>
-            {>newMail}
+            <h4 class="text-left">Reply to {>userName}</h4>
+            {>mailForm}
         ';
 
         public $newMail = '
-            <form method="post" action="?page=mail&view=reply&id={id}">
-            	<input rows="6" name="subject" class="form-control" placeholder="Subject" / >
+            <h4 class="text-left">Message {>userName}</h4>
+            {>mailForm}
+        ';
+        public $mailForm = '
+            <form method="post" action="?page=mail&action={action}&id={id}">
+            	<input rows="6" name="subject" class="form-control" placeholder="Subject" value="{#if subject}RE: {subject}{/if}" / >
             	<br />
             	<textarea rows="6" name="message" class="form-control" placeholder="Your reply ..."></textarea>
             	<br />
@@ -65,16 +69,11 @@
 		                    <td class="text-center">{#unless read}*NEW*{/unless}</td>
 		                    <td>{date}</td>
 		                    <td>
-			                	{#if inbox}
-				                	<a href="?page=profile&view={sender.U_id}">{sender.U_name}</a>
-			                	{/if}
-			                	{#unless inbox}
-				                	<a href="?page=profile&view={receiver.U_id}">{receiver.U_name}</a>
-			                	{/unless}
+			                	{>userName}
 		                    </td>
 		                    <td>{subject}</td>
 		                    <td class="text-center">
-		                        <a href="?page=mail&view=read&id={id}">Read</a>
+		                        <a href="?page=mail&action=read&id={id}">Read</a>
 		                    </td>
 		                </tr>
 		            {/each}
@@ -86,7 +85,7 @@
 	        <h4 class="text-left">
 	    		Inbox
 	    		<span class="small pull-right">
-	    			<a href="?page=mail&view=outbox">Outbox</a>
+	    			<a href="?page=mail&action=outbox">Outbox</a>
 	    		</span>
 	    	</h4>
 
