@@ -10,3 +10,11 @@
 .move-icon .glyphicon {
 	top: 6px;
 }
+
+
+@media (max-width: 767px) {
+	.button-fixed-width {
+		display: inline-block;
+		width: 65px;
+	}
+}
