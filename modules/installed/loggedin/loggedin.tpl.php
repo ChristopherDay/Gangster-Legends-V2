@@ -8,7 +8,7 @@
     	        	<h3>
                         {title} 
                         <small class="pull-right tiny">
-                            By <a href="?page=profile&view={authorID}">{author}</a><br />
+                            By {>userName}<br />
                             {date}
                         </small>
                     </h3>

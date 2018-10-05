@@ -32,7 +32,7 @@
 					$userOnline = new user($row['UT_user']);
 
 					$users[] = array(
-						"name" => $userOnline->info->U_name,
+						"user" => $userOnline->user,
 						"id" => $userOnline->info->U_id
 					);
 
