@@ -290,14 +290,6 @@
                 $this->info->US_bullets = $this->info->US_bullets + $newRank->R_bulletReward;
                 $this->info->US_money = $this->info->US_money + $newRank->R_cashReward;
 
-                $notification = $this->db->prepare("
-                	INSERT INTO notifications (
-                		N_uid, N_text, N_read, N_time
-                	) VALUES (
-                		:id, :text, 0, UNIX_TIMESTAMP()
-                	);
-                ");
-
                 $rewards = array();
 
                 if ($newRank->R_bulletReward) $rewards[] = array( 
@@ -315,9 +307,7 @@
                 	"rewards" => $rewards
                 ));
 
-                $notification->bindParam(":id", $this->id);
-                $notification->bindParam(":text", $text);
-                $notification->execute();
+                $this->newNotification($text);
 
                 return $this->checkRank();
 
@@ -330,6 +320,19 @@
 		
 		}
         
+        public function newNotification($text) {
+			$notification = $this->db->prepare("
+            	INSERT INTO notifications (
+            		N_uid, N_text, N_read, N_time
+            	) VALUES (
+            		:id, :text, 0, UNIX_TIMESTAMP()
+            	);
+            ");
+            $notification->bindParam(":id", $this->id);
+            $notification->bindParam(":text", $text);
+            $notification->execute();
+		}
+
         public function getLocation() {
             
             $location = $this->db->prepare("SELECT L_name FROM locations WHERE L_id = :location");
