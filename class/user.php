@@ -2,7 +2,7 @@
 
 	class user {
 		
-		public $id, $info, $name, $db, $loggedin = false, $nextRank;
+		public $id, $info, $name, $db, $loggedin = false, $nextRank, $user;
 		
 		// Pass the ID to the class
 		function __construct($id = FALSE, $name = FALSE) {
@@ -46,6 +46,16 @@
                 $this->id = $this->info->U_id;
                 $this->name = $this->info->U_name;
             }
+
+            $pic = (is_array(@getimagesize($this->info->US_pic))?$this->info->US_pic:"themes/default/images/default-profile-picture.png");
+
+            $this->user = array(
+            	"name" => $this->info->U_name,
+            	"id" => $this->info->U_id,
+            	"userLevel" => $this->info->U_userLevel,
+            	"status" => $this->info->U_status, 
+            	"profilePicture" => $pic
+            );
 			
             if ($return) {
 				return $this->info;
