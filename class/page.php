@@ -80,9 +80,7 @@ class page {
 
                 
                 if (isset($module)) {
-                    
                     $this->addToTemplate('game', $module->htmlOutput());
-                    
                 }
                 
                 $pageName = $page;
