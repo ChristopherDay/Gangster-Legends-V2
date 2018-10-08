@@ -19,15 +19,10 @@
             $this->buildMethodData();
             
             if (isset($this->methodData->action)) {
-            
                 $methodAction = 'method_'.$this->methodData->action;
-                
                 if (method_exists($this, $methodAction)) {
-                    
                     $this->$methodAction();
-                
                 }
-                
             }
             
             if ($this->construct) {
@@ -80,6 +75,10 @@
                 } else if (strtolower($val['type']) == 'post') {
                     if (isset($_POST[$key])) {
                         @$this->methodData->$key = $_POST[$key];
+                    }
+                } else if (strtolower($val['type']) == 'request') {
+                    if (isset($_REQUEST[$key])) {
+                        @$this->methodData->$key = $_REQUEST[$key];
                     }
                 }
             }
