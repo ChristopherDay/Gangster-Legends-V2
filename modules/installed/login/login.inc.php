@@ -9,6 +9,22 @@
         );
         
         public function constructModule() {
+
+            $settings = new settings();
+            $this->page->addToTemplate("loginSuffix", $settings->loadSetting("loginSuffix"));
+            $this->page->addToTemplate("loginPostfix", $settings->loadSetting("loginPostfix"));
+
+            $usersOnline = $this->db->prepare("
+                SELECT COUNT(*) as 'count' FROM users
+            ");
+            $usersOnline->execute();
+            $users = $this->db->prepare("
+                SELECT COUNT(*) as 'count' FROM userTimers WHERE UT_desc = 'laston' AND UT_time > ".(time()-900)."
+            ");
+            $users->execute();
+
+            $this->page->addToTemplate("usersOnline", number_format($usersOnline->fetch(PDO::FETCH_ASSOC)["count"]));
+            $this->page->addToTemplate("users", number_format($users->fetch(PDO::FETCH_ASSOC)["count"]));
             
             $this->html .= $this->page->buildElement('loginForm', array("text" => (isset($this->loginError)?$this->loginError:'')));
             
