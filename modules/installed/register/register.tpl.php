@@ -3,26 +3,50 @@
     class registerTemplate extends template {
     
         public $registerForm = '
-		<div class="login-logo">
-			<img src="themes/default/images/logo.png" alt="Ganger Legends" />
-		</div>
-		<div class="panel panel-default">
-            <div class="panel-heading">
-                Register
-            </div>
-            <div class="panel-body">
-				
 			<{text}>
-                <form action="?page=register&action=register" method="post">
-                    <input class="form-control" type="text" name="username" placeholder="Username" /><br />
-                    <input class="form-control" type="text" autocomplete="off" name="email" placeholder="EMail" /><br />
-                    <input class="form-control" type="password" name="password" placeholder="Password" /><br />
-                    <input class="form-control" type="password" name="cpassword" placeholder="Confirm Password" /><br />
-                    <button type="submit" class="btn pull-right">Register</button>
-                    <a class="btn btn-link pull-right" href="?page=login">Login</a>
-                </form>
-            </div>
-        </div>';
+            <form action="?page=register&action=register" method="post">
+                <input class="form-control" type="text" name="username" placeholder="Username" /><br />
+                <input class="form-control" type="text" autocomplete="off" name="email" placeholder="EMail" /><br />
+                <div class="row">
+                    <div class="col-md-6">
+                        <input class="form-control" type="password" name="password" placeholder="Password" />
+                    </div>
+                    <div class="col-md-6">
+                        <input class="form-control" type="password" name="cpassword" placeholder="Confirm Password" />
+                    </div>
+                </div>
+                <br />
+                <button type="submit" class="btn pull-right">Register</button>
+            </form>
+        ';
+
+        public $loginOptions = '
+
+            <form method="post" action="?page=admin&module=register&action=settings">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="pull-left">Register Suffix</label>
+                            <textarea type="text" class="form-control" name="registerSuffix" rows="5">{registerSuffix}</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="pull-left">Register Postfix</label>
+                            <textarea type="text" class="form-control" name="registerPostfix" rows="5">{registerPostfix}</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-right">
+                    <button class="btn btn-default" name="submit" type="submit" value="1">Save</button>
+                </div>
+            </form>
+        ';
         
     }
 
