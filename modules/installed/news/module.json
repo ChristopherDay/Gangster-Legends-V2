@@ -1,0 +1,12 @@
+{
+    "name": "Global Game News",
+    "version": "1.0.0",
+    "description": "",
+    "author": {
+        "name": "Chris Day",
+        "url": "http:\/\/glscript.cdcoding.com"
+    },
+    "pageName": "Game News",
+    "accessInJail": false,
+    "requireLogin": false
+}
