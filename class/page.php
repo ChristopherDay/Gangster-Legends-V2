@@ -6,7 +6,7 @@ class page {
         $this->addToTemplate("timestamp", time());
     }
     
-    public $theme, $template, $success = false, $loginPages = array('login', 'register'), $jailPages = array(), $loginPage, $jailPage, $dontRun = false, $modules = array(), $moduleView;
+    public $theme, $template, $success = false, $loginPages = array('login', 'register'), $jailPages = array(), $loginPage, $jailPage, $dontRun = false, $modules = array(), $moduleView, $loadedTheme;
     private $pageHTML, $pageItems, $pageReplace;
     
     public function loadModuleMetaData() {
@@ -199,6 +199,9 @@ class page {
     }
 
     public function buildElement($templateName, $vars = array()) {
+
+        $vars["_theme"] = $this->loadedTheme;
+
         $template = new pageElement($vars, $this->template, $templateName);
         return $template->parse();        
     }
