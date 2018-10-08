@@ -109,19 +109,22 @@
                             </div>
                             <!-- sidebar-content  -->
                             <div class="sidebar-footer">
-                                <a href="#">
+                                <a href="?page=notifications">
                                     <i class="glyphicon glyphicon-bell"></i>
-                                    <span class="label label-warning notification">3</span>
+                                    {#if notificationCount}
+                                        <span class="label label-warning notification">{notificationCount}</span>
+                                    {/if}
                                 </a>
-                                <a href="#">
+                                <a href="?page=mail">
                                     <i class="glyphicon glyphicon-envelope"></i>
-                                    <span class="label label-success notification">7</span>
+                                    {#if mail}
+                                        <span class="label label-success notification">{mail}</span>
+                                    {/if}
                                 </a>
-                                <a href="#">
+                                <a href="?page=profile">
                                     <i class="glyphicon glyphicon-cog"></i>
-                                    <span class="badge-sonar"></span>
                                 </a>
-                                <a href="#">
+                                <a href="?page=logout">
                                     <i class="glyphicon glyphicon-off"></i>
                                 </a>
                             </div>
