@@ -201,6 +201,7 @@ class page {
     public function buildElement($templateName, $vars = array()) {
 
         $vars["_theme"] = $this->loadedTheme;
+        $this->addToTemplate("_theme", $this->loadedTheme);
 
         $template = new pageElement($vars, $this->template, $templateName);
         return $template->parse();        
