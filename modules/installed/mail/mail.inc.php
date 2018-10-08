@@ -4,8 +4,7 @@
         
         public $allowedMethods = array(
             "id" => array( "type" => "GET" ),
-            "name" => array( "type" => "GET" ),
-        	"name" => array( "type" => "POST" ),
+            "name" => array( "type" => "REQUEST" ),
         	"reply" => array( "type" => "GET" ),
         	"message" => array( "type" => "POST" ),
         	"subject" => array( "type" => "POST" )
@@ -127,15 +126,8 @@
         } 
 
         public function method_new() {
-            $error = $this->validateMail();
 
             if (isset($this->methodData->name)) {
-
-                if ($this->methodData->name == $this->user->name) {
-                    return $this->html .= $this->page->buildElement("error", array(
-                        "text" => "You cant message yourself"
-                    ));
-                }
 
                 $to = new User(null, $this->methodData->name);
 
@@ -144,7 +136,16 @@
                         "text" => "This user does not exist"
                     ));
                 }
+
+                if ($to->info->U_id == $this->user->id) {
+                    return $this->html .= $this->page->buildElement("error", array(
+                        "text" => "You cant message yourself"
+                    ));
+                }
+
             }
+
+            $error = $this->validateMail();
 
             if (!$error) {
                 $send = $this->db->prepare("INSERT INTO mail (
@@ -172,6 +173,8 @@
 
             if (isset($to)) {
                 $opts["user"] = $to->user;
+            }
+            if (isset($this->methodData->name)) {
                 $opts["name"] = $this->methodData->name;
             }
 
