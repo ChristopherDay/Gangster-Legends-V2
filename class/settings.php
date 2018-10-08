@@ -19,7 +19,7 @@
 			
 		}
 		
-		public function loadSetting($setting, $makeIfNotExist = true, $value = 'Not Set') {
+		public function loadSetting($setting, $makeIfNotExist = true, $value = '') {
 		
 			$select = $this->db->prepare("SELECT * FROM settings WHERE S_desc = :desc");
 			$select->bindParam(":desc", $setting);
