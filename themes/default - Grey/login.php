@@ -14,14 +14,54 @@
             </head>
             
             <body>
+
+
+                <div class="login-logo">
+                    <img src="themes/default - grey/images/logo.png" alt="Ganger Legends" />
+                </div>
             
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-4"></div>
-                            <div class="col-md-4">
-                                <{game}>
+                {#if loginSuffix}
+                    <div class="panel panel-default login-form">
+                        <div class="panel-body">
+                            <{loginSuffix}>
+                        </div>
+                    </div>
+                {/if}
+
+                <div class="panel panel-default login-form">
+                    <div class="panel-heading">
+                        {page}
+                    </div>
+                    <div class="panel-body">
+                        <ul class="nav nav-pills nav-justified">
+                            <li>
+                                <a href="?page=login">Login</a>
+                            </li>
+                            <li>
+                                <a href="?page=register">Register</a>
+                            </li>
+                            <li>
+                                <a href="?page=news">News</a>
+                            </li>
+                        </ul>
+                        <{game}>
+                    </div>
+                </div>
+
+                <div class="panel panel-default login-form">
+                    <div class="panel-body">
+                        {#if loginPostfix}
+                            <{loginPostfix}>
+                            <hr />
+                        {/if}
+                        <div class="row text-center">
+                            <div class="col-md-6">
+                                Gangsters: {usersOnline}
                             </div>
-                        <div class="col-md-4"></div>
+                            <div class="col-md-6">
+                                Gangsters Online: {users}
+                            </div>
+                        </div>
                     </div>
                 </div>
 
