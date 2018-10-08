@@ -154,10 +154,11 @@ hr {
 }
 
 .panel-body {
-	background: rgba(0, 0, 0, 0.6);
+	background: rgba(0, 0, 0, 0.7);
 	border: none;
-	border-bottom-left-radius: 6px;
-	border-bottom-right-radius: 6px;
+	border-radius: 5px;
+	border: 1px solid #373737; 
+	margin-top: -6px;
 }
 
 .panel-heading{
@@ -290,6 +291,20 @@ table tr td, table tr th {
 .new {
 	color: #3c763d ;
 	font-weight: bold;
+}
+
+.login-form {
+	width: 400px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.nav-pills>li>a {
+	padding: 5px;
+	margin-bottom: 10px;
+}
+.nav-pills>li>a:hover {
+	background-color: #474747;
 }
 
 @media (max-width: 767px) {
