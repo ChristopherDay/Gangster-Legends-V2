@@ -17,7 +17,7 @@
 
 
                 <div class="login-logo">
-                    <img src="themes/default - grey/images/logo.png" alt="Ganger Legends" />
+                    <img src="themes/{_theme}/images/logo.png" alt="Ganger Legends" />
                 </div>
             
                 {#if loginSuffix}
