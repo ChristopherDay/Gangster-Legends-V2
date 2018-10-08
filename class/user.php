@@ -16,7 +16,7 @@
 				$this->name = $name;
 				$this->getInfo();	
 	            
-	            if ($_SESSION['userID'] == $this->id) {
+	            if (isset($_SESSION['userID']) && $_SESSION['userID'] == $this->id) {
 	                $this->loggedin = true;
 	            }
 
@@ -162,12 +162,7 @@
 			$page->addToTemplate('location', $this->getLocation());
 			$page->addToTemplate('username', $this->info->U_name);
 
-            if ($this->info->U_userLevel > 1) {
-                $adminLink = '<a href="?page=admin">Admin</a><br />';
-            } else {
-                $adminLink = "";
-            }
-			$page->addToTemplate('adminLink', $adminLink);
+			$page->addToTemplate('isAdmin', $this->info->U_userLevel == 2);
 			
 			if (($this->getTimer("crime")-time()) > 0) {
 				$page->addToTemplate('crime_timer', ($this->getTimer("crime")));
