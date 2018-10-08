@@ -8,5 +8,12 @@
     },
     "pageName": "Login",
     "accessInJail": true,
-    "requireLogin": false
+    "requireLogin": false,
+    "adminGroup": "Pages",
+    "admin": [
+        {
+            "text": "Page Settings",
+            "method": "settings"
+        }
+    ]
 }
