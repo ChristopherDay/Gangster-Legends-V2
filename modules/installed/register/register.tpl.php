@@ -8,10 +8,10 @@
                 <input class="form-control" type="text" name="username" placeholder="Username" /><br />
                 <input class="form-control" type="text" autocomplete="off" name="email" placeholder="EMail" /><br />
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-xs-6">
                         <input class="form-control" type="password" name="password" placeholder="Password" />
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-xs-6">
                         <input class="form-control" type="password" name="cpassword" placeholder="Confirm Password" />
                     </div>
                 </div>
@@ -27,7 +27,15 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label class="pull-left">Register Suffix</label>
+                            <label class="">Validate User Email</label><br />
+                            <input type="checkbox" name="validateUserEmail" value="1" {#if validateUserEmail}checked{/if} /> 
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="">Register Suffix</label>
                             <textarea type="text" class="form-control" name="registerSuffix" rows="5">{registerSuffix}</textarea>
                         </div>
                     </div>
@@ -36,7 +44,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label class="pull-left">Register Postfix</label>
+                            <label class="">Register Postfix</label>
                             <textarea type="text" class="form-control" name="registerPostfix" rows="5">{registerPostfix}</textarea>
                         </div>
                     </div>
