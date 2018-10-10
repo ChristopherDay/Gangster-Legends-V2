@@ -13,7 +13,7 @@
 					<p>
 						<input type="text" class="form-control" value="{deposit}" name="deposit" />
 					</p>
-					<p class="pull-right">
+					<p class="text-right">
 						<button type="submit" class="btn" name="bank" value="deposit">Deposit</button>
 					</p>
 				</div>
@@ -25,7 +25,7 @@
 					<p>
 						<input type="text" class="form-control" value="{withdraw}" name="withdraw" />
 					</p>
-					<p class="pull-right">
+					<p class="text-right">
 						<button type="submit" class="btn" name="bank" value="withdraw">Withdraw</button>
 					</p>
 				</div>
