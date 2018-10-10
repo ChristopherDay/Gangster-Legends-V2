@@ -2,6 +2,20 @@
 
     class usersTemplate extends template {
 
+        public $validateAccount = '
+            <div class="text-center">
+                <p class="text-center">
+                    Before you can play you need to activate your account. 
+                </p>
+                <form method="post" action="?page=users">
+                    <input type="text" name="code" class="form-control activation-code" value="{code}" /> 
+                    <button type="submit" class="btn btn-default">
+                        Activate
+                    </button>
+                </form>
+            </div>
+        ';
+
         public $userHolder = '
         {#each users}
         <div class="user-holder">
@@ -77,7 +91,7 @@
         public $userForm = '
             <form method="post" action="?page=admin&module=users&action={editType}&id={id}">
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label class="pull-left">User Name</label>
                             <input type="text" class="form-control" name="name" value="{name}">
@@ -85,11 +99,21 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
+                            <label class="pull-left">User Status</label>
+                            <select class="form-control" name="userLevel">
+                                <option {#if isDead}selected{/if} value="0">Dead</option>
+                                <option {#if isValidated}selected{/if} value="1">Alive</option>
+                                <option {#if isAwaitingValidation}selected{/if} value="2">Awaiting Email Verification</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
                             <label class="pull-left">User Level</label>
                             <select class="form-control" name="userLevel">
+                                <option {#if isBanned}selected{/if} value="0">Banned</option>
                                 <option {#if isMod}selected{/if} value="1">User</option>
                                 <option {#if isAdmin}selected{/if} value="2">Admin</option>
-                                <option {#if isBanned}selected{/if} value="0">Banned</option>
                             </select>
                         </div>
                     </div>
