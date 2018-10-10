@@ -18,11 +18,13 @@
 				SELECT
 					U_id as 'id',  
 					U_name as 'name', 
-					U_userLevel as 'userLevel', 
+					U_userLevel as 'userLevel',   
+					(U_userLevel = 0) as 'isDead', 
+					(U_status = 1) as 'isValidated',  
+					(U_status = 2) as 'isAwaitingValidation',  
+					(U_userLevel = 0) as 'isBanned', 
 					(U_userLevel = 1) as 'isUser',  
 					(U_userLevel = 2) as 'isAdmin', 
-					(U_userLevel = 0) as 'isBanned', 
-					(U_userLevel = -1) as 'isDead', 
 					US_money as 'money', 
 					US_exp as 'exp', 
 					US_bank as 'bank', 
@@ -81,11 +83,12 @@
 					}
 				} else {
 					$update = $this->db->prepare("
-						UPDATE users SET U_name = :name, U_userLevel = :userLevel WHERE U_id = :id;
+						UPDATE users SET U_name = :name, U_status = :userStatus, U_userLevel = :userLevel WHERE U_id = :id;
 						UPDATE userStats SET US_pic = :pic, US_bio = :bio, US_bullets = :bullets, US_credits = :credits, US_bank = :bank, US_exp = :exp, US_money = :money WHERE US_id = :id;
 					");
 					$update->bindParam(":name", $this->methodData->name);
 					$update->bindParam(":userLevel", $this->methodData->userLevel);
+					$update->bindParam(":userStatus", $this->methodData->userStatus);
 					$update->bindParam(":pic", $this->methodData->pic);
 					$update->bindParam(":bio", $this->methodData->bio);
 					$update->bindParam(":bullets", $this->methodData->bullets);
