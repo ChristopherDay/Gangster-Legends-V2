@@ -52,6 +52,7 @@ a:hover {
 	background-image: url("../images/btn.png") !important;
 	position: relative;
 	margin: 0px 10px;
+	margin-top: -5px;
 	border: none;
 	background-color: transparent !important;
 }
