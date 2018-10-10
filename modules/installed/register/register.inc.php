@@ -40,13 +40,14 @@
         }
         
         public function method_register() {
-			
-			$this->regError = '';
+            
+            $this->regError = '';
             
             $user = @new user();
+            $settings = new settings();
 	
             if (!empty($this->methodData->password) && ($this->methodData->password == $this->methodData->cpassword)) {
-                
+
                 $makeUser = $user->makeUser(
                     $this->methodData->username, 
                     $this->methodData->email, 
