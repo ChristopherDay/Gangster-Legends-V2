@@ -33,6 +33,17 @@
             ));
         }
 
+        public function method_resend() {
+        	$this->user->sendActivationCode(
+        		$this->user->info->U_email, 
+        		$this->user->info->U_id, 
+        		$this->user->info->U_name
+        	);
+    		$this->html .= $this->page->buildElement("success", array(
+				"text" => "Activation code resent"
+			));
+        }
+
     }
 
    ?>
