@@ -82,7 +82,7 @@ INSERT INTO `theft` (`T_id`, `T_name`, `T_chance`, `T_maxDamage`, `T_worstCar`, 
 --
 
 INSERT INTO `users` (`U_id`, `U_name`, `U_email`, `U_password`, `U_userLevel`, `U_status`) VALUES
-(1, 'Admin', 'Admin@yourgame.com', '0f4afdf3a12e95916d9750debbcff3999a502aa9', 2, 1);
+(1, 'Admin', 'Admin@yourgame.com', '17A52EB47CFC741A02C0FB8841B0A7794973DF3A06A53CF5D9F73B486E06945E', 2, 1);
 --
 
 INSERT INTO `userStats` (`US_id`) VALUES (1);
