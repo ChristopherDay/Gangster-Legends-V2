@@ -13,6 +13,9 @@
                         Activate
                     </button>
                 </form>
+                <p>
+                    <a href="?page=users&action=resend">Resend activation code</a>
+                </p>
             </div>
         ';
 
@@ -84,6 +87,7 @@
                     <p><em>"{name}"</em></p>
 
                     <button class="btn btn-danger" name="submit" type="submit" value="1">Yes delete this user</button>
+
                 </div>
             </form>
         
@@ -100,7 +104,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label class="pull-left">User Status</label>
-                            <select class="form-control" name="userLevel">
+                            <select class="form-control" name="userStatus">
                                 <option {#if isDead}selected{/if} value="0">Dead</option>
                                 <option {#if isValidated}selected{/if} value="1">Alive</option>
                                 <option {#if isAwaitingValidation}selected{/if} value="2">Awaiting Email Verification</option>

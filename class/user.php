@@ -111,16 +111,11 @@
 				$addUserPassword->bindParam(':password', $encryptedPassword);
 				$addUserPassword->execute();
 
-				
 				$this->db->query("INSERT INTO userStats (US_id) VALUES (" . $id . ")");
 
-				$gameName = $settings->loadSetting("game_name");
-
 				if ($validateUserEmail) {
-					$activationCode = $this->activationCode($id, $username);
-					$subject = $gameName . " - Registration";
-					$body = "$username your activation code for $gameName is $activationCode, after you have logged in please enter this when prompted.";
-					mail($email, $subject, $body);
+					$this->sendActivationCode($email, $id, $username);
+					
 				}
 				
 				return 'success';
@@ -129,6 +124,15 @@
 			
 		}
 		
+		public function sendActivationCode($email, $id, $username) {
+			$settings = new settings();
+			$gameName = $settings->loadSetting("game_name");
+			$activationCode = $this->activationCode($id, $username);
+			$subject = $gameName . " - Registration";
+			$body = "$username your activation code for $gameName is $activationCode, after you have logged in please enter this when prompted.";
+			mail($email, $subject, $body);
+		}
+
 		public function activationCode($id, $username) {
 			return substr($this->encrypt($id . $username), 0, 6);
 		}
