@@ -41,21 +41,14 @@
             $user = @new user(NULL, $this->methodData->username);
             
             if (isset($user->info->U_id)) {
-                if ($user->info->U_password == $user->encrypt($this->methodData->password)) {
-                    
+                if ($user->info->U_password == $user->encrypt($user->info->U_id . $this->methodData->password)) {
                     $_SESSION['userID'] = $user->info->U_id;
-                    
                     header("Location:?page=" . $this->page->landingPage);
-                    
                 } else {
-                    
                     $this->loginError = $this->page->buildElement('error', array("text" => 'You have entered a wrong password!'));;
-                    
                 }
             } else {
-            
                 $this->loginError = $this->page->buildElement('error', array("text" => 'Invalid username!'));	
-            
             }
             
         }
