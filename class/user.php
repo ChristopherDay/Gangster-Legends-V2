@@ -66,13 +66,13 @@
 		}
 		
 		public function encrypt($var) {
-			
-			return sha1($var);
-				
+			return hash('sha256', $var);
 		}
 		
 		public function makeUser($username, $email, $password, $userLevel = 1, $userStatus = 1) {
 			
+			$settings = new settings();
+
 			$check = $this->db->prepare("SELECT U_id FROM users WHERE U_name = :username OR (U_email = :email AND U_status = 1)");
 			$check->bindParam(':username', $username);	
 			$check->bindParam(':email', $email);	
@@ -84,18 +84,44 @@
 				return 'Username or EMail are in use!';
 				
 			} else {
+
+				$validateUserEmail = !!$settings->loadSetting("validateUserEmail");
 				
-				$encryptedPassword = $this->encrypt($password);
-				$addUser = $this->db->prepare("INSERT INTO users (U_name, U_email, U_password, U_userLevel, U_status) 
-							VALUES (:username, :email, :password, :userLevel, :userStatus)");
+				if ($validateUserEmail) {
+					$userStatus = 2;
+				}
+
+				$addUser = $this->db->prepare("
+					INSERT INTO users (U_name, U_email, U_userLevel, U_status) 
+					VALUES (:username, :email, :userLevel, :userStatus)
+				");
 				$addUser->bindParam(':username', $username);
 				$addUser->bindParam(':email', $email);
-				$addUser->bindParam(':password', $encryptedPassword);
 				$addUser->bindParam(':userLevel', $userLevel);
 				$addUser->bindParam(':userStatus', $userStatus);
 				$addUser->execute();
+
+				$id = $this->db->lastInsertId();
+				$encryptedPassword = $this->encrypt($id . $password);
+
+				$addUserPassword = $this->db->prepare("
+					UPDATE users SET U_password = :password WHERE U_id = :id
+				");
+				$addUserPassword->bindParam(':id', $id);
+				$addUserPassword->bindParam(':password', $encryptedPassword);
+				$addUserPassword->execute();
+
 				
-				$this->db->query("INSERT INTO userStats (US_id) VALUES (".$this->db->lastInsertId().")");
+				$this->db->query("INSERT INTO userStats (US_id) VALUES (" . $id . ")");
+
+				$gameName = $settings->loadSetting("game_name");
+
+				if ($validateUserEmail) {
+					$activationCode = $this->activationCode($id, $username);
+					$subject = $gameName . " - Registration";
+					$body = "$username your activation code for $gameName is $activationCode, after you have logged in please enter this when prompted.";
+					mail($email, $subject, $body);
+				}
 				
 				return 'success';
 				
@@ -103,6 +129,10 @@
 			
 		}
 		
+		public function activationCode($id, $username) {
+			return substr($this->encrypt($id . $username), 0, 6);
+		}
+
 		public function getNotificationCount($id, $type = 'all') {
 				
 			global $page;
