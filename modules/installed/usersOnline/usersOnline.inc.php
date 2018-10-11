@@ -31,10 +31,12 @@
 
 					$userOnline = new user($row['UT_user']);
 
-					$users[] = array(
-						"user" => $userOnline->user,
-						"id" => $userOnline->info->U_id
-					);
+					if (isset($userOnline->info->U_id)) {
+						$users[] = array(
+							"user" => $userOnline->user,
+							"id" => $userOnline->info->U_id
+						);
+					}
 
 				}
 
