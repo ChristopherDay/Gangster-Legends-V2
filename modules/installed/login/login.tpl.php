@@ -17,18 +17,18 @@
 
                 <div class="row">
                     <div class="col-md-12">
+                        <label class="">Login Suffix</label>
                         <div class="form-group">
-                            <label class="pull-left">Login Suffix</label>
-                            <textarea type="text" class="form-control" name="loginSuffix" rows="5">{loginSuffix}</textarea>
+                            <textarea type="text" class="form-control" data-editor="html" name="loginSuffix" rows="5">{loginSuffix}</textarea>
                         </div>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-12">
+                        <label class="">Login Postfix</label>
                         <div class="form-group">
-                            <label class="pull-left">Login Postfix</label>
-                            <textarea type="text" class="form-control" name="loginPostfix" rows="5">{loginPostfix}</textarea>
+                            <textarea type="text" class="form-control" data-editor="html" name="loginPostfix" rows="5">{loginPostfix}</textarea>
                         </div>
                     </div>
                 </div>
