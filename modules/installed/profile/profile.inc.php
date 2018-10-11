@@ -4,13 +4,14 @@
         	
         public $allowedMethods = array(
 			'view'=>array('type'=>'get'),
+			'old'=>array('type'=>'post'),
+			'new'=>array('type'=>'post'),
+			'confirm'=>array('type'=>'post'),
 			'bio'=>array('type'=>'post'),
 			'pic'=>array('type'=>'post'), 
 			'submit'=>array('type'=>'post')
 		);
     
-		
-		
 		public $pageName = '';
         
         public function constructModule() {
@@ -42,11 +43,51 @@
             
         }
 		
+		public function method_password() {
+			$this->construct = false;
+
+			if (!empty($this->methodData->submit)) {
+
+				if (strlen($this->methodData->new) < 6) {
+					$this->html .= $this->page->buildElement("error", array(
+						"text" => "The password you entered is too short, it must be atleast 6 characters."
+					));
+				} else if ($this->methodData->new != $this->methodData->confirm) {
+					$this->html .= $this->page->buildElement("error", array(
+						"text" => "The passwords you entered do not match"
+					));
+				} else {
+					$encrypt = $this->user->encrypt($this->user->info->U_id . $this->methodData->old);
+					if ($encrypt != $this->user->info->U_password) {
+						$this->html .= $this->page->buildElement("error", array(
+							"text" => "The password you entered is incorrect"
+						));
+					} else {
+						$new = $this->user->encrypt($this->user->info->U_id . $this->methodData->new);
+
+						$update = $this->db->prepare("
+							UPDATE users SET U_password = :password WHERE U_id = :id
+						");
+						$update->bindParam(":password", $new);
+						$update->bindParam(":id", $this->user->info->US_id);
+						$update->execute();
+						$this->html .= $this->page->buildElement("success", array(
+							"text" => "Your password has been updated"
+						));
+					}
+				}
+			}
+
+			$this->html .= $this->page->buildElement("editPassword");
+		}
+		
 		public function method_edit() {
 			
 			if (!empty($this->methodData->submit)) {
 				
-				$update = $this->db->prepare("UPDATE userStats SET US_bio = :bio, US_pic = :pic WHERE US_id = :id");
+				$update = $this->db->prepare("
+					UPDATE userStats SET US_bio = :bio, US_pic = :pic WHERE US_id = :id
+				");
 				$update->bindParam(":bio", $this->methodData->bio);
 				$update->bindParam(":pic", $this->methodData->pic);
 				$update->bindParam(":id", $this->user->info->US_id);
