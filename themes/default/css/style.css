@@ -302,8 +302,25 @@ table tr td, table tr th {
 	padding: 5px;
 	margin-bottom: 10px;
 }
+
 .nav-pills>li>a:hover {
 	background-color: #474747;
+}
+
+.nav-tabs {
+	border-bottom: 1px solid #474747 !important;
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+}
+
+.nav-tabs li a {
+	border-bottom-color: transparent !important;
+}
+
+.nav-tabs li a:hover {
+	background-color: #474747;
+	border-radius: 5px;
+	border-color: transparent;
 }
 
 @media (max-width: 767px) {
