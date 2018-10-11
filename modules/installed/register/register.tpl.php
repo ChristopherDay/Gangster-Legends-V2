@@ -20,32 +20,32 @@
             </form>
         ';
 
-        public $loginOptions = '
+        public $registerOptions = '
 
             <form method="post" action="?page=admin&module=register&action=settings">
 
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label class="">Validate User Email</label><br />
                             <input type="checkbox" name="validateUserEmail" value="1" {#if validateUserEmail}checked{/if} /> 
+                            <label class="">Validate User Email</label><br />
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
+                        <label class="">Register Suffix</label>
                         <div class="form-group">
-                            <label class="">Register Suffix</label>
-                            <textarea type="text" class="form-control" name="registerSuffix" rows="5">{registerSuffix}</textarea>
+                            <textarea type="text" class="form-control" name="registerSuffix" data-editor="html" rows="5">{registerSuffix}</textarea>
                         </div>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-12">
+                        <label class="">Register Postfix</label>
                         <div class="form-group">
-                            <label class="">Register Postfix</label>
-                            <textarea type="text" class="form-control" name="registerPostfix" rows="5">{registerPostfix}</textarea>
+                            <textarea type="text" class="form-control" name="registerPostfix" data-editor="html" rows="5">{registerPostfix}</textarea>
                         </div>
                     </div>
                 </div>
