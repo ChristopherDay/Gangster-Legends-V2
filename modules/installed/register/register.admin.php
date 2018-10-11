@@ -22,7 +22,7 @@
 				"registerPostfix" => $settings->loadSetting("registerPostfix")
 			);
 
-			$this->html .= $this->page->buildElement("loginOptions", $output);
+			$this->html .= $this->page->buildElement("registerOptions", $output);
 
 		}
 
