@@ -58,3 +58,8 @@ html, body {
 .btn {
 	padding: 5px 16px;
 }
+
+input[type="checkbox"] {
+    margin: -1px 0 0;
+    vertical-align: middle;
+}
