@@ -9,13 +9,18 @@
 			global $page, $user, $db;
 			
 			$this->db = $db;
-			$this->user = $user;
-			$this->page = $page;
-		
-			$page->addToTemplate('game_name', $this->loadSetting('game_name', true, 'Game Name'));
-			$page->theme = $this->loadSetting('theme', true, 'default');
-			$page->adminTheme = $this->loadSetting('adminTheme', true, 'admin');
-			$page->landingPage = $this->loadSetting('landingPage', true, 'loggedin');
+
+			if ($user) {
+				$this->user = $user;
+			}
+			
+			if ($page) {
+				$this->page = $page;
+				$page->addToTemplate('game_name', $this->loadSetting('game_name', true, 'Game Name'));
+				$page->theme = $this->loadSetting('theme', true, 'default');
+				$page->adminTheme = $this->loadSetting('adminTheme', true, 'admin');
+				$page->landingPage = $this->loadSetting('landingPage', true, 'loggedin');
+			}
 			
 		}
 		
