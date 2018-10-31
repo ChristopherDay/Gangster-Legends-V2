@@ -1,0 +1,33 @@
+{
+    "name": "Cars",
+    "version": "1.0.0",
+    "description": "This module allows an admin to configure cars.",
+    "author": {
+        "name": "Tom V",
+        "url": "http:\/\/glscript.cdcoding.com"
+    },
+    "pageName": "Cars",
+    "accessInJail": false,
+    "requireLogin": true,
+    "adminGroup": "Game Mechanics",
+    "admin": [
+        {
+            "text": "View Cars",
+            "method": "view"
+        },
+        {
+            "text": "New Cars",
+            "method": "new"
+        },
+        {
+            "hide": true,
+            "text": "Edit Cars",
+            "method": "edit"
+        },
+        {
+            "hide": true,
+            "text": "Delete Cars",
+            "method": "delete"
+        }
+    ]
+}
