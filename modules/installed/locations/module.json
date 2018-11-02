@@ -1,7 +1,7 @@
 {
     "name": "Locations",
     "version": "1.0.0",
-    "description": "This module allows an admin to configure cars.",
+    "description": "This module allows an admin to configure locations.",
     "author": {
         "name": "Tom V",
         "url": "http:\/\/glscript.cdcoding.com"
