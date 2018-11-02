@@ -1,0 +1,33 @@
+{
+    "name": "Locations",
+    "version": "1.0.0",
+    "description": "This module allows an admin to configure locations.",
+    "author": {
+        "name": "Tom V",
+        "url": "http:\/\/glscript.cdcoding.com"
+    },
+    "pageName": "Locations",
+    "accessInJail": false,
+    "requireLogin": true,
+    "adminGroup": "Game Mechanics",
+    "admin": [
+        {
+            "text": "View Locations",
+            "method": "view"
+        },
+        {
+            "text": "New Locations",
+            "method": "new"
+        },
+        {
+            "hide": true,
+            "text": "Edit Locations",
+            "method": "edit"
+        },
+        {
+            "hide": true,
+            "text": "Delete Locations",
+            "method": "delete"
+        }
+    ]
+}
