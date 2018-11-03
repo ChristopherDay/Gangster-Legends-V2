@@ -34,14 +34,20 @@
 		private function validateTheft($theft) {
 			$errors = array();
 
+			if ($theft["chance"] > 100) {
+				$errors[] = "the chance must be below 100%";
+			}
 			if (strlen($theft["name"]) < 6) {
 				$errors[] = "Theft name is to short, this must be atleast 5 characters";
 			}
 			if (intval($theft["worstCar"]) > intval($theft["bestCar"])) {
-				$errors[] = "The worstCar is greater then the bestCar";
+				$errors[] = "The minimum value is greater then the maximum value";
 			}
 			if (!intval($theft["bestCar"])) {
-				$errors[] = "No bestCar specified";
+				$errors[] = "No maximum value specified";
+			} 
+			if (!intval($theft["worstCar"])) {
+				$errors[] = "No minimum value specified";
 			} 
 			if (!intval($theft["chance"])) {
 				$errors[] = "No chance specified";
