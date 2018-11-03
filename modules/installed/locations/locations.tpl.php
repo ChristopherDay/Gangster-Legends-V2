@@ -21,7 +21,7 @@
                         <th>Locations</th>
                         <th width="120px">Cost ($)</th>
                         <th width="120px">Bullets</th>
-                        <th width="120px">Bullet Cost ($)</th>
+                        <th width="120px">Cost per Bullet ($)</th>
                         <th width="120px">Cooldown (sec)</th>
                         <th width="100px">Actions</th>
                     </tr>
@@ -30,10 +30,10 @@
                     {#each locations}
                         <tr>
                             <td>{name}</td>
-                            <td>{cost} %</td>
+                            <td>${cost}</td>
                             <td>{bullets}</td>
-                            <td>{bulletCost}</td>
-                            <td>{cooldown}</td>
+                            <td>${bulletCost}</td>
+                            <td>{cooldown} seconds</td>
                             <td>
                                 [<a href="?page=admin&module=locations&action=edit&id={id}">Edit</a>] 
                                 [<a href="?page=admin&module=locations&action=delete&id={id}">Delete</a>]
