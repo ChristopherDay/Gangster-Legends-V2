@@ -2,7 +2,7 @@
 
     class module {
         
-        public $html = '', $page, $user, $db, $methodData, $construct = true;
+        public $alerts = array(), $html = '', $page, $user, $db, $methodData, $construct = true;
         
         public function __construct() {
         
@@ -48,7 +48,14 @@
         public function htmlOutput() {
             return $this->html;
         }
-        
+
+        public function alertsOutput() {
+            $html = '';
+            foreach ($this->alerts as $key => $value) {
+                $html .= $value;
+            }
+            return $html;
+        }       
 
         private function buildMethodData() {
         

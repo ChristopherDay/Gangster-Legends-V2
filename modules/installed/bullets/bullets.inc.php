@@ -32,30 +32,30 @@
             
 			if ($qty == 0) {
 			
-				$this->html .= $this->page->buildElement('error', array("text"=>'Please enter a value greater then 0!'));
+				$this->alerts[] = $this->page->buildElement('error', array("text"=>'Please enter a value greater then 0!'));
             
 			} else if (!$this->user->checkTimer('bullets')) {
                 
 				$timeLeft = $this->user->getTimer('bullets');
 				$timeLeft = $this->timeLeft($timeLeft);
 				
-                $this->html .= $this->page->buildElement('error', array("text"=>'You can only buy bullets once every 60 seconds (<span data-reload-when-done data-timer-type="inline" data-timer="'.($this->user->getTimer("bullets")).'"></span>).'));
+                $this->alerts[] = $this->page->buildElement('error', array("text"=>'You can only buy bullets once every 60 seconds (<span data-reload-when-done data-timer-type="inline" data-timer="'.($this->user->getTimer("bullets")).'"></span>).'));
                 
             } else if ($qty > ($this->user->info->US_rank * 25)) {
             
-                $this->html .= $this->page->buildElement('error', array("text"=>'You can only buy '.number_format(($this->user->info->US_rank * 25)).' bullets at once'));
+                $this->alerts[] = $this->page->buildElement('error', array("text"=>'You can only buy '.number_format(($this->user->info->US_rank * 25)).' bullets at once'));
                 
             } else if ($loc->L_bullets < $qty) {
             
-                $this->html .= $this->page->buildElement('error', array("text"=>'The bullet factory does not have enough stock to fufil this order!'));
+                $this->alerts[] = $this->page->buildElement('error', array("text"=>'The bullet factory does not have enough stock to fufil this order!'));
             
             } else if (($qty*$loc->L_bulletCost) > $this->user->info->US_money) {
             
-                $this->html .= $this->page->buildElement('error', array("text"=>'You dont have enough money to buy this ammount of bullets'));
+                $this->alerts[] = $this->page->buildElement('error', array("text"=>'You dont have enough money to buy this ammount of bullets'));
             
             } else {
             
-                $this->html .= $this->page->buildElement('success', array("text"=>'You bought '.$qty.' bullets for $'.number_format(($qty * $loc->L_bulletCost))));
+                $this->alerts[] = $this->page->buildElement('success', array("text"=>'You bought '.$qty.' bullets for $'.number_format(($qty * $loc->L_bulletCost))));
                 
                 $query = "
                     UPDATE userStats SET 

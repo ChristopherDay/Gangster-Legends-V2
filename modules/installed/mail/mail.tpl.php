@@ -106,7 +106,7 @@
 	    			<a href="?page=mail">Inbox</a>
 	    		</span>
 	    		<span class="small pull-right">
-	    			<a href="?page=new">New Mail</a>&nbsp;&nbsp;
+	    			<a href="?page=mail&action=new">New Mail</a>&nbsp;&nbsp;
 	    		</span> 
 	    	</h4>
 
