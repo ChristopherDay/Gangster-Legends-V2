@@ -14,12 +14,17 @@
             $theftArray = array();
             while ($row = $theft->fetchObject()) {
             
+                $percent = $row->T_chance + (@$this->user->info->US_rank*2);
+
+                if ($percent > 100) $percent = 100;
+
                 $theftArray[] = array(
                     "name" => $row->T_name, 
                     "id" => $row->T_id, 
-                    "percent" => $row->T_chance + (@$this->user->info->US_rank*2)
+                    "percent" => $percent
                 );
                 
+
             }
             if (!$this->user->checkTimer('theft')) {
                 $time = $this->user->getTimer('theft');
