@@ -116,7 +116,7 @@
                             <label class="pull-left">User Level</label>
                             <select class="form-control" name="userLevel">
                                 <option {#if isBanned}selected{/if} value="0">Banned</option>
-                                <option {#if isMod}selected{/if} value="1">User</option>
+                                <option {#if isUser}selected{/if} value="1">User</option>
                                 <option {#if isAdmin}selected{/if} value="2">Admin</option>
                             </select>
                         </div>
