@@ -8,6 +8,7 @@
         
         public function constructModule() {
             
+            
             $crimes = $this->db->prepare("SELECT * FROM crimes WHERE C_level <= :level");
             $crimes->bindParam(':level', $this->user->info->US_rank);
             $crimes->execute();
@@ -29,23 +30,23 @@
                 
             }
             
+            if (!$this->user->checkTimer('crime')) {
+                $time = $this->user->getTimer('crime');
+                $crimeError = array("text"=>'You cant commit another crime untill your timer is up! (<span data-timer-type="inline" data-timer="'.($this->user->getTimer("crime")).'"></span>)');
+                $this->html .= $this->page->buildElement('error', $crimeError);
+            }
+
             $this->html .= $this->page->buildElement('crimeHolder', array(
-                "crimes" =>$crimeInfo
+                "crimes" => $crimeInfo
             ));
         }
         
         public function method_commit() {
             
             $id = abs(intval($this->methodData->crime)); 
-			
-            if (!$this->user->checkTimer('crime')) {
-				
-                $time = $this->user->getTimer('crime');
-                $crimeError = array("text"=>'You cant commit another crime untill your timer is up! (<span data-reload-when-done data-timer-type="inline" data-timer="'.($this->user->getTimer("crime")).'"></span>)');
-                $this->html .= $this->page->buildElement('error', $crimeError);
-                
-            } else {
             
+            if ($this->user->checkTimer('crime')) {
+                
                 $chance = mt_rand(1, 100);
                 $jailChance = mt_rand(1, 3);
                 $crimeID = $id;

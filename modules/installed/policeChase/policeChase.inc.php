@@ -7,18 +7,19 @@
         
         public function constructModule() {
             
+            if (!$this->user->checkTimer('chase')) {
+                $time = $this->user->getTimer('chase');
+                $crimeError = array("text"=>'You cant commit another police chase untill your timer is up! (<span data-timer-type="inline" data-timer="'.($this->user->getTimer("chase")).'"></span>)');
+                $this->html .= $this->page->buildElement('error', $crimeError);
+            }
+
             $this->html .= $this->page->buildElement('policeChase', array());
             
         }
         
         public function method_move() {
             
-            if (!$this->user->checkTimer('chase')) {
-                $time = $this->user->getTimer('chase');
-                $crimeError = array("text"=>'You cant commit another police chase untill your timer is up! (<span data-reload-when-done data-timer-type="inline" data-timer="'.($this->user->getTimer("chase")).'"></span>)');
-                $this->html .= $this->page->buildElement('error', $crimeError);
-                
-            } else {
+            if ($this->user->checkTimer('chase')) {
                 
                 $rand = mt_rand(1, 4);
                 

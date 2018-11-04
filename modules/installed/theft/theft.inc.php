@@ -21,7 +21,12 @@
                 );
                 
             }
-            
+            if (!$this->user->checkTimer('theft')) {
+                $time = $this->user->getTimer('theft');
+                $crimeError = array("text"=>'You cant commit another theft untill your timer is up! (<span data-timer-type="inline" data-timer="'.($this->user->getTimer("theft")).'"></span>)');
+                $this->html .= $this->page->buildElement('error', $crimeError);
+            }
+
             $this->html .= $this->page->buildElement('theftHolder', array(
                 "theft" => $theftArray
             ));
@@ -37,13 +42,8 @@
             
             $id = abs(intval($this->methodData->id));
             
-            if (!$this->user->checkTimer('theft')) {
-                $time = $this->user->getTimer('theft');
-                $crimeError = array("text"=>'You cant commit another theft untill your timer is up! (<span data-reload-when-done data-timer-type="inline" data-timer="'.($this->user->getTimer("theft")).'"></span>)');
-                $this->html .= $this->page->buildElement('error', $crimeError);
+            if ($this->user->checkTimer('theft')) {
                 
-            } else {
-            
                 $theftTime = 180;
                 $theft = $this->db->prepare("SELECT * FROM theft WHERE T_id = :id");
                 $theft->bindParam(':id', $id);
@@ -55,6 +55,10 @@
                 $chance = mt_rand(1, 100);
                 $carDamage = mt_rand(1, $theftInfo->T_maxDamage);
                 $userChance = $theftInfo->T_chance + ($this->user->info->US_rank * 2);
+
+                if ($userChance > 100) {
+                    $userChance = 100;
+                }
                 
                 $cars = $this->db->prepare("SELECT * FROM cars WHERE CA_value <= :maxCar AND CA_value >= :minCar");
                 $cars->bindParam(':minCar', $theftInfo->T_worstCar);
