@@ -32,8 +32,11 @@
             
             if (!$this->user->checkTimer('crime')) {
                 $time = $this->user->getTimer('crime');
-                $crimeError = array("text"=>'You cant commit another crime untill your timer is up! (<span data-timer-type="inline" data-timer="'.($this->user->getTimer("crime")).'"></span>)');
-                $this->html .= $this->page->buildElement('error', $crimeError);
+                $crimeError = array(
+                    "text"=>'You cant commit another crime untill your timer is up!',
+                    "time" => $this->user->getTimer("crime")
+                );
+                $this->html .= $this->page->buildElement('timer', $crimeError);
             }
 
             $this->html .= $this->page->buildElement('crimeHolder', array(
@@ -62,18 +65,18 @@
                 
                 if ($chance > $userChance && $jailChance == 1) {
                     $crimeError = array("text"=>'You failed to commit the crime, you were caught and sent to jail!');
-                    $this->html .= $this->page->buildElement('error', $crimeError);
+                    $this->alerts[] = $this->page->buildElement('error', $crimeError);
                     $query = "UPDATE userStats SET US_crimes = :crimes WHERE US_id = :user";
 					$this->user->updateTimer('jail', ($crimeInfo->C_id * 15), true);
                     $add = 0;
                 } else if ($chance > $userChance) {
                     $crimeError = array("text"=>'You failed to commit the crime!');
-                    $this->html .= $this->page->buildElement('error', $crimeError);
+                    $this->alerts[] = $this->page->buildElement('error', $crimeError);
                     $query = "UPDATE userStats SET US_crimes = :crimes WHERE US_id = :user";
                     $add = mt_rand(1, 2);
                 } else {
                     $crimeError = array("text"=>'You successfuly commited the crime and earned $'.number_format($reward).'!');
-                    $this->html .= $this->page->buildElement('success', $crimeError);
+                    $this->alerts[] = $this->page->buildElement('success', $crimeError);
                     $query = "UPDATE userStats SET US_money = US_money + ".$reward.", US_exp = US_exp + 1, US_crimes = :crimes WHERE US_id = :user";
                     $add = mt_rand(1, 4);
                 }

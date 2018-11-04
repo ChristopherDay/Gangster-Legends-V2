@@ -28,8 +28,11 @@
             }
             if (!$this->user->checkTimer('theft')) {
                 $time = $this->user->getTimer('theft');
-                $crimeError = array("text"=>'You cant commit another theft untill your timer is up! (<span data-timer-type="inline" data-timer="'.($this->user->getTimer("theft")).'"></span>)');
-                $this->html .= $this->page->buildElement('error', $crimeError);
+                $crimeError = array(
+                    "text"=>"You cant attempt another theft untill your timer is up!",
+                    "time" => $this->user->getTimer("theft")
+                );
+                $this->html .= $this->page->buildElement('timer', $crimeError);
             }
 
             $this->html .= $this->page->buildElement('theftHolder', array(
@@ -95,12 +98,12 @@
 				$this->user->updateTimer('theft', $theftTime, true);
                 
                 if ($chance > $userChance && $jailChance == 1) {
-                    $this->html .= $this->page->buildElement('error', array("text"=>'You failed to steal a '.$carName.', you were caught and sent to jail'));
+                    $this->alerts[] = $this->page->buildElement('error', array("text"=>'You failed to steal a '.$carName.', you were caught and sent to jail'));
                     $this->user->updateTimer('jail', ($id*35), true);
                 } else if ($chance > $userChance) {
-                    $this->html .= $this->page->buildElement('error', array("text"=>'You failed to steal a '.$carName.'.'));
+                    $this->alerts[] = $this->page->buildElement('error', array("text"=>'You failed to steal a '.$carName.'.'));
                 } else {
-                    $this->html .=$this->page->buildElement('success', array("text" => 'You successfuly stole a '.$carName.' with '.$carDamage.'% damage.'));
+                    $this->alerts[] = $this->page->buildElement('success', array("text" => 'You successfuly stole a '.$carName.' with '.$carDamage.'% damage.'));
                     $query = "UPDATE userStats SET US_exp = US_exp + ".$car." WHERE US_id = :uid";
                     $u = $this->db->prepare($query);
                     $u->bindParam(':uid', $this->user->info->US_id);

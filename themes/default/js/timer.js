@@ -29,6 +29,10 @@ function checkTimer(interval) {
 				document.location.reload();
 			}, 2500);
 		}
+
+		if(addClass == 'timer-done' && $(this).attr('data-remove-when-done') != undefined) {
+			$(this).parent().remove();
+		}
 			
 		var hours = Math.floor(time/3600);
 		var mins = Math.floor((time - (hours * 3600))/60);

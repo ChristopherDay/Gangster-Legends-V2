@@ -9,8 +9,11 @@
             
             if (!$this->user->checkTimer('chase')) {
                 $time = $this->user->getTimer('chase');
-                $crimeError = array("text"=>'You cant commit another police chase untill your timer is up! (<span data-timer-type="inline" data-timer="'.($this->user->getTimer("chase")).'"></span>)');
-                $this->html .= $this->page->buildElement('error', $crimeError);
+                $crimeError = array(
+                    "text"=>'You cant attempt another police chase untill your timer is up!',
+                    "time" =>$this->user->getTimer("chase")
+                );
+                $this->html .= $this->page->buildElement('timer', $crimeError);
             }
 
             $this->html .= $this->page->buildElement('policeChase', array());
@@ -32,18 +35,18 @@
 					
 					$this->user->updateTimer('chase', 300, true);
                     
-                    $this->html .= $this->page->buildElement('success', array("text"=>'You got away, you were paid $'.number_format($winnings).'!'));
+                    $this->alerts[] = $this->page->buildElement('success', array("text"=>'You got away, you were paid $'.number_format($winnings).'!'));
                     
                 } else if ($rand == 3) {
                 					
 					$this->user->updateTimer('jail', 150, true);
 					$this->user->updateTimer('chase', 300, true);
                     
-                    $this->html .= $this->page->buildElement('error', array("text"=>'You crashed and was sent to jail!'));
+                    $this->alerts[] = $this->page->buildElement('error', array("text"=>'You crashed and was sent to jail!'));
                     
                 } else {
                     
-                    $this->html .= $this->page->buildElement('info', array("text"=>'You are still going, what dirrection do you want to go now?'));
+                    $this->alerts[] = $this->page->buildElement('info', array("text"=>'You are still going, what dirrection do you want to go now?'));
                 
                 }
                 

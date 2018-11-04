@@ -49,17 +49,17 @@
 			if (!empty($this->methodData->submit)) {
 
 				if (strlen($this->methodData->new) < 6) {
-					$this->html .= $this->page->buildElement("error", array(
+					$this->alerts[] = $this->page->buildElement("error", array(
 						"text" => "The password you entered is too short, it must be atleast 6 characters."
 					));
 				} else if ($this->methodData->new != $this->methodData->confirm) {
-					$this->html .= $this->page->buildElement("error", array(
+					$this->alerts[] = $this->page->buildElement("error", array(
 						"text" => "The passwords you entered do not match"
 					));
 				} else {
 					$encrypt = $this->user->encrypt($this->user->info->U_id . $this->methodData->old);
 					if ($encrypt != $this->user->info->U_password) {
-						$this->html .= $this->page->buildElement("error", array(
+						$this->alerts[] = $this->page->buildElement("error", array(
 							"text" => "The password you entered is incorrect"
 						));
 					} else {
@@ -71,7 +71,7 @@
 						$update->bindParam(":password", $new);
 						$update->bindParam(":id", $this->user->info->US_id);
 						$update->execute();
-						$this->html .= $this->page->buildElement("success", array(
+						$this->alerts[] = $this->page->buildElement("success", array(
 							"text" => "Your password has been updated"
 						));
 					}
@@ -93,7 +93,7 @@
 				$update->bindParam(":id", $this->user->info->US_id);
 				$update->execute();
 				
-				$this->html .= $this->page->buildElement("success", array("text" => 'Profile Updated, <a href="?page=profile">View</a>.'));
+				$this->alerts[] = $this->page->buildElement("success", array("text" => 'Profile Updated, <a href="?page=profile">View</a>.'));
 				
 				$this->user->info->US_bio = $this->methodData->bio;
 				$this->user->info->US_pic = $this->methodData->pic;

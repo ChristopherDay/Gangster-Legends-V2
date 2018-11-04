@@ -85,6 +85,7 @@ class page {
                 
                 if (isset($module)) {
                     $this->addToTemplate('game', $module->htmlOutput());
+                    $this->addToTemplate('alerts', $module->alertsOutput());
                 }
                 
                 $pageName = $page;
