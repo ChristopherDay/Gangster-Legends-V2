@@ -73,6 +73,7 @@
             </form>
         
         ';
+
         public $roleForm = '
             <form method="post" action="?page=admin&module=userRoles&action={editType}&id={id}">
                 <div class="row">
@@ -92,18 +93,20 @@
                     </div>
                 </div>
 
-                <h3>Admin Modules</h3>
+                {#if canAlterModules}
+                    <h3>Admin Modules</h3>
+                    <ul class="list-group">
+                        {#each modules}
+                            {#if admin}
+                                <li class="list-group-item col-md-4">
+                                    <input type="checkbox" name="access[]" value="{id}" {#if selected}checked{/if}> {name}
+                                </li>
+                            {/if}
+                        {/each}
+                    </ul>
+                    <div class="clearfix"></div>
+                {/if}
 
-                <ul class="list-group">
-                    {#each modules}
-                        {#if admin}
-                            <li class="list-group-item col-md-4">
-                                <input type="checkbox" name="access[]" value="{id}" {#if selected} checked{/if}> {name}
-                            </li>
-                        {/if}
-                    {/each}
-                </ul>
-                <div class="clearfix"></div>
                 <div class="text-right">
                     <button class="btn btn-default" name="submit" type="submit" value="1">
                         Save

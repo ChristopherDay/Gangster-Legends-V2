@@ -6,7 +6,7 @@
 		private $user, $db, $page, $minorLog = true, $majorLog = true;
 		
 		public function __construct() {
-			
+
 			ini_set('display_errors', 0);
 		
 			set_error_handler(array($this, 'handler'), E_ALL);
