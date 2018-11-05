@@ -102,7 +102,7 @@
 
 			$role["editType"] = "new";
 			$role["modules"] = $this->page->modules;
-			$role["canAlterModules"] = intval($role["id"] > 3);
+			$role["canAlterModules"] = true;
 
 			$this->html .= $this->page->buildElement("roleForm", $role);
 		}
