@@ -37,7 +37,7 @@
 
         if ($user->info->U_status == 2) {
             $page->loadPage('users');
-        } else if ($user->info->U_status == 0 && $_GET["page"] != "logout") {
+        } else if ($user->info->U_userLevel == 0 && $_GET["page"] != "logout") {
             $page->loadPage('banned');
         } else if (!$user->checkTimer('jail')) {
             if ($jailPageCheck["accessInJail"]) {

@@ -55,7 +55,9 @@ html, body {
     padding: 8px 15px;
     margin-top: 4px;
 }
+.page .form-control,
 .btn {
+	height: auto;
 	padding: 5px 16px;
 }
 

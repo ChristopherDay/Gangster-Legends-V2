@@ -2,7 +2,9 @@
 
     class travelTemplate extends template {
     
-        public $locationHolder = '<div class="crime-holder">
+        public $locationHolder = '
+        {#each locations}
+        <div class="crime-holder">
             <p>
             	<span class="action">
             		{location} 
@@ -14,7 +16,8 @@
             		<a href="?page=travel&action=fly&location={id}">Travel</a>
             	</span>
             	</p>
-        </div>';
+        </div>
+        {/each}';
         
     }
 

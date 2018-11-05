@@ -1,32 +1,32 @@
 {
-    "name": "Theft",
+    "name": "Cars",
     "version": "1.0.0",
-    "description": "This module allows a user to commit theft.",
+    "description": "This module allows an admin to configure cars.",
     "author": {
         "name": "Tom V",
         "url": "http:\/\/glscript.cdcoding.com"
     },
-    "pageName": "Theft",
+    "pageName": "Cars",
     "accessInJail": false,
     "requireLogin": true,
     "adminGroup": "Game Mechanics",
     "admin": [
         {
-            "text": "View Theft",
+            "text": "View Cars",
             "method": "view"
         },
         {
-            "text": "New Theft",
+            "text": "New Cars",
             "method": "new"
         },
         {
             "hide": true,
-            "text": "Edit Theft",
+            "text": "Edit Cars",
             "method": "edit"
         },
         {
             "hide": true,
-            "text": "Delete Theft",
+            "text": "Delete Cars",
             "method": "delete"
         }
     ]

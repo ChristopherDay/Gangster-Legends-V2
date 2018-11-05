@@ -142,6 +142,7 @@ CREATE TABLE IF NOT EXISTS `mail` (
 CREATE TABLE IF NOT EXISTS `notifications` (
   `N_id` int(11) NOT NULL AUTO_INCREMENT,
   `N_uid` int(11) NOT NULL,
+  `N_time` int(11) NOT NULL,
   `N_text` text NOT NULL,
   `N_read` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`N_id`)

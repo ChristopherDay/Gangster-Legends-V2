@@ -1,32 +1,32 @@
 {
-    "name": "Theft",
+    "name": "Crimes",
     "version": "1.0.0",
-    "description": "This module allows a user to commit theft.",
+    "description": "This module allows a user to commit crimes.",
     "author": {
-        "name": "Tom V",
+        "name": "Chris Day",
         "url": "http:\/\/glscript.cdcoding.com"
     },
-    "pageName": "Theft",
+    "pageName": "Crimes",
     "accessInJail": false,
     "requireLogin": true,
     "adminGroup": "Game Mechanics",
     "admin": [
         {
-            "text": "View Theft",
+            "text": "View Crimes",
             "method": "view"
         },
         {
-            "text": "New Theft",
+            "text": "New Crime",
             "method": "new"
         },
         {
             "hide": true,
-            "text": "Edit Theft",
+            "text": "Edit Crime",
             "method": "edit"
         },
         {
             "hide": true,
-            "text": "Delete Theft",
+            "text": "Delete Crime",
             "method": "delete"
         }
     ]
