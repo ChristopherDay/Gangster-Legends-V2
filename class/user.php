@@ -249,7 +249,7 @@
 			
 			$page->addToTemplate('maxRank', $this->info->maxRank);
 			$page->addToTemplate('rank', $rank->R_name);
-			@$page->addToTemplate('exp_perc', '('.$expperc.'%)');
+			@$page->addToTemplate('exp_perc', $expperc);
 			$page->addToTemplate('gang', $gang);
 			$page->addToTemplate('weapon', $weapon->W_name);
 			

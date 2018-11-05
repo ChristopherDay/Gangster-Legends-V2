@@ -103,7 +103,7 @@
 						</div>
 						<div class="col-md-3 col-xs-6 text-center">
 							<strong class="hidden-xs">Rank:</strong> 
-							{rank} {#unless maxRank}{exp_perc}{/unless}<br />
+							{rank} {#unless maxRank}({exp_perc}%){/unless}<br />
 							<div class="hidden-xs">
 								<strong>Family:</strong> {gang.name}
 							</div>
