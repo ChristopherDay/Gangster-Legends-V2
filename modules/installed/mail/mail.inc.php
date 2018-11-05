@@ -105,14 +105,14 @@
 
             if (isset($this->methodData->subject)) {
                 if (strlen($this->methodData->subject) < 2) {
-                    $this->html .= $this->page->buildElement("error", array(
+                    $this->alerts[] = $this->page->buildElement("error", array(
                         "text" => "The subject must be at least two characters"
                     ));
                     $error = true;
                 }
 
                 if (strlen($this->methodData->message) < 6) {
-                    $this->html .= $this->page->buildElement("error", array(
+                    $this->alerts[] = $this->page->buildElement("error", array(
                         "text" => "The message must be at least six characters"
                     ));
                     $error = true;
@@ -132,13 +132,13 @@
                 $to = new User(null, $this->methodData->name);
 
                 if (!isset($to->info->U_id)) {
-                    return $this->html .= $this->page->buildElement("error", array(
+                    return $this->alerts[] = $this->page->buildElement("error", array(
                         "text" => "This user does not exist"
                     ));
                 }
 
                 if ($to->info->U_id == $this->user->id) {
-                    return $this->html .= $this->page->buildElement("error", array(
+                    return $this->alerts[] = $this->page->buildElement("error", array(
                         "text" => "You cant message yourself"
                     ));
                 }
@@ -161,7 +161,7 @@
 
                 $send->execute();
 
-                $this->html .= $this->page->buildElement("success", array(
+                $this->alerts[] = $this->page->buildElement("success", array(
                     "text" => "Message Sent"
                 ));
             }
@@ -187,13 +187,13 @@
             $replyTo = @$this->getMailList(false, $this->methodData->id)[0];
 
             if (!$replyTo) {
-                return $this->html .= $this->page->buildElement("error", array(
+                return $this->alerts[] = $this->page->buildElement("error", array(
                     "text" => "This mail does not exist"
                 ));
             }
 
             if ($replyTo["sender"] == $this->user->id) {
-                return $this->html .= $this->page->buildElement("error", array(
+                return $this->alerts[] = $this->page->buildElement("error", array(
                     "text" => "You cant message yourself"
                 ));
             }
@@ -215,7 +215,7 @@
 
                 $send->execute();
 
-                $this->html .= $this->page->buildElement("success", array(
+                $this->alerts[] = $this->page->buildElement("success", array(
                     "text" => "Reply Sent"
                 ));
             }

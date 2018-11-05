@@ -25,7 +25,7 @@
 				
 				if ($this->user->info->US_bank < $money) {
 					
-					$this->html .= $this->page->buildElement("error", array("text"=>"You dont have enough money in your bank for this transaction!"));
+					$this->alerts[] = $this->page->buildElement("error", array("text"=>"You dont have enough money in your bank for this transaction!"));
 					
 				} else {
 					
@@ -35,7 +35,7 @@
 					$update->bindParam(":id", $this->user->info->US_id);
 					$update->execute();
 					
-					$this->html .= $this->page->buildElement("success", array("text"=>"You have withdrawn $".number_format($money)."!"));
+					$this->alerts[] = $this->page->buildElement("success", array("text"=>"You have withdrawn $".number_format($money)."!"));
 					
 					$this->user->info->US_money += $money;
 					$this->user->info->US_bank -= $money;
@@ -48,7 +48,7 @@
 				
 				if ($this->user->info->US_money < $money) {
 					
-					$this->html .= $this->page->buildElement("error", array("text"=>"You dont have enough money for this transaction!"));
+					$this->alerts[] = $this->page->buildElement("error", array("text"=>"You dont have enough money for this transaction!"));
 					
 				} else {
 					
@@ -60,7 +60,7 @@
 					$update->bindParam(":id", $this->user->info->US_id);
 					$update->execute();
 					
-					$this->html .= $this->page->buildElement("success", array("text"=>"You sent $".number_format($money)." to your money launder, he in return deposits $".number_format($bank)." into your bank account!"));
+					$this->alerts[] = $this->page->buildElement("success", array("text"=>"You sent $".number_format($money)." to your money launder, he in return deposits $".number_format($bank)." into your bank account!"));
 					
 					$this->user->info->US_bank += $bank;
 					$this->user->info->US_money -= $money;

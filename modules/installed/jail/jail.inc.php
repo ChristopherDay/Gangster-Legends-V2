@@ -79,13 +79,13 @@
             $jailUser = $this->getJailUsers($id);
 
             if (!$jailUser["time"]) {
-                return $this->html .= $this->page->buildElement('error', array(
+                return $this->alerts[] = $this->page->buildElement('error', array(
                     "text" => "This user is not in this jail"
                 ));
             }
 
             if ((int) $jailUser["superMax"]) {
-                return $this->html .= $this->page->buildElement('error', array(
+                return $this->alerts[] = $this->page->buildElement('error', array(
                     "text" => "This user is in super max"
                 ));
             }
@@ -97,7 +97,7 @@
 
 
             if ($inSuperMax) {
-                return $this->html .= $this->page->buildElement('error', array(
+                return $this->alerts[] = $this->page->buildElement('error', array(
                     "text" => "You can't bust anyone out while you are in super max"
                 ));
             }
@@ -109,7 +109,7 @@
             if ($jailUser["percent"] >= $chance) {
                 $user = new user($id);
                 $user->updateTimer("jail", time()-1);
-                return $this->html .= $this->page->buildElement('success', array(
+                return $this->alerts[] = $this->page->buildElement('success', array(
                     "text" => "You broke " . $jailUser["name"] . " out of jail"
                 ));
             } else {
@@ -122,7 +122,7 @@
                     $jailTime = time() + 90;
                 }
                 $this->user->updateTimer("jail", $jailTime);
-                return $this->html .= $this->page->buildElement('error', array(
+                return $this->alerts[] = $this->page->buildElement('error', array(
                     "text" => "You failed to break " . $jailUser["name"] . " out of jail"
                 ));
             }

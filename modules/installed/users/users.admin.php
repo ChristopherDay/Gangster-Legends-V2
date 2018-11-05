@@ -139,11 +139,11 @@
 		public function method_view () {
 			
 			if (!isset($this->methodData->user)) {
-				$this->methodData->user = false;
+				$this->methodData->user = "";
 			}
 
 			$this->html .= $this->page->buildElement("userList", array(
-				"submit" => !!$this->methodData->user,
+				"submit" => true,
 				"users" => $this->getUser($this->methodData->user, true)
 			));
 

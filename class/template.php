@@ -64,6 +64,13 @@
             {user.name}
         </a>';
 
+        public $timer = '
+            <div class="alert alert-danger game-timer">
+                <{text}> <br />
+                Time remaining: <span data-remove-when-done data-timer-type="inline" data-timer="{time}"></span>
+            </div>
+        ';
+
         public $levelUpNotification = '
             You have ranked up, you are now a {rankName}.
             {#if rewards}
