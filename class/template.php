@@ -60,7 +60,7 @@
             <{text}>
         </div>';
 
-        public $userName = '<a href="?page=profile&view={user.id}" class="user user-status-{user.status} user-level-{user.userLevel}">
+        public $userName = '<a href="?page=profile&view={user.id}" class="user user-status-{user.status} user-level-{user.userLevel}" style="color: {user.color};">
             {user.name}
         </a>';
 

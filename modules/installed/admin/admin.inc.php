@@ -5,30 +5,36 @@
         public $allowedMethods = "*";
         
         public function constructModule() {
-            
-            /* Redirect the user to the home page if they are a user */
-            if ($this->user->info->U_userLevel != 2) {
+
+            $adminModule = @$this->methodData->module;
+            if (!$adminModule) $this->methodData->module = "admin";
+
+            if (!count($this->user->adminModules)) {
                 header("Location:?page=" . $this->page->landingPage);
                 exit;
             }
 
-            $adminModule = @$this->methodData->module;
-            if (!$adminModule) $this->methodData->module = "admin";
-            
+            if (
+                !in_array($this->methodData->module, $this->user->adminModules) &&
+                !in_array("*", $this->user->adminModules)
+            ) {
+                header("Location:?page=" . $this->page->landingPage);
+                exit;
+            }
+
             new hook("menus", function ($menus) {
                 return array();
             });
 
             $this->viewModule();
-            
             $this->viewModules();
 
         }
 
         private function viewModule() {
+
             $adminModule = $this->methodData->module;
             $this->moduleInfo = @$this->page->modules[$adminModule];
-
 
             if (!$this->moduleInfo || !$this->moduleInfo["admin"]) {
 
@@ -96,6 +102,10 @@
             
                 foreach ($this->page->modules as $moduleName => $moduleInfo) {
                     if (!isset($moduleInfo["adminGroup"])) continue;
+                    if (
+                        !in_array($moduleInfo["id"], $this->user->adminModules) &&
+                        !in_array("*", $this->user->adminModules)
+                    ) continue;
 
                     if (!isset($menus[$moduleInfo["adminGroup"]])) {
                         $menus[$moduleInfo["adminGroup"]] = array(
