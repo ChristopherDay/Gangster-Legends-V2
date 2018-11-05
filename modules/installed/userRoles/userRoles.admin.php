@@ -101,8 +101,8 @@
 			}
 
 			$role["editType"] = "new";
-			//$this->html .= debug($this->page->modules, 1, 1);
 			$role["modules"] = $this->page->modules;
+			$role["canAlterModules"] = intval($role["id"] > 3);
 
 			$this->html .= $this->page->buildElement("roleForm", $role);
 		}
@@ -154,8 +154,8 @@
 			}
 
 			$role["editType"] = "edit";
-			//$this->html .= debug($this->page->modules, 1, 1);
 			$role["modules"] = $this->page->modules;
+			$role["canAlterModules"] = intval($role["id"] > 3);
 			
 			array_unshift($role["modules"], array(
 				"admin" => true, 
@@ -224,6 +224,18 @@
 		}
 
 		public function updateAccess($id) {
+
+			switch ((int) $id) {
+				case 1: 
+					$this->methodData->access = array();
+				break;
+				case 2: 
+					$this->methodData->access = array("*");
+				break;
+				case 3: 
+					$this->methodData->access = array();
+				break;
+			}
 
 			$remove = $this->db->prepare("
 				DELETE FROM roleAccess WHERE RA_role = :id;

@@ -31,7 +31,6 @@
             $template = $matches[2];
             $items = $this->items;
             $item = $this->stringToArrayConversion($var, $items);
-            if ($var == "notifications") debug($item);
             if (is_array($item)) $item = count($item);
             if ($item && $item != "0") {
                 $html = new pageElement($items, $this->template, $this->templateName);
@@ -137,6 +136,9 @@
             } else {
                 if (!$html) $html = $this->template->$templateName;
                 
+                /* remove new lines ... not sure why but it stops nested ifs ... */
+                $html = trim(preg_replace('/\s+/', ' ', $html));
+
                 // process each blocks
                 $html = preg_replace_callback(
                     '#\{\#each (.+)\}(((?R)|.+)+)\{\/each}#iUs', 
