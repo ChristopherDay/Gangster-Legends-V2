@@ -103,6 +103,12 @@
 			$role["editType"] = "new";
 			$role["modules"] = $this->page->modules;
 			$role["canAlterModules"] = true;
+			
+			array_unshift($role["modules"], array(
+				"admin" => true, 
+				"name" => "All Modules", 
+				"id" => "*"
+			));
 
 			$this->html .= $this->page->buildElement("roleForm", $role);
 		}
