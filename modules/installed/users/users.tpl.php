@@ -113,9 +113,9 @@
                         <div class="form-group">
                             <label class="pull-left">User Level</label>
                             <select class="form-control" name="userLevel">
-                                <option {#if isBanned}selected{/if} value="0">Banned</option>
-                                <option {#if isUser}selected{/if} value="1">User</option>
-                                <option {#if isAdmin}selected{/if} value="2">Admin</option>
+                                {#each userRoles}
+                                    <option {#if selected}selected{/if} value="{id}">{name}</option>
+                                {/each}
                             </select>
                         </div>
                     </div>

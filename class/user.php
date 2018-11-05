@@ -31,16 +31,51 @@
 		public function getInfo($return = false) {
 			
 			if (!empty($this->name)) {
-				$userInfo = $this->db->prepare("SELECT * FROM users LEFT OUTER JOIN userStats ON (U_id = US_id) WHERE U_name = :userName");
+				$userInfo = $this->db->prepare("
+					SELECT 
+						*
+					FROM 
+						users 
+						LEFT OUTER JOIN userStats ON (U_id = US_id) 
+						LEFT OUTER JOIN userRoles ON (UR_id = U_userLevel)
+					WHERE 
+						U_name = :userName
+				");
 				$userInfo->bindParam(':userName', $this->name);
 			} else {
-				$userInfo = $this->db->prepare("SELECT * FROM users LEFT OUTER JOIN userStats ON (U_id = US_id) WHERE U_id = :userID");
+				$userInfo = $this->db->prepare("
+					SELECT 
+						*
+					FROM 
+						users 
+						LEFT OUTER JOIN userStats ON (U_id = US_id) 
+						LEFT OUTER JOIN userRoles ON (UR_id = U_userLevel)
+					WHERE 
+						U_id = :userID
+				");
 				$userInfo->bindParam(':userID', $this->id);
 			}
 			
 			$userInfo->execute();
             
 			$this->info = $userInfo->fetchObject();
+
+			$access = array();
+			if (isset($this->info->U_userLevel)) {
+				$adminModules = $this->db->prepare("
+					SELECT * FROM roleAccess WHERE RA_role = :id;
+				");
+				$adminModules->bindParam(":id", $this->info->U_userLevel);
+				$adminModules->execute();
+				$adminModules = $adminModules->fetchAll(PDO::FETCH_ASSOC);
+
+				foreach ($adminModules as $key => $value) {
+					$access[] = $value["RA_module"];
+				}
+
+			}
+
+			$this->adminModules = $access;
             
             if (isset($user->info->U_name) || isset($user->info->U_id)) {
                 $this->id = $this->info->U_id;
@@ -55,6 +90,7 @@
 	            	"id" => $this->info->U_id,
 	            	"userLevel" => $this->info->U_userLevel,
 	            	"status" => $this->info->U_status, 
+	            	"color" => $this->info->UR_color, 
 	            	"profilePicture" => $pic
 	            );
             }
@@ -196,7 +232,7 @@
 			$page->addToTemplate('location', $this->getLocation());
 			$page->addToTemplate('username', $this->info->U_name);
 
-			$page->addToTemplate('isAdmin', $this->info->U_userLevel == 2);
+			$page->addToTemplate('isAdmin', count($this->adminModules) != 0);
 			
 			if (($this->getTimer("crime")-time()) > 0) {
 				$page->addToTemplate('crime_timer', ($this->getTimer("crime")));

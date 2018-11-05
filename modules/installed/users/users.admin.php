@@ -22,9 +22,6 @@
 					(U_userLevel = 0) as 'isDead', 
 					(U_status = 1) as 'isValidated',  
 					(U_status = 2) as 'isAwaitingValidation',  
-					(U_userLevel = 0) as 'isBanned', 
-					(U_userLevel = 1) as 'isUser',  
-					(U_userLevel = 2) as 'isAdmin', 
 					US_money as 'money', 
 					US_exp as 'exp', 
 					US_bank as 'bank', 
@@ -106,6 +103,24 @@
 			}
 
 			$user["editType"] = "edit";
+
+			$roles = $this->db->prepare("
+				SELECT 
+					UR_id as 'id', 
+					UR_desc as 'name' 
+				FROM 
+					userRoles 
+				ORDER BY UR_desc
+			");
+
+			$roles->execute();
+
+			$user["userRoles"] = $roles->fetchAll(PDO::FETCH_ASSOC);
+
+			foreach ($user["userRoles"] as $key => $value) {
+				$user["userRoles"][$key]["selected"] = $value["id"] == $user["userLevel"];
+			}
+
 			$this->html .= $this->page->buildElement("userForm", $user);
 		}
 
@@ -123,7 +138,8 @@
 
 			if (isset($this->methodData->commit)) {
 				$delete = $this->db->prepare("
-					DELETE FROM users WHERE C_id = :id;
+					DELETE FROM users WHERE U_id = :id;
+					DELETE FROM userStats WHERE US_id = :id;
 				");
 				$delete->bindParam(":id", $this->methodData->id);
 				$delete->execute();

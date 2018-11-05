@@ -61,7 +61,27 @@ html, body {
 	padding: 5px 16px;
 }
 
+.page .form-control {
+	padding: 5px 10px;
+}
+
+input[type="color"] {
+	margin-top: 5px;
+    height: 32px;
+}
+
 input[type="checkbox"] {
     margin: -1px 0 0;
     vertical-align: middle;
+}
+
+.list-group-item {
+    padding: 8px 12px;
+    border-radius: 0px !important;
+}
+
+.list-group:after {
+	content: "";
+	display: block;
+	clear: both;
 }

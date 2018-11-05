@@ -1,43 +1,10 @@
--- phpMyAdmin SQL Dump
--- version 3.2.4
--- http://www.phpmyadmin.net
---
--- Host: localhost
--- Generation Time: Jan 06, 2014 at 07:42 PM
--- Server version: 5.1.44
--- PHP Version: 5.3.1
-
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-
---
--- Database: `MobGame`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `cars`
---
-
 CREATE TABLE IF NOT EXISTS `cars` (
   `CA_id` int(11) NOT NULL AUTO_INCREMENT,
   `CA_name` varchar(255) NOT NULL,
   `CA_value` int(11) NOT NULL,
   `CA_theftChance` int(11) NOT NULL,
   PRIMARY KEY (`CA_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `crimes`
---
+) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `crimes` (
   `C_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -47,13 +14,7 @@ CREATE TABLE IF NOT EXISTS `crimes` (
   `C_maxMoney` int(11) NOT NULL,
   `C_level` int(11) NOT NULL,
   PRIMARY KEY (`C_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gameNews`
---
+) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `gameNews` (
   `GN_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -62,13 +23,7 @@ CREATE TABLE IF NOT EXISTS `gameNews` (
   `GN_text` text NOT NULL,
   `GN_date` int(11) NOT NULL,
   PRIMARY KEY (`GN_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gangs`
---
+) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `gangs` (
   `G_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -77,17 +32,7 @@ CREATE TABLE IF NOT EXISTS `gangs` (
   `G_desc` text NOT NULL DEFAULT '',
   `G_level` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`G_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
-
---
--- Dumping data for table `gangs`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `garage`
---
+) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `garage` (
   `GA_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -96,13 +41,7 @@ CREATE TABLE IF NOT EXISTS `garage` (
   `GA_damage` int(11) NOT NULL,
   `GA_location` int(11) NOT NULL,
   PRIMARY KEY (`GA_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=25 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `locations`
---
+) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `locations` (
   `L_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -112,13 +51,7 @@ CREATE TABLE IF NOT EXISTS `locations` (
   `L_bulletCost` int(11) NOT NULL DEFAULT '100',
   `L_cooldown` int(11) NOT NULL,
   PRIMARY KEY (`L_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `mail`
---
+) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `mail` (
   `M_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -131,13 +64,7 @@ CREATE TABLE IF NOT EXISTS `mail` (
   `M_type` int(11) NOT NULL,
   `M_read` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`M_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `notifications`
---
+) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `notifications` (
   `N_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -146,13 +73,7 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   `N_text` text NOT NULL,
   `N_read` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`N_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ranks`
---
+) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `ranks` (
   `R_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -162,30 +83,14 @@ CREATE TABLE IF NOT EXISTS `ranks` (
   `R_cashReward` int(11) NOT NULL,
   `R_bulletReward` int(11) NOT NULL,
   PRIMARY KEY (`R_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `theft`
---
+) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `settings` (
   `S_id` int(11) NOT NULL AUTO_INCREMENT,
   `S_desc` varchar(255) NOT NULL,
   `S_value` text NOT NULL,
   PRIMARY KEY (`S_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
-
---
--- Dumping data for table `theft`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `theft`
---
+) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `theft` (
   `T_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -195,13 +100,7 @@ CREATE TABLE IF NOT EXISTS `theft` (
   `T_worstCar` int(11) NOT NULL,
   `T_bestCar` int(11) NOT NULL,
   PRIMARY KEY (`T_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `users`
---
+) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `users` (
   `U_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -211,13 +110,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `U_userLevel` int(1) NOT NULL,
   `U_status` int(1) NOT NULL,
   PRIMARY KEY (`U_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `userStats`
---
+) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `userStats` (
   `US_id` int(11) NOT NULL,
@@ -241,30 +134,29 @@ CREATE TABLE IF NOT EXISTS `userStats` (
   `US_chaseTimer` int(11) NOT NULL DEFAULT '0',
   `US_bulletTimer` int(11) NOT NULL DEFAULT '0',
   `US_travelTimer` int(11) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `userStats`
-
--- --------------------------------------------------------
-
---
--- Table structure for table `userTimers`
---
+) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `userTimers` (
   `UT_user` int(11) NOT NULL,
   `UT_desc` varchar(32) NOT NULL,
   `UT_time` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Table structure for table `weapons`
---
+) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `weapons` (
   `W_id` int(11) NOT NULL AUTO_INCREMENT,
   `W_name` varchar(100) NOT NULL,
   `W_accuracy` int(11) NOT NULL,
   PRIMARY KEY (`W_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `roleAccess` ( 
+  `RA_role` INT NOT NULL , 
+  `RA_module` VARCHAR(128) NOT NULL,
+  PRIMARY KEY(`RA_role`, `RA_module`)
+) DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `userRoles` (
+  `UR_id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `UR_desc` varchar(128) NOT NULL,
+  `UR_color` varchar(7) NOT NULL
+) DEFAULT CHARSET=utf8;

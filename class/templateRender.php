@@ -88,6 +88,9 @@
 
             // BBcode array
             $find = array(
+                '~\[left\](.*?)\[/left\]~s',
+                '~\[right\](.*?)\[/right\]~s',
+                '~\[center\](.*?)\[/center\]~s',
                 '~\[b\](.*?)\[/b\]~s',
                 '~\[i\](.*?)\[/i\]~s',
                 '~\[u\](.*?)\[/u\]~s',
@@ -100,6 +103,9 @@
 
             // HTML tags to replace BBcode
             $replace = array(
+                '<div style="text-align: left;">$1</div>',
+                '<div style="text-align: right;">$1</div>',
+                '<div style="text-align: center;">$1</div>',
                 '<strong>$1</strong>',
                 '<em>$1</em>',
                 '<span style="text-decoration:underline;">$1</span>',
