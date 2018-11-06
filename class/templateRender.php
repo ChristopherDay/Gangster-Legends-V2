@@ -136,52 +136,55 @@
             } else {
                 if (!$html) $html = $this->template->$templateName;
                 
+                ini_set('pcre.jit', false);
+                
                 /* remove new lines ... not sure why but it stops nested ifs ... */
                 $html = trim(preg_replace('/\s+/', ' ', $html));
 
                 // process each blocks
                 $html = preg_replace_callback(
-                    '#\{\#each (.+)\}(((?R)|.+)+)\{\/each}#iUs', 
+                    '#\{\#each (.+)\}(((?R)|.+)+)\{\/each}#iUsS', 
                     array($this, "each"), 
                     $html
                 );
+
                 // process if blocks
                 $html = preg_replace_callback(
-                    '#\{\#if (.+)\}(((?R)|.+)+)\{\/if}#iUs', 
+                    '#\{\#if (.+)\}(((?R)|.+)+)\{\/if}#iUsS', 
                     array($this, "if"), 
                     $html
                 );
                 // process unless blocks
                 $html = preg_replace_callback(
-                    '#\{\#unless (.+)\}(((?R)|.+)+)\{\/unless}#iUs', 
+                    '#\{\#unless (.+)\}(((?R)|.+)+)\{\/unless}#iUsS', 
                     array($this, "unless"), 
                     $html
                 );
 
                 // replace variables
                 $html = preg_replace_callback(
-                    '#\{\>(.+)\}#iUs', 
+                    '#\{\>(.+)\}#iUsS', 
                     array($this, "subTemplate"), 
                     $html
                 );
 
                 // replace variables
                 $html = preg_replace_callback(
-                    '#\<\{(.+)\}\>#iUs', 
+                    '#\<\{(.+)\}\>#iUsS', 
                     array($this, "replaceHTML"), 
                     $html
                 );
 
                 // replace variables
                 $html = preg_replace_callback(
-                    '#\[\{(.+)\}\]#iUs', 
+                    '#\[\{(.+)\}\]#iUsS', 
                     array($this, "replaceBBCode"), 
                     $html
                 );
 
                 // replace variables
                 $html = preg_replace_callback(
-                    '#\{(.+)\}#iUs', 
+                    '#\{(.+)\}#iUsS', 
                     array($this, "replace"), 
                     $html
                 );
