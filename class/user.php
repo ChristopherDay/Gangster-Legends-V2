@@ -291,6 +291,17 @@
 			
 		}
 		
+		public function getMoneyRank() {
+			$query = $this->db->prepare("
+				SELECT * FROM moneyRanks WHERE MR_money < :money ORDER BY MR_money DESC LIMIT 0, 1
+			");
+			$cash = $this->info->US_money + $this->info->US_bank;
+			$query->bindParam(":money", $cash);
+			$query->execute();
+			$result = $query->fetchObject();
+			return $result;
+		}
+		
 		public function getRank() {
 			
 			$query = $this->db->prepare("SELECT * FROM ranks WHERE R_id = :rank");
