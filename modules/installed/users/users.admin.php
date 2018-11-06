@@ -18,6 +18,7 @@
 				SELECT
 					U_id as 'id',  
 					U_name as 'name', 
+					U_email as 'email', 
 					U_userLevel as 'userLevel',   
 					(U_userLevel = 0) as 'isDead', 
 					(U_status = 1) as 'isValidated',  
@@ -97,6 +98,7 @@
 							users 
 						SET 
 							U_name = :name, 
+							U_email = :email, 
 							U_status = :userStatus, 
 							U_userLevel = :userLevel 
 						WHERE 
@@ -116,6 +118,7 @@
 							US_id = :id;
 					");
 					$update->bindParam(":name", $this->methodData->name);
+					$update->bindParam(":email", $this->methodData->email);
 					$update->bindParam(":userLevel", $this->methodData->userLevel);
 					$update->bindParam(":userStatus", $this->methodData->userStatus);
 					$update->bindParam(":pic", $this->methodData->pic);
