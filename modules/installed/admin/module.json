@@ -6,7 +6,7 @@
         "name": "Chris Day",
         "url": "http:\/\/glscript.cdcoding.com"
     },
-    "pageName": "Admin",
+    "pageName": "Admin Control Panel",
     "moduleCantBeDisabled": true,
     "accessInJail": true,
     "requireLogin": true,
