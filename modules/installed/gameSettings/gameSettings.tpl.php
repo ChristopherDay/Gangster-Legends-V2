@@ -2,19 +2,6 @@
 
     class gameSettingsTemplate extends template {
 
-        public $rankHolder = '
-        {#each ranks}
-        <div class="rank-holder">
-            <p>{name} ({cooldown}) <span class="commit"><a href="?page=ranks&action=commit&rank={id}">Commit</a></span></p>
-            <div class="rank-perc">
-                <div class="perc" style="width:{percent}%;"></div>
-            </div>
-        </div>
-        {/each}
-        {#unless ranks}
-            <div class="text-center"><em>There are no ranks</em></div>
-        {/unless}';
-
         public $rankList = '
             <table class="table table-condensed table-responsive table-striped table-bordered">
                 <thead>
@@ -76,6 +63,58 @@
                 <div class="form-group">
                     <label class="pull-left">Bullet reward for reaching this rank</label>
                     <input type="number" class="form-control" name="bullets" value="{bullets}">
+                </div>
+                <div class="text-right">
+                    <button class="btn btn-default" name="submit" type="submit" value="1">Save</button>
+                </div>
+            </form>
+        ';
+
+        public $moneyRankList = '
+            <table class="table table-condensed table-responsive table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th width="100px">Money Needed</th>
+                        <th width="100px">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {#each moneyRanks}
+                        <tr>
+                            <td>{name}</td>
+                            <td>${money}</td>
+                            <td>
+                                [<a href="?page=admin&module=gameSettings&action=editMoneyRank&id={id}">Edit</a>] 
+                                [<a href="?page=admin&module=gameSettings&action=deleteMoneyRank&id={id}">Delete</a>]
+                            </td>
+                        </tr>
+                    {/each}
+                </tbody>
+            </table>
+        ';
+
+        public $moneyRankDelete = '
+            <form method="post" action="?page=admin&module=gameSettings&action=deleteMoneyRank&id={id}&commit=1">
+                <div class="text-center">
+                    <p> Are you sure you want to delete this money rank?</p>
+
+                    <p><em>"{name}"</em></p>
+
+                    <button class="btn btn-danger" name="submit" type="submit" value="1">Yes delete this money rank</button>
+                </div>
+            </form>
+        
+        ';
+        public $moneyRankForm = '
+            <form method="post" action="?page=admin&module=gameSettings&action={editType}MoneyRank&id={id}">
+                <div class="form-group">
+                    <label class="pull-left">Rank Name</label>
+                    <input type="text" class="form-control" name="name" value="{name}">
+                </div>
+                <div class="form-group">
+                    <label class="pull-left">Money needed to get this rank</label>
+                    <input type="number" class="form-control" name="money" value="{money}">
                 </div>
                 <div class="text-right">
                     <button class="btn btn-default" name="submit" type="submit" value="1">Save</button>

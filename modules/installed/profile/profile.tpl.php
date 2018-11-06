@@ -89,6 +89,10 @@
 							<td class="text-left">{rank}</td>
 						</tr>
 						<tr>
+							<th width="100px">Wealth</th>
+							<td class="text-left">{moneyRank}</td>
+						</tr>
+						<tr>
 							<th width="100px">Family</th>
 							<td class="text-left">{family}</td>
 						</tr>

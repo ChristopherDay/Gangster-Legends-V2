@@ -70,6 +70,19 @@
 
 			$user = $this->getUser($this->methodData->id);
 
+			$roles = $this->db->prepare("
+				SELECT 
+					UR_id as 'id', 
+					UR_desc as 'name'
+				FROM 
+					userRoles 
+				ORDER BY UR_desc
+			");
+
+			$roles->execute();
+
+			$userRoles = $roles->fetchAll(PDO::FETCH_ASSOC);
+
 			if (isset($this->methodData->submit)) {
 				$user = (array) $this->methodData;
 				$errors = $this->validateUser($user);
@@ -80,8 +93,27 @@
 					}
 				} else {
 					$update = $this->db->prepare("
-						UPDATE users SET U_name = :name, U_status = :userStatus, U_userLevel = :userLevel WHERE U_id = :id;
-						UPDATE userStats SET US_pic = :pic, US_bio = :bio, US_bullets = :bullets, US_credits = :credits, US_bank = :bank, US_exp = :exp, US_money = :money WHERE US_id = :id;
+						UPDATE 
+							users 
+						SET 
+							U_name = :name, 
+							U_status = :userStatus, 
+							U_userLevel = :userLevel 
+						WHERE 
+							U_id = :id;
+
+						UPDATE 
+							userStats 
+						SET 
+							US_pic = :pic, 
+							US_bio = :bio, 
+							US_bullets = :bullets, 
+							US_credits = :credits, 
+							US_bank = :bank, 
+							US_exp = :exp, 
+							US_money = :money 
+						WHERE 
+							US_id = :id;
 					");
 					$update->bindParam(":name", $this->methodData->name);
 					$update->bindParam(":userLevel", $this->methodData->userLevel);
@@ -96,7 +128,9 @@
 					$update->bindParam(":id", $this->methodData->id);
 					$update->execute();
 
-					$this->html .= $this->page->buildElement("success", array("text" => "This user has been updated"));
+					$this->html .= $this->page->buildElement("success", array(
+						"text" => "This user has been updated"
+					));
 
 				}
 
@@ -104,18 +138,7 @@
 
 			$user["editType"] = "edit";
 
-			$roles = $this->db->prepare("
-				SELECT 
-					UR_id as 'id', 
-					UR_desc as 'name' 
-				FROM 
-					userRoles 
-				ORDER BY UR_desc
-			");
-
-			$roles->execute();
-
-			$user["userRoles"] = $roles->fetchAll(PDO::FETCH_ASSOC);
+			$user["userRoles"] = $userRoles;
 
 			foreach ($user["userRoles"] as $key => $value) {
 				$user["userRoles"][$key]["selected"] = $value["id"] == $user["userLevel"];

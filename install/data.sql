@@ -53,3 +53,10 @@ INSERT INTO `userRoles` (`UR_id`, `UR_desc`, `UR_color`) VALUES
 (3, 'Banned', '#FF0000');
 
 INSERT INTO `roleAccess` (`RA_role`, `RA_module`) VALUES (2, '*');
+
+INSERT INTO `moneyRanks` (`MR_id`, `MR_desc`, `MR_money`) VALUES
+(1, "Broke", 0),
+(2, "Very Poor", 10000),
+(3, "Poor", 100000),
+(4, "Rich", 1000000),
+(5, "Very Rich", 10000000);
