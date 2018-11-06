@@ -6,10 +6,10 @@
         "name": "Chris Day",
         "url": "http:\/\/glscript.cdcoding.com"
     },
-    "pageName": "Ranks",
+    "pageName": "User Ranks",
     "accessInJail": false,
     "requireLogin": true,
-    "adminGroup": "Game Mechanics",
+    "adminGroup": "User Management",
     "admin": [
         {
             "text": "View Ranks",
@@ -28,6 +28,24 @@
             "hide": true,
             "text": "Delete Rank",
             "method": "deleteRank"
+        },
+        {
+            "text": "View Money Ranks",
+            "method": "viewMoneyRank"
+        },
+        {
+            "text": "New Money Rank",
+            "method": "newMoneyRank"
+        },
+        {
+            "hide": true,
+            "text": "Edit Money Rank",
+            "method": "editMoneyRank"
+        },
+        {
+            "hide": true,
+            "text": "Delete Money Rank",
+            "method": "deleteMoneyRank"
         }
     ]
 }

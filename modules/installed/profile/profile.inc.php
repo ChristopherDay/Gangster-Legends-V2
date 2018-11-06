@@ -34,6 +34,7 @@
             $this->html .= $this->page->buildElement('profile', array(
 				"picture" => $pic,
 				"user" => $profile->user, 
+				"moneyRank" => $profile->getMoneyRank()->MR_desc, 
 				"rank" => $profile->getRank()->R_name, 
 				"family" => $profile->getGang()["name"], 
 				"status" => $profile->getStatus(), 

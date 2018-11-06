@@ -160,3 +160,9 @@ CREATE TABLE IF NOT EXISTS `userRoles` (
   `UR_desc` varchar(128) NOT NULL,
   `UR_color` varchar(7) NOT NULL
 ) DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `moneyRanks` ( 
+  `MR_id` INT(11) PRIMARY KEY AUTO_INCREMENT , 
+  `MR_desc` VARCHAR(128), 
+  `MR_money` INT(11)
+) DEFAULT CHARSET=utf8;

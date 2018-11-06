@@ -107,7 +107,9 @@
 					$update->bindParam(":id", $this->methodData->id);
 					$update->execute();
 
-					$this->html .= $this->page->buildElement("success", array("text" => "This rank has been updated"));
+					$this->html .= $this->page->buildElement("success", array(
+						"text" => "This rank has been updated"
+					));
 
 				}
 
@@ -163,6 +165,173 @@
 			
 			$this->html .= $this->page->buildElement("rankList", array(
 				"ranks" => $this->getRank()
+			));
+
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		private function getMoneyRank($rankID = "all") {
+			if ($rankID == "all") {
+				$add = "";
+			} else {
+				$add = " WHERE MR_id = :id";
+			}
+			
+			$rank = $this->db->prepare("
+				SELECT
+					MR_id as 'id',  
+					MR_desc as 'name',  
+					MR_money as 'money'
+				FROM moneyRanks" . $add . "
+				ORDER BY MR_money DESC"
+			);
+
+			if ($rankID == "all") {
+				$rank->execute();
+				return $rank->fetchAll(PDO::FETCH_ASSOC);
+			} else {
+				$rank->bindParam(":id", $rankID);
+				$rank->execute();
+				return $rank->fetch(PDO::FETCH_ASSOC);
+			}
+		}
+
+		private function validateMoneyRank($rank) {
+			$errors = array();
+
+			if (strlen($rank["name"]) < 2) {
+				$errors[] = "Rank name is to short, this must be atleast 2 characters";
+			}
+			if ($rank["id"] == 1 && $rank["money"] != 0) {
+				$errors[] = "The first rank must be $0";
+			}
+
+			return $errors;
+			
+		}
+
+		public function method_newMoneyRank () {
+
+			$moneyRank = array();
+
+			if (isset($this->methodData->submit)) {
+				$moneyRank = (array) $this->methodData;
+				$errors = $this->validateRank($moneyRank);
+				
+				if (count($errors)) {
+					foreach ($errors as $error) {
+						$this->html .= $this->page->buildElement("error", array("text" => $error));
+					}
+				} else {
+					$insert = $this->db->prepare("
+						INSERT INTO moneyRanks (MR_desc, MR_money)  VALUES (:name, :money);
+					");
+					$insert->bindParam(":name", $this->methodData->name);
+					$insert->bindParam(":money", $this->methodData->money);
+					$insert->execute();
+
+					$this->html .= $this->page->buildElement("success", array("text" => "This money rank has been created"));
+
+				}
+
+			}
+
+			$moneyRank["editType"] = "new";
+			$this->html .= $this->page->buildElement("moneyRankForm", $moneyRank);
+		}
+
+		public function method_editMoneyRank () {
+
+			if (!isset($this->methodData->id)) {
+				return $this->html = $this->page->buildElement("error", array(
+					"text" => "No rank ID specified"
+				));
+			}
+
+			$moneyRank = $this->getMoneyRank($this->methodData->id);
+
+			if (isset($this->methodData->submit)) {
+				$moneyRank = (array) $this->methodData;
+				$errors = $this->validateMoneyRank($moneyRank);
+
+				if (count($errors)) {
+					foreach ($errors as $error) {
+						$this->html .= $this->page->buildElement("error", array("text" => $error));
+					}
+				} else {
+					$update = $this->db->prepare("
+						UPDATE moneyRanks SET MR_desc = :name, MR_money = :money WHERE MR_id = :id
+					");
+					$update->bindParam(":name", $this->methodData->name);
+					$update->bindParam(":money", $this->methodData->money);
+					$update->bindParam(":id", $this->methodData->id);
+					$update->execute();
+
+					$this->html .= $this->page->buildElement("success", array(
+						"text" => "This money rank has been updated"
+					));
+
+				}
+
+			}
+
+			$moneyRank["editType"] = "edit";
+			$this->html .= $this->page->buildElement("moneyRankForm", $moneyRank);
+		}
+
+		public function method_deleteMoneyRank () {
+
+			if (!isset($this->methodData->id)) {
+				return $this->html = $this->page->buildElement("error", array(
+					"text" => "No rank ID specified"
+				));
+			}
+
+			$moneyRank = $this->getMoneyRank($this->methodData->id);
+
+			if (!isset($moneyRank["id"])) {
+				return $this->html = $this->page->buildElement("error", array(
+					"text" => "This rank does not exist"
+				));
+			}
+			if ($moneyRank["id"] == 1) {
+				return $this->html = $this->page->buildElement("error", array(
+					"text" => "You cant delete the first rank"
+				));
+			}
+
+			if (isset($this->methodData->commit)) {
+
+				$delete = $this->db->prepare("
+					DELETE FROM moneyRanks WHERE MR_id = :id;
+				");
+				$delete->bindParam(":id", $this->methodData->id);
+				$delete->execute();
+
+				header("Location: ?page=admin&module=gameSettings&action=viewMoneyRank");
+
+			}
+
+			$this->html .= $this->page->buildElement("moneyRankDelete", $moneyRank);
+		}
+
+		public function method_viewMoneyRank () {
+			
+			$this->html .= $this->page->buildElement("moneyRankList", array(
+				"moneyRanks" => $this->getMoneyRank()
 			));
 
 		}
