@@ -1,7 +1,7 @@
 <?php
 
 	new hook("customMenus", function ($user) {
-		if ($user && $user->info->U_userLevel == 2) {
+		if ($user && count($user->adminModules)) {
 			return array(
 				"title" => "Admin", 
 	            "items" => array(
