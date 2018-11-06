@@ -99,7 +99,7 @@
                         {#each modules}
                             {#if admin}
                                 <li class="list-group-item col-md-4">
-                                    <input type="checkbox" name="access[]" value="{id}" {#if selected}checked{/if}> {name}
+                                    <input type="checkbox" name="access[]" value="{id}" {#if selected}checked{/if}> {pageName}
                                 </li>
                             {/if}
                         {/each}
