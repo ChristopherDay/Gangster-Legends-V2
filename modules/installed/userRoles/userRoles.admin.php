@@ -107,6 +107,7 @@
 			array_unshift($role["modules"], array(
 				"admin" => true, 
 				"name" => "All Modules", 
+				"pageName" => "All Modules", 
 				"id" => "*"
 			));
 
@@ -165,6 +166,7 @@
 			
 			array_unshift($role["modules"], array(
 				"admin" => true, 
+				"pageName" => "All Modules", 
 				"name" => "All Modules", 
 				"id" => "*"
 			));
