@@ -42,7 +42,11 @@
         }
     
         public function timeLeft($ts) {
-            return date('H:i:s', $ts);
+            $oldTZ = date_default_timezone_get();
+            date_default_timezone_set("UTC");
+            $ts = date('H:i:s', $ts);
+            date_default_timezone_set($oldTZ);
+            return $ts; 
         }
         
         public function htmlOutput() {
