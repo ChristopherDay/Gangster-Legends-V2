@@ -8,7 +8,7 @@
         
         public function constructModule() {
             
-            $garage = $this->db->prepare("SELECT * from garage WHERE GA_uid = :uid");
+            $garage = $this->db->prepare("SELECT * from garage INNER JOIN cars ON (CA_id = GA_car) WHERE GA_uid = :uid");
             $garage->bindParam(':uid', $this->user->info->US_id);
             $garage->execute();
             
@@ -19,16 +19,12 @@
                 $loc = $this->db->prepare("SELECT * FROM locations WHERE L_id = ".$car->GA_location);
                 $loc->execute();
                 $loc = $loc->fetchObject();
-            
-                $carInfo = $this->db->prepare("SELECT * from cars WHERE CA_id = ".$car->GA_car);
-                $carInfo->execute();
-                $carInfo = $carInfo->fetchObject();
                 
                 $multi = (100 - $car->GA_damage) /100;
-                $value = round(($carInfo->CA_value * $multi));   
+                $value = round(($car->CA_value * $multi));   
                 
                 $cars[] = array(
-                    "name" => $carInfo->CA_name, 
+                    "name" => $car->CA_name, 
                     "location" => $loc->L_name, 
                     "damage" => $car->GA_damage.'%', 
                     "id" => $car->GA_id, 
