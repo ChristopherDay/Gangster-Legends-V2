@@ -7,8 +7,6 @@
 	require 'class/hooks.php';
 	require 'class/error.php';
 
-	$error = new error();
-
 	include 'dbconn.php';
 	
 	require 'class/settings.php'; 

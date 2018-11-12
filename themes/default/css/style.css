@@ -95,6 +95,13 @@ a:hover {
 	line-height: 20px;
 }
 
+.forum-header {
+	border-bottom: 1px solid #474747;
+	margin: 0px;
+	padding-bottom: 8px;
+	margin-bottom: 8px;
+}
+
 hr {
     border-top: 1px solid #474747 !important;
 }

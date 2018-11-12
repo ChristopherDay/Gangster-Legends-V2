@@ -166,3 +166,35 @@ CREATE TABLE IF NOT EXISTS `moneyRanks` (
   `MR_desc` VARCHAR(128), 
   `MR_money` INT(11)
 ) DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `forums` ( 
+  `F_id` INT(11) PRIMARY KEY AUTO_INCREMENT , 
+  `F_sort` INT(11),
+  `F_name` VARCHAR(128)
+) DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `forumAccess` ( 
+  `FA_role` INT(11), 
+  `FA_forum` INT(11)
+) DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `topics` ( 
+  `T_id` INT(11) PRIMARY KEY AUTO_INCREMENT , 
+  `T_date` INT(11), 
+  `T_forum` INT(11), 
+  `T_user` INT(11), 
+  `T_subject` VARCHAR(128)
+) DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `posts` ( 
+  `P_id` INT(11) PRIMARY KEY AUTO_INCREMENT , 
+  `P_topic` INT(11), 
+  `P_date` INT(11), 
+  `P_user` INT(11), 
+  `P_body` TEXT
+) DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `topicReads` ( 
+  `TR_topic` INT(11), 
+  `TR_user` INT(11)
+) DEFAULT CHARSET=utf8;
