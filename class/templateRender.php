@@ -96,6 +96,7 @@
                 '~\[quote\](.*?)\[/quote\]~s',
                 '~\[quote=(.*?)\](.*?)\[/quote\]~s',
                 '~\[size=(.*?)\](.*?)\[/size\]~s',
+                '~\[color=(.*?)\](.*?)\[/color\]~s',
                 '~\[url\]((?:ftp|https?)://.*?)\[/url\]~s',
                 '~\[img\](https?://.*?\.(?:jpg|jpeg|gif|png|bmp))\[/img\]~s'
             );
