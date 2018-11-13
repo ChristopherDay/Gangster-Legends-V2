@@ -94,8 +94,8 @@
                 '~\[i\](.*?)\[/i\]~s',
                 '~\[u\](.*?)\[/u\]~s',
                 '~\[quote\](.*?)\[/quote\]~s',
+                '~\[quote=(.*?)\](.*?)\[/quote\]~s',
                 '~\[size=(.*?)\](.*?)\[/size\]~s',
-                '~\[color=(.*?)\](.*?)\[/color\]~s',
                 '~\[url\]((?:ftp|https?)://.*?)\[/url\]~s',
                 '~\[img\](https?://.*?\.(?:jpg|jpeg|gif|png|bmp))\[/img\]~s'
             );
@@ -108,7 +108,8 @@
                 '<strong>$1</strong>',
                 '<em>$1</em>',
                 '<span style="text-decoration:underline;">$1</span>',
-                '<pre>$1</pre>',
+                '<div class="quote">$1</div>',
+                '<div class="quote"><strong>$1</strong><br />$2</div>',
                 '<span style="font-size:$1px;">$2</span>',
                 '<span style="color:$1;">$2</span>',
                 '<a href="$1">$1</a>',
@@ -135,9 +136,9 @@
 
             } else {
                 if (!$html) $html = $this->template->$templateName;
-                
+
                 ini_set('pcre.jit', false);
-                
+
                 /* remove new lines ... not sure why but it stops nested ifs ... */
                 $html = trim(preg_replace('/\s+/', ' ', $html));
 
