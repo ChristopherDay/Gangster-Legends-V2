@@ -25,6 +25,8 @@
 				FROM 
 					userStats
 					INNER JOIN users ON (US_id = U_id) 
+				WHERE 
+					U_userLevel = 1
 				ORDER BY ".$order." DESC LIMIT 0, 10
 			");
 			$select->execute();
