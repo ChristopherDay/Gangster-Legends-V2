@@ -6,7 +6,8 @@
         	"id" => array( "type" => "GET" ),
         	"subject" => array( "type" => "POST" ),
         	"body" => array( "type" => "POST" ),
-        	"submit" => array( "type" => "POST" )
+        	"submit" => array( "type" => "POST" ), 
+            "quote" => array("type" => "GET" )
         );
 		
 		public $pageName = '';
@@ -17,6 +18,26 @@
         	$this->html .= $this->page->buildElement("error", array(
     			"text" => $text
     		));
+        }
+
+        public function getPost($id) {
+            $post = $this->db->prepare("
+                SELECT
+                    P_id as 'id', 
+                    P_date as 'time', 
+                    P_user as 'user', 
+                    P_topic as 'topic', 
+                    P_body as 'body'
+                FROM posts WHERE P_id = :id
+            ");
+            $post->bindParam(":id", $id);
+            $post->execute();
+            $post = $post->fetch(PDO::FETCH_ASSOC);
+
+            $user = new User($post["user"]);
+            $post["user"] = $user->user;
+            $post["date"] = $this->date($post["time"]);
+            return $post;
         }
 
         public function getTopic($id) {
@@ -32,6 +53,7 @@
                     P_id as 'id', 
                     P_date as 'time', 
                     P_user as 'user', 
+                    P_topic as 'topic', 
                     P_body as 'body'
                 FROM posts
                 WHERE
@@ -43,11 +65,22 @@
             $posts->execute();
             $posts = $posts->fetchAll(PDO::FETCH_ASSOC);
 
+            $userIsAdmin = $this->user->hasAdminAccessTo("forum");
+
+            $i = 0;
+
             foreach ($posts as $key => $post) {
+                $post["firstPost"] = $i == 0;
+                $post["canEdit"] = (
+                    $post["user"] == $this->user->id || 
+                    $userIsAdmin
+                );
+                $post["isAdmin"] = $userIsAdmin;
                 $user = new User($post["user"]);
                 $post["user"] = $user->user;
                 $post["date"] = $this->date($post["time"]);
                 $posts[$key] = $post;
+                $i++;
             }
 
             $output = array(
@@ -230,9 +263,123 @@
 
             }
 
-        	$this->html .= $this->page->buildElement(
+            $topic = $this->getTopic($this->methodData->id);
+
+            if (isset($this->methodData->quote)) {
+                foreach ($topic["posts"] as $post) {
+                    if ($post["id"] == $this->methodData->quote) {
+                        $topic["quote"] = $post;
+                        break;
+                    }
+                }
+            }
+
+            $this->html .= $this->page->buildElement(
                 "topic", 
-                $this->getTopic($this->methodData->id)
+                $topic
+            );
+        }
+
+        public function method_edit() {
+
+            $post = $this->getPost($this->methodData->id);
+
+            if (
+                $post["user"] != $this->user->id &&
+                !$this->user->hasAdminAccessTo("forum")
+            ) {
+                return $this->html .= $this->error("You dont have permission to edit this post");
+            }
+
+            if (isset($this->methodData->submit)) {
+
+                $error = false;
+                if (strlen($this->methodData->body) < 6) {
+                    $this->error("The reply must be atleast 6 characters");
+                    $error = true;
+                }
+
+                if (!$error) {
+                    $update = $this->db->prepare("
+                        UPDATE posts SET P_body = :body WHERE P_id = :id
+                    ");
+                    $update->bindParam(":body", $this->methodData->body);
+                    $update->bindParam(":id", $this->methodData->id);
+                    $update->execute();
+
+                    header("Location:?page=forum&action=topic&id=" . $post["topic"]);
+                }
+
+            }
+
+            $this->html .= $this->page->buildElement(
+                "edit", 
+                $post
+            );
+        }
+
+        public function method_delete() {
+
+            $post = $this->getPost($this->methodData->id);
+
+            if (!$this->user->hasAdminAccessTo("forum")) {
+                return $this->html .= $this->error("You dont have permission to delete this post");
+            }
+
+            if (isset($this->methodData->submit)) {
+
+                $error = false;
+
+                if (!$error) {
+                    $update = $this->db->prepare("
+                        DELETE FROM posts WHERE P_id = :id
+                    ");
+                    $update->bindParam(":id", $this->methodData->id);
+                    $update->execute();
+
+                    header("Location:?page=forum&action=topic&id=" . $post["topic"]);
+                }
+
+            }
+
+            $this->html .= $this->page->buildElement(
+                "delete", 
+                $post
+            );
+        }
+
+        public function method_deleteTopic() {
+
+            $topic = $this->getTopic($this->methodData->id);
+
+            if (!$this->user->hasAdminAccessTo("forum")) {
+                return $this->html .= $this->error("You dont have permission to delete this topic");
+            }
+
+            if (isset($this->methodData->submit)) {
+
+                $error = false;
+
+                if (!$error) {
+                    $update = $this->db->prepare("
+                        DELETE FROM topics WHERE T_id = :id;
+                        DELETE FROM posts WHERE P_topic = :id;
+                    ");
+                    $update->bindParam(":id", $this->methodData->id);
+                    $update->execute();
+
+                    header("Location:?page=forum&action=forum&id=" . $topic["forum"]["id"]);
+                }
+
+            }
+
+            $topic["body"] = $topic["posts"][0]["body"];
+            $topic["user"] = $topic["posts"][0]["user"];
+            $topic["date"] = $topic["posts"][0]["date"];
+
+            $this->html .= $this->page->buildElement(
+                "deleteTopic", 
+                $topic
             );
         }
         

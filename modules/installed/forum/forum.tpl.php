@@ -125,8 +125,14 @@
             </form>
         ';
 
+        public $quote = '
+            {#if quote}[quote={quote.user.name}]
+                {quote.body}
+            [/quote]{/if}
+        ';
+
         public $topic = '
-        	<h4 class="text-left">
+            <h4 class="text-left">
                 {subject}
                 <small class="pull-right">
                     <a href="?page=forum&action=forum&id={forum.id}">
@@ -140,6 +146,42 @@
                         {>userName}
                         <small class="pull-right">
                             {date}
+                            <div class="dropdown-toggle-hover">
+                                <a href="#">
+                                    <i class="glyphicon glyphicon-cog"></i>
+                                </a>
+                                <div class="dropdown">
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                        <li>
+                                            <a href="?page=forum&action=topic&id={topic}&quote={id}#reply">
+                                                <i class="glyphicon glyphicon-comment"></i> Quote
+                                            </a>
+                                        </li>
+                                        {#if canEdit}
+                                            <li>
+                                                <a href="?page=forum&action=edit&id={id}">
+                                                    <i class="glyphicon glyphicon-pencil"></i> Edit
+                                                </a>
+                                            </li>
+                                        {/if}
+                                        {#if isAdmin}
+                                            <li role="separator" class="divider"></li>
+                                            <li>
+                                                {#if firstPost}
+                                                    <a href="?page=forum&action=deleteTopic&id={topic}">
+                                                        <i class="glyphicon glyphicon-trash"></i> Delete Topic
+                                                    </a>
+                                                {/if}
+                                                {#unless firstPost}
+                                                    <a href="?page=forum&action=delete&id={id}">
+                                                        <i class="glyphicon glyphicon-trash"></i> Delete
+                                                    </a>
+                                                {/unless}
+                                            </li>
+                                        {/if}
+                                    </ul>
+                                </div>
+                            </div>
                         </small>
                     </h5>
                     [{body}]
@@ -148,8 +190,9 @@
 
             <form method="post" action="?page=forum&action=topic&id={topic}">
                 <div class="form-group">
+                    <a name="reply"></a> 
                     <label class="pull-left">Reply to {subject}</label>
-                    <textarea class="form-control" name="body" rows="5"></textarea>
+                    <textarea class="form-control" name="body" rows="5">{>quote}</textarea>
                     <div class="text-right">
                         <small>[BBCode] enabled</small>
                     </div>
@@ -158,6 +201,71 @@
                 <div class="text-right">
                     <button class="btn btn-default" name="submit" type="submit" value="1">
                         Reply
+                    </button>
+                </div>
+            </form>
+
+        ';
+        public $delete = '
+            <form method="post" action="?page=forum&action=delete&id={id}">
+                <div class="text-center">
+                    <p> Are you sure you want to delete this forum post?</p>
+
+                    <div class="well well-sm">
+                        <h5 class="text-left forum-header">
+                            {>userName}
+                            <small class="pull-right">
+                                {date}
+                            </small>
+                        </h5>
+                        [{body}]
+                    </div>
+
+                    <button class="btn btn-danger" name="submit" type="submit" value="1">
+                        Yes delete this post
+                    </button>
+                </div>
+            </form>        
+        ';
+        public $deleteTopic = '
+            <form method="post" action="?page=forum&action=deleteTopic&id={topic}">
+                <div class="text-center">
+                    <p> Are you sure you want to delete this forum topic?</p>
+
+                    <div class="well well-sm">
+                        <h5 class="text-left forum-header">
+                            {>userName}
+                            <small class="pull-right">
+                                {date}
+                            </small>
+                        </h5>
+                        [{body}]
+                    </div>
+
+                    <button class="btn btn-danger" name="submit" type="submit" value="1">
+                        Yes delete this topic
+                    </button>
+                </div>
+            </form>        
+        ';
+        public $edit = '
+            <h4 class="text-left">
+                Editing Post
+            </h4>
+
+            <form method="post" action="?page=forum&action=edit&id={id}">
+                <div class="form-group">
+                    <a name="reply"></a> 
+                    <label class="pull-left">Message Body</label>
+                    <textarea class="form-control" name="body" rows="5">{body}</textarea>
+                    <div class="text-right">
+                        <small>[BBCode] enabled</small>
+                    </div>
+                </div>
+                
+                <div class="text-right">
+                    <button class="btn btn-default" name="submit" type="submit" value="1">
+                        Edit
                     </button>
                 </div>
             </form>
