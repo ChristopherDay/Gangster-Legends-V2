@@ -59,7 +59,7 @@
 
         public $topics = '
             <h4 class="text-left">
-                Forum Name
+                {forumInfo.name}
                 <small class="pull-right">
                     <a href="?page=forum&action=new&id={forum}">
                         New Topic
@@ -74,7 +74,7 @@
             {/unless}
 
             {#if topics}
-                <table class="table table-bordered table-striped">
+                <table class="table table-bordered table-striped forum-topics">
                     <thead>
                         <tr>
                             <th>Subject</th>

@@ -195,6 +195,7 @@
 
         	$this->html .= $this->page->buildElement("topics", array(
         		"topics" => $this->getTopics($this->methodData->id), 
+                "forumInfo" => $this->getForum($this->methodData->id),
         		"forum" => $this->methodData->id
         	));
         }
