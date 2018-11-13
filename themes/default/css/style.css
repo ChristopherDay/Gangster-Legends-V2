@@ -95,13 +95,6 @@ a:hover {
 	line-height: 20px;
 }
 
-.forum-header {
-	border-bottom: 1px solid #474747;
-	margin: 0px;
-	padding-bottom: 8px;
-	margin-bottom: 8px;
-}
-
 hr {
     border-top: 1px solid #474747 !important;
 }
@@ -165,6 +158,22 @@ hr {
 	border-radius: 5px;
 	border: 1px solid #373737; 
 	margin-top: -6px;
+}
+
+.dropdown-menu {
+	background-color: #272727;
+}
+
+.dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus {
+	background-color: #474747;
+	color: #b7b7b7;
+}
+
+.dropdown-menu>li>a {
+	color: #979797;
+}
+.dropdown-menu .divider {
+	background-color: #979797;
 }
 
 .panel-heading{
