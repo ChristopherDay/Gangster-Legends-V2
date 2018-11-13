@@ -121,8 +121,12 @@ class page {
                     )
                 );
 
+                $customMenus = array();
                 foreach ($customMenu->run($user) as $key => $menu) {
-                    if ($menu) $menus[$key] = $menu;
+                    if ($menu) {
+                        $menus[$key] = $menu;
+                        $customMenus[$key] = $menu;
+                    }
                 }
     
                 $allMenus = new hook("menus", function ($menus) {
@@ -131,8 +135,10 @@ class page {
 
                 $allMenus = $allMenus->run($menus, true);
 
+                $customMenus = $this->sortArray($customMenus);
 
                 $this->addToTemplate('menus', $this->setActiveLinks($allMenus));
+                $this->addToTemplate('customMenus', $this->setActiveLinks($customMenus));
 
                 $this->pageHTML = $this->template->mainTemplate->pageMain;
                 
