@@ -21,3 +21,43 @@
 	border-radius: 5px;
 	padding: 7px; 
 }
+
+
+@media (max-width: 767px) {
+	.forum-topics tr,
+	.forum-topics tr th,
+	.forum-topics tr td {
+		display: block;
+		float: left;
+		line-height: 25px !important;
+		padding: 0px 8px !important;
+		border: none !important;
+	}
+	.forum-topics tr:after {
+		content: "";
+		clear: both;
+	}
+
+	.forum-topics tr {
+		width: 100%;
+	}
+	.forum-topics tr th:nth-child(1),
+	.forum-topics tr td:nth-child(1) {
+		height: 25px;
+		width: 100%;
+	}
+
+	.forum-topics tr th:nth-child(2),
+	.forum-topics tr td:nth-child(2) {
+		height: 25px;
+		width: 33%;
+	}
+	
+	.forum-topics tr th:nth-child(3),
+	.forum-topics tr td:nth-child(3) {
+		width: 67%;
+		height: 25px;
+		font-size: 11px;
+	}
+
+}
