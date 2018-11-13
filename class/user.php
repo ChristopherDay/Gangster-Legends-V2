@@ -101,6 +101,10 @@
 			
 		}
 		
+		public function hasAdminAccessTo($module) {
+			return in_array($module, $this->adminModules) || in_array("*", $this->adminModules);
+		}
+
 		public function encrypt($var) {
 			return hash('sha256', $var);
 		}
