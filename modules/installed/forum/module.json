@@ -7,7 +7,7 @@
         "url": "http:\/\/glscript.cdcoding.com"
     },
     "pageName": "Forum",
-    "accessInJail": false,
+    "accessInJail": true,
     "requireLogin": true,
     "adminGroup": "Communication",
     "admin": [
