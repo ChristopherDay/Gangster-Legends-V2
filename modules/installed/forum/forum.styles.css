@@ -47,17 +47,19 @@
 		width: 100%;
 	}
 
-	.forum-topics tr th:nth-child(2),
 	.forum-topics tr td:nth-child(2) {
 		height: 25px;
 		width: 33%;
 	}
 	
-	.forum-topics tr th:nth-child(3),
 	.forum-topics tr td:nth-child(3) {
 		width: 67%;
 		height: 25px;
 		font-size: 11px;
+	}
+	.forum-topics tr th:nth-child(3),
+	.forum-topics tr th:nth-child(2) {
+		display: none;
 	}
 
 }
