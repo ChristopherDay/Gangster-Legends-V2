@@ -427,22 +427,17 @@
         }
 		
 		public function checkTimer($timer) {
-		
 			$time = $this->getTimer($timer);
-			
-			if (time() > $time) {
-				return true;
-			} else {
-				return false;
-			}
-			
+			return (time() > $time);
 		}
 		
 		public function getTimer($timer) {
 		
 			$userID = $this->id;
 			
-			$select = $this->db->prepare("SELECT * FROM userTimers WHERE UT_desc = :desc AND UT_user = :user");
+			$select = $this->db->prepare("
+				SELECT * FROM userTimers WHERE UT_desc = :desc AND UT_user = :user;
+			");
 			$select->bindParam(':user', $userID);
 			$select->bindParam(':desc', $timer);
 			$select->execute();
