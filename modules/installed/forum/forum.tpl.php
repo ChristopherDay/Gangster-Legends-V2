@@ -136,7 +136,7 @@
 
         public $topic = '
             <h4 class="text-left">
-                {subject}
+                {type} {subject}
                 <small class="pull-right">
                     <a href="?page=forum&action=forum&id={forum.id}">
                         {forum.name}
