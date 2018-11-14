@@ -86,6 +86,9 @@
                         {#each topics}
                             <tr>
                                 <td>
+                                    {#if locked}
+                                        <i class="glyphicon glyphicon-lock"></i>
+                                    {/if}
                                     <a href="?page=forum&action=topic&id={id}">
                                         {subject}
                                     </a>
@@ -166,17 +169,29 @@
                                         {/if}
                                         {#if isAdmin}
                                             <li role="separator" class="divider"></li>
-                                            <li>
-                                                {#if firstPost}
+                                            {#if firstPost}
+                                                <li>
                                                     <a href="?page=forum&action=deleteTopic&id={topic}">
                                                         <i class="glyphicon glyphicon-trash"></i> Delete Topic
                                                     </a>
-                                                {/if}
-                                                {#unless firstPost}
+                                                </li>
+                                                <li>
+                                                    <a href="?page=forum&action=lock&id={topic}">
+                                                        <i class="glyphicon glyphicon-lock"></i> Toggle Lock
+                                                    </a>
+                                                </li>
+                                            {/if}
+                                            {#unless firstPost}
+                                                <li>
                                                     <a href="?page=forum&action=delete&id={id}">
                                                         <i class="glyphicon glyphicon-trash"></i> Delete
                                                     </a>
-                                                {/unless}
+                                                </li>
+                                            {/unless}
+                                            <li>
+                                                <a href="?page=forum&action=mute&id={user.id}">
+                                                    <i class="glyphicon glyphicon-volume-off"></i> Mute User
+                                                </a>
                                             </li>
                                         {/if}
                                     </ul>
@@ -188,23 +203,32 @@
                 </div>
             {/each}
 
-            <form method="post" action="?page=forum&action=topic&id={topic}">
-                <div class="form-group">
-                    <a name="reply"></a> 
-                    <label class="pull-left">Reply to {subject}</label>
-                    <textarea class="form-control" name="body" rows="5">{>quote}</textarea>
-                    <div class="text-right">
-                        <small>[BBCode] enabled</small>
-                    </div>
+            {#if locked}
+                <div class="text-center">
+                    <em>
+                        <i class="glyphicon glyphicon-lock"></i> This topic has been locked!
+                    </em>
                 </div>
-                
-                <div class="text-right">
-                    <button class="btn btn-default" name="submit" type="submit" value="1">
-                        Reply
-                    </button>
-                </div>
-            </form>
+            {/if}
 
+            {#unless locked}
+                <form method="post" action="?page=forum&action=topic&id={topic}">
+                    <div class="form-group">
+                        <a name="reply"></a> 
+                        <label class="pull-left">Reply to {subject}</label>
+                        <textarea class="form-control" name="body" rows="5">{>quote}</textarea>
+                        <div class="text-right">
+                            <small>[BBCode] enabled</small>
+                        </div>
+                    </div>
+                    
+                    <div class="text-right">
+                        <button class="btn btn-default" name="submit" type="submit" value="1">
+                            Reply
+                        </button>
+                    </div>
+                </form>
+            {/unless}
         ';
         public $delete = '
             <form method="post" action="?page=forum&action=delete&id={id}">
@@ -248,6 +272,7 @@
                 </div>
             </form>        
         ';
+
         public $edit = '
             <h4 class="text-left">
                 Editing Post
@@ -269,7 +294,38 @@
                     </button>
                 </div>
             </form>
+        ';
 
+        public $mute = '
+            <h4 class="text-left">
+                Mute {>userName}
+            </h4>
+
+            <form method="post" action="?page=forum&action=mute&id={user.id}">
+                <div class="form-group">
+                    <label class="pull-left">For how long?</label>
+                    <select class="form-control" name="time">
+                        <option value="0">Unmute</option>
+                        <option value="3600">1 Hour</option>
+                        <option value="21600">6 Hours</option>
+                        <option value="86400">1 Day</option>
+                        <option value="172800">2 Days</option>
+                        <option value="604800">1 Week</option>
+                        <option value="1209600">2 Weeks</option>
+                        <option value="2419200">1 Month</option>
+                        <option value="4838400">2 Months</option>
+                        <option value="14515200">6 Months</option>
+                        <option value="29030400">1 Year</option>
+                        <option value="2000000000">Forever</option>
+                    </select>
+                </div>
+                
+                <div class="text-right">
+                    <button class="btn btn-default" name="submit" type="submit" value="1">
+                        Mute
+                    </button>
+                </div>
+            </form>
         ';
         
     }
