@@ -90,7 +90,7 @@
                                         <i class="glyphicon glyphicon-lock"></i>
                                     {/if}
                                     <a href="?page=forum&action=topic&id={id}">
-                                        {subject}
+                                        {type} {subject}
                                     </a>
                                 </td>
                                 <td>
@@ -170,6 +170,22 @@
                                         {#if isAdmin}
                                             <li role="separator" class="divider"></li>
                                             {#if firstPost}
+                                                <li>
+                                                    <a href="?page=forum&action=type&id={topic}&type=2">
+                                                        <i class="glyphicon glyphicon-flag"></i> Mark as Important
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="?page=forum&action=type&id={topic}&type=1">
+                                                        <i class="glyphicon glyphicon-bookmark"></i> Mark as Sticky
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="?page=forum&action=type&id={topic}&type=0">
+                                                        <i class="glyphicon glyphicon-book"></i> Mark as Normal
+                                                    </a>
+                                                </li>
+                                                <li role="separator" class="divider"></li>
                                                 <li>
                                                     <a href="?page=forum&action=deleteTopic&id={topic}">
                                                         <i class="glyphicon glyphicon-trash"></i> Delete Topic
