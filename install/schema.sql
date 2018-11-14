@@ -183,7 +183,8 @@ CREATE TABLE IF NOT EXISTS `topics` (
   `T_date` INT(11), 
   `T_forum` INT(11), 
   `T_user` INT(11), 
-  `T_subject` VARCHAR(128)
+  `T_subject` VARCHAR(128),
+  `T_status` INT(11)
 ) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `posts` ( 
