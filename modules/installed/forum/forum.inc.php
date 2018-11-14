@@ -6,7 +6,8 @@
         	"id" => array( "type" => "GET" ),
         	"subject" => array( "type" => "POST" ),
         	"body" => array( "type" => "POST" ),
-        	"submit" => array( "type" => "POST" ), 
+            "submit" => array( "type" => "POST" ), 
+        	"time" => array( "type" => "POST" ), 
             "quote" => array("type" => "GET" )
         );
 		
@@ -87,6 +88,7 @@
                 "forum" => $this->getForum($topic["T_forum"]),
                 "subject" => $topic["T_subject"], 
                 "topic" => $topic["T_id"], 
+                "locked" => $topic["T_status"] == 1, 
                 "posts" => $posts
             );
 
@@ -96,7 +98,14 @@
 
         public function getForum($id) {
 
-        	$forum = $this->db->prepare("SELECT F_id as 'id', F_name as 'name' FROM forums WHERE F_id = :id");
+        	$forum = $this->db->prepare("SELECT 
+                F_id as 'id', 
+                F_name as 'name' 
+            FROM 
+                forums 
+            WHERE
+                F_id = :id
+            ");
         	$forum->bindParam(":id", $id);
         	$forum->execute();
         	$forum = $forum->fetch(PDO::FETCH_ASSOC);
@@ -115,6 +124,7 @@
                     T_id as 'id', 
                     T_date as 'time', 
                     T_user as 'user', 
+                    T_status as 'locked', 
                     T_subject as 'subject'
                 FROM topics
                 WHERE
@@ -217,6 +227,11 @@
         		$params["body"] = $this->methodData->body;
 
         		$error = false;
+
+                if (!$this->user->checkTimer("forumMute")) {
+                    $this->error("You have been forum muted!");
+                    $error = true;
+                }
         		if (strlen($this->methodData->subject) < 6) {
         			$this->error("The subject must be atleast 6 characters");
         			$error = true;
@@ -243,11 +258,24 @@
 
         public function method_topic() {
 
+            $topic = $this->getTopic($this->methodData->id);
+
             if (isset($this->methodData->submit)) {
 
                 $params["body"] = $this->methodData->body;
 
                 $error = false;
+
+                if (!$this->user->checkTimer("forumMute")) {
+                    $this->error("You have been forum muted!");
+                    $error = true;
+                }
+
+                if ($topic["locked"] == 1) {
+                    $this->error("This topic is locked!");
+                    $error = true;
+                }
+
                 if (strlen($this->methodData->body) < 6) {
                     $this->error("The reply must be atleast 6 characters");
                     $error = true;
@@ -263,8 +291,6 @@
                 }
 
             }
-
-            $topic = $this->getTopic($this->methodData->id);
 
             if (isset($this->methodData->quote)) {
                 foreach ($topic["posts"] as $post) {
@@ -381,6 +407,50 @@
             $this->html .= $this->page->buildElement(
                 "deleteTopic", 
                 $topic
+            );
+        }
+
+        public function method_lock() {
+
+            $topic = $this->getTopic($this->methodData->id);
+
+            if (!$this->user->hasAdminAccessTo("forum")) {
+                return $this->html .= $this->error("You dont have permission to delete this topic");
+            }
+
+            $status = $topic["locked"]?0:1;
+
+            $update = $this->db->prepare("
+                UPDATE topics SET T_status = $status WHERE T_id = :id;
+            ");
+            $update->bindParam(":id", $this->methodData->id);
+            $update->execute();
+
+            header("Location:?page=forum&action=topic&id=" . $this->methodData->id);
+
+        }
+
+        public function method_mute() {
+
+            if (!$this->user->hasAdminAccessTo("forum")) {
+                return $this->html .= $this->error("You dont have permission to delete this post");
+            }
+
+            $user = new User($this->methodData->id);
+
+            if (isset($this->methodData->submit)) {
+                $time = $this->methodData->time;
+                $user->updateTimer("forumMute", $time, true);
+                $this->html .= $this->page->buildElement("success", array(
+                    "text" => "This user has been muted until " . $this->date(time() + $time)
+                ));
+            }
+
+            $this->html .= $this->page->buildElement(
+                "mute", 
+                array(
+                    "user" => $user->user
+                )
             );
         }
         
