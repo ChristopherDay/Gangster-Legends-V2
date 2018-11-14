@@ -3,7 +3,8 @@
     class forum extends module {
         
         public $allowedMethods = array(
-        	"id" => array( "type" => "GET" ),
+            "id" => array( "type" => "GET" ),
+        	"type" => array( "type" => "GET" ),
         	"subject" => array( "type" => "POST" ),
         	"body" => array( "type" => "POST" ),
             "submit" => array( "type" => "POST" ), 
@@ -29,7 +30,9 @@
                     P_user as 'user', 
                     P_topic as 'topic', 
                     P_body as 'body'
-                FROM posts WHERE P_id = :id
+                FROM 
+                    posts 
+                WHERE P_id = :id
             ");
             $post->bindParam(":id", $id);
             $post->execute();
@@ -125,11 +128,18 @@
                     T_date as 'time', 
                     T_user as 'user', 
                     T_status as 'locked', 
-                    T_subject as 'subject'
+                    T_subject as 'subject', 
+                    (
+                        CASE T_type
+                        WHEN 2 THEN 'Important:'
+                        WHEN 1 THEN 'Sticky:'
+                        ELSE '' END
+                    )
+                    as 'type'
                 FROM topics
                 WHERE
                     T_forum = :forum
-                ORDER BY T_date DESC
+                ORDER BY T_type DESC, T_date DESC
             ");
 
             $topics->bindParam(":forum", $forum);
@@ -424,6 +434,25 @@
                 UPDATE topics SET T_status = $status WHERE T_id = :id;
             ");
             $update->bindParam(":id", $this->methodData->id);
+            $update->execute();
+
+            header("Location:?page=forum&action=topic&id=" . $this->methodData->id);
+
+        }
+
+        public function method_type() {
+
+            $topic = $this->getTopic($this->methodData->id);
+
+            if (!$this->user->hasAdminAccessTo("forum")) {
+                return $this->html .= $this->error("You dont have permission to delete this topic");
+            }
+
+            $update = $this->db->prepare("
+                UPDATE topics SET T_type = :type WHERE T_id = :id;
+            ");
+            $update->bindParam(":id", $this->methodData->id);
+            $update->bindParam(":type", $this->methodData->type);
             $update->execute();
 
             header("Location:?page=forum&action=topic&id=" . $this->methodData->id);
