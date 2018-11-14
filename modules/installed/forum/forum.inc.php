@@ -87,12 +87,19 @@
                 $i++;
             }
 
+            switch ((int) $topic["T_type"]) {
+                case 2: $type = "Important:"; break;
+                case 1: $type = "Sticky:"; break;
+                default: $type = ""; break;
+            }
+
             $output = array(
                 "forum" => $this->getForum($topic["T_forum"]),
                 "subject" => $topic["T_subject"], 
                 "topic" => $topic["T_id"], 
                 "locked" => $topic["T_status"] == 1, 
-                "posts" => $posts
+                "posts" => $posts, 
+                "type" => $type
             );
 
             return $output;
