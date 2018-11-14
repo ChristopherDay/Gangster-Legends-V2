@@ -184,6 +184,7 @@ CREATE TABLE IF NOT EXISTS `topics` (
   `T_forum` INT(11), 
   `T_user` INT(11), 
   `T_subject` VARCHAR(128),
+  `T_type` INT(11),
   `T_status` INT(11)
 ) DEFAULT CHARSET=utf8;
 
