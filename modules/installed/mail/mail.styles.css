@@ -1,5 +1,14 @@
 @media (max-width: 767px) {
 
+	.read-mail h4 {
+		text-align: center !important;
+	}
+
+	.read-mail h4 .pull-right {
+		float: none !important;
+		display: block;
+	}
+
 	.mail-table tr,
 	.mail-table tr th,
 	.mail-table tr td {

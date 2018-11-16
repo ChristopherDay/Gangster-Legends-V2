@@ -3,14 +3,13 @@
     class mailTemplate extends template {
         
         public $mail = '
-        	<div class="well well-sm">
-	        	<h3>
+        	<div class="well well-sm read-mail">
+	        	<h4>
                     {subject} 
                     <small class="pull-right tiny">
-                        By {>userName}<br />
-                        {date}
+                        By {>userName} {date}
                     </small>
-                </h3>
+                </h4>
                 <hr />
 	        	<p>[{text}]</p>
             </div>
