@@ -109,6 +109,16 @@
             if ($jailUser["percent"] >= $chance) {
                 $user = new user($id);
                 $user->updateTimer("jail", time()-1);
+
+                $u = $this->db->prepare("
+                    UPDATE 
+                        userStats 
+                    SET 
+                        US_exp = US_exp + 1 
+                    WHERE 
+                        US_id = ".$this->user->id);
+                $u->execute();
+
                 return $this->alerts[] = $this->page->buildElement('success', array(
                     "text" => "You broke " . $jailUser["name"] . " out of jail"
                 ));

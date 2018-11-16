@@ -98,13 +98,19 @@
 				$this->user->updateTimer('theft', $theftTime, true);
                 
                 if ($chance > $userChance && $jailChance == 1) {
-                    $this->alerts[] = $this->page->buildElement('error', array("text"=>'You failed to steal a '.$carName.', you were caught and sent to jail'));
+                    $this->alerts[] = $this->page->buildElement('error', array(
+                        "text"=>'You failed to steal a '.$carName.', you were caught and sent to jail'
+                    ));
                     $this->user->updateTimer('jail', ($id*35), true);
                 } else if ($chance > $userChance) {
-                    $this->alerts[] = $this->page->buildElement('error', array("text"=>'You failed to steal a '.$carName.'.'));
+                    $this->alerts[] = $this->page->buildElement('error', array(
+                        "text"=>'You failed to steal a '.$carName.'.'
+                    ));
                 } else {
-                    $this->alerts[] = $this->page->buildElement('success', array("text" => 'You successfuly stole a '.$carName.' with '.$carDamage.'% damage.'));
-                    $query = "UPDATE userStats SET US_exp = US_exp + ".$car." WHERE US_id = :uid";
+                    $this->alerts[] = $this->page->buildElement('success', array(
+                        "text" => 'You successfuly stole a '.$carName.' with '.$carDamage.'% damage.'
+                    ));
+                    $query = "UPDATE userStats SET US_exp = US_exp + 2 WHERE US_id = :uid";
                     $u = $this->db->prepare($query);
                     $u->bindParam(':uid', $this->user->info->US_id);
                     $u->execute();

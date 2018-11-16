@@ -41,10 +41,12 @@
         ';
 
         public $mailTable = '
-	        <table class="table table-condensed table-responsive table-bordered table-striped">
+	        <table class="table table-condensed table-responsive table-bordered table-striped mail-table">
 	        	<thead>
 		            <tr>
-		                <th style="width:60px"></th>
+		                <th style="width:60px">
+		                	<span class="visible-xs">Mail</span>
+		                </th>
 		                <th style="width:130px">Date</th>
 		                <th style="width:150px">
 		                	{#if inbox}
@@ -75,7 +77,10 @@
 		                    <td>
 			                	{>userName}
 		                    </td>
-		                    <td>{subject}</td>
+		                    <td>
+		                		{#unless read}<span class="new visible-xs">*</span>{/unless}
+		                    	{subject}
+		                    </td>
 		                    <td class="text-center">
 		                        <a href="?page=mail&action=read&id={id}">Read</a>
 		                    </td>

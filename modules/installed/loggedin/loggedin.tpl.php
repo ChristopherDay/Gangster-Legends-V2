@@ -5,13 +5,13 @@
         public $newsArticle = '
         	{#each news}
                 <div class="well well-sm">
-    	        	<h3>
+    	        	<h4>
                         {title} 
                         <small class="pull-right tiny">
-                            By {>userName}<br />
-                            {date}
+                            By {>userName} {date}
                         </small>
-                    </h3>
+                        <div class="clearfix"></div>
+                    </h4>
                     <hr />
     	        	<p>[{text}]</p>
                 </div>

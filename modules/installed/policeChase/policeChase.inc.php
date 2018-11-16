@@ -30,7 +30,14 @@
                 
                     $winnings = mt_rand(150, 850) * $this->user->info->US_rank;
                     
-                    $u = $this->db->prepare("UPDATE userStats SET US_money = US_money + $winnings WHERE US_id = ".$this->user->id);
+                    $u = $this->db->prepare("
+                        UPDATE 
+                            userStats 
+                        SET 
+                            US_money = US_money + $winnings, 
+                            US_exp = US_exp + 3 
+                        WHERE 
+                            US_id = ".$this->user->id);
                     $u->execute();
 					
 					$this->user->updateTimer('chase', 300, true);
