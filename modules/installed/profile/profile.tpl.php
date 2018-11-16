@@ -106,18 +106,13 @@
 							<th width="100px">Status</th>
 							<td class="text-left"><{status}></td>
 						</tr>
-						<tr>
-							<th width="100px">Bio</th>
-							<td class="text-left">
+					</table>
 								{#if bio}
 									[{bio}]
 								{/if}
 								{#unless bio}
 									<em><small>The user has not set up there bio yet!</small></em>
 								{/unless}
-							</td>
-						</tr>
-					</table>
 				</div>
 			</div>
 
