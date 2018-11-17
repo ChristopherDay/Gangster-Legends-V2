@@ -107,14 +107,15 @@
 							<td class="text-left"><{status}></td>
 						</tr>
 					</table>
-								{#if bio}
-									[{bio}]
-								{/if}
-								{#unless bio}
-									<em><small>The user has not set up there bio yet!</small></em>
-								{/unless}
 				</div>
 			</div>
+		
+			{#if bio}
+				[{bio}]
+			{/if}
+			{#unless bio}
+				<em><small>The user has not set up there bio yet!</small></em>
+			{/unless}
 
 			{#if edit}
 				<div class="row">
