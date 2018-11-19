@@ -200,3 +200,11 @@ CREATE TABLE IF NOT EXISTS `topicReads` (
   `TR_topic` INT(11), 
   `TR_user` INT(11)
 ) DEFAULT CHARSET=utf8;
+
+CREATE TABLE `glv2`.`properties` ( 
+  `PR_id` INT NOT NULL AUTO_INCREMENT , 
+  `PR_location` INT NOT NULL , 
+  `PR_module` VARCHAR(128) NOT NULL , 
+  `PR_user` INT NOT NULL , 
+  PRIMARY KEY (`PR_id`)
+) ENGINE = InnoDB;
