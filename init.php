@@ -15,6 +15,7 @@
 	require 'class/templateRender.php';
 	require 'class/page.php';
 	require 'class/user.php';
+	require 'class/property.php';
 
 	$settings = new settings();
 
