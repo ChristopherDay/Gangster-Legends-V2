@@ -5,16 +5,14 @@
 		public $online = "<strong class=\"text-success\">Online</strong>";
 		public $offline = "<strong class=\"text-danger\">Offline</strong>";
 		public $AFK = "<strong class=\"text-warning\">AFK</strong>";
-		
-		public $profileLinks = '
-			<ul class="nav nav-tabs nav-justified">
-				<li><a href="?page=profile&action=edit">Profile</a></li>
-				<li><a href="?page=profile&action=password">Change Password</a></li>
-			</ul>
-		';
 
 		public $editPassword = '
-			{>profileLinks}
+
+			<ul class="nav nav-tabs nav-justified">
+				<li><a href="?page=profile&action=edit">Profile</a></li>
+				<li class="active"><a href="?page=profile&action=password">Change Password</a></li>
+			</ul>
+
 			<form action="#" method="post">
 				<div class="row">
 					<div class="col-md-3 text-right">
@@ -42,22 +40,17 @@
 				</div><br />
 				<div class="row">
 					<div class="col-md-12">
-						<button type="submit" name="submit" value="true" class="btn pull-right">Update</button>
+						<button type="submit" name="submit" value="true" class="btn">Update</button>
 					</div>
 				</div>
 			</form>';
 
 		public $editProfile = '
-			{>profileLinks}
+			<ul class="nav nav-tabs nav-justified">
+				<li class="active"><a href="?page=profile&action=edit">Profile</a></li>
+				<li><a href="?page=profile&action=password">Change Password</a></li>
+			</ul>
 			<form action="#" method="post">
-				<div class="row">
-					<div class="col-md-3 text-right">
-						<strong>Bio</strong>
-					</div>
-					<div class="col-md-9">
-						<textarea rows="5" name="bio" class="form-control" placeholder="A little bio about yourself ...">{bio}</textarea>
-					</div>
-				</div><br />
 				<div class="row">
 					<div class="col-md-3 text-right">
 						<strong>Picture</strong>
@@ -67,8 +60,16 @@
 					</div>
 				</div><br />
 				<div class="row">
+					<div class="col-md-3 text-right">
+						<strong>Bio</strong>
+					</div>
+					<div class="col-md-9">
+						<textarea rows="15" name="bio" class="form-control" placeholder="A little bio about yourself ...">{bio}</textarea>
+					</div>
+				</div><br />
+				<div class="row">
 					<div class="col-md-12">
-						<button type="submit" name="submit" value="true" class="btn pull-right">Update</button>
+						<button type="submit" name="submit" value="true" class="btn">Update</button>
 					</div>
 				</div>
 			</form>';
@@ -119,8 +120,8 @@
 
 			{#if edit}
 				<div class="row">
-					<div class="col-md-12">
-						<a href="?page=profile&action=edit" class="btn pull-right">Edit Profile</a>
+					<div class="col-md-12 text-right ">
+						<a href="?page=profile&action=edit" class="btn">Edit Profile</a>
 					</div>
 				</div>
 			{/if}
