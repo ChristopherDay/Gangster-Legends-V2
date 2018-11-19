@@ -60,15 +60,26 @@
             <{text}>
         </div>';
 
-        public $userName = '<a href="?page=profile&view={user.id}" class="user user-status-{user.status} user-level-{user.userLevel}" style="color: {user.color};">
-            {user.name}
-        </a>';
+        public $userName = '
+            <a href="?page=profile&view={user.id}" class="user user-status-{user.status} user-level-{user.userLevel}" style="color: {user.color};">
+                {user.name}
+            </a>
+        ';
 
         public $timer = '
             <div class="alert alert-danger game-timer">
                 <{text}> <br />
                 Time remaining: <span data-remove-when-done data-timer-type="inline" data-timer="{time}"></span>
             </div>
+        ';
+
+        public $propertyOwnership = '
+            {#if user}
+                Owned by {>userName}
+            {/if}
+            {#unless user}
+                No Owner - <a href="?page={module}&action=own">Buy property $1,000,000</a>
+            {/unless}
         ';
 
         public $levelUpNotification = '
