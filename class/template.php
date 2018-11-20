@@ -84,7 +84,8 @@
 
             {#if userOwnsThis}
                 <hr />
-                Profit: {profit}
+                Profit: {profit} <br />
+                <a href="?page=propertyManagement&module={module}">Manage Property</a>  
             {/if}
         ';
 

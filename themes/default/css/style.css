@@ -99,6 +99,11 @@ hr {
     border-top: 1px solid #474747 !important;
 }
 
+.form-control-inline {
+    display: inline-block;
+    width: 200px;
+}
+
 .panel-danger .panel-heading, .btn-danger {
 	background-image: url("../images/btn-danger.png") !important;
 }
