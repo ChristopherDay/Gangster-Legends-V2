@@ -74,12 +74,18 @@
         ';
 
         public $propertyOwnership = '
+
             {#if user}
                 Owned by {>userName}
             {/if}
             {#unless user}
                 No Owner - <a href="?page={module}&action=own">Buy property $1,000,000</a>
             {/unless}
+
+            {#if userOwnsThis}
+                <hr />
+                Profit: {profit}
+            {/if}
         ';
 
         public $levelUpNotification = '

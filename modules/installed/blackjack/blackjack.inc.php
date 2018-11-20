@@ -58,6 +58,8 @@ class Deck {
 
 class blackjack extends module {
 
+	public $maxBet = 10000000;
+
 	public $allowedMethods = array(
 		"bet" => array("type" => "REQUEST")
 	);
@@ -269,6 +271,11 @@ class blackjack extends module {
 	
 	public function method_bet() {
 
+		$this->property = new Property($this->user, "blackjack");
+
+		$options = $this->property->getOwnership();
+		if ($options["cost"]) $this->maxBet = $options["cost"];
+
 		if (isset($this->methodData->bet)) {
 			$bet = $this->methodData->bet;
 
@@ -280,13 +287,14 @@ class blackjack extends module {
 				$this->html .= $this->page->buildElement("error", array(
 					"text" => "You must bet atleast $100"
 				));
-			} else if ($bet > 10000000) {
+			} else if ($bet > $this->maxBet) {
 				$this->html .= $this->page->buildElement("error", array(
-					"text" => "The max bet is $100,000"
+					"text" => "The max bet is " . $this->money($this->maxBet)
 				));
 			} else {
 
 				$owner = $this->property->getOwnership();
+				$this->property->updateProfit($bet);
 
 				if ($owner["user"]) {
 					$ownerID = $owner["user"]["id"];
@@ -310,6 +318,7 @@ class blackjack extends module {
 				$user->bindParam(":owner", $ownerID);
 				$user->execute();
 
+
 				$deck = new Deck();
 				$_SESSION["BJ_GAME"] = array(
 					"bet" => $bet, 
@@ -326,19 +335,18 @@ class blackjack extends module {
 				return $this->method_play();
 			}
 
-		} else {
-
 		}
 
-		$this->property = new Property($this->user, "blackjack");
-
-		$this->html .= $this->page->buildElement("placeBet", $this->property->getOwnership());
+		$options["maxBet"] = $this->money($this->maxBet);
+		$this->html .= $this->page->buildElement("placeBet", $options);
 	}
 
 	public function userWins($cash) {
 
 		$this->property = new Property($this->user, "blackjack");
 		
+		$this->property->updateProfit(-$cash);
+
 		$owner = $this->property->getOwnership();
 
 		if ($owner["user"]) {

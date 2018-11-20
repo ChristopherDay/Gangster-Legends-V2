@@ -54,7 +54,7 @@
             </form>
             <hr />
             
-            <small> Min: $100 Max: $10,000,000</small> <br />
+            <small> Min: $100 Max: {maxBet}</small> <br />
             <small>{>propertyOwnership}</small>
         ";
 
