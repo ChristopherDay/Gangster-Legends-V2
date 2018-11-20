@@ -1,0 +1,12 @@
+{
+    "name": "Property Management",
+    "version": "1.0.0",
+    "description": "This allows a user manage their property",
+    "author": {
+        "name": "Chris Day",
+        "url": "http:\/\/glscript.cdcoding.com"
+    },
+    "pageName": "Property Management",
+    "accessInJail": false,
+    "requireLogin": true
+}

@@ -40,6 +40,7 @@
 					"module" => $this->module, 
 					"user" => 0, 
 					"profit" => 0,
+					"cost" => 0,
 					"userOwnsThis" => false
 				);
 			}
@@ -50,6 +51,7 @@
 				$property["userOwnsThis"] = $user->id == $this->user->id;
 			}
 
+			$property["_profit"] = $property["profit"];
 			$property["profit"] = "$" . number_format($property["profit"]);
 
 			return $property;
@@ -85,9 +87,17 @@
 			$transfer = $this->db->prepare($query);
 			$transfer->bindParam(":location", $this->user->info->US_location);
 			$transfer->bindParam(":module", $this->module);
-			$transfer->bindParam(":user", $this->user->id);
+			$transfer->bindParam(":user", $newOwner);
 			$transfer->execute();
 
+		}
+
+		public function setCost($newCost) {
+			$update = $this->db->prepare("UPDATE properties SET PR_cost = :cost WHERE PR_location = :location AND PR_module = :module;");
+			$update->bindParam(":location", $this->user->info->US_location);
+			$update->bindParam(":module", $this->module);
+			$update->bindParam(":cost", $newCost);
+			$update->execute();
 		}
 
 	}
