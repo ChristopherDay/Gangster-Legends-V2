@@ -202,9 +202,10 @@ CREATE TABLE IF NOT EXISTS `topicReads` (
 ) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `properties` ( 
-  `PR_id` INT(11) NOT NULL AUTO_INCREMENT , 
+  `PR_id` INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT , 
   `PR_location` INT(11) NOT NULL , 
   `PR_module` VARCHAR(128) NOT NULL , 
-  `PR_user` INT(11) NOT NULL , 
-  PRIMARY KEY (`PR_id`)
+  `PR_user` INT(11) NOT NULL,
+  `PR_cost` INT(11) NOT NULL,
+  `PR_profit` INT(11) NOT NULL
 ) ENGINE = InnoDB;

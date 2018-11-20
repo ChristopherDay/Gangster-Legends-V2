@@ -197,6 +197,10 @@
         
         }
         
+        public function money($cash) {
+            return "$" . number_format($cash);
+        }
+
         public function date($ts = '-1') {
             
             if ($ts == '-1') {

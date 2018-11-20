@@ -144,7 +144,7 @@
 
             if (!$this->user->checkTimer("jail")) {
                 $inSuperMax = $this->user->getTimer("jail") == $this->user->getTimer("superMax")?"super max":"jail";
-            	$this->html .= $this->page->buildElement('error', array(
+            	$this->alerts[] = $this->page->buildElement('error', array(
                     "text" => 'You are in '.$inSuperMax.' for <span data-reload-when-done data-timer-type="inline" data-timer="'.$this->user->getTimer("jail").'"></span>!'
                 ));
             }   
