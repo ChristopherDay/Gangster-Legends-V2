@@ -16,14 +16,14 @@
             $this->property = new Property($this->user, "bullets");
             $owner = $this->property->getOwnership();
 
-            if ($owner["cost"]) {
+            if (!!$owner["cost"]) {
                 $this->bulletCost = $owner["cost"];
             }
 
             $owner["locationName"] = $loc->L_name;
             $owner["stock"] = number_format($loc->L_bullets);
             $owner["maxBuy"] = ($this->user->info->US_rank * 25);
-            $owner["cost"] = $this->money($owner["cost"]);
+            $owner["cost"] = $this->money($this->bulletCost);
 
             if (!$this->user->checkTimer('bullets')) {
                 
@@ -88,7 +88,7 @@
             $this->property = new Property($this->user, "bullets");
             $owner = $this->property->getOwnership();
 
-            if ($owner["cost"]) {
+            if (!!$owner["cost"]) {
                 $this->bulletCost = $owner["cost"];
             }
 			
