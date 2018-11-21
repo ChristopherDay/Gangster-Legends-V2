@@ -2,16 +2,48 @@
 
     class bulletsTemplate extends template {
         
-        public $bulletPage = '<p>Welcome to the {location} bullet factory, currently it has {stock} bullets in stock at the cost of ${cost} each!</p>
-        <p>
-            You can buy up to {maxBuy} at once!
-        </p>
-        <p>
-            <form action="?page=bullets&action=buy" method="post">
-                <input type="text" class="form-control" autocomplete="off" name="bullets" style="width:calc(97% - 100px); display:inline-block;" placeholder="Qty. to buy" /><br /><br />
-                <button type="submit" class="btn btn-link" style="display:inline-block; width:100px;">Buy</button>
-            </form>
-        </p>
+        public $bulletPage = '
+
+        <h3>
+            {locationName} Bullet Factory
+        </h3>
+
+        <form action="?page=bullets&action=buy" method="post">
+            <table class="table table-condensed table-responsive table-bordered table-striped" style="width:250px; margin: auto;">
+                <thead>
+                    <tr>
+                        <th colspan="2">
+                            Buy Bullets
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Bullet Stock</td>
+                        <td width="100px">{stock}</td>
+                    </tr>
+                    <tr>
+                        <td>Bullet Cost</td>
+                        <td>{cost}</td>
+                    </tr>
+                    <tr>
+                        <td>Buy Limit</td>
+                        <td>{maxBuy}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" class="form-control" autocomplete="off" name="bullets" placeholder="Qty. to buy" />
+                        </td>
+                        <td>
+                            <button type="submit" class="btn btn-block" style="margin: 0px;">Buy</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <small>
+                {>propertyOwnership}
+            </small>
+        </form>
         ';
         
     }
