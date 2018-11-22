@@ -2,7 +2,7 @@
 
     class garageTemplate extends template {
     
-        public $garage = '<table class="table table-condensed table-responsive table-bordered table-striped">
+        public $garage = '<table class="table table-condensed table-responsive table-bordered table-striped garage-table">
             <thead>
                 <tr>
                     <th>Name</th>
