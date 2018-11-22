@@ -23,7 +23,7 @@
                         <td width="100px">{stock}</td>
                     </tr>
                     <tr>
-                        <td>Bullet Cost</td>
+                        <td>Price Per Bullet</td>
                         <td>{cost}</td>
                     </tr>
                     <tr>
