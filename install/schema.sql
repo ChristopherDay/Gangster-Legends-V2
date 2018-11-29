@@ -81,6 +81,7 @@ CREATE TABLE IF NOT EXISTS `ranks` (
   `R_exp` int(11) NOT NULL,
   `R_limit` int(11) NOT NULL,
   `R_cashReward` int(11) NOT NULL,
+  `R_health` int(11) NOT NULL,
   `R_bulletReward` int(11) NOT NULL,
   PRIMARY KEY (`R_id`)
 ) DEFAULT CHARSET=utf8;
@@ -113,17 +114,18 @@ CREATE TABLE IF NOT EXISTS `users` (
 ) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `userStats` (
-  `US_id` int(11) NOT NULL,
+  `US_id` int(11) NOT NULL PRIMARY KEY,
   `US_health` int(11) NOT NULL DEFAULT '100',
   `US_exp` int(11) NOT NULL DEFAULT '0',
   `US_money` int(11) NOT NULL DEFAULT '250',
   `US_bank` int(11) NOT NULL DEFAULT '0',
   `US_bullets` int(11) NOT NULL DEFAULT '100',
   `US_backfire` int(11) NOT NULL DEFAULT '50',
-  `US_credits` int(11) NOT NULL DEFAULT '0',
+  `US_points` int(11) NOT NULL DEFAULT '0',
   `US_pic` varchar(200) NOT NULL DEFAULT 'themes/default/images/default-profile-picture.png',
   `US_bio` varchar(1000) NOT NULL DEFAULT '0',
-  `US_weapon` int(11) NOT NULL DEFAULT '1',
+  `US_weapon` int(11) NOT NULL DEFAULT '0',
+  `US_armor` int(11) NOT NULL DEFAULT '0',
   `US_rank` int(11) NOT NULL DEFAULT '1',
   `US_gang` int(11) NOT NULL DEFAULT '0',
   `US_location` int(11) NOT NULL DEFAULT '1',
@@ -208,4 +210,13 @@ CREATE TABLE IF NOT EXISTS `properties` (
   `PR_user` INT(11) NOT NULL,
   `PR_cost` INT(11) NOT NULL,
   `PR_profit` INT(11) NOT NULL
+) ENGINE = InnoDB;
+
+CREATE TABLE `items` (
+  `I_id` INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT , 
+  `I_name` VARCHAR(128) NOT NULL , 
+  `I_damage` INT(11) NOT NULL , 
+  `I_cost` INT(11) NOT NULL , 
+  `I_type` INT(11) NOT NULL , 
+  `I_rank` INT(11) NOT NULL
 ) ENGINE = InnoDB;
