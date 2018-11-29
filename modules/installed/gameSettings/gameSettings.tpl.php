@@ -8,6 +8,7 @@
                     <tr>
                         <th>Rank</th>
                         <th width="100px">EXP Needed</th>
+                        <th width="80px">Max Health</th>
                         <th width="80px">Limit</th>
                         <th width="170px">Reward</th>
                         <th width="100px">Actions</th>
@@ -17,7 +18,8 @@
                     {#each ranks}
                         <tr>
                             <td>{name}</td>
-                            <td>{exp} EXP</td>
+                            <td>{exp}</td>
+                            <td>{health}</td>
                             <td>{#if limit} {limit} {/if} {#unless limit}none{/unless}</td>
                             <td>${cash} + {bullets} bullets</td>
                             <td>
@@ -63,6 +65,10 @@
                 <div class="form-group">
                     <label class="pull-left">Bullet reward for reaching this rank</label>
                     <input type="number" class="form-control" name="bullets" value="{bullets}">
+                </div>
+                <div class="form-group">
+                    <label class="pull-left">Max Health</label>
+                    <input type="number" class="form-control" name="health" value="{health}">
                 </div>
                 <div class="text-right">
                     <button class="btn btn-default" name="submit" type="submit" value="1">Save</button>
