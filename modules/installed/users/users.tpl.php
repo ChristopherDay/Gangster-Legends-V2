@@ -151,8 +151,8 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="pull-left">Credits</label>
-                            <input type="number" class="form-control" name="credits" value="{credits}">
+                            <label class="pull-left">Points</label>
+                            <input type="number" class="form-control" name="points" value="{points}">
                         </div>
                     </div>
                 </div>
