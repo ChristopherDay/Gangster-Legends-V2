@@ -4,24 +4,24 @@
 
         public $crimeHolder = '
         {#each crimes}
-        <div class="crime-holder">
-            <p>
-                <span class="action">
-                {name} 
-                </span> 
-                <span class="cooldown">
-                    ({cooldown})
-                </span> 
-                <span class="commit">
-                    <a href="?page=crimes&action=commit&crime={id}">
-                        Commit
-                    </a>
-                </span>
-            </p>
-            <div class="crime-perc">
-                <div class="perc" style="width:{percent}%;"></div>
+            <div class="crime-holder">
+                <p>
+                    <span class="action">
+                    {name} 
+                    </span> 
+                    <span class="cooldown">
+                        ({cooldown})
+                    </span> 
+                    <span class="commit">
+                        <a href="?page=crimes&action=commit&crime={id}">
+                            Commit
+                        </a>
+                    </span>
+                </p>
+                <div class="crime-perc">
+                    <div class="perc" style="width:{percent}%;"></div>
+                </div>
             </div>
-        </div>
         {/each}
         {#unless crimes}
             <div class="text-center"><em>There are no crimes</em></div>
