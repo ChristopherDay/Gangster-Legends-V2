@@ -14,11 +14,12 @@
 					R_id as 'id',  
 					R_name as 'name',  
 					R_exp as 'exp',  
+					R_health as 'health',  
 					R_cashReward as 'cash',  
 					R_bulletReward as 'bullets',  
 					R_limit as 'limit'
 				FROM ranks" . $add . "
-				ORDER BY R_exp"
+				ORDER BY R_exp ASC"
 			);
 
 			if ($rankID == "all") {
@@ -59,10 +60,11 @@
 					}
 				} else {
 					$insert = $this->db->prepare("
-						INSERT INTO ranks (R_name, R_exp, R_limit, R_cashReward, R_bulletReward)  VALUES (:name, :exp, :limit, :cash, :bullets);
+						INSERT INTO ranks (R_name, R_exp, R_limit, R_cashReward, R_bulletReward, R_health)  VALUES (:name, :exp, :limit, :cash, :bullets, :health);
 					");
 					$insert->bindParam(":name", $this->methodData->name);
 					$insert->bindParam(":exp", $this->methodData->exp);
+					$insert->bindParam(":health", $this->methodData->health);
 					$insert->bindParam(":limit", $this->methodData->limit);
 					$insert->bindParam(":cash", $this->methodData->cash);
 					$insert->bindParam(":bullets", $this->methodData->bullets);
@@ -97,11 +99,12 @@
 					}
 				} else {
 					$update = $this->db->prepare("
-						UPDATE ranks SET R_name = :name, R_exp = :exp, R_limit = :limit, R_cashReward = :cash, R_bulletReward = :bullets WHERE R_id = :id
+						UPDATE ranks SET R_name = :name, R_exp = :exp, R_limit = :limit, R_cashReward = :cash, R_bulletReward = :bullets, R_health = :health WHERE R_id = :id
 					");
 					$update->bindParam(":name", $this->methodData->name);
 					$update->bindParam(":exp", $this->methodData->exp);
 					$update->bindParam(":limit", $this->methodData->limit);
+					$update->bindParam(":health", $this->methodData->health);
 					$update->bindParam(":cash", $this->methodData->cash);
 					$update->bindParam(":bullets", $this->methodData->bullets);
 					$update->bindParam(":id", $this->methodData->id);
