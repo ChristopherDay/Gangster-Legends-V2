@@ -26,7 +26,7 @@
 					US_money as 'money', 
 					US_exp as 'exp', 
 					US_bank as 'bank', 
-					US_credits as 'credits', 
+					US_points as 'points', 
 					US_bullets as 'bullets', 
 					US_bio as 'bio', 
 					US_pic as 'pic'
@@ -110,7 +110,7 @@
 							US_pic = :pic, 
 							US_bio = :bio, 
 							US_bullets = :bullets, 
-							US_credits = :credits, 
+							US_points = :points, 
 							US_bank = :bank, 
 							US_exp = :exp, 
 							US_money = :money 
@@ -124,7 +124,7 @@
 					$update->bindParam(":pic", $this->methodData->pic);
 					$update->bindParam(":bio", $this->methodData->bio);
 					$update->bindParam(":bullets", $this->methodData->bullets);
-					$update->bindParam(":credits", $this->methodData->credits);
+					$update->bindParam(":points", $this->methodData->points);
 					$update->bindParam(":bank", $this->methodData->bank);
 					$update->bindParam(":exp", $this->methodData->exp);
 					$update->bindParam(":money", $this->methodData->money);
