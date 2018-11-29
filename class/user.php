@@ -231,7 +231,7 @@
 			$page->addToTemplate('money', '$'.number_format($this->info->US_money));
 			$page->addToTemplate('bullets', number_format($this->info->US_bullets));
 			$page->addToTemplate('backfire', number_format($this->info->US_backfire));
-			$page->addToTemplate('credits', $this->info->US_credits);
+			$page->addToTemplate('points', $this->info->US_points);
 			$page->addToTemplate('health', $this->info->US_health.'%');
 			$page->addToTemplate('location', $this->getLocation());
 			$page->addToTemplate('username', $this->info->U_name);
@@ -277,6 +277,7 @@
 			$rank = $this->getRank();
 			$gang = $this->getGang();
 			$weapon = $this->getWeapon();
+			$armor = $this->getArmor();
 
 			
 			$this->info->maxRank = true;
@@ -291,7 +292,8 @@
 			$page->addToTemplate('rank', $rank->R_name);
 			@$page->addToTemplate('exp_perc', $expperc);
 			$page->addToTemplate('gang', $gang);
-			$page->addToTemplate('weapon', $weapon->W_name);
+			$page->addToTemplate('weapon', $weapon->I_name);
+			$page->addToTemplate('armor', $armor->I_name);
 			
 		}
 		
@@ -338,11 +340,30 @@
 		
 		public function getWeapon() {
 			
-			$query = $this->db->prepare("SELECT * FROM weapons WHERE W_id = :weapon");
+			$query = $this->db->prepare("SELECT * FROM items WHERE I_id = :weapon");
 			$query->bindParam(":weapon", $this->info->US_weapon);
 			$query->execute();
 			$result = $query->fetchObject();
 			
+			if (!$result) {
+				return (object) array("I_name" => "None");
+			} 
+
+			return $result;
+			
+		}
+		
+		public function getArmor() {
+			
+			$query = $this->db->prepare("SELECT * FROM items WHERE I_id = :armor");
+			$query->bindParam(":armor", $this->info->US_armor);
+			$query->execute();
+			$result = $query->fetchObject();
+			
+			if (!$result) {
+				return (object) array("I_name" => "None");
+			} 
+
 			return $result;
 			
 		}
