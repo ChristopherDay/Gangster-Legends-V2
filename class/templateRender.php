@@ -68,8 +68,19 @@
         
         public function replace($matches) {
             $var = $matches[1];
+
+            $parts = explode(" ", $var);
+
+            if (count($parts) == 2) {
+                $var = $parts[1];
+            } 
+
             $items = $this->items;
-            return htmlspecialchars($this->stringToArrayConversion($var, $this->items));
+            $rtn = htmlspecialchars($this->stringToArrayConversion($var, $this->items));
+            if (count($parts) == 2) {
+                $rtn = $parts[0]($rtn);
+            } 
+            return $rtn;
         }
         
         public function subTemplate($matches) {
