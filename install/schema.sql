@@ -217,6 +217,7 @@ CREATE TABLE `items` (
   `I_name` VARCHAR(128) NOT NULL , 
   `I_damage` INT(11) NOT NULL , 
   `I_cost` INT(11) NOT NULL , 
+  `I_points` INT(11) NOT NULL , 
   `I_type` INT(11) NOT NULL , 
   `I_rank` INT(11) NOT NULL
 ) ENGINE = InnoDB;
