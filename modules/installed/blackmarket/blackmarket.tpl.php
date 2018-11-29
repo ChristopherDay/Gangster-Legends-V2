@@ -168,7 +168,7 @@
 					</select>
 				</div>
 				<div class="text-right">
-					<button class="btn btn-default" name="submit" type="submit" value="1">Save</button>
+					<button class="btn btn-default" name="submit" type="submit" value="1">View</button>
 				</div>
 			</form>
 		';
