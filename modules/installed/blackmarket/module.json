@@ -1,0 +1,38 @@
+{
+    "name": "Black Market",
+    "version": "1.0.0",
+    "description": "This module allows the user to buy weapons and armor.",
+    "author": {
+        "name": "Chris Day",
+        "url": "http:\/\/glscript.cdcoding.com"
+    },
+    "pageName": "Black Market",
+    "accessInJail": true,
+    "requireLogin": true,
+    "adminGroup": "Game Mechanics",
+    "admin": [
+        {
+            "text": "View Items",
+            "method": "view"
+        },
+        {
+            "text": "New Item",
+            "method": "new"
+        },
+        {
+            "hide": true,
+            "text": "Edit Item",
+            "method": "edit"
+        },
+        {
+            "hide": true,
+            "text": "Delete Item",
+            "method": "delete"
+        },
+        {
+            "hide": false,
+            "text": "Bullet Calculator",
+            "method": "calculator"
+        }
+    ]
+}
