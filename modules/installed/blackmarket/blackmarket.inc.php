@@ -30,16 +30,16 @@
 				FROM items
 				INNER JOIN ranks ON R_id = I_rank
 				WHERE R_exp < :userEXP AND I_type = :type
-				ORDER BY I_damage ASC
+				ORDER BY I_damage
 			";
 
-        	$weapons = $this->db->prepare($sql);
+        	$weapons = $this->db->prepare($sql . "ASC");
         	$weapons->bindParam(":type", $this->weaponType);
         	$weapons->bindParam(":userEXP", $this->user->info->US_exp);
         	$weapons->execute();
         	$weapons = $weapons->fetchAll(PDO::FETCH_ASSOC);
 
-        	$armor = $this->db->prepare($sql);
+        	$armor = $this->db->prepare($sql . "DESC");
         	$armor->bindParam(":type", $this->armorType);
         	$armor->bindParam(":userEXP", $this->user->info->US_exp);
         	$armor->execute();
