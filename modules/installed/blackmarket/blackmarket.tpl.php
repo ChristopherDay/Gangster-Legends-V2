@@ -128,33 +128,39 @@
 
 			<h2>Using a {weapon} (x{damage})</h2>
 
-			<table class="table table-striped no-dt table-bordered table-condensed text-center">
-				<thead>
-					<tr>
-						<th class="text-center" colspan="2">
-							Rank
-						</th>
-						<th class="text-center" colspan="{colCount}">
-							Bullets needed to kill
-						</th>
-					</tr>
-					<tr>
-						<th class="text-center">Name</th>
-						<th class="text-center">Base Health</th>
-						{#each cols}
-							<th class="text-center">{name} (x{damage})</th>
-						{/each}
-					</tr>
-				</thead>
-				<tbody>
-					{#each rows}
+			<div style="width: 100%; overflow-x: auto">
+				<table class="table table-striped no-dt table-bordered table-condensed text-center">
+					<thead>
 						<tr>
+							<th class="text-center" colspan="2">
+								Rank
+							</th>
+							<th class="text-center" colspan="{colCount}">
+								Bullets needed to kill
+							</th>
+						</tr>
+						<tr>
+							<th class="text-center">Name</th>
+							<th class="text-center">Base Health</th>
 							{#each cols}
-								<td>{data}</td>
+								<th class="text-center">{name} (x{damage})</th>
 							{/each}
 						</tr>
-					{/each}
-			</table>
+					</thead>
+					<tbody>
+						{#each rows}
+							<tr>
+								{#each cols}
+									<td>
+										{#if header}<strong>{/if}
+										{data}
+										{#if header}</strong>{/if}
+									</td>
+								{/each}
+							</tr>
+						{/each}
+				</table>
+			</div>
 		';
 		public $weaponSelect = '
 			<form method="post" action="?page=admin&module=blackmarket&action=calculator">

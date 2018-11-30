@@ -213,8 +213,8 @@
 
 				foreach ($ranks as $rank) {
 					$row = array("cols" => array());
-					$row["cols"][] = array( "data" => $rank["R_name"] );
-					$row["cols"][] = array( "data" => number_format($rank["R_health"]) );
+					$row["cols"][] = array( "header" => true, "data" => $rank["R_name"] );
+					$row["cols"][] = array( "header" => true, "data" => number_format($rank["R_health"]) );
 					foreach ($armor as $a) {
 						$bullets = $rank["R_health"]  / ($a["I_damage"] / 100) / ($weapon["damage"]);
 						$row["cols"][] = array( "data" => number_format($bullets) );
