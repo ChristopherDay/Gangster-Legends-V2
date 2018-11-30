@@ -26,35 +26,46 @@
 	}
 
     $pageToLoad = $_GET['page'];
-    $jailPageCheck = $page->modules[$pageToLoad];
-	
-	if (!empty($_SESSION['userID'])) {
-		
-		$user = new user($_SESSION['userID']);
-		
-		$user->updateTimer('laston', time());
 
-        if ($user->info->U_status == 2) {
-            $page->loadPage('users');
-        } else if ($user->info->U_userLevel == 3 && $_GET["page"] != "logout") {
-            $page->loadPage('banned');
-        } else if (!$user->checkTimer('jail')) {
-            if ($jailPageCheck["accessInJail"]) {
-            	$page->loadPage($pageToLoad);
-            } else {
-            	$page->loadPage('jail');
-            }
-        } else {
-            $page->loadPage($pageToLoad);
-        }
-            
-	} else if (!$jailPageCheck["requireLogin"]) {
-		$page->loadPage($_GET['page']);
-	} else {
-		
-		$page->loadPage("login");
-		
-	}
+    if (!isset($page->modules[$pageToLoad])) {
+		if (!empty($_SESSION['userID'])) {
+			$user = new user($_SESSION['userID']);
+			$user->updateTimer('laston', time());
+		}
+    	$page->loadPage("pageNotFound");
+    } else {
+
+	    $jailPageCheck = $page->modules[$pageToLoad];
+
+		if (!empty($_SESSION['userID'])) {
+			
+			$user = new user($_SESSION['userID']);
+			
+			$user->updateTimer('laston', time());
+
+	        if ($user->info->U_status == 2) {
+	            $page->loadPage('users');
+	        } else if ($user->info->U_userLevel == 3 && $_GET["page"] != "logout") {
+	            $page->loadPage('banned');
+	        } else if (!$user->checkTimer('jail')) {
+	            if ($jailPageCheck["accessInJail"]) {
+	            	$page->loadPage($pageToLoad);
+	            } else {
+	            	$page->loadPage('jail');
+	            }
+	        } else {
+	            $page->loadPage($pageToLoad);
+	        }
+	            
+		} else if (!$jailPageCheck["requireLogin"]) {
+			$page->loadPage($_GET['page']);
+		} else {
+			
+			$page->loadPage("login");
+			
+		}
+    
+    }
 
 	$page->printPage();
 
