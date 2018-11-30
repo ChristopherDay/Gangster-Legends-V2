@@ -74,12 +74,20 @@
             if (count($parts) == 2) {
                 $var = $parts[1];
             } 
-
-            $items = $this->items;
-            $rtn = htmlspecialchars($this->stringToArrayConversion($var, $this->items));
+            
+            if ($var[0] == '"') {
+                //pass back the string
+                $var = str_replace('"', "", $var);
+                $rtn = $var;
+            } else {
+                $items = $this->items;
+                $rtn = htmlspecialchars($this->stringToArrayConversion($var, $this->items));
+            }
+            
             if (count($parts) == 2) {
                 $rtn = $parts[0]($rtn);
             } 
+
             return $rtn;
         }
         
