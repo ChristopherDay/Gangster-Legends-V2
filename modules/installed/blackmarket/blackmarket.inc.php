@@ -92,7 +92,7 @@
         		));
         	} else if ($item["I_points"] > $this->user->info->US_points) {
         		$this->alerts[] = $this->page->buildElement('error', array(
-        			"text" => "You dont have enough points to buy a " . $item["I_name"]
+        			"text" => 'You dont have enough {_setting "pointsName"} to buy a ' . $item["I_name"]
         		));
         	} else {
         		$this->alerts[] = $this->page->buildElement('success', array(
