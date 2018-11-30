@@ -85,6 +85,12 @@
 							<th width="100px">Username</th>
 							<td class="text-left">{>userName}</td>
 						</tr>
+						{#if showRole}
+							<tr>
+								<th width="100px">Role</th>
+								<td class="text-left">{role}</td>
+							</tr>
+						{/if}
 						<tr>
 							<th width="100px">Rank</th>
 							<td class="text-left">{rank}</td>
