@@ -13,13 +13,13 @@
 						<div class="crime-holder">
 							<p>
 								<span class="action">
-									{name} 
+									{name}
 								</span> 
 								<span class="cooldown">
 									{#if cost} ${number_format cost} {/if}
 									{#if points}
 										{#if cost} + {/if}
-										{number_format points} points
+										{number_format points} {_setting "pointsName"}
 									{/if}
 								</span> 
 								<span class="commit">
@@ -55,7 +55,7 @@
 									{#if cost} ${number_format cost} {/if}
 									{#if points}
 										{#if cost} + {/if}
-										{number_format points} points
+										{number_format points} {_setting "pointsName"}
 									{/if}
 								</span> 
 								<span class="commit">
@@ -101,7 +101,7 @@
 							<td>{name}</td>
 							<td>{damage}</td>
 							<td>{typeDesc}</td>
-							<td>${cost} + {points} points</td>
+							<td>${cost} + {points} {_setting "pointsName"}</td>
 							<td>
 								[<a href="?page=admin&module=blackmarket&action=edit&id={id}">Edit</a>] 
 								[<a href="?page=admin&module=blackmarket&action=delete&id={id}">Delete</a>]
@@ -194,7 +194,7 @@
 					</div>
 					<div class="col-md-4">
 						<div class="form-group">
-							<label class="pull-left">Cost to buy item (points)</label>
+							<label class="pull-left">Cost to buy item ({_setting "pointsName"})</label>
 							<input type="number" class="form-control" name="points" value="{points}">
 						</div>
 					</div>
