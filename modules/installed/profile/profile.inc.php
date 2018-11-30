@@ -17,7 +17,13 @@
         public function constructModule() {
 			
 			if (isset($this->methodData->view) && $this->methodData->view != $this->user->id) {
-				$profile = new user($this->methodData->view);
+				$user = $this->methodData->view;
+				if (ctype_digit($user)) {
+					$profile = new user($user);
+				} else {
+					$profile = new user(false, $user);
+				}
+
 				$this->pageName = 'Viewing '.$profile->info->U_name.'\'s Profile';
 				$edit = false;
 			} else {
@@ -30,7 +36,7 @@
 			
 			// Make sure it is an image
 			$pic = (is_array(@getimagesize($profile->info->US_pic))?$profile->info->US_pic:"themes/default/images/default-profile-picture.png");
-			
+
             $this->html .= $this->page->buildElement('profile', array(
 				"picture" => $pic,
 				"user" => $profile->user, 
@@ -39,6 +45,8 @@
 				"family" => $profile->getGang()["name"], 
 				"status" => $profile->getStatus(), 
 				"bio" => $bio, 
+				"role" => $profile->info->UR_desc,
+				"showRole" => $profile->info->UR_id != 1,
 				"edit" => $edit
 			));
             
