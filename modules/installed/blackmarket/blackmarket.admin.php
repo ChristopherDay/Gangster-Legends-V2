@@ -191,7 +191,11 @@
 	
 				$weapon = $this->getItem($this->methodData->weapon);
 
-				$armor = $this->db->prepare("SELECT * FROM items WHERE I_type = 2 ORDER BY I_damage DESC");
+				$armor = $this->db->prepare("
+					SELECT * FROM items 
+					INNER JOIN ranks ON (R_id = I_rank)
+					WHERE I_type = 2 ORDER BY I_damage DESC
+				");
 				$armor->execute();
 				$armor = $armor->fetchAll(PDO::FETCH_ASSOC);
 
@@ -204,7 +208,8 @@
 
 				array_unshift($armor, array(
 					"I_name" => "No armor", 
-					"I_damage" => 100
+					"I_damage" => 100, 
+					"R_exp" => 0
 				));
 
 				foreach ($armor as $a) {
@@ -217,7 +222,15 @@
 					$row["cols"][] = array( "header" => true, "data" => number_format($rank["R_health"]) );
 					foreach ($armor as $a) {
 						$bullets = $rank["R_health"]  / ($a["I_damage"] / 100) / ($weapon["damage"]);
-						$row["cols"][] = array( "data" => number_format($bullets) );
+						$bulletsToKill = number_format($bullets);
+						//$this->html .= debug($a, 1, 1);
+						//$this->html .= debug($rank, 1, 1);
+						if ($a["R_exp"] > $rank["R_exp"]) {
+							$bulletsToKill = "--";
+						}
+						$row["cols"][] = array( 
+							"data" => $bulletsToKill 
+						);
 					}
 					$rows[] = $row;
 				}
