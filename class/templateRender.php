@@ -109,6 +109,7 @@
                 '~\[left\](.*?)\[/left\]~s',
                 '~\[right\](.*?)\[/right\]~s',
                 '~\[center\](.*?)\[/center\]~s',
+                '~\[c\](.*?)\[/c\]~s',
                 '~\[b\](.*?)\[/b\]~s',
                 '~\[i\](.*?)\[/i\]~s',
                 '~\[u\](.*?)\[/u\]~s',
@@ -116,6 +117,7 @@
                 '~\[quote=(.*?)\](.*?)\[/quote\]~s',
                 '~\[size=(.*?)\](.*?)\[/size\]~s',
                 '~\[color=(.*?)\](.*?)\[/color\]~s',
+                '~\[user=(.*?)\](.*?)\[/user\]~s',
                 '~\[url\]((?:ftp|https?)://.*?)\[/url\]~s',
                 '~\[img\](https?://.*?\.(?:jpg|jpeg|gif|png|bmp))\[/img\]~s'
             );
@@ -125,6 +127,7 @@
                 '<div style="text-align: left;">$1</div>',
                 '<div style="text-align: right;">$1</div>',
                 '<div style="text-align: center;">$1</div>',
+                '<div style="text-align: center;">$1</div>',
                 '<strong>$1</strong>',
                 '<em>$1</em>',
                 '<span style="text-decoration:underline;">$1</span>',
@@ -132,6 +135,7 @@
                 '<div class="quote"><strong>$1</strong><br />$2</div>',
                 '<span style="font-size:$1px;">$2</span>',
                 '<span style="color:$1;">$2</span>',
+                '<a href="?page=profile&view=$1">$2</a>',
                 '<a href="$1">$1</a>',
                 '<img class="img-responsive" src="$1" alt="" />'
             );
