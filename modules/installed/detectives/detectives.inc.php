@@ -120,7 +120,7 @@
 
 			$settings = new settings();
 
-			$costPerDetective = $settings->loadSetting("detectiveCost");
+			$costPerDetective = $settings->loadSetting("detectiveCost", true, 125000);
 
 			$user = "";
 
