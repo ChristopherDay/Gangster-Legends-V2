@@ -221,3 +221,14 @@ CREATE TABLE `items` (
   `I_type` INT(11) NOT NULL , 
   `I_rank` INT(11) NOT NULL
 ) ENGINE = InnoDB;
+
+CREATE TABLE `detectives` (
+  `D_id` INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT , 
+  `D_user` INT(11) NOT NULL , 
+  `D_userToFind` INT(11) NOT NULL , 
+  `D_detectives` INT(11) NOT NULL , 
+  `D_start` INT(11) NOT NULL , 
+  `D_end` INT(11) NOT NULL , 
+  `D_success` INT(11) NOT NULL
+) ENGINE = InnoDB;
+
