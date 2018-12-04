@@ -32,13 +32,9 @@ class page {
         $this->dontRun = $dontRun;
         
         if (ctype_alpha($page)) {
-            
             return $this->load($page);
-            
         } else {
-            
             die("Invalid page name");
-            
         }
         
     }
@@ -57,11 +53,18 @@ class page {
                 include_once 'class/template.php';
                 include_once $this->moduleView;
                 
-                $moduleCssFile = "modules/installed/" . $page . "/" . $page . ".styles.css";
+                $moduleCSSFile = "modules/installed/" . $page . "/" . $page . ".styles.css";
 
-                if (file_exists($moduleCssFile)) {
-                    $this->addToTemplate("moduleCssFile", $moduleCssFile);
+                if (file_exists($moduleCSSFile)) {
+                    $this->addToTemplate("moduleCSSFile", $moduleCSSFile);
                 }
+                
+                $moduleJSFile = "modules/installed/" . $page . "/" . $page . ".script.js";
+
+                if (file_exists($moduleJSFile)) {
+                    $this->addToTemplate("moduleJSFile", $moduleJSFile);
+                }
+
                 $templateMethod = $page . 'Template';
                 
                 $this->template = new $templateMethod($page);
