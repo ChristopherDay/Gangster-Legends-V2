@@ -40,8 +40,8 @@
 		<head>
 			<link href="themes/{_theme}/css/bootstrap.min.css" rel="stylesheet" />
 			<link href="themes/{_theme}/css/style.css" rel="stylesheet" />
-			{#if moduleCssFile}
-				<link href="{moduleCssFile}" rel="stylesheet" />
+			{#if moduleCSSFile}
+				<link href="{moduleCSSFile}" rel="stylesheet" />
 			{/if}
 			<link rel="shortcut icon" href="themes/{_theme}/images/icon.png" />
 			<meta name="timestamp" content="{timestamp}">
