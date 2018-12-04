@@ -7,7 +7,7 @@
         "url": "http:\/\/glscript.cdcoding.com"
     },
     "pageName": "Black Market",
-    "accessInJail": true,
+    "accessInJail": false,
     "requireLogin": true,
     "adminGroup": "Game Mechanics",
     "admin": [
