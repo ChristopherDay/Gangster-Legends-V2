@@ -212,7 +212,7 @@ CREATE TABLE IF NOT EXISTS `properties` (
   `PR_profit` INT(11) NOT NULL
 ) ENGINE = InnoDB;
 
-CREATE TABLE `items` (
+CREATE TABLE IF NOT EXISTS `items` (
   `I_id` INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT , 
   `I_name` VARCHAR(128) NOT NULL , 
   `I_damage` INT(11) NOT NULL , 
@@ -222,7 +222,7 @@ CREATE TABLE `items` (
   `I_rank` INT(11) NOT NULL
 ) ENGINE = InnoDB;
 
-CREATE TABLE `detectives` (
+CREATE TABLE IF NOT EXISTS `detectives` (
   `D_id` INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT , 
   `D_user` INT(11) NOT NULL , 
   `D_userToFind` INT(11) NOT NULL , 
