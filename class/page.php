@@ -104,6 +104,7 @@ class page {
                 $actionMenu = new hook("actionMenu");
                 $locationMenu = new hook("locationMenu");
                 $accountMenu = new hook("accountMenu");
+                $killMenu = new hook("killMenu");
                 $customMenu = new hook("customMenus");
 
                 $menus = array(
@@ -117,10 +118,15 @@ class page {
                         "items" => $this->sortArray($locationMenu->run($user)), 
                         "sort" => 200
                     ),
+                    "location" => array(
+                        "title" => "Murder", 
+                        "items" => $this->sortArray($killMenu->run($user)), 
+                        "sort" => 300
+                    ),
                     "account" => array(
                         "title" => "Account", 
                         "items" => $this->sortArray($accountMenu->run($user)), 
-                        "sort" => 300
+                        "sort" => 400
                     )
                 );
 
