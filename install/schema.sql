@@ -232,3 +232,10 @@ CREATE TABLE IF NOT EXISTS `detectives` (
   `D_success` INT(11) NOT NULL
 ) ENGINE = InnoDB;
 
+CREATE TABLE IF NOT EXISTS `bounties` (
+  `B_id` INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT , 
+  `B_user` INT(11) NOT NULL , 
+  `B_userToKill` INT(11) NOT NULL , 
+  `B_cost` INT(11) NOT NULL
+) ENGINE = InnoDB;
+

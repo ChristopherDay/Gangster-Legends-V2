@@ -1,0 +1,19 @@
+{
+    "name": "Find User",
+    "version": "1.0.0",
+    "description": "Before killing a user you first need to find them",
+    "author": {
+        "name": "Chris Day",
+        "url": "http:\/\/glscript.cdcoding.com"
+    },
+    "pageName": "Detectives",
+    "accessInJail": false,
+    "requireLogin": true,
+    "adminGroup": "Killing",
+    "admin": [
+        {
+            "text": "Detective Options",
+            "method": "options"
+        }
+    ]
+}
