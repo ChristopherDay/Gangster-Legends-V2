@@ -42,7 +42,7 @@
 			        		</div>
 			        	</div>
 			        	<p class="text-center">
-			        		<button class="btn btn-primary" name="submit" value="1">Hire Detectives</button>
+			        		<button class="btn" name="submit" value="1">Hire Detectives</button>
 			        	</p>
         			</form>
         		</div>

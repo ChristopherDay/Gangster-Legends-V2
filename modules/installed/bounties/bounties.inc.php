@@ -13,24 +13,31 @@
 		public $pageName = '';
 
 		public function method_remove() {
-			$search = $this->db->prepare("
-				SELECT * FROM bounties WHERE D_id = :id
+			$bounty = $this->db->prepare("
+				SELECT * FROM bounties WHERE B_id = :id
 			");
 
-			$search->bindParam(":id", $this->methodData->id);
-			$search->execute();
+			$bounty->bindParam(":id", $this->methodData->id);
+			$bounty->execute();
 
-			$search = $search->fetch(PDO::FETCH_ASSOC);
+			$bounty = $bounty->fetch(PDO::FETCH_ASSOC);
 
-			if ($search["D_user"] != $this->user->id) {
-				return $this->error("This is not yours to remove!");
+			if (!$bounty["B_id"]) {
+				return $this->error("This bounty does not exist");
+			}
+
+			if ($bounty["B_cost"] > $this->user->info->US_money) {
+				return $this->error("You dont have enough money to buy this bounty off!");
 			}
 
 			$del = $this->db->prepare("
-				DELETE FROM bounties WHERE D_id = :id
+				DELETE FROM bounties WHERE B_id = :id;
+				UPDATE userStats SET US_money = US_money - :cost WHERE US_id = :uid;
 			");
 
 			$del->bindParam(":id", $this->methodData->id);
+			$del->bindParam(":cost", $bounty["B_cost"]);
+			$del->bindParam(":uid", $this->user->id);
 			$del->execute();
 
     		$this->alerts[] = $this->page->buildElement("success", array(
@@ -79,6 +86,8 @@
 					UPDATE userStats SET US_money = US_money - :cost WHERE US_id = :uid;
 				");
 
+				$user->newNotification("Someone just put a $" . number_format($cost) . " bounty on you");
+
 				$userID = $this->user->id;
 
 				if (isset($this->methodData->anon) && $this->methodData->anon) {
@@ -91,10 +100,10 @@
 				$insert->bindParam(":cost", $cost);
 				$insert->execute();
 
-
         		$this->alerts[] = $this->page->buildElement("success", array(
         			"text" => "You put a $" . number_format($cost) . " bounty on " . $user->info->U_name
         		));
+
 
 			} 			
 			
