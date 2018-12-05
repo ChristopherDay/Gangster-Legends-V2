@@ -118,10 +118,10 @@ class page {
                         "items" => $this->sortArray($locationMenu->run($user)), 
                         "sort" => 200
                     ),
-                    "location" => array(
+                    "kill" => array(
                         "title" => "Murder", 
                         "items" => $this->sortArray($killMenu->run($user)), 
-                        "sort" => 300
+                        "sort" => 210
                     ),
                     "account" => array(
                         "title" => "Account", 
