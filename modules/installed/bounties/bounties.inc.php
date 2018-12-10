@@ -122,11 +122,12 @@
 			}
 
 			$active = $this->db->prepare("
-				SELECT
+				SELECT 
 					B_userToKill as 'uid',
 					SUM(B_cost) as 'cost'
 				FROM bounties
 				GROUP BY B_userToKill
+				ORDER BY SUM(B_cost) DESC
 			");
 
 			$active->bindParam(":id", $this->user->id);
@@ -142,8 +143,10 @@
 					SELECT
 						B_id as 'id', 
 						B_user as 'uid',
+						B_userToKill as 'userToKill',
 						B_cost as 'cost'
 					FROM bounties WHERE B_userToKill = :id
+					ORDER BY B_cost DESC
 				");
 
 				$individualBounties->bindParam(":id", $value["uid"]);

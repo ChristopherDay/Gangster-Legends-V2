@@ -115,7 +115,8 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 CREATE TABLE IF NOT EXISTS `userStats` (
   `US_id` int(11) NOT NULL PRIMARY KEY,
-  `US_health` int(11) NOT NULL DEFAULT '100',
+  `US_shotBy` int(11) NOT NULL DEFAULT '0',
+  `US_health` int(11) NOT NULL DEFAULT '0',
   `US_exp` int(11) NOT NULL DEFAULT '0',
   `US_money` int(11) NOT NULL DEFAULT '250',
   `US_bank` int(11) NOT NULL DEFAULT '0',

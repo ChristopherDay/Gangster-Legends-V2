@@ -75,6 +75,11 @@
 
 			}
 
+			$rank = $this->db->prepare("SELECT * FROM ranks WHERE R_id = :id");
+        	$rank->bindParam(":id", $this->info->US_rank);
+        	$rank->execute();
+        	$this->rank = (object) $rank->fetch(PDO::FETCH_ASSOC);
+
 			$this->adminModules = $access;
             
             if (isset($user->info->U_name) || isset($user->info->U_id)) {
@@ -227,12 +232,17 @@
 
 			$pic = (is_array(@getimagesize($this->info->US_pic))?$this->info->US_pic:"themes/default/images/default-profile-picture.png");
 
+			$maxHealth = $this->rank->R_health;
+
+			$health = $maxHealth / ($maxHealth - $this->info->US_health) * 100; 
+			if ($health < 0) $health = 0;
+
 			$page->addToTemplate('pic', $pic);
 			$page->addToTemplate('money', '$'.number_format($this->info->US_money));
 			$page->addToTemplate('bullets', number_format($this->info->US_bullets));
 			$page->addToTemplate('backfire', number_format($this->info->US_backfire));
 			$page->addToTemplate('points', $this->info->US_points);
-			$page->addToTemplate('health', $this->info->US_health.'%');
+			$page->addToTemplate('health', number_format($health, 2));
 			$page->addToTemplate('location', $this->getLocation());
 			$page->addToTemplate('username', $this->info->U_name);
 
@@ -368,6 +378,24 @@
 			
 		}
 		
+		public function set($stat, $value) {
+
+			if ($stat[1] == "_") {
+				$table = "users";
+				$id = "U_id";
+			} else {
+				$table = "userStats";
+				$id = "US_id";
+			}
+
+			$sql = "UPDATE $table SET $stat = :value WHERE $id = :id";
+
+			$query = $this->db->prepare($sql);
+			$query->bindParam(":id", $this->info->US_id);
+			$query->bindParam(":value", $value);
+			$query->execute();			
+		}
+		
 		public function checkRank() {
 			
             global $page;
@@ -411,16 +439,11 @@
                 ));
 
                 $this->newNotification($text);
-
                 return $this->checkRank();
-
             } else {
-
                 return $newRank;
-
             }
 
-		
 		}
         
         public function newNotification($text) {
@@ -431,7 +454,7 @@
             		:id, :text, 0, UNIX_TIMESTAMP()
             	);
             ");
-            $notification->bindParam(":id", $this->id);
+            $notification->bindParam(":id", $this->info->U_id);
             $notification->bindParam(":text", $text);
             $notification->execute();
 		}

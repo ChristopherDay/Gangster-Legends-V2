@@ -365,9 +365,17 @@ table tr td, table tr th {
 		bottom: 0px;
 		left: 0px;
 		right: 0px;
-		padding-bottom: 30px;
 		display: none;
 		z-index: 1000;
+	}
+
+	.mobile-menu ul.nav {
+		position: absolute;
+		top: 0px;
+		bottom: 30px;
+		left: 0px;
+		right: 0px;
+		overflow: auto;
 	}
 
 	.mobile-menu .close-mobile-menu {
@@ -389,6 +397,7 @@ table tr td, table tr th {
 
 	.mobile-menu li a {
 		padding: 7px 15px;
+		margin-bottom: 0px;
 	}
 
 	.mobile-menu .title {
