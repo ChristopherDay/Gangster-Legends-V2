@@ -1,0 +1,12 @@
+{
+    "name": "You have been shot!",
+    "version": "1.0.0",
+    "description": "This page is shown when a dead user logs in",
+    "author": {
+        "name": "Chris Day",
+        "url": "http:\/\/glscript.cdcoding.com"
+    },
+    "pageName": "You Are Dead",
+    "accessInJail": true,
+    "requireLogin": true
+}

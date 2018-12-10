@@ -43,7 +43,9 @@
 			
 			$user->updateTimer('laston', time());
 
-	        if ($user->info->U_status == 2) {
+	        if ($user->info->U_status == 0) {
+	            $page->loadPage('dead');
+	        } else if ($user->info->U_status == 2) {
 	            $page->loadPage('users');
 	        } else if ($user->info->U_userLevel == 3 && $_GET["page"] != "logout") {
 	            $page->loadPage('banned');

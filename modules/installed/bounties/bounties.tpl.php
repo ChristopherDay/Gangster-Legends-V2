@@ -32,8 +32,8 @@
         				<thead>
         					<tr>
         						<th>User</th>
-        						<th width="130px">Payout</th>
-        						<th width="90px">Action</th>
+        						<th width="90px">Payout</th>
+        						<th width="65px" class="text-center">Action</th>
         					</tr>
         				</thead>
         				<tbody>
@@ -52,11 +52,12 @@
 				        				<td class="bounty-header">
 				        					${number_format cost}
 				        				</td>
-				        				<td class="bounty-header">
+				        				<td class="bounty-header text-center">
+					        				<a href="#" onclick="toggleBounty(this, {uid})">View</a>
 				        				</td>
 			        				</tr>
 				        			{#each bounties}
-				        				<tr>
+				        				<tr data-id="{userToKill}" style="display: none">
 					        				<td class="bounty-content">
 					        					{#if uid}
 					        						{>userName}
@@ -68,7 +69,7 @@
 					        				<td class="bounty-content">
 					        					${number_format cost}
 					        				</td>
-					        				<td class="bounty-content">
+					        				<td class="bounty-content text-center">
 					        					<a href="?page=bounties&action=remove&id={id}">Buy Off</a>
 					        				</td>
 				        				</tr>

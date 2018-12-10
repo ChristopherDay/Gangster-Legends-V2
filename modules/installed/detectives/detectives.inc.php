@@ -138,6 +138,7 @@
 					D_end + 3600 as 'expires',
 					D_success as 'success'
 				FROM detectives WHERE D_user = :id
+				ORDER BY D_start DESC
 			");
 
 			$active->bindParam(":id", $this->user->id);
@@ -151,7 +152,6 @@
 				$value["isSearching"] = $value["end"] > time();
 				$value["isExpired"] = $value["expires"] < time();
 
-				$hiredDetectives[$key]["user"] = $u->user;
 				$value["success"] = !!$value["success"];
 				$value["user"] = $u->user;
 				$value["location"] = $u->getLocation();
