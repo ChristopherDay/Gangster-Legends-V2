@@ -48,7 +48,7 @@
 			<meta name="viewport" content="width=device-width, initial-scale=1">
 			<title>{game_name} - {page}</title>
 		</head>
-		<body>
+		<body class="user-status-{userStatus}">
 
 			<div class="mobile-menu">
 				<div class="close-mobile-menu">Close</div>
