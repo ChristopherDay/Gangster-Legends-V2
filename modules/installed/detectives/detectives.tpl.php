@@ -78,6 +78,13 @@
 							</p>
 						</div>
 					{/each}
+					{#unless hiredDetectives}
+						<div class="text-center">
+							<em>
+								You dont have any active detectives
+							</em>
+						</div>
+					{/unless}
 				</div>
 			</div>
 		';
