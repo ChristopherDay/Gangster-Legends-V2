@@ -15,7 +15,10 @@
 				<p>
 					<input autocomplete='new-password' type='password' name='password' class='form-control form-control-inline' placeholder='Current Password' /> 
 				</p>
-				<button class='btn btn-default'>Create Account</button>
+				<button class='btn btn-default'>Create Account</button><br />
+				<small>
+					<a href='?page=logout'>Logout</a>
+				</small>
 			</form>
 		";
 		
