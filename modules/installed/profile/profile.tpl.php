@@ -80,10 +80,26 @@
 					<img src="{picture}" style="max-height: 150px; max-width: 300px;" class="img-rounded img-thumbnail" alt="{name}\'s Profile" />
 				</div>
 				<div class="col-md-8 col-lg-9">
+
 					<table class="table table-borderless table-condensed">
 						<tr>
 							<th width="100px">Username</th>
-							<td class="text-left">{>userName}</td>
+							<td class="text-left">
+								{>userName}
+								<sup>(<{status}>)</sup>
+							</td>
+						</tr>
+						<tr>
+							<th width="100px">Status</th>
+							<td class="text-left">
+								{#if dead}
+									<strong style="color: #900;">DEAD</strong>
+								{/if}
+								{#unless dead}
+									<strong style="color: #090;">Alive</strong>
+								{/unless}
+
+							</td>
 						</tr>
 						{#if showRole}
 							<tr>
@@ -108,10 +124,6 @@
 							<td class="text-left">
 								<a href="?page=mail&action=new&name={user.name}"> Send Mail </a>
 							</td>
-						</tr>
-						<tr>
-							<th width="100px">Status</th>
-							<td class="text-left"><{status}></td>
 						</tr>
 					</table>
 				</div>
