@@ -244,6 +244,7 @@
 			$page->addToTemplate('health', number_format($health, 2));
 			$page->addToTemplate('location', $this->getLocation());
 			$page->addToTemplate('username', $this->info->U_name);
+			$page->addToTemplate('userStatus', $this->info->U_status);
 
 			$page->addToTemplate('isAdmin', count($this->adminModules) != 0);
 			
