@@ -88,7 +88,7 @@
 				$armor = $this->getItem($userToKill->info->US_armor);
 
 				$damage = floor($weapon["damage"] * $bullets);
-				$health = floor($armor["damage"] * $userToKill->rank->R_health);
+				$health = floor($userToKill->rank->R_health / $armor["damage"]);
 
 				$damageDonePercent = $damage / $health;
 
@@ -100,7 +100,7 @@
 				if ($userToKill->rank->R_health < $newUserHealth) {
 					$userToKill->set("U_status", 0);
 					$userToKill->set("US_shotBy", $this->user->id);
-					$userToKill->updateTimer("illed", time());
+					$userToKill->updateTimer("killed", time());
 					$this->success("You have killed " . $userToKill->info->U_name);
 					$killHook = new hook("userKilled");
 					$users = array(
