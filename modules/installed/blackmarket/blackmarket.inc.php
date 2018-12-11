@@ -29,7 +29,7 @@
 					END as 'typeDesc'
 				FROM items
 				INNER JOIN ranks ON R_id = I_rank
-				WHERE R_exp < :userEXP AND I_type = :type
+				WHERE R_exp <= :userEXP AND I_type = :type
 				ORDER BY I_damage
 			";
 
