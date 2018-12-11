@@ -43,7 +43,6 @@
             ");
             $userExists->bindParam(":email", $this->methodData->email);
             $userExists->execute();
-            debug($this->methodData);
             $userExists = $userExists->fetch(PDO::FETCH_ASSOC);
 
             
