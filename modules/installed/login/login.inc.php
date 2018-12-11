@@ -52,10 +52,10 @@
                     $_SESSION['userID'] = $user->info->U_id;
                     header("Location:?page=" . $this->page->landingPage);
                 } else {
-                    $this->loginError = $this->page->buildElement('error', array("text" => 'You have entered a wrong password!'));;
+                    $this->loginError = $this->page->buildElement('error', array("text" => 'You have entered a wrong email/password!'));;
                 }
             } else {
-                $this->loginError = $this->page->buildElement('error', array("text" => 'Invalid username!'));	
+                $this->loginError = $this->page->buildElement('error', array("text" => 'You have entered a wrong email/password!'));	
             }
             
         }
