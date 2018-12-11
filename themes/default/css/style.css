@@ -13,6 +13,29 @@ a:hover {
 	color: inherit;
 }
 
+.user-status-0 .navigation {
+	display: none;
+}
+
+.user-status-0 .game-container {
+	max-width: 800px;
+	margin-top: 20px;
+	margin-left: auto;
+	margin-right: auto;
+	float: none;
+}
+
+.user-status-0 .logo-container {
+	text-align: center !important;
+	width: 100%;
+}
+
+.user-status-0 .sub-header,
+.user-status-0 .header .col-md-2,
+.user-status-0 .header .col-md-3 {
+	display: none;
+}
+
 .no-scroll {
 	overflow: hidden;	
 }
