@@ -9,8 +9,8 @@
         public function constructModule() {
 			
 			$times = array(
-				'Last 15 Minutes'=>900, 
-				'Last 24 Hours'=>86400, 
+				'Last 5 Minutes'=>300, 
+				'Last Hour'=>3600, 
 			);
 			
 			$durations = array();
