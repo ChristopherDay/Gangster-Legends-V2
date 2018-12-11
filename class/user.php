@@ -24,7 +24,6 @@
 
 			}
 
-
 		}	
 		
 		// This function will return all the information for the user
@@ -234,7 +233,7 @@
 
 			$maxHealth = $this->rank->R_health;
 
-			$health = $maxHealth / ($maxHealth - $this->info->US_health) * 100; 
+			$health = ($maxHealth - $this->info->US_health) / $maxHealth * 100; 
 			if ($health < 0) $health = 0;
 
 			$page->addToTemplate('pic', $pic);
@@ -526,7 +525,7 @@
 			$update->execute();
 			
 		}
-		
+
 		public function getStatus() {
 			
 			$time =(time() - $this->getTimer("laston"));
