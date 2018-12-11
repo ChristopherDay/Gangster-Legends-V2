@@ -8,8 +8,13 @@
 				To get revenge you can create a new account!
 			</p>
 		 
-			<form method='post' action='#'>
-				<input type='number' name='username' class='form-control form-control-inline' placeholder='New Username' /> 
+			<form method='post' action='?page=dead&action=new'>
+				<p>
+					<input autocomplete='new-password' type='text' name='username' class='form-control form-control-inline' placeholder='New Username' /> 
+				</p>
+				<p>
+					<input autocomplete='new-password' type='password' name='password' class='form-control form-control-inline' placeholder='Current Password' /> 
+				</p>
 				<button class='btn btn-default'>Create Account</button>
 			</form>
 		";
