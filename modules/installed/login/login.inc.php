@@ -4,7 +4,7 @@
         
         public $allowedMethods = array(
             'logout'=>array('type'=>'get'), 
-            'username'=>array('type'=>'post'), 
+            'email'=>array('type'=>'post'), 
             'password'=>array('type'=>'post')
         );
         
@@ -38,9 +38,17 @@
         
         public function method_login() {
                 
-            $user = @new user(NULL, $this->methodData->username);
+            $userExists = @$this->db->prepare("
+                SELECT * FROM users WHERE U_email = :email ORDER BY U_id DESC LIMIT 0, 1
+            ");
+            $userExists->bindParam(":email", $this->methodData->email);
+            $userExists->execute();
+            debug($this->methodData);
+            $userExists = $userExists->fetch(PDO::FETCH_ASSOC);
+
             
-            if (isset($user->info->U_id)) {
+            if (isset($userExists["U_id"])) {
+                $user = new User($userExists["U_id"]);
                 if ($user->info->U_password == $user->encrypt($user->info->U_id . $this->methodData->password)) {
                     $_SESSION['userID'] = $user->info->U_id;
                     header("Location:?page=" . $this->page->landingPage);
