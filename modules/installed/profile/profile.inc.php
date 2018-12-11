@@ -43,6 +43,7 @@
 				"moneyRank" => $profile->getMoneyRank()->MR_desc, 
 				"rank" => $profile->getRank()->R_name, 
 				"family" => $profile->getGang()["name"], 
+				"dead" => $profile->info->U_status == 0, 
 				"status" => $profile->getStatus(), 
 				"bio" => $bio, 
 				"role" => $profile->info->UR_desc,
