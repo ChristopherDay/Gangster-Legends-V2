@@ -388,12 +388,13 @@
 				$id = "US_id";
 			}
 
-			$sql = "UPDATE $table SET $stat = :value WHERE $id = :id";
-
-			$query = $this->db->prepare($sql);
+			$query = $this->db->prepare("UPDATE $table SET $stat = :value WHERE $id = :id");
 			$query->bindParam(":id", $this->info->US_id);
 			$query->bindParam(":value", $value);
-			$query->execute();			
+			$query->execute();
+
+			$this->info->$stat = $value;
+
 		}
 		
 		public function checkRank() {
