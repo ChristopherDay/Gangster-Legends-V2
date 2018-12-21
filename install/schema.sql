@@ -130,13 +130,7 @@ CREATE TABLE IF NOT EXISTS `userStats` (
   `US_rank` int(11) NOT NULL DEFAULT '1',
   `US_gang` int(11) NOT NULL DEFAULT '0',
   `US_location` int(11) NOT NULL DEFAULT '1',
-  `US_crimes` varchar(255) NOT NULL DEFAULT '35-25-15-5-5-5-5-5-5-5-5-5-5-5-5',
-  `US_crimeTimer` int(11) NOT NULL DEFAULT '0',
-  `US_jailTimer` int(11) NOT NULL DEFAULT '0',
-  `US_theftTimer` int(11) NOT NULL DEFAULT '0',
-  `US_chaseTimer` int(11) NOT NULL DEFAULT '0',
-  `US_bulletTimer` int(11) NOT NULL DEFAULT '0',
-  `US_travelTimer` int(11) NOT NULL DEFAULT '0'
+  `US_crimes` varchar(255) NOT NULL DEFAULT '35-25-15-5-5-5-5-5-5-5-5-5-5-5-5'
 ) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `userTimers` (

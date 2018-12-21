@@ -23,7 +23,9 @@
 				
 				$money = str_replace(array(',', '$'), array('', ''), $this->methodData->withdraw);
 				
-				if ($this->user->info->US_bank < $money) {
+				if ($money < 0) {				
+					$this->alerts[] = $this->page->buildElement("error", array("text"=>"You cant withdraw negative cash"));
+				} else if ($this->user->info->US_bank < $money) {
 					
 					$this->alerts[] = $this->page->buildElement("error", array("text"=>"You dont have enough money in your bank for this transaction!"));
 					
@@ -46,7 +48,9 @@
 				
 				$money = str_replace(array(',', '$'), array('', ''), $this->methodData->deposit);
 				
-				if ($this->user->info->US_money < $money) {
+				if ($money < 0) {				
+					$this->alerts[] = $this->page->buildElement("error", array("text"=>"You cant deposit negative cash"));
+				} else if ($this->user->info->US_money < $money) {
 					
 					$this->alerts[] = $this->page->buildElement("error", array("text"=>"You dont have enough money for this transaction!"));
 					
