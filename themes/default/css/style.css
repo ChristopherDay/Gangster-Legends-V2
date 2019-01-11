@@ -225,11 +225,16 @@ hr {
 .crime-holder p {
     padding:10px;
     margin:0px;
-	text-align: left;
+    text-align: right;
 }
 
-.crime-holder .commit {
-    float: right;
+.crime-holder .cooldown {
+	color: #777;
+	padding-right: 20px;
+}
+
+.crime-holder .action {
+    float: left;
 }
 
 .crime-holder .crime-perc {
@@ -367,6 +372,23 @@ table tr td, table tr th {
 	border-color: transparent;
 }
 
+.list-group, .list-group .list-group-item {
+	border-color: #474747;
+	color: #fff;
+}
+
+.list-group .list-group-item:nth-child(odd) {
+	background-color: #171717;
+}	
+
+.list-group .list-group-item:nth-child(even) {
+	background-color: #252525;
+}
+
+.list-group .list-group-item .badge {
+	background-color: transparent;
+}
+
 @media (max-width: 767px) {
 	html, body {
 		height: 100%;
@@ -472,6 +494,7 @@ table tr td, table tr th {
 	}
 	.crime-holder .action {
 		display: block;
+		float: none;
 	}
 	.crime-holder .cooldown,
 	.crime-holder .commit {
