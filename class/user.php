@@ -95,7 +95,8 @@
 	            	"userLevel" => $this->info->U_userLevel,
 	            	"status" => $this->info->U_status, 
 	            	"color" => $this->info->UR_color, 
-	            	"profilePicture" => $pic
+	            	"profilePicture" => $pic, 
+	            	"onlineStatus" => $this->getStatus(false)
 	            );
             }
 			
@@ -146,6 +147,8 @@
 				$addUser->execute();
 
 				$id = $this->db->lastInsertId();
+				$this->id = $id;
+				
 				$encryptedPassword = $this->encrypt($id . $password);
 
 				$addUserPassword = $this->db->prepare("
@@ -156,6 +159,8 @@
 				$addUserPassword->execute();
 
 				$this->db->query("INSERT INTO userStats (US_id) VALUES (" . $id . ")");
+
+				$this->updateTimer("signup", time());
 
 				if ($validateUserEmail) {
 					$this->sendActivationCode($email, $id, $username);
@@ -528,17 +533,29 @@
 			
 		}
 
-		public function getStatus() {
+		public function getStatus($returnElement = true) {
 			
 			$time =(time() - $this->getTimer("laston"));
 			global $page;
 			
 			if ($time > 300 && $time <= 900) {
-				return $page->buildElement("AFK", array());
+				if ($returnElement) {
+					return $page->buildElement("AFK", array());
+				} else {
+					return 1;
+				}
 			} else if ($time > 900) {
-				return $page->buildElement("offline", array());
+				if ($returnElement) {
+					return $page->buildElement("offline", array());
+				} else {
+					return 0;
+				}
 			} else {
-				return $page->buildElement("online", array());
+				if ($returnElement) {
+					return $page->buildElement("online", array());
+				} else {
+					return 2;
+				}
 			}
 			
 		}
