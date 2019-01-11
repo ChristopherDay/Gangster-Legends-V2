@@ -20,7 +20,7 @@
 					U_name as 'name', 
 					U_email as 'email', 
 					U_userLevel as 'userLevel',   
-					(U_userLevel = 0) as 'isDead', 
+					(U_status = 0) as 'isDead', 
 					(U_status = 1) as 'isValidated',  
 					(U_status = 2) as 'isAwaitingValidation',  
 					US_money as 'money', 
