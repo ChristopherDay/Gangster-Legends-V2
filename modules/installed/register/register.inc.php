@@ -46,7 +46,17 @@
             $user = @new user();
             $settings = new settings();
 	
-            if (!empty($this->methodData->password) && ($this->methodData->password == $this->methodData->cpassword)) {
+            if (!filter_var($this->methodData->email, FILTER_VALIDATE_EMAIL)) {
+                $this->regError =  $this->page->buildElement('error', array(
+                    "text" => 'Please enter a valid email address'
+                )); 
+            } else if (strlen($this->methodData->username) < 6) {
+                $this->regError =  $this->page->buildElement('error', array(
+                    "text" => 'Your username should be atleast 6 characters long'
+                )); 
+            } else if (
+                !empty($this->methodData->password) && ($this->methodData->password == $this->methodData->cpassword)
+            ) {
 
                 $makeUser = $user->makeUser(
                     $this->methodData->username, 
@@ -65,11 +75,9 @@
                 }
                 
             } else if (isset($this->methodData->password)) {
-                
                 $this->regError =  $this->page->buildElement('error', array(
                     "text" => 'Your passwords do not match!'
                 ));	
-            
             }
             
         }
