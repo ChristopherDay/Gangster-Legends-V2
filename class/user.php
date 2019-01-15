@@ -95,6 +95,7 @@
 	            	"userLevel" => $this->info->U_userLevel,
 	            	"status" => $this->info->U_status, 
 	            	"color" => $this->info->UR_color, 
+	            	"gang" => $this->info->US_gang, 
 	            	"profilePicture" => $pic, 
 	            	"onlineStatus" => $this->getStatus(false)
 	            );
