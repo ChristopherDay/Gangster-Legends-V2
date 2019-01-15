@@ -116,8 +116,12 @@
 							<td class="text-left">{moneyRank}</td>
 						</tr>
 						<tr>
-							<th width="100px">Family</th>
-							<td class="text-left">{family}</td>
+							<th width="100px">Gang</th>
+							<td class="text-left">
+								<a href="?page=gang&action=view&id={gangID}">
+									{gang}
+								</a>
+							</td>
 						</tr>
 						<tr>
 							<th width="100px">Actions</th>
