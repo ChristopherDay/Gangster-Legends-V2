@@ -168,7 +168,7 @@
 					
 				}
 				
-				return 'success';
+				return $id;
 				
 			}
 			
