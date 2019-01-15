@@ -107,6 +107,7 @@
 				$insert->bindParam(":success", $success);
 				$insert->execute();
 
+				$this->user->set("US_money", $this->user->info->US_money - $cost);
 
         		$this->alerts[] = $this->page->buildElement("success", array(
         			"text" => "You hired " . $detectives . " detective for " . $hours . " hours costing you $" . number_format($cost)
