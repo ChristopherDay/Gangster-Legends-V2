@@ -30,10 +30,10 @@ CREATE TABLE IF NOT EXISTS `gangs` (
   `G_name` varchar(120) NOT NULL,
   `G_bank` int(11) NOT NULL DEFAULT 0,
   `G_desc` text NOT NULL DEFAULT '',
-  `G_location` int(11) NOT NULL DEFAULT '',
-  `G_boss` int(11) NOT NULL DEFAULT '',
-  `G_underboss` int(11) NOT NULL DEFAULT '',
-  `G_level` int(11) NOT NULL DEFAULT '1',
+  `G_location` int(11) NOT NULL DEFAULT 0,
+  `G_boss` int(11) NOT NULL DEFAULT 0,
+  `G_underboss` int(11) NOT NULL DEFAULT 0,
+  `G_level` int(11) NOT NULL DEFAULT 1,
   PRIMARY KEY (`G_id`)
 ) DEFAULT CHARSET=utf8;
 
