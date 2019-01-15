@@ -162,7 +162,7 @@
 					
 				}
 				
-				return 'success';
+				return $id;
 				
 			}
 			
