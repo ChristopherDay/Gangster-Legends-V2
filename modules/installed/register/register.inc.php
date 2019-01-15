@@ -54,11 +54,13 @@
                     $this->methodData->password
                 );
                 
-                if ($makeUser != 'success') {
+                if (!ctype_digit($makeUser)) {
                     $this->regError = $this->page->buildElement('error', array(
                         "text" => $makeUser
                     ));
                 } else {
+                    $_SESSION["userID"] = $makeUser;
+                    header("Location:?");
                     $this->regError =  $this->page->buildElement('success', array(
                         "text" => 'You have registered successfuly, you can now log in!'
                     ));
