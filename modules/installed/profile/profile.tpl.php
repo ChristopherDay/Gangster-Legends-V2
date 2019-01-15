@@ -77,7 +77,7 @@
 		public $profile = '
 			<div class="row">
 				<div class="col-md-4 col-lg-3">
-					<img src="{picture}" style="max-height: 150px; max-width: 300px;" class="img-rounded img-thumbnail" alt="{name}\'s Profile" />
+					<img src="{picture}" style="max-height: 150px; max-width: 100%;" class="img-rounded img-thumbnail" alt="{name}\'s Profile" />
 				</div>
 				<div class="col-md-8 col-lg-9">
 
