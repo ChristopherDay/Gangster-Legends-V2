@@ -27,10 +27,10 @@ INSERT INTO `locations` (`L_id`, `L_name`, `L_cost`, `L_bullets`, `L_bulletCost`
 INSERT INTO `notifications` (`N_id`, `N_uid`, `N_text`, `N_read`) VALUES
 (1, 1, 'dsfdsasdsadsds', 0);
 
-INSERT INTO `ranks` (`R_id`, `R_name`, `R_exp`, `R_limit`, `R_cashReward`, `R_bulletReward`) VALUES
-(1, 'Lowlife', 0, 0, 75, 25),
-(2, 'Thug', 50, 0, 150, 60),
-(3, 'Criminal', 100, 0, 250, 100);
+INSERT INTO `ranks` (`R_id`, `R_name`, `R_exp`, `R_limit`, `R_cashReward`, `R_bulletReward`, `R_health`) VALUES
+(1, 'Lowlife', 0, 0, 75, 25, 5000),
+(2, 'Thug', 50, 0, 150, 60, 10000),
+(3, 'Criminal', 100, 0, 250, 100, 15000);
 
 INSERT INTO `theft` (`T_id`, `T_name`, `T_chance`, `T_maxDamage`, `T_worstCar`, `T_bestCar`) VALUES
 (1, 'Steal from street corner', 50, 100, 1, 1000),
