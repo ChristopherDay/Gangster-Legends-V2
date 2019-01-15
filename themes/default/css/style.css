@@ -249,6 +249,11 @@ hr {
     width: 0px;
 }
 
+.crime-holder .crime-header {
+	background-color: #272727;
+	border-bottom: 1px solid #474747;
+}
+
 .navigation .label {
 	float: right;
 }
