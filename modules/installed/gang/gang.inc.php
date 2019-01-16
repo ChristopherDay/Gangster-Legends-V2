@@ -10,14 +10,10 @@
 		
 		public $pageName = '';
 
-        public function method_view() {
-
-            $this->construct = false;
-        
-            $id = $this->methodData->id;
-
+        public function getGang($id) {
             $gang = $this->db->prepare("
                 SELECT 
+                    G_id as 'id',
                     G_name as 'name',
                     G_desc as 'desc',
                     G_boss as 'boss',
@@ -35,12 +31,19 @@
 
             $gang = $gang->fetch(PDO::FETCH_ASSOC);
 
+            $gang["members"] = $this->getGangMembers($gang);
+
+            return $gang;
+        }
+
+        public function getGangMembers($gang) {
+            
             $members = array();
 
             $users = $this->db->prepare("
                 SELECT * FROM users INNER JOIN userStats ON (US_id = U_id) WHERE US_gang = :gang 
             ");
-            $users->bindParam(":gang", $id);
+            $users->bindParam(":gang", $gang["id"]);
             $users->execute();
 
             $users = $users->fetchAll(PDO::FETCH_ASSOC);
@@ -64,8 +67,19 @@
                 );
             }
 
-            $gang["members"] = $members;
+            return $members;
+        }
 
+        public function method_home() {
+            $this->construct = false;
+            $gang = $this->getGang($this->user->info->US_gang);
+            $this->html .= $this->page->buildElement("gangHome", $gang);
+        }
+
+        public function method_view() {
+            $this->construct = false;
+            $id = $this->methodData->id;
+            $gang = $this->getGang($id);
             $this->html .= $this->page->buildElement("gangOverview", $gang);
         }
 
