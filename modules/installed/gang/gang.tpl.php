@@ -2,6 +2,25 @@
 
     class gangTemplate extends template {
         
+        public $gangHome = '
+        	<div class="row">
+	        	<div class="col-md-7">
+	        		<h4>Gang Events</h4>
+	        	</div>
+	        	<div class="col-md-5">
+	        		<h4>Gang Members</h4>
+					<ul class="list-group text-left">
+						{#each members}
+							<li class="list-group-item">
+								{>userName}
+								<span class="badge gang-rank">{gangRank}</span>
+							</li>
+						{/each}
+					</ul>
+	        	</div>
+        	</div>
+        ';
+
         public $gangOverview = '
         	<h3>{name}</h3>
         	{#if desc}
