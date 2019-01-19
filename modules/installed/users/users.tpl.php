@@ -3,19 +3,25 @@
     class usersTemplate extends template {
 
         public $validateAccount = '
-            <div class="text-center">
-                <p class="text-center">
-                    Before you can play you need to activate your account. 
-                </p>
-                <form method="post" action="?page=users">
-                    <input type="text" name="code" class="form-control activation-code" value="{code}" /> 
-                    <button type="submit" class="btn btn-default">
-                        Activate
-                    </button>
-                </form>
-                <p>
-                    <a href="?page=users&action=resend">Resend activation code</a>
-                </p>
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">Account Activation</div>
+                <div class="panel-body">
+                    <div class="text-center">
+                        <p class="text-center">
+                            Before you can play you need to activate your account. 
+                        </p>
+                        <form method="post" action="?page=users">
+                            <input type="text" name="code" class="form-control activation-code" value="{code}" /> 
+                            <button type="submit" class="btn btn-default">
+                                Activate
+                            </button>
+                        </form>
+                        <p>
+                            <a href="?page=users&action=resend">Resend activation code</a>
+                        </p>
+                    </div>
+                </div>
             </div>
         ';
 

@@ -3,23 +3,33 @@
     class mailTemplate extends template {
         
         public $mail = '
-        	<div class="well well-sm read-mail">
-	        	<h4>
-                    {subject} 
-                    <small class="pull-right tiny">
-                        By {>userName} {date}
-                    </small>
-                </h4>
-                <hr />
-	        	<p>[{text}]</p>
+        	<div class="panel panel-primary">
+                <div class="panel-heading">Mail</div>
+                <div class="panel-body">
+		        	<div class="well well-sm read-mail">
+			        	<h4>
+		                    {subject} 
+		                    <small class="pull-right tiny">
+		                        By {>userName} {date}
+		                    </small>
+		                </h4>
+		                <hr />
+			        	<p>[{text}]</p>
+		            </div>
+		            <h4 class="text-left">Reply to {>userName}</h4>
+		            {>mailForm}
+                </div>
             </div>
-            <h4 class="text-left">Reply to {>userName}</h4>
-            {>mailForm}
         ';
 
         public $newMail = '
-            <h4 class="text-left">Message {>userName}</h4>
-            {>mailForm}
+        	<div class="panel panel-primary">
+                <div class="panel-heading">New Mail</div>
+                <div class="panel-body">
+		            <h4 class="text-left">Message {>userName}</h4>
+		            {>mailForm}
+                </div>
+            </div>
         ';
         public $mailForm = '
             <form method="post" action="?page=mail&action={action}&id={id}{#if name}&name={name}{/if}">
@@ -90,31 +100,40 @@
         ';
 
         public $mailInbox = '
-	        <h4 class="text-left">
-	    		Inbox
-	    		<span class="small pull-right">
-	    			<a href="?page=mail&action=outbox">Outbox</a>
-	    		</span>
-	    		<span class="small pull-right">
-	    			<a href="?page=mail&action=new">New Mail</a>&nbsp;&nbsp;
-	    		</span> 
-	    	</h4>
 
-	    	{>mailTable}
+        	<div class="panel panel-primary">
+                <div class="panel-heading">
+		    		Inbox
+		    		<span class="small pull-right">
+		    			<a href="?page=mail&action=outbox">Outbox</a>
+		    		</span>
+		    		<span class="small pull-right">
+		    			<a href="?page=mail&action=new">New Mail</a>&nbsp;&nbsp;
+		    		</span> 
+                </div>
+                <div class="panel-body">
+	    			{>mailTable}
+                </div>
+            </div>
+
         ';
 
         public $mailOutbox = '
-	        <h4 class="text-left">
-	    		Outbox
-	    		<span class="small pull-right">
-	    			<a href="?page=mail">Inbox</a>
-	    		</span>
-	    		<span class="small pull-right">
-	    			<a href="?page=mail&action=new">New Mail</a>&nbsp;&nbsp;
-	    		</span> 
-	    	</h4>
 
-	    	{>mailTable}
+        	<div class="panel panel-primary">
+                <div class="panel-heading">
+		    		Outbox
+		    		<span class="small pull-right">
+		    			<a href="?page=mail">Inbox</a>
+		    		</span>
+		    		<span class="small pull-right">
+		    			<a href="?page=mail&action=new">New Mail</a>&nbsp;&nbsp;
+		    		</span> 
+                </div>
+                <div class="panel-body">
+			    	{>mailTable}
+                </div>
+            </div>
         ';
         
     }
