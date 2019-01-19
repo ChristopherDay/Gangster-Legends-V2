@@ -6,7 +6,7 @@
 		<form action="?page=bank&action=process" method="post">
 			<div class="row">
 				<div class="col-md-6">
-					<div class="panel panel-primary">
+					<div class="panel panel-default">
 						<div class="panel-heading">Deposit</div>
 						<div class="panel-body">
 							<p style="height:54px; line-height:18px;">
@@ -22,7 +22,7 @@
 					</div>
 				</div>
 				<div class="col-md-6">
-					<div class="panel panel-primary">
+					<div class="panel panel-default">
 						<div class="panel-heading"> Withdraw </div>
 						<div class="panel-body">
 							<p style="height:54px; line-height:18px;">

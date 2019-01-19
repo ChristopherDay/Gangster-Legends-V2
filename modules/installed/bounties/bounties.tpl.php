@@ -6,7 +6,7 @@
         	<div class="row">
         		<div class="col-md-5">
 
-					<div class="panel panel-primary">
+					<div class="panel panel-default">
 						<div class="panel-heading">New Bounty</div>
 						<div class="panel-body">
 		        			<form class="text-left detective-form" action="?page=bounties&action=new" method="post" >
@@ -32,7 +32,7 @@
         		</div>
         		<div class="col-md-7">
 
-					<div class="panel panel-primary">
+					<div class="panel panel-default">
 						<div class="panel-heading">Open Bounties</div>
 						<div class="panel-body">
 

@@ -3,7 +3,7 @@
     class mailTemplate extends template {
         
         public $mail = '
-        	<div class="panel panel-primary">
+        	<div class="panel panel-default">
                 <div class="panel-heading">Mail</div>
                 <div class="panel-body">
 		        	<div class="well well-sm read-mail">
@@ -23,7 +23,7 @@
         ';
 
         public $newMail = '
-        	<div class="panel panel-primary">
+        	<div class="panel panel-default">
                 <div class="panel-heading">New Mail</div>
                 <div class="panel-body">
 		            <h4 class="text-left">Message {>userName}</h4>
@@ -101,7 +101,7 @@
 
         public $mailInbox = '
 
-        	<div class="panel panel-primary">
+        	<div class="panel panel-default">
                 <div class="panel-heading">
 		    		Inbox
 		    		<span class="small pull-right">
@@ -120,7 +120,7 @@
 
         public $mailOutbox = '
 
-        	<div class="panel panel-primary">
+        	<div class="panel panel-default">
                 <div class="panel-heading">
 		    		Outbox
 		    		<span class="small pull-right">

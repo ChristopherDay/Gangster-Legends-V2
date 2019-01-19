@@ -6,7 +6,7 @@
 		public $blackMarket = '
 
 
-			<div class="panel panel-primary">
+			<div class="panel panel-default">
 				<div class="panel-heading">{location} Black Market</div>
 				<div class="panel-body">
 			

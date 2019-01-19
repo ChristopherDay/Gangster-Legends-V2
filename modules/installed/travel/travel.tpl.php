@@ -4,7 +4,7 @@
     
         public $locationHolder = '
 
-            <div class="panel panel-primary">
+            <div class="panel panel-default">
                 <div class="panel-heading">Travel</div>
                 <div class="panel-body">
                     {#each locations}

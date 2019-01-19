@@ -177,18 +177,9 @@
 
 						</div>
 						
-						<div class="col-md-9 game-container">
-
+						<div class="col-md-9 game-container text-center">
 							<{alerts}>
-
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									{page}
-								</div>
-								<div class="panel-body text-center">
-									<{game}>
-								</div>
-							</div>
+							<{game}>
 						</div>
 					</div>
 				</div>

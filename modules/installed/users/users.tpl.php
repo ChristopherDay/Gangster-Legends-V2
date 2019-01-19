@@ -4,7 +4,7 @@
 
         public $validateAccount = '
 
-            <div class="panel panel-primary">
+            <div class="panel panel-default">
                 <div class="panel-heading">Account Activation</div>
                 <div class="panel-body">
                     <div class="text-center">

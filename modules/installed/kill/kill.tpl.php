@@ -3,7 +3,7 @@
 	class killTemplate extends template {
 		
 		public $killPage = '
-			<div class="panel panel-primary">
+			<div class="panel panel-default">
                 <div class="panel-heading">What user do you want to kill</div>
                 <div class="panel-body">
 

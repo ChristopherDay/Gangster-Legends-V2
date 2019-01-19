@@ -9,7 +9,7 @@
 		public $editPassword = '
 
 
-        	<div class="panel panel-primary">
+        	<div class="panel panel-default">
                 <div class="panel-heading">Edit Password</div>
                 <div class="panel-body">
 
@@ -55,7 +55,7 @@
 
 		public $editProfile = '
 
-        	<div class="panel panel-primary">
+        	<div class="panel panel-default">
                 <div class="panel-heading">Edit Profile</div>
                 <div class="panel-body">
 					<ul class="nav nav-tabs nav-justified">
@@ -91,7 +91,7 @@
 		
 		public $profile = '
 
-        	<div class="panel panel-primary">
+        	<div class="panel panel-default">
                 <div class="panel-heading">{user.name}\' Profile</div>
                 <div class="panel-body">
 					<div class="row">

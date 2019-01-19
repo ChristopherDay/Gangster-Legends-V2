@@ -4,7 +4,7 @@
     
         public $policeChase = '
 
-            <div class="panel panel-primary">
+            <div class="panel panel-default">
                 <div class="panel-heading">What direction do you want to drive?</div>
                 <div class="panel-body">
                     <div style="text-align:center;">

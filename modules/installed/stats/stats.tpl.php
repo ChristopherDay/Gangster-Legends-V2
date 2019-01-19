@@ -7,7 +7,7 @@
         	<div class="row">
         		<div class="col-md-7">
 
-		        	<div class="panel panel-primary">
+		        	<div class="panel panel-default">
 		                <div class="panel-heading">New Users</div>
 		                <div class="panel-body">
 		        			<table class="table table-condensed table-responsive table-bordered table-striped stats-table">
@@ -39,7 +39,7 @@
 		            </div>
 
 
-		        	<div class="panel panel-primary">
+		        	<div class="panel panel-default">
 		                <div class="panel-heading">Recently Killed</div>
 		                <div class="panel-body">
 		        			<table class="table table-condensed table-responsive table-bordered table-striped stats-table">
@@ -74,7 +74,7 @@
 
         		<div class="col-md-5">
 
-		        	<div class="panel panel-primary">
+		        	<div class="panel panel-default">
 		                <div class="panel-heading">Game Stats</div>
 		                <div class="panel-body">
 							<ul class="list-group text-left">

@@ -4,7 +4,7 @@
 
         public $jailUsers = '
 
-	        <div class="panel panel-primary">
+	        <div class="panel panel-default">
                 <div class="panel-heading">{location} Inmates</div>
                 <div class="panel-body">
 
