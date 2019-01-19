@@ -8,7 +8,7 @@
     	';
     	public $blackjackTable = '
 
-            <div class="panel panel-primary">
+            <div class="panel panel-default">
                 <div class="panel-heading">Blackjack</div>
                 <div class="panel-body">
                     <div class="dealers-hand">
@@ -51,7 +51,7 @@
 
         public $placeBet = "
 
-            <div class='panel panel-primary'>
+            <div class='panel panel-default'>
                 <div class='panel-heading'>Place Bet </div>
                 <div class='panel-body'>
                     <form method='post' action='#'>

@@ -7,7 +7,7 @@
     		<div class="row">
         		<div class="col-md-6">
 
-		        	<div class="panel panel-primary">
+		        	<div class="panel panel-default">
 		                <div class="panel-heading">Update Cost or Max Bet</div>
 		                <div class="panel-body">
 							<form action="?page=propertyManagement&module={module}&action=cost" method="post">
@@ -18,7 +18,7 @@
 		            </div>
 				</div>
         		<div class="col-md-6">
-		        	<div class="panel panel-primary">
+		        	<div class="panel panel-default">
 		                <div class="panel-heading">Transfer Ownership</div>
 		                <div class="panel-body">
 							<form action="?page=propertyManagement&module={module}&action=transfer" method="post">
@@ -31,7 +31,7 @@
 			</div>
 
 
-        	<div class="panel panel-primary">
+        	<div class="panel panel-default">
                 <div class="panel-heading">Accounts</div>
                 <div class="panel-body">
 		        	<h3>

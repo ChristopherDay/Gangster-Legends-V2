@@ -3,7 +3,7 @@
     class gangTemplate extends template {
         
         public $gangHome = '
-			<div class="panel panel-primary">
+			<div class="panel panel-default">
 				<div class="panel-heading">{name}</div>
 				<div class="panel-body">
 		        	<div class="row">
@@ -28,7 +28,7 @@
 
         public $gangOverview = '
 
-			<div class="panel panel-primary">
+			<div class="panel panel-default">
 				<div class="panel-heading">{name}</div>
 				<div class="panel-body">
 		        	{#if desc}
@@ -58,7 +58,7 @@
 
         public $gangs = '
 
-			<div class="panel panel-primary">
+			<div class="panel panel-default">
 				<div class="panel-heading">Gangs</div>
 				<div class="panel-body">
 					{#unless locations}

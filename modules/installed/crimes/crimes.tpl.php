@@ -4,7 +4,7 @@
 
         public $crimeHolder = '
 
-        <div class="panel panel-primary">
+        <div class="panel panel-default">
             <div class="panel-heading">Crimes</div>
             <div class="panel-body">
                 {#each crimes}

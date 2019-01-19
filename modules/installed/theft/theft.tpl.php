@@ -4,7 +4,7 @@
 
         public $theftHolder = '
 
-            <div class="panel panel-primary">
+            <div class="panel panel-default">
                 <div class="panel-heading">Theft</div>
                 <div class="panel-body">
                     {#each theft}

@@ -59,7 +59,7 @@
 
         public $topics = '
 
-            <div class="panel panel-primary">
+            <div class="panel panel-default">
                 <div class="panel-heading">Forum</div>
                 <div class="panel-body">
                     <h4 class="text-left">
@@ -114,7 +114,7 @@
 
         public $newTopic = '
 
-            <div class="panel panel-primary">
+            <div class="panel panel-default">
                 <div class="panel-heading">New Topic</div>
                 <div class="panel-body">
                     <form method="post" action="?page=forum&action=new&id={forum}">
@@ -148,7 +148,7 @@
 
         public $topic = '
 
-            <div class="panel panel-primary">
+            <div class="panel panel-default">
                 <div class="panel-heading">Forum</div>
                 <div class="panel-body">
                     <h4 class="text-left">
@@ -265,7 +265,7 @@
             </div>
         ';
         public $delete = '
-            <div class="panel panel-primary">
+            <div class="panel panel-default">
                 <div class="panel-heading">fORUM</div>
                 <div class="panel-body">
                     <form method="post" action="?page=forum&action=delete&id={id}">
@@ -292,7 +292,7 @@
         ';
         public $deleteTopic = '
 
-        <div class="panel panel-primary">
+        <div class="panel panel-default">
             <div class="panel-heading">Forum</div>
             <div class="panel-body">
                 <form method="post" action="?page=forum&action=deleteTopic&id={topic}">
@@ -321,7 +321,7 @@
         public $edit = '
 
 
-            <div class="panel panel-primary">
+            <div class="panel panel-default">
                 <div class="panel-heading">Edit Post</div>
                 <div class="panel-body">
 

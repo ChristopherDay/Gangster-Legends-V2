@@ -7,7 +7,7 @@
 				<a href="?page=leaderboards&top10=money" class="btn btn-default">Richest</a>
 				<a href="?page=leaderboards&top10=rank" class="btn btn-default">Rank</a>
 			</div>
-			<div class="panel panel-primary">
+			<div class="panel panel-default">
                 <div class="panel-heading">{title}</div>
                 <div class="panel-body">
 					<table class="table table-striped table-bordered table-condensed">

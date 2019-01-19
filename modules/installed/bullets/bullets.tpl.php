@@ -3,7 +3,7 @@
     class bulletsTemplate extends template {
         
         public $bulletPage = '
-        <div class="panel panel-primary">
+        <div class="panel panel-default">
             <div class="panel-heading">{locationName} Bullet Factory</div>
             <div class="panel-body">
                 <form action="?page=bullets&action=buy" method="post">
