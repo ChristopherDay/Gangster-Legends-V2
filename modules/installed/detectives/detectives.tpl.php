@@ -5,88 +5,97 @@
 		public $detectives = '
 			<div class="row">
 				<div class="col-md-5">
-					<h4>Hire Detectives</h4>
-					<p>
-						Before killing a user you first need to find them! It will cost you ${number_format detectiveCost} p/h to hire a detective.
-					</p>
-					<form class="text-left detective-form" action="?page=detectives&action=hire" method="post" >
-						<input type="hidden" name="cost" value="{detectiveCost}" />
-						<p>
-							<strong>User to find</strong>
-							<input type="text" class="form-control" name="user" value="{user}" />
-						</p>
-						<div class="row">
-							<div class="col-md-5">
+
+					<div class="panel panel-primary">
+						<div class="panel-heading">Hire Detectives</div>
+						<div class="panel-body">
+							<p>
+								Before killing a user you first need to find them! It will cost you ${number_format detectiveCost} p/h to hire a detective.
+							</p>
+							<form class="text-left detective-form" action="?page=detectives&action=hire" method="post" >
+								<input type="hidden" name="cost" value="{detectiveCost}" />
 								<p>
-									<strong>For how long</strong>
-									<select onChange="updateDetectiveCost()" class="form-control" name="hours">
-										<option value="1">1 Hour</option>
-										<option value="2">2 Hours</option>
-										<option value="3">3 Hours</option>
-										<option value="4">4 Hours</option>
-										<option value="5">5 Hours</option>
-									</select>
+									<strong>User to find</strong>
+									<input type="text" class="form-control" name="user" value="{user}" />
 								</p>
-							</div>
-							<div class="col-md-7">
-								<p>
-									<strong>How many Detectives?</strong>
-									<select onChange="updateDetectiveCost()" class="form-control" name="detectives">
-										<option value="1">1 Detective</option>
-										<option value="2">2 Detectives</option>
-										<option value="3">3 Detectives</option>
-										<option value="4">4 Detectives</option>
-										<option value="5">5 Detectives</option>
-									</select>
+								<div class="row">
+									<div class="col-md-5">
+										<p>
+											<strong>For how long</strong>
+											<select onChange="updateDetectiveCost()" class="form-control" name="hours">
+												<option value="1">1 Hour</option>
+												<option value="2">2 Hours</option>
+												<option value="3">3 Hours</option>
+												<option value="4">4 Hours</option>
+												<option value="5">5 Hours</option>
+											</select>
+										</p>
+									</div>
+									<div class="col-md-7">
+										<p>
+											<strong>How many Detectives?</strong>
+											<select onChange="updateDetectiveCost()" class="form-control" name="detectives">
+												<option value="1">1 Detective</option>
+												<option value="2">2 Detectives</option>
+												<option value="3">3 Detectives</option>
+												<option value="4">4 Detectives</option>
+												<option value="5">5 Detectives</option>
+											</select>
+										</p>
+									</div>
+								</div>
+								<p class="text-center">
+									<button class="btn" name="submit" value="1">Hire Detectives</button>
 								</p>
-							</div>
+							</form>
 						</div>
-						<p class="text-center">
-							<button class="btn" name="submit" value="1">Hire Detectives</button>
-						</p>
-					</form>
+					</div>
 				</div>
 				<div class="col-md-7">
-					<h4>Your Detectives</h4>
-					{#each hiredDetectives}
-						<div class="crime-holder">
-							<p>
-								<span class="action">
-									{>userName} 
-								</span> 
-								<span class="cooldown">
-									{#if isSearching}
-										<span data-reload-when-done data-timer-type="inline" data-timer="{end}"></span>
-									{/if}
-									{#unless isSearching}
-										{#if isExpired}
-											<strong>EXPIRED</strong>
-										{/if}
-										{#unless isExpired}
-											{#if success}
-												{location}
+					<div class="panel panel-primary">
+						<div class="panel-heading">Your Detectives</div>
+						<div class="panel-body">
+							{#each hiredDetectives}
+								<div class="crime-holder">
+									<p>
+										<span class="action">
+											{>userName} 
+										</span> 
+										<span class="cooldown">
+											{#if isSearching}
+												<span data-reload-when-done data-timer-type="inline" data-timer="{end}"></span>
 											{/if}
-											{#unless success}
-												<strong>NOT FOUND</strong>
+											{#unless isSearching}
+												{#if isExpired}
+													<strong>EXPIRED</strong>
+												{/if}
+												{#unless isExpired}
+													{#if success}
+														{location}
+													{/if}
+													{#unless success}
+														<strong>NOT FOUND</strong>
+													{/unless}
+												{/unless}
 											{/unless}
-										{/unless}
-									{/unless}
-								</span> 
-								<span class="commit">
-									<a href="?page=detectives&action=remove&id={id}">Remove</a>
-								</span>
-							</p>
+										</span> 
+										<span class="commit">
+											<a href="?page=detectives&action=remove&id={id}">Remove</a>
+										</span>
+									</p>
+								</div>
+							{/each}
+							{#unless hiredDetectives}
+								<div class="text-center">
+									<em>
+										You dont have any active detectives
+									</em>
+								</div>
+							{/unless}
 						</div>
-					{/each}
-					{#unless hiredDetectives}
-						<div class="text-center">
-							<em>
-								You dont have any active detectives
-							</em>
+					</div>
 						</div>
-					{/unless}
-				</div>
-			</div>
+					</div>
 		';
 
 		 public $detectiveOptions = '

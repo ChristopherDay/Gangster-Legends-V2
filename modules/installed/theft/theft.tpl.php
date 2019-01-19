@@ -3,21 +3,28 @@
    class theftTemplate extends template {
 
         public $theftHolder = '
-        {#each theft}
-        <div class="crime-holder">
-            <p>
-                <span class="action">
-                    {name} 
-                </span>
-                <span class="commit">
-                    <a href="?page=theft&action=commit&id={id}">Steal</a>
-                </span>
-            </p>
-            <div class="crime-perc">
-                <div class="perc" style="width:{percent}%;"></div>
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">Theft</div>
+                <div class="panel-body">
+                    {#each theft}
+                        <div class="crime-holder">
+                            <p>
+                                <span class="action">
+                                    {name} 
+                                </span>
+                                <span class="commit">
+                                    <a href="?page=theft&action=commit&id={id}">Steal</a>
+                                </span>
+                            </p>
+                            <div class="crime-perc">
+                                <div class="perc" style="width:{percent}%;"></div>
+                            </div>
+                        </div>
+                    {/each}
+                </div>
             </div>
-        </div>
-        {/each}';
+        ';
         
 
         public $theftList = '
