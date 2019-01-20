@@ -50,9 +50,9 @@
                 $this->regError =  $this->page->buildElement('error', array(
                     "text" => 'Please enter a valid email address'
                 )); 
-            } else if (strlen($this->methodData->username) < 6) {
+            } else if (strlen($this->methodData->username) < 3) {
                 $this->regError =  $this->page->buildElement('error', array(
-                    "text" => 'Your username should be atleast 6 characters long'
+                    "text" => 'Your username should be atleast 3 characters long'
                 )); 
             } else if (
                 !empty($this->methodData->password) && ($this->methodData->password == $this->methodData->cpassword)
