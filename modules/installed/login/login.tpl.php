@@ -7,7 +7,9 @@
                 <form action="?page=login&action=login" method="post">
                     <input autocomplete="new-password" type="input" class="form-control" name="email" placeholder="Email" /><br />
                     <input autocomplete="new-password" type="password" class="form-control" name="password" placeholder="Password" /><br />
-                    <button type="submit" class="btn pull-right">Login</button>
+                    <div class="text-right">
+                        <button type="submit" class="btn pull-right">Login</button>
+                    </div>
                 </form>
 		';
 

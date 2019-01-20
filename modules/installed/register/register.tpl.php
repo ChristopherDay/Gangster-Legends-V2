@@ -15,8 +15,9 @@
                         <input class="form-control" type="password" name="cpassword" placeholder="Confirm Password" />
                     </div>
                 </div>
-                <br />
-                <button type="submit" class="btn pull-right">Register</button>
+                <div class="text-right">
+                    <button type="submit" class="btn">Register</button>
+                </div>
             </form>
         ';
 
