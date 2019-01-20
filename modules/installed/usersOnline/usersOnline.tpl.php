@@ -16,6 +16,9 @@
 											<span class="action">
 											    {>userName} 
 											</span> 
+											<span class="commit">
+												{date}
+											</span> 
 										</p>
 									</div>
 								{/each}

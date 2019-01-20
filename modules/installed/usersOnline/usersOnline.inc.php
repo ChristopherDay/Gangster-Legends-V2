@@ -34,6 +34,7 @@
 					if (isset($userOnline->info->U_id)) {
 						$users[] = array(
 							"user" => $userOnline->user,
+							"date" => $this->date($row["UT_time"]),
 							"id" => $userOnline->info->U_id
 						);
 					}
