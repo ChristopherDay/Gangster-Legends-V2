@@ -486,6 +486,8 @@
 		
 			$userID = $this->id;
 			
+			if (!$userID) $userID = $this->info->U_id;
+
 			$select = $this->db->prepare("
 				SELECT * FROM userTimers WHERE UT_desc = :desc AND UT_user = :user;
 			");

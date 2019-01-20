@@ -23,7 +23,7 @@
 			            	<span class="action">
 			            		{>userName}
 			            	</span>
-			            	<span class="cooldown visible-xs">
+			            	<span class="cooldown">
 			            		<span data-timer="{time}" data-timer-type="inline"></span>  
 			            	</span>
 			            	<span class="commit">

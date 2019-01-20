@@ -154,11 +154,12 @@
                 
 
                 <script src="themes/{_theme}/js/jquery.js"></script>
-                <script src="themes/{_theme}/js/bootstrap.min.js"></script>
                 <script src="themes/{_theme}/3rdparty/datatables/datatables.min.js"></script>
+                <script src="themes/{_theme}/js/bootstrap.min.js"></script>
                 <script src="themes/{_theme}/3rdparty/summernote/summernote.js"></script>
                 <script src="themes/{_theme}/3rdparty/sidebar/assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
                 <script src="themes/{_theme}/3rdparty/sidebar/assets/js/custom.js"></script>
+
             </body>
             </html>';
     }    
