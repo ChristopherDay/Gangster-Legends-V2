@@ -96,10 +96,10 @@
 					}
 				}
 
-				chmod($oldDir, 0760);
 				// Move files over
 				$oldDir = "modules/installing/" . $moduleName;
 				$newDir = "modules/installed/" . $moduleName;
+				chmod($oldDir, 0760);
 				if (@rename($oldDir, $newDir)) {
 					return $this->html .= $this->page->buildElement("success", array(
 						"text" => "Module installed successfully"
