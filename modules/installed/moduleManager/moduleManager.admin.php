@@ -79,6 +79,11 @@
 				$moduleName = $this->methodData->installModule;
 				$installDir = "modules/installing/";
 				$installLocation = $installDir . $moduleName . "/";
+				
+				// Move files over
+				$oldDir = "modules/installing/" . $moduleName;
+				$newDir = "modules/installed/" . $moduleName;
+				chmod($oldDir, 0760);
 
 				$sqlFile = $installLocation . "schema.sql";
 				if (file_exists($sqlFile)) {
@@ -96,10 +101,6 @@
 					}
 				}
 
-				// Move files over
-				$oldDir = "modules/installing/" . $moduleName;
-				$newDir = "modules/installed/" . $moduleName;
-				chmod($oldDir, 0760);
 				if (@rename($oldDir, $newDir)) {
 					return $this->html .= $this->page->buildElement("success", array(
 						"text" => "Module installed successfully"
