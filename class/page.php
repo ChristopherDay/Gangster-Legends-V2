@@ -174,6 +174,8 @@ class page {
             $queryString = "?page=" . $this->landingPage;
         }
 
+        if (!is_array($menus)) $menus = array();
+
         foreach ($menus as $key => $menu) {
             foreach ($menu["items"] as $k => $item) {
                 //debug(array(
