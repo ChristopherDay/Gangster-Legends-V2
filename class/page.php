@@ -177,7 +177,7 @@ class page {
         if (!is_array($menus)) $menus = array();
 
         foreach ($menus as $key => $menu) {
-            if (!is_array($menu)) $menu = array();
+            if (!is_array($menu["items"])) $menu["items"] = array();
             foreach ($menu["items"] as $k => $item) {
                 //debug(array(
                 //    strpos($item["url"], $queryString), $queryString, $item["url"]
