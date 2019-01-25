@@ -29,7 +29,7 @@
 
 		private function viewInstall($moduleName) {
 			$moduleFolder = "modules/installing/$moduleName/";
-			
+
 			chmod($moduleFolder, 0760);
 			$info = json_decode(file_get_contents($moduleFolder . "module.json"), true);
 			chmod($moduleFolder, 0440);
@@ -96,11 +96,11 @@
 					}
 				}
 
+				chmod($oldDir, 0760);
 				// Move files over
 				$oldDir = "modules/installing/" . $moduleName;
 				$newDir = "modules/installed/" . $moduleName;
 				if (@rename($oldDir, $newDir)) {
-					chmod($newDir, 0760);
 					return $this->html .= $this->page->buildElement("success", array(
 						"text" => "Module installed successfully"
 					));
