@@ -29,7 +29,10 @@
 
 		private function viewInstall($moduleName) {
 			$moduleFolder = "modules/installing/$moduleName/";
+			
+			chmod($moduleFolder, 0760);
 			$info = json_decode(file_get_contents($moduleFolder . "module.json"), true);
+			chmod($moduleFolder, 0440);
 			$info["id"] = $moduleName;
 			$info["_installing"] = true;
 			$this->html .= $this->page->buildElement("moduleOverview", $info);
