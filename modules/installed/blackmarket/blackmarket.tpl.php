@@ -27,18 +27,18 @@
 												{number_format points} {_setting "pointsName"}
 											{/if}
 										</span> 
-										<span class="commit">
-											{#if owned}
-												Owned
-											{/if}
-											{#unless owned}
-												{#unless cantBuy}
+										{#unless cantBuy}
+											<span class="commit">
+												{#if owned}
+													Owned
+												{/if}
+												{#unless owned}
 													<a href="?page=blackmarket&action=buy&item={id}">
 														Buy
 													</a>
 												{/unless}
-											{/unless}
-										</span>
+											</span>
+										{/unless}
 									</p>
 								</div>
 							{/each}
@@ -63,18 +63,18 @@
 												{number_format points} {_setting "pointsName"}
 											{/if}
 										</span> 
-										<span class="commit">
-											{#if owned}
-												Owned
-											{/if}
-											{#unless owned}
-												{#unless cantBuy}
+										{#unless cantBuy}
+											<span class="commit">
+												{#if owned}
+													Owned
+												{/if}
+												{#unless owned}
 													<a href="?page=blackmarket&action=buy&item={id}">
 														Buy
 													</a>
 												{/unless}
-											{/unless}
-										</span>
+											</span>
+										{/unless}
 									</p>
 								</div>
 							{/each}
