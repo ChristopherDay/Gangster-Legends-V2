@@ -19,7 +19,6 @@
 		        	{#each users}
 			        <div class="crime-holder">
 			            <p>
-			            	<span data-timer="{time}" data-timer-type="inline" class="hidden-xs"></span>  
 			            	<span class="action">
 			            		{>userName}
 			            	</span>

@@ -137,7 +137,7 @@
 								<tr>
 									<th width="100px">Gang</th>
 									<td class="text-left">
-										<a href="?page=gang&action=view&id={gangID}">
+										<a href="?page=gangs&action=view&id={gangID}">
 											{gang}
 										</a>
 									</td>

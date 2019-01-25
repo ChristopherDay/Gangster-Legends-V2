@@ -54,6 +54,7 @@
             <div class='panel panel-default'>
                 <div class='panel-heading'>Place Bet </div>
                 <div class='panel-body'>
+                    <h4> Place Bet </h4>
                     <form method='post' action='#'>
                         <input type='number' name='bet' class='form-control form-control-inline' placeholder='0' /> 
                         <button class='btn btn-default'>Bet</button>
