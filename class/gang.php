@@ -15,9 +15,21 @@
 			$this->gang = $this->getGang();
 		}
 
-		public function can($doWhat, $user = false) {
-
+        public function log($text, $user = false) {
 			if (!$user) $user = $this->user;
+
+            $log = $this->db->prepare("
+                INSERT INTO gangLogs (GL_gang, GL_time, GL_user, GL_log) VALUES (:g, UNIX_TIMESTAMP(), :u, :t);
+            ");
+            $log->bindParam(":g", $this->id);
+            $log->bindParam(":u", $user->id);
+            $log->bindParam(":t", $text);
+            $log->execute();
+        }
+
+        public function can($doWhat, $user = false) {
+
+            if (!$user) $user = $this->user;
 
 			if (!$this->id) return false;
 			if ($this->id != $user->info->US_gang) return false;
