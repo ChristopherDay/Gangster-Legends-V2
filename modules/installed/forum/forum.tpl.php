@@ -71,42 +71,51 @@
                         </small>
                     </h4>
 
-                    {#unless topics}
-                        <p class="text-center">
-                            <em>This forum has no topics.</em>
-                        </p>
-                    {/unless}
 
-                    {#if topics}
-                        <table class="table table-bordered table-striped forum-topics">
-                            <thead>
+                    <table class="table table-bordered table-striped forum-topics">
+                        <thead>
+                            <tr>
+                                <th>Subject</th>
+                                <th width="150px">User</th>
+                                <th width="230px">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {#unless topics}
                                 <tr>
-                                    <th>Subject</th>
-                                    <th width="150px">User</th>
-                                    <th width="230px">Date</th>
+                                    <td class="text-center" colspan="3">
+                                        <em>This forum has no topics.</em>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                {#each topics}
-                                    <tr>
-                                        <td>
-                                            {#if locked}
-                                                <i class="glyphicon glyphicon-lock"></i>
-                                            {/if}
-                                            <a href="?page=forum&action=topic&id={id}">
-                                                {type} {subject}
-                                            </a>
-                                        </td>
-                                        <td>
-                                            {>userName}
-                                        </td>
-                                        <td>
-                                            {date}
-                                        </td>
-                                {/each}
-                            </tbody>
-                        </table>
-                    {/if}
+                            {/unless}
+                            {#each topics}
+                                <tr>
+                                    <td>
+                                        {#if locked}
+                                            <i class="glyphicon glyphicon-lock"></i>
+                                        {/if}
+                                        <a href="?page=forum&action=topic&id={id}">
+                                            {type} {subject}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        {>userName}
+                                    </td>
+                                    <td>
+                                        {date}
+                                    </td>
+                            {/each}
+                        </tbody>
+                    </table>
+
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination">
+                            {#each pages}
+                                <li {#if active}class="active"{/if}><a href="?page=forum&action=forum&id={id}&pageNumber={page}"><{name}></a></li>
+                            {/each}
+                        </ul>
+                    </nav>
+
                 </div>
             </div>
 
@@ -160,7 +169,7 @@
                         </small>
                     </h4>
                     {#each posts}
-                        <div class="well well-sm">
+                        <div class="well well-sm text-left">
                             <h5 class="text-left forum-header">
                                 {>userName}
                                 <small class="pull-right">
