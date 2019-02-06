@@ -4,7 +4,8 @@
         
         public $allowedMethods = array(
             "id" => array( "type" => "GET" ),
-        	"type" => array( "type" => "GET" ),
+            "type" => array( "type" => "GET" ),
+        	"pageNumber" => array( "type" => "GET" ),
         	"subject" => array( "type" => "POST" ),
         	"body" => array( "type" => "POST" ),
             "submit" => array( "type" => "POST" ), 
@@ -108,7 +109,7 @@
 
         public function getForum($id) {
 
-        	$forum = $this->db->prepare("SELECT 
+            $forum = $this->db->prepare("SELECT 
                 F_id as 'id', 
                 F_name as 'name' 
             FROM 
@@ -116,12 +117,12 @@
             WHERE
                 F_id = :id
             ");
-        	$forum->bindParam(":id", $id);
-        	$forum->execute();
-        	$forum = $forum->fetch(PDO::FETCH_ASSOC);
+            $forum->bindParam(":id", $id);
+            $forum->execute();
+            $forum = $forum->fetch(PDO::FETCH_ASSOC);
 
-	        if ($forum["id"]) {
-	        	return $forum;
+            if ($forum["id"]) {
+                return $forum;
 	        }
 
 	        return false;
@@ -129,6 +130,17 @@
         }
 
         public function getTopics($forum) {
+
+            $page = 1;
+            if (isset($this->methodData->pageNumber)) $page = abs(intval($this->methodData->pageNumber));
+            $perPage = 10;
+            $from = ($page - 1) * $perPage;
+
+            $count = $this->db->prepare("
+                SELECT CEIL(COUNT(*) / $perPage) as 'count' FROM topics WHERE T_forum = :forum
+            ");
+            $count->bindParam(":forum", $forum);
+            $count->execute();
             $topics = $this->db->prepare("
                 SELECT 
                     T_id as 'id', 
@@ -147,6 +159,7 @@
                 WHERE
                     T_forum = :forum
                 ORDER BY T_type DESC, T_date DESC
+                LIMIT $from, $perPage
             ");
 
             $topics->bindParam(":forum", $forum);
@@ -160,7 +173,49 @@
                 $topics[$key] = $topic;
             }
 
-            return $topics; 
+            return array(
+                "topics" => $topics,
+                "pages" => $this->buildPages($page, $count->fetch(PDO::FETCH_ASSOC)["count"], $forum)
+            ); 
+        }
+
+        /*<li>
+            <a href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <li>
+            <a href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>*/
+
+        public function buildPages($page, $pages, $id) {
+            $i = 1;
+            $rtn = array(
+                array(
+                    "name" => "&laquo;", 
+                    "page" => $page>1?$page-1:1, 
+                    "id" => $id, 
+                    "active" => 0
+                )
+            );
+            while ($i <= $pages) {
+                $rtn[] = array(
+                    "name" => $i, 
+                    "page" => $i, 
+                    "id" => $id, 
+                    "active" => $i == $page
+                );
+                $i++;
+            }
+            $rtn[] = array(
+                "name" => "&raquo;", 
+                "page" => $page==$pages?$pages:$page+1, 
+                "id" => $id, 
+                "active" => 0
+            );
+            return $rtn;
         }
 
         public function newTopic($forum, $user, $subject, $body) {
@@ -220,8 +275,11 @@
         		return $this->error("This forum does not exist!");
         	}
 
+            $topics = $this->getTopics($this->methodData->id);
+
         	$this->html .= $this->page->buildElement("topics", array(
-        		"topics" => $this->getTopics($this->methodData->id), 
+        		"topics" => $topics["topics"], 
+                "pages" => $topics["pages"],
                 "forumInfo" => $this->getForum($this->methodData->id),
         		"forum" => $this->methodData->id
         	));
