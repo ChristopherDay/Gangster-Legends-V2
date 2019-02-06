@@ -254,41 +254,9 @@
 
 			$page->addToTemplate('isAdmin', count($this->adminModules) != 0);
 			
-			if (($this->getTimer("crime")-time()) > 0) {
-				$page->addToTemplate('crime_timer', ($this->getTimer("crime")));
-			} else {
-				$page->addToTemplate('crime_timer', 0);
-			}
-			
-			if (($this->getTimer("theft")-time()) > 0) {
-				$page->addToTemplate('theft_timer', ($this->getTimer("theft")));
-			} else {
-				$page->addToTemplate('theft_timer', 0);
-			}
-			
-			if (($this->getTimer("chase")-time()) > 0) {
-				$page->addToTemplate('chase_timer', ($this->getTimer("chase")));
-			} else {
-				$page->addToTemplate('chase_timer', 0);
-			}
-			
-			if (($this->getTimer("jail")-time()) > 0) {
-				$page->addToTemplate('jail_timer', ($this->getTimer("jail")));
-			} else {
-				$page->addToTemplate('jail_timer', 0);
-			}
-			
-			if (($this->getTimer("bullets")-time()) > 0) {
-				$page->addToTemplate('bullet_timer', ($this->getTimer("bullets")));
-			} else {
-				$page->addToTemplate('bullet_timer', 0);
-			}
-			
-			if (($this->getTimer("travel")-time()) > 0) {
-				$page->addToTemplate('travel_timer', ($this->getTimer("travel")));
-			} else {
-				$page->addToTemplate('travel_timer', 0);
-			}
+			$hook = new Hook("userInformation");
+
+			$hook->run($this);
 			
 			$rank = $this->getRank();
 			$gang = $this->getGang();

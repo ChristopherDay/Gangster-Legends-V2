@@ -4,9 +4,9 @@
 
 		private function getItem($itemID = "all") {
 			if ($itemID == "all") {
-				$add = "";
+				$add = " WHERE I_type IN (1, 2)";
 			} else {
-				$add = " WHERE I_id = :id";
+				$add = " WHERE I_type IN (1, 2) AND I_id = :id";
 			}
 			
 			$item = $this->db->prepare("
