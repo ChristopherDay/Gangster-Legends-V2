@@ -78,6 +78,12 @@
                 $this->page->moduleView = $moduleViewFile;
             }
 
+            $moduleJSFile = "modules/installed/" . $adminModule . "/" . $adminModule . ".admin.script.js";
+
+            if (file_exists($moduleJSFile)) {
+                $this->page->addToTemplate("moduleJSFile", $moduleJSFile);
+            }
+
             $adminModule = new adminModule();
             $adminModule->db = $this->db;
             $adminModule->user = $this->user;

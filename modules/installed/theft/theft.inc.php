@@ -40,12 +40,6 @@
             ));
         }
         
-        public function timeLeft($ts) {
-        
-            return date('H:i:s', $ts);
-        
-        }
-        
         public function method_commit() {
             
             $id = abs(intval($this->methodData->id));
