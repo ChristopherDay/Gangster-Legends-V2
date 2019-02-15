@@ -210,6 +210,14 @@
             return date('l jS F H:i', $ts);
         }
         
+        
+        
+        public function error($text, $type = "error") {
+            $this->alerts[] = $this->page->buildElement($type, array(
+                "text" => $text
+            ));
+        }
+
     }
 
 ?>

@@ -165,8 +165,10 @@
 
 				if ($validateUserEmail) {
 					$this->sendActivationCode($email, $id, $username);
-					
 				}
+
+				$hook = new Hook("newUser");
+				$hook->run($id);
 				
 				return $id;
 				
@@ -412,6 +414,9 @@
                 	"rankName" => $newRank->R_name,
                 	"rewards" => $rewards
                 ));
+
+                $hook = new Hook("rankUp");
+				$hook->run($id);
 
                 $this->newNotification($text);
                 return $this->checkRank();
