@@ -5,6 +5,7 @@
         public $regError = "";
 
         public $allowedMethods = array(
+            'ref'=>array('type'=>'get'),
             'password'=>array('type'=>'post'),
             'cpassword'=>array('type'=>'post'),
             'username'=>array('type'=>'post'),
@@ -14,7 +15,6 @@
         public function constructModule() {
 			
 			global $regError;
-
 
             $settings = new settings();
             $this->page->addToTemplate("loginSuffix", $settings->loadSetting("registerSuffix"));
@@ -32,9 +32,14 @@
             $this->page->addToTemplate("usersOnline", number_format($usersOnline->fetch(PDO::FETCH_ASSOC)["count"]));
             $this->page->addToTemplate("users", number_format($users->fetch(PDO::FETCH_ASSOC)["count"]));
             
+            $ref = false;
+            if (isset($this->methodData->ref)) {
+                $ref = $this->methodData->ref;
+            }
             
             $this->html .= $this->page->buildElement('registerForm', array(
-                "text" => $this->regError
+                "text" => $this->regError, 
+                "ref" => $ref
             ));
             
         }
