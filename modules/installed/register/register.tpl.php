@@ -4,7 +4,7 @@
     
         public $registerForm = '
 			<{text}>
-            <form action="?page=register&action=register" method="post">
+            <form action="?page=register&action=register{#if ref}&ref={ref}{/if}" method="post">
                 <input class="form-control" type="text" name="username" placeholder="Username" /><br />
                 <input class="form-control" type="text" autocomplete="off" name="email" placeholder="EMail" /><br />
                 <div class="row">
