@@ -17,12 +17,6 @@
         
         public function constructModule() {}
 
-        public function error($text) {
-        	$this->html .= $this->page->buildElement("error", array(
-    			"text" => $text
-    		));
-        }
-
         public function getPost($id) {
             $post = $this->db->prepare("
                 SELECT
