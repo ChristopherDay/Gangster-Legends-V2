@@ -26,7 +26,7 @@
             return $rtn;
         }
         
-        public function if($matches) {
+        public function __if($matches) {
             $var = $matches[1];
             $template = $matches[2];
             $items = $this->items;
@@ -176,7 +176,7 @@
                 // process if blocks
                 $html = preg_replace_callback(
                     '#\{\#if (.+)\}(((?R)|.+)+)\{\/if}#iUsS', 
-                    array($this, "if"), 
+                    array($this, "__if"), 
                     $html
                 );
                 // process unless blocks

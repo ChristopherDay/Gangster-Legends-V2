@@ -1,5 +1,7 @@
 <?php
 
+	$__userCache = array();
+
 	class user {
 		
 		public $id, $info, $name, $db, $loggedin = false, $nextRank, $user;
@@ -7,7 +9,14 @@
 		// Pass the ID to the class
 		function __construct($id = FALSE, $name = FALSE) {
 
-            global $db;
+            global $db, $__userCache;
+			
+            if ($id && isset($__userCache[$id])) {
+				foreach(get_object_vars($__userCache[$id]) as $k => $v){
+					$this->{$k}=$v;
+				}
+            	return;
+            } 
 			
 			$this->db = $db;
 			
@@ -23,6 +32,8 @@
 	           	$this->nextRank = $this->checkRank();
 
 			}
+
+			$__userCache[$id] = &$this;
 
 		}	
 		

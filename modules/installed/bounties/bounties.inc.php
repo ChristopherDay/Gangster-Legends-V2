@@ -173,10 +173,6 @@
             ));
         }
 
-        public function error($text) {
-        	$this->alerts[] = $this->page->buildElement("error", array("text" => $text));
-        }
-
     }
 
 ?>
