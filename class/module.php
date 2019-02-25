@@ -44,7 +44,11 @@
         public function timeLeft($ts) {
             $oldTZ = date_default_timezone_get();
             date_default_timezone_set("UTC");
-            $ts = date('H:i:s', $ts);
+            if ($ts > 86400) {
+                $ts = date('j \D\a\y H:i:s', $ts);
+            } else {
+                $ts = date('H:i:s', $ts);
+            }
             date_default_timezone_set($oldTZ);
             return $ts; 
         }
