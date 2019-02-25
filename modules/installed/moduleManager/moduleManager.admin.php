@@ -30,7 +30,7 @@
 		private function viewInstall($moduleName) {
 			$moduleFolder = "modules/installing/$moduleName/";
 
-			chmod($moduleFolder, 0760);
+			chmod($moduleFolder, 0765);
 			$info = json_decode(file_get_contents($moduleFolder . "module.json"), true);
 			chmod($moduleFolder, 0440);
 			$info["id"] = $moduleName;
@@ -83,7 +83,7 @@
 				// Move files over
 				$oldDir = "modules/installing/" . $moduleName;
 				$newDir = "modules/installed/" . $moduleName;
-				chmod($oldDir, 0760);
+				chmod($oldDir, 0765);
 
 				$sqlFile = $installLocation . "schema.sql";
 				if (file_exists($sqlFile)) {
@@ -126,11 +126,11 @@
 				$installLocation = $installDir . $fileName . "/";
 
 				// Lock down $installDir to read/write for the php user only
-				chmod($installDir, 0760);
+				chmod($installDir, 0765);
 
 				//Remove previous install of this module
 				if (file_exists($installLocation)) { 
-					chmod($installLocation, 0760);
+					chmod($installLocation, 0765);
 					$this->removeDir($installLocation);
 				} else {
 					// Remake new directory
