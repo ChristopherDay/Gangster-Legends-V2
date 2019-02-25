@@ -161,10 +161,6 @@
 			));
 		}
 
-		public function error($text) {
-			$this->alerts[] = $this->page->buildElement("error", array("text" => $text));
-		}
-
 		public function success($text) {
 			$this->alerts[] = $this->page->buildElement("success", array("text" => $text));
 		}
