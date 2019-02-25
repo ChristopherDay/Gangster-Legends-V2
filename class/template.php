@@ -74,19 +74,20 @@
         ';
 
         public $propertyOwnership = '
+            {#unless closed}
+                {#if user}
+                    Owned by {>userName}
+                {/if}
+                {#unless user}
+                    No Owner - <a href="?page={module}&action=own">Buy property $1,000,000</a>
+                {/unless}
 
-            {#if user}
-                Owned by {>userName}
-            {/if}
-            {#unless user}
-                No Owner - <a href="?page={module}&action=own">Buy property $1,000,000</a>
+                {#if userOwnsThis}
+                    <hr />
+                    Profit: {profit} <br />
+                    <a href="?page=propertyManagement&module={module}">Manage Property</a>  
+                {/if}
             {/unless}
-
-            {#if userOwnsThis}
-                <hr />
-                Profit: {profit} <br />
-                <a href="?page=propertyManagement&module={module}">Manage Property</a>  
-            {/if}
         ';
 
         public $levelUpNotification = '
