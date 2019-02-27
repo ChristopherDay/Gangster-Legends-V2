@@ -10,7 +10,7 @@
 						<div class="panel-heading">Deposit</div>
 						<div class="panel-body">
 							<p style="height:54px; line-height:18px;">
-								To launder your money so it is safe to deposit in your bank account will cost you 15% of the ammount you are going to deposit!
+								To launder your money so it is safe to deposit in your bank account will cost you 15% of the amount you are going to deposit!
 							</p>
 							<p>
 								<input type="text" class="form-control" value="{deposit}" name="deposit" />
