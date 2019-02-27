@@ -45,10 +45,16 @@
 				);
 			}
 
+			$property["closed"] = false;
+
 			if ($property["user"]) {
-				$user = new User($property["user"]);
-				$property["user"] = $user->user;
-				$property["userOwnsThis"] = $user->id == $this->user->id;
+				if ($property["user"] == -1) {
+					$property["closed"] = true;
+				} else {
+					$user = new User($property["user"]);
+					$property["user"] = $user->user;
+					$property["userOwnsThis"] = $user->id == $this->user->id;
+				}
 			}
 
 			$property["_profit"] = $property["profit"];
