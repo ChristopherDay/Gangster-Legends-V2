@@ -10,7 +10,7 @@
             if (!$this->user->checkTimer('chase')) {
                 $time = $this->user->getTimer('chase');
                 $crimeError = array(
-                    "text"=>'You cant attempt another police chase untill your timer is up!',
+                    "text"=>'You cant attempt another police chase until your timer is up!',
                     "time" =>$this->user->getTimer("chase")
                 );
                 $this->html .= $this->page->buildElement('timer', $crimeError);
@@ -53,7 +53,7 @@
                     
                 } else {
                     
-                    $this->alerts[] = $this->page->buildElement('info', array("text"=>'You are still going, what dirrection do you want to go now?'));
+                    $this->alerts[] = $this->page->buildElement('info', array("text"=>'You are still going, what direction do you want to go now?'));
                 
                 }
                 
