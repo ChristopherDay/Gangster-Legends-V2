@@ -12,6 +12,9 @@ CREATE TABLE IF NOT EXISTS `crimes` (
   `C_cooldown` int(11) NOT NULL,
   `C_money` int(11) NOT NULL,
   `C_maxMoney` int(11) NOT NULL,
+  `C_bullets` int(11) NOT NULL DEFAULT 0,
+  `C_maxBullets` int(11) NOT NULL DEFAULT 0,
+  `C_exp` int(11) NOT NULL DEFAULT 1,
   `C_level` int(11) NOT NULL,
   PRIMARY KEY (`C_id`)
 ) DEFAULT CHARSET=utf8;
