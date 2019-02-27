@@ -13,9 +13,12 @@
 				SELECT
 					C_id as 'id',  
 					C_name as 'name',  
+					C_exp as 'exp',  
 					C_cooldown as 'cooldown',  
 					C_money as 'money',  
 					C_maxMoney as 'maxMoney',  
+					C_bullets as 'bullets',  
+					C_maxBullets as 'maxBullets',  
 					C_level as 'level'
 				FROM crimes" . $add . "
 				ORDER BY C_level, C_money"
@@ -65,13 +68,16 @@
 					}
 				} else {
 					$insert = $this->db->prepare("
-						INSERT INTO crimes (C_name, C_cooldown, C_money, C_maxMoney, C_level)  VALUES (:name, :cooldown, :money, :maxMoney, :level);
+						INSERT INTO crimes (C_name, C_cooldown, C_money, C_maxMoney, C_level, C_bullets, C_maxBullets, C_exp)  VALUES (:name, :cooldown, :money, :maxMoney, :level, :bullets, :maxBullets, :exp);
 					");
 					$insert->bindParam(":name", $this->methodData->name);
 					$insert->bindParam(":cooldown", $this->methodData->cooldown);
 					$insert->bindParam(":money", $this->methodData->money);
 					$insert->bindParam(":maxMoney", $this->methodData->maxMoney);
 					$insert->bindParam(":level", $this->methodData->level);
+					$insert->bindParam(":bullets", $this->methodData->bullets);
+					$insert->bindParam(":maxBullets", $this->methodData->maxBullets);
+					$insert->bindParam(":exp", $this->methodData->exp);
 					$insert->execute();
 
 
@@ -103,13 +109,16 @@
 					}
 				} else {
 					$update = $this->db->prepare("
-						UPDATE crimes SET C_name = :name, C_cooldown = :cooldown, C_money = :money, C_maxMoney = :maxMoney, C_level = :level WHERE C_id = :id
+						UPDATE crimes SET C_name = :name, C_cooldown = :cooldown, C_money = :money, C_maxMoney = :maxMoney, C_level = :level, C_bullets = :bullets, C_maxBullets = :maxBullets, C_exp = :exp WHERE C_id = :id
 					");
 					$update->bindParam(":name", $this->methodData->name);
 					$update->bindParam(":cooldown", $this->methodData->cooldown);
 					$update->bindParam(":money", $this->methodData->money);
 					$update->bindParam(":maxMoney", $this->methodData->maxMoney);
 					$update->bindParam(":level", $this->methodData->level);
+					$update->bindParam(":bullets", $this->methodData->bullets);
+					$update->bindParam(":maxBullets", $this->methodData->maxBullets);
+					$update->bindParam(":exp", $this->methodData->exp);
 					$update->bindParam(":id", $this->methodData->id);
 					$update->execute();
 

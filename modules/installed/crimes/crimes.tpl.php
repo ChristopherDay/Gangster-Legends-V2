@@ -42,6 +42,7 @@
                         <th width="120px">Cooldown</th>
                         <th width="120px">Reward</th>
                         <th width="70px">Level</th>
+                        <th width="70px">EXP</th>
                         <th width="100px">Actions</th>
                     </tr>
                 </thead>
@@ -52,6 +53,7 @@
                             <td>{cooldown} seconds</td>
                             <td>${money} - ${maxMoney}</td>
                             <td>{level}</td>
+                            <td>{exp}</td>
                             <td>
                                 [<a href="?page=admin&module=crimes&action=edit&id={id}">Edit</a>] 
                                 [<a href="?page=admin&module=crimes&action=delete&id={id}">Delete</a>]
@@ -80,21 +82,53 @@
                     <label class="pull-left">Crime Name</label>
                     <input type="text" class="form-control" name="name" value="{name}">
                 </div>
-                <div class="form-group">
-                    <label class="pull-left">Cooldown timer (seconds)</label>
-                    <input type="number" class="form-control" name="cooldown" value="{cooldown}">
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="pull-left">Min. money for successful crime</label>
+                            <input type="number" class="form-control" name="money" value="{money}">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="pull-left">Max. monney for successful crime</label>
+                            <input type="number" class="form-control" name="maxMoney" value="{maxMoney}">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="pull-left">Min. bullets for successful crime</label>
+                            <input type="number" class="form-control" name="bullets" value="{bullets}">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="pull-left">Max. bullets for successful crime</label>
+                            <input type="number" class="form-control" name="maxBullets" value="{maxBullets}">
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label class="pull-left">Minimum money for successful crime</label>
-                    <input type="number" class="form-control" name="money" value="{money}">
-                </div>
-                <div class="form-group">
-                    <label class="pull-left">Maximum monney for successful crime</label>
-                    <input type="number" class="form-control" name="maxMoney" value="{maxMoney}">
-                </div>
-                <div class="form-group">
-                    <label class="pull-left">Min user level to comit this crime</label>
-                    <input type="number" class="form-control" name="level" value="{level}">
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="pull-left">Cooldown (Seconds)</label>
+                            <input type="number" class="form-control" name="cooldown" value="{cooldown}">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="pull-left">EXP Gained</label>
+                            <input type="number" class="form-control" name="exp" value="{exp}">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="pull-left">Min user level to comit this crime</label>
+                            <input type="number" class="form-control" name="level" value="{level}">
+                        </div>
+                    </div>
                 </div>
                 <div class="text-right">
                     <button class="btn btn-default" name="submit" type="submit" value="1">Save</button>
