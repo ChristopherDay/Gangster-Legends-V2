@@ -277,7 +277,7 @@ class blackjack extends module {
 		if ($options["cost"]) $this->maxBet = $options["cost"];
 
 		if (isset($this->methodData->bet)) {
-			$bet = $this->methodData->bet;
+			$bet = (int) $this->methodData->bet;
 
 			if ($bet > $this->user->info->US_money) {
 				$this->html .= $this->page->buildElement("error", array(
