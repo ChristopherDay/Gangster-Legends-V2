@@ -10,6 +10,7 @@
             if (!$this->user->checkTimer('chase')) {
                 $time = $this->user->getTimer('chase');
                 $crimeError = array(
+                    "timer" => "chase",
                     "text"=>'You cant attempt another police chase until your timer is up!',
                     "time" =>$this->user->getTimer("chase")
                 );

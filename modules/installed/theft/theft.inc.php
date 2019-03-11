@@ -29,6 +29,7 @@
             if (!$this->user->checkTimer('theft')) {
                 $time = $this->user->getTimer('theft');
                 $crimeError = array(
+                    "timer" => "theft",
                     "text"=>"You cant attempt another theft untill your timer is up!",
                     "time" => $this->user->getTimer("theft")
                 );

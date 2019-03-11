@@ -12,6 +12,7 @@
                 
                 $time = ($this->user->getTimer('travel'));
                 $this->html .= $this->page->buildElement('timer', array(
+                    "timer" => "travel",
                     "text" => 'You cant travel yet!',
                     "time" => $this->user->getTimer("travel")
                 ));
