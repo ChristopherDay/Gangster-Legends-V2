@@ -33,6 +33,7 @@
             if (!$this->user->checkTimer('crime')) {
                 $time = $this->user->getTimer('crime');
                 $crimeError = array(
+                    "timer" => "crime",
                     "text"=>'You cant commit another crime untill your timer is up!',
                     "time" => $this->user->getTimer("crime")
                 );
