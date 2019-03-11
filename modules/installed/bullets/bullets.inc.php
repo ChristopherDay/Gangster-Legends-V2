@@ -93,6 +93,7 @@
                 $timeLeft = $this->timeLeft($timeLeft);
 
                 $error = array(
+                    "timer" => "bullets",
                     "text"=>'You have to wait to but more bullets!',
                     "time" => $this->user->getTimer("bullets")
                 );
