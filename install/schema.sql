@@ -114,7 +114,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `U_id` int(11) NOT NULL AUTO_INCREMENT,
   `U_name` varchar(30) NOT NULL,
   `U_email` varchar(100) NOT NULL,
-  `U_password` varchar(255) NOT NULL,
+  `U_password` varchar(255) NOT NULL DEFAULT '',
   `U_userLevel` int(1) NOT NULL,
   `U_status` int(1) NOT NULL,
   PRIMARY KEY (`U_id`)
