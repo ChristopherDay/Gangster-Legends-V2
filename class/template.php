@@ -40,7 +40,9 @@
                     $this->$templateName = $templateStructure;
                 }
             }
-            
+
+            $hook = new Hook("alterGlobalTemplate");
+            $hook->run($this);
         }
         
         /* Global elements */
