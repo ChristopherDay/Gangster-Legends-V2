@@ -156,23 +156,25 @@
 						<div class="col-md-3 navigation text-center"> 
 
 							{#each menus}
-								<div class="panel panel-default hidden-xs">
-									<div class="panel-heading">
-										{title}
-									</div>
-									<div class="panel-body">
-										{#each items}
-											{#if seperator}
-												<hr />
-											{/if}
-											{#unless seperator}
-												{#unless hide}
-													<a href="{url}">{text}</a> <br />
+								{#if items}
+									<div class="panel panel-default hidden-xs">
+										<div class="panel-heading">
+											{title}
+										</div>
+										<div class="panel-body">
+											{#each items}
+												{#if seperator}
+													<hr />
+												{/if}
+												{#unless seperator}
+													{#unless hide}
+														<a href="{url}">{text}</a> <br />
+													{/unless}
 												{/unless}
-											{/unless}
-										{/each}
+											{/each}
+										</div>
 									</div>
-								</div>
+								{/if}
 							{/each}
 
 						</div>
