@@ -25,7 +25,7 @@ INSERT INTO `locations` (`L_id`, `L_name`, `L_cost`, `L_bullets`, `L_bulletCost`
 (2, 'Paris', 200, 0, 100, 4200);
 
 INSERT INTO `notifications` (`N_id`, `N_uid`, `N_text`, `N_read`) VALUES
-(1, 1, 'dsfdsasdsadsds', 0);
+(1, 1, 'GL V2 installed successfully', 0);
 
 INSERT INTO `ranks` (`R_id`, `R_name`, `R_exp`, `R_limit`, `R_cashReward`, `R_bulletReward`, `R_health`) VALUES
 (1, 'Lowlife', 0, 0, 75, 25, 5000),
