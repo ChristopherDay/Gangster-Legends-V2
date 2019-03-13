@@ -94,7 +94,7 @@
 
                 $error = array(
                     "timer" => "bullets",
-                    "text"=>'You have to wait to but more bullets!',
+                    "text"=>'You have to wait to buy more bullets!',
                     "time" => $this->user->getTimer("bullets")
                 );
                 $this->html .= $this->page->buildElement('timer', $error);
@@ -170,7 +170,7 @@
                 $timeLeft = $this->timeLeft($timeLeft);
 
                 $error = array(
-                    "text"=>'You cany buy bullets yet!'
+                    "text"=>'You can\'t buy bullets yet!'
                 );
                 $this->alerts[] = $this->page->buildElement('error', $error);
                 
@@ -189,7 +189,7 @@
             } else {
             
                 $this->alerts[] = $this->page->buildElement('success', array(
-                    "text"=>'You brought '.$qty.' bullets for $'.number_format($cost)
+                    "text"=>'You bought '.$qty.' bullets for $'.number_format($cost)
                 ));
                 
                 $query = "
