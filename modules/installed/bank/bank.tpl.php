@@ -38,7 +38,28 @@
 					</div>
 				</div>
 			</div>
-		</form>';
+		</form>
+
+
+		<form method="post" action="?page=bank&action=transfer">
+			<div class="panel panel-default">
+				<div class="panel-heading">Transfer Money</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-md-6">
+							<input type="text" class="form-control" name="user" placeholder="Username" />
+						</div>
+						<div class="col-md-6">
+							<input type="number" class="form-control" name="money" placeholder="Money to transfer" />
+						</div>
+					</div>
+				</div>
+				<div class="text-center">
+					<button class="btn btn-default" name="submit" type="submit" value="1">Transfer</button>
+				</div>
+			</div>
+		</form>
+		';
         
     }
 

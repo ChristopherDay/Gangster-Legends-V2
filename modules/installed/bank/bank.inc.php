@@ -3,6 +3,8 @@
     class bank extends module {
         
         public $allowedMethods = array(
+			'user'=>array('type'=>'post'),
+			'money'=>array('type'=>'post'),
 			'deposit'=>array('type'=>'post'),
 			'withdraw'=>array('type'=>'post'),
 			'bank'=>array('type'=>'post')
@@ -16,6 +18,40 @@
 			));
             
         }
+
+		public function method_transfer() {
+
+			if (!isset($this->methodData->user)) {
+				return $this->error("This user does not exist");
+			}
+
+			if (!isset($this->methodData->money)) {
+				return $this->error("How many money do you want to send?");
+			}
+
+			$user = new User(null, $this->methodData->user);
+
+			if (!isset($user->info->U_id)) {
+				return $this->error("This user does not exist");
+			}
+
+			$money = abs(intval($this->methodData->money));
+
+			if (!$money) {
+				return $this->error("How much money do you want to send?");
+			}
+			
+			if ($money > $this->user->info->US_money) {
+				return $this->error("You dont have that much money");
+			}
+
+			$this->user->set("US_money", $this->user->info->US_money - $money);
+			$user->set("US_money", $user->info->US_money + $money);
+			$user->newNotification(htmlentities($this->user->info->U_name) . " has sent you $" . number_format($money));
+
+			$this->error("You have sent $" . number_format($money) . " to " . htmlentities($user->info->U_name), "success");
+
+		}
 		
 		public function method_process() {
 		
