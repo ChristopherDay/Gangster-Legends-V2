@@ -40,15 +40,15 @@
                         WHERE 
                             US_id = ".$this->user->id);
                     $u->execute();
-					
-					$this->user->updateTimer('chase', 300, true);
+                    
+                    $this->user->updateTimer('chase', 300, true);
                     
                     $this->alerts[] = $this->page->buildElement('success', array("text"=>'You got away, you were paid $'.number_format($winnings).'!'));
                     
                 } else if ($rand == 3) {
-                					
-					$this->user->updateTimer('jail', 150, true);
-					$this->user->updateTimer('chase', 300, true);
+                                    
+                    $this->user->updateTimer('jail', 150, true);
+                    $this->user->updateTimer('chase', 300, true);
                     
                     $this->alerts[] = $this->page->buildElement('error', array("text"=>'You crashed and was sent to jail!'));
                     

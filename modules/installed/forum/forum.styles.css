@@ -1,66 +1,66 @@
 .forum-header {
-	border-bottom: 1px solid #474747;
-	margin: 0px;
-	padding-bottom: 8px;
-	margin-bottom: 8px;
+    border-bottom: 1px solid #474747;
+    margin: 0px;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
 }
 
 .dropdown-toggle-hover {
-	display: inline-block;
+    display: inline-block;
 }
 
 .dropdown-toggle-hover:hover .dropdown-menu {
-	display: block;
-	margin-left: -162px;
-	width: 180px;
+    display: block;
+    margin-left: -162px;
+    width: 180px;
 }
 
 .quote {
-	background-color: #575757;
-	border: 1px solid #979797;
-	border-radius: 5px;
-	padding: 7px; 
+    background-color: #575757;
+    border: 1px solid #979797;
+    border-radius: 5px;
+    padding: 7px; 
 }
 
 
 @media (max-width: 767px) {
-	.forum-topics tr,
-	.forum-topics tr th,
-	.forum-topics tr td {
-		display: block;
-		float: left;
-		line-height: 25px !important;
-		padding: 0px 4px !important;
-		border: none !important;
-	}
-	.forum-topics tr:after {
-		content: "";
-		clear: both;
-	}
+    .forum-topics tr,
+    .forum-topics tr th,
+    .forum-topics tr td {
+        display: block;
+        float: left;
+        line-height: 25px !important;
+        padding: 0px 4px !important;
+        border: none !important;
+    }
+    .forum-topics tr:after {
+        content: "";
+        clear: both;
+    }
 
-	.forum-topics tr {
-		width: 100%;
-	}
-	.forum-topics tr th:nth-child(1),
-	.forum-topics tr td:nth-child(1) {
-		height: 25px;
-		width: 100%;
-	}
+    .forum-topics tr {
+        width: 100%;
+    }
+    .forum-topics tr th:nth-child(1),
+    .forum-topics tr td:nth-child(1) {
+        height: 25px;
+        width: 100%;
+    }
 
-	.forum-topics tr td:nth-child(2) {
-		height: 25px;
-		width: 33%;
-	}
-	
-	.forum-topics tr td:nth-child(3) {
-		width: 67%;
-		height: 25px;
-		font-size: 11px;
-		text-align: right;
-	}
-	.forum-topics tr th:nth-child(3),
-	.forum-topics tr th:nth-child(2) {
-		display: none;
-	}
+    .forum-topics tr td:nth-child(2) {
+        height: 25px;
+        width: 33%;
+    }
+    
+    .forum-topics tr td:nth-child(3) {
+        width: 67%;
+        height: 25px;
+        font-size: 11px;
+        text-align: right;
+    }
+    .forum-topics tr th:nth-child(3),
+    .forum-topics tr th:nth-child(2) {
+        display: none;
+    }
 
 }

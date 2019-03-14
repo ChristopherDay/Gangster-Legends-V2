@@ -3,8 +3,8 @@
     class theft extends module {
         
         public $allowedMethods = array('id'=>array('type'=>'get'));
-		
-		public $pageName = 'Car Theft';
+        
+        public $pageName = 'Car Theft';
         
         public function constructModule() {
             
@@ -90,7 +90,7 @@
                     
                 }
 
-				$this->user->updateTimer('theft', $theftTime, true);
+                $this->user->updateTimer('theft', $theftTime, true);
                 
                 if ($chance > $userChance && $jailChance == 1) {
                     $this->alerts[] = $this->page->buildElement('error', array(

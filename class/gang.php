@@ -1,22 +1,22 @@
 <?php
 
-	class Gang {
+    class Gang {
 
-		public $id;
+        public $id;
 
-		public $gang;
+        public $gang;
 
-		public function __construct ($gangID) {
-			global $user, $db;
+        public function __construct ($gangID) {
+            global $user, $db;
 
-			$this->id = $gangID;
-			$this->user = $user;
-			$this->db = $db;
-			$this->gang = $this->getGang();
-		}
+            $this->id = $gangID;
+            $this->user = $user;
+            $this->db = $db;
+            $this->gang = $this->getGang();
+        }
 
         public function log($text, $user = false) {
-			if (!$user) $user = $this->user;
+            if (!$user) $user = $this->user;
 
             $log = $this->db->prepare("
                 INSERT INTO gangLogs (GL_gang, GL_time, GL_user, GL_log) VALUES (:g, UNIX_TIMESTAMP(), :u, :t);
@@ -31,27 +31,27 @@
 
             if (!$user) $user = $this->user;
 
-			if (!$this->id) return false;
-			if ($this->id != $user->info->US_gang) return false;
-			if (($doWhat == "destroy" || $doWhat == "changeBoss") && $user->id != $this->gang["boss"]) return false;
-			if ($user->id == $this->gang["boss"] || $user->id == $this->gang["underboss"]) return true;
+            if (!$this->id) return false;
+            if ($this->id != $user->info->US_gang) return false;
+            if (($doWhat == "destroy" || $doWhat == "changeBoss") && $user->id != $this->gang["boss"]) return false;
+            if ($user->id == $this->gang["boss"] || $user->id == $this->gang["underboss"]) return true;
 
-			$access = $this->db->prepare("
-				SELECT * FROM gangPermissions WHERE GP_user = :user AND GP_access = :doWhat 
-			");
-			$access->bindParam(":user", $user->id);
-			$access->bindParam(":doWhat", $doWhat);
-			$access->execute();
+            $access = $this->db->prepare("
+                SELECT * FROM gangPermissions WHERE GP_user = :user AND GP_access = :doWhat 
+            ");
+            $access->bindParam(":user", $user->id);
+            $access->bindParam(":doWhat", $doWhat);
+            $access->execute();
 
-			$access = $access->fetch(PDO::FETCH_ASSOC);
+            $access = $access->fetch(PDO::FETCH_ASSOC);
 
-			return !!$access["GP_user"];
+            return !!$access["GP_user"];
 
-		}
+        }
 
-		public function getGang() {
+        public function getGang() {
 
-			if (!$this->id) return;
+            if (!$this->id) return;
 
             $gang = $this->db->prepare("
                 SELECT 
@@ -116,6 +116,6 @@
 
             return $members;
         }
-	}
+    }
 
 ?>

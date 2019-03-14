@@ -3,8 +3,8 @@
     class news extends module {
         
         public $allowedMethods = array();
-		
-		public $pageName = 'Welcome back';
+        
+        public $pageName = 'Welcome back';
         
         public function constructModule() {
 
@@ -20,7 +20,7 @@
 
             $this->page->addToTemplate("usersOnline", number_format($usersOnline->fetch(PDO::FETCH_ASSOC)["count"]));
             $this->page->addToTemplate("users", number_format($users->fetch(PDO::FETCH_ASSOC)["count"]));
-			
+            
             $news = $this->db->prepare("
                 SELECT * FROM gameNews INNER JOIN users ON (GN_author = U_id) ORDER BY GN_date DESC LIMIT 0, 10
             ");
@@ -43,7 +43,7 @@
             $this->html .= $this->page->buildElement('newsArticle', array(
                 "news" => $articleInfo
             ));
-		
+        
         }
         
     }

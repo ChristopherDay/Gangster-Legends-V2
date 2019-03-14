@@ -1,7 +1,7 @@
 <?php
 
 
-	$roleForm = '
+    $roleForm = '
         <form method="post" action="?page=admin&module=userRoles&action={editType}&id={id}">
             <div class="row">
                 <div class="col-md-10">
@@ -44,14 +44,14 @@
 
 
     function parse($html) {
-	    $html = preg_replace_callback(
-	        '#\{\#if (.+)\}(((?R)|.+)+)\{\/if}#iUs', 
-	        function ($a) {
-	        	htmlentities(print_r(parse($a), true));
-	        }, 
-	        $html
-	    );
-	    return $html;
+        $html = preg_replace_callback(
+            '#\{\#if (.+)\}(((?R)|.+)+)\{\/if}#iUs', 
+            function ($a) {
+                htmlentities(print_r(parse($a), true));
+            }, 
+            $html
+        );
+        return $html;
     }
 
     echo "<pre>" . parse($roleForm);
