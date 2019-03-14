@@ -5,10 +5,10 @@
         public $allowedMethods = array(
             "module" => array( "type" => "GET" ),
             "transfer" => array( "type" => "POST" ),
-        	"cost" => array( "type" => "POST" )
+            "cost" => array( "type" => "POST" )
         );
-		
-		public $pageName = '';
+        
+        public $pageName = '';
         
         public function constructModule() {
             if (!isset($this->methodData->module)) {

@@ -3,9 +3,9 @@
     class newsTemplate extends template {
         
         public $newsArticle = '
-        	{#each news}
+            {#each news}
                 <div class="well well-sm">
-    	        	<h3>
+                    <h3>
                         {title} 
                         <small class="pull-right tiny">
                             By {>userName}<br />
@@ -13,9 +13,9 @@
                         </small>
                     </h3>
                     <hr />
-    	        	<p>[{text}]</p>
+                    <p>[{text}]</p>
                 </div>
-        	{/each}
+            {/each}
         ';
     }
 

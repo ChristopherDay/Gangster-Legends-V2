@@ -3,8 +3,8 @@
     class garage extends module {
         
         public $allowedMethods = array('id'=>array('type'=>'get'));
-		
-		public $pageName = 'Garage';
+        
+        public $pageName = 'Garage';
         
         public function constructModule() {
             

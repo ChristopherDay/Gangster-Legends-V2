@@ -1,8 +1,8 @@
 .overflow {
-	max-height: 300px;
-	overflow-y: auto;
+    max-height: 300px;
+    overflow-y: auto;
 }
 
 .stats-table {
-	margin-bottom: 0px;
+    margin-bottom: 0px;
 }

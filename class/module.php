@@ -68,7 +68,7 @@
         private function buildMethodData() {
         
             $data = $this->allowedMethods;
-			
+            
             if ($data == "*") {
 
                 foreach ($_GET as $key => $value) {
@@ -82,8 +82,8 @@
             }
 
             foreach ($data as $key => $val) {
-				
-				if (strtolower($val['type']) == 'get') {
+                
+                if (strtolower($val['type']) == 'get') {
                     if (isset($_GET[$key])) {
                       @$this->methodData->$key = $_GET[$key];
                     }

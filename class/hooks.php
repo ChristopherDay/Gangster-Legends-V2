@@ -1,43 +1,43 @@
 <?php
 
-	$hooks = array();
+    $hooks = array();
 
-	class hook {
-		private $hookName = null;
-		public $args;
-		public function __construct($hookName, $callback = false) {
-			global $hooks;
+    class hook {
+        private $hookName = null;
+        public $args;
+        public function __construct($hookName, $callback = false) {
+            global $hooks;
 
-			$this->args = func_get_args();
+            $this->args = func_get_args();
 
-			$this->hookName = $hookName;
+            $this->hookName = $hookName;
 
-			if (!isset($hooks[$hookName])) {
-				$hooks[$hookName] = array();
-			}			
+            if (!isset($hooks[$hookName])) {
+                $hooks[$hookName] = array();
+            }            
 
-			if ($callback) $hooks[$hookName][] = $callback;
+            if ($callback) $hooks[$hookName][] = $callback;
 
-			return $this;
+            return $this;
 
-		}
+        }
 
-		public function run(&$opts, $returnSingleItem = false) {
-			global $hooks;
-			if ($returnSingleItem) {
-				$rtn = array();
-			} else {
-				$rtn = null;
-			}
+        public function run(&$opts, $returnSingleItem = false) {
+            global $hooks;
+            if ($returnSingleItem) {
+                $rtn = array();
+            } else {
+                $rtn = null;
+            }
 
-			foreach ($hooks[$this->hookName] as $hook) {
-				if ($returnSingleItem) {
-					$opts = $hook($opts);
-					$rtn = $opts;
-				} else {
-					$rtn[] = $hook($opts);
-				}
-			}
-			return $rtn;
-		}
-	}
+            foreach ($hooks[$this->hookName] as $hook) {
+                if ($returnSingleItem) {
+                    $opts = $hook($opts);
+                    $rtn = $opts;
+                } else {
+                    $rtn[] = $hook($opts);
+                }
+            }
+            return $rtn;
+        }
+    }

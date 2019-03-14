@@ -144,7 +144,7 @@
 
             if (!$this->user->checkTimer("jail")) {
                 $inSuperMax = $this->user->getTimer("jail") == $this->user->getTimer("superMax")?"super max":"jail";
-            	$this->alerts[] = $this->page->buildElement('timer', array(
+                $this->alerts[] = $this->page->buildElement('timer', array(
                     "timer" => ($inSuperMax=="super max")?"superMax":"jail",
                     "text" => 'You are in '.$inSuperMax,
                     "time" => $this->user->getTimer("jail")
@@ -154,11 +154,11 @@
             $users = $this->getJailUsers();
 
             $this->html .= $this->page->buildElement("jailUsers", 
-	        	array(
-	        		"users" => $users, 
+                array(
+                    "users" => $users, 
                     "location" => $this->user->getLocation()
-		        )
-	        );
+                )
+            );
         }
         
     }

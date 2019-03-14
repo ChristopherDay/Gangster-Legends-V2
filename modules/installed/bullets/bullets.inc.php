@@ -154,7 +154,7 @@
             if (!!$owner["cost"]) {
                 $this->setCost($owner["cost"]);
             }
-			
+            
             $cost = ($qty * $this->bulletCost);
             $maxBuy = $this->user->info->US_rank * 25;
             
@@ -199,12 +199,12 @@
                     WHERE
                         US_id = :id
                 "; 
-				
+                
                 $uUser = $this->db->prepare($query);
                 $uUser->bindParam(":money", $cost);
                 $uUser->bindParam(":id", $this->user->id);
                 $uUser->execute();
-				
+                
                 if ($owner["user"]) {
                     $profit = $cost * 0.5;
                     $this->property->updateProfit($profit);
@@ -214,11 +214,11 @@
                     $uUser->execute();
                 }
 
-				$this->user->updateTimer('bullets', 60, true);
-				
+                $this->user->updateTimer('bullets', 60, true);
+                
                 $uLoc = $this->db->prepare("UPDATE locations SET L_bullets = L_bullets - $qty WHERE L_id= :loc");
                 $uLoc->bindParam(":loc", $loc->L_id);
-				$uLoc->execute();
+                $uLoc->execute();
             }
             
         }

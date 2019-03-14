@@ -1,9 +1,9 @@
 /* card layout */ 
 .card {
-	width: 71px;
-	height: 96px;
-	display: inline-block;
-	background-image: url("cards.png");
+    width: 71px;
+    height: 96px;
+    display: inline-block;
+    background-image: url("cards.png");
 }
 
 

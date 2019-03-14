@@ -1,15 +1,15 @@
 <?php
 
-	class dead extends module {
-		
-		public $allowedMethods = array(
+    class dead extends module {
+        
+        public $allowedMethods = array(
             "username" => array( "type" => "post" ),
-			"password" => array( "type" => "post" )
-		);
-		
-		public $pageName = '';
+            "password" => array( "type" => "post" )
+        );
+        
+        public $pageName = '';
 
-		public function method_new() {
+        public function method_new() {
 
             $user = new User(false, $this->methodData->username);
 
@@ -25,16 +25,16 @@
                 ));
             } 
 
-			$addUser = $this->db->prepare("
-				INSERT INTO users (U_name, U_email, U_userLevel, U_status) 
-				VALUES (:username, :email, :userLevel, 1)
-			");
-			$addUser->bindParam(':username', $this->methodData->username);
+            $addUser = $this->db->prepare("
+                INSERT INTO users (U_name, U_email, U_userLevel, U_status) 
+                VALUES (:username, :email, :userLevel, 1)
+            ");
+            $addUser->bindParam(':username', $this->methodData->username);
             $addUser->bindParam(':email', $this->user->info->U_email);
             $addUser->bindParam(':userLevel', $this->user->info->U_userLevel);
-			$addUser->execute();
+            $addUser->execute();
 
-			$id = $this->db->lastInsertId();
+            $id = $this->db->lastInsertId();
 
             $encryptedPassword = $this->user->encrypt($id . $this->methodData->password);
 
@@ -45,23 +45,23 @@
             $addUserPassword->bindParam(':password', $encryptedPassword);
             $addUserPassword->execute();
 
-			$this->db->query("INSERT INTO userStats (US_id) VALUES (" . $id . ")");
+            $this->db->query("INSERT INTO userStats (US_id) VALUES (" . $id . ")");
 
             $_SESSION['userID'] = $id;
 
             header("Location:?");
 
-		}
-		
-		public function constructModule() {
+        }
+        
+        public function constructModule() {
             
-			$killer = new User($this->user->info->US_shotBy);
+            $killer = new User($this->user->info->US_shotBy);
 
-			$this->html .= $this->page->buildElement("newAccount", array(
-				"user" => $killer->user
-			));
-		}
-		
-	}
+            $this->html .= $this->page->buildElement("newAccount", array(
+                "user" => $killer->user
+            ));
+        }
+        
+    }
 
 ?>
