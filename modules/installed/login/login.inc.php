@@ -55,7 +55,7 @@
                     $this->loginError = $this->page->buildElement('error', array("text" => 'You have entered a wrong email/password!'));;
                 }
             } else {
-                $this->loginError = $this->page->buildElement('error', array("text" => 'You have entered a wrong email/password!'));	
+                $this->loginError = $this->page->buildElement('error', array("text" => 'You have entered a wrong email/password!'));    
             }
             
         }

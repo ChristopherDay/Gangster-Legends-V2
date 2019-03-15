@@ -5,62 +5,62 @@
         public $allowedMethods = array(
             "id" => array( "type" => "GET" ),
             "name" => array( "type" => "REQUEST" ),
-        	"reply" => array( "type" => "GET" ),
-        	"message" => array( "type" => "POST" ),
-        	"subject" => array( "type" => "POST" )
+            "reply" => array( "type" => "GET" ),
+            "message" => array( "type" => "POST" ),
+            "subject" => array( "type" => "POST" )
         );
-		
-		public $pageName = '';
         
-		public function getMailList($type = 'M_uid', $id = false) {
-			$add = "$type = :user";
-			
-			if ($id) {
-				$add = "M_id = :id AND (M_sid = :user OR M_uid = :user)";
-			}
+        public $pageName = '';
+        
+        public function getMailList($type = 'M_uid', $id = false) {
+            $add = "$type = :user";
+            
+            if ($id) {
+                $add = "M_id = :id AND (M_sid = :user OR M_uid = :user)";
+            }
 
-			$mail = $this->db->prepare("
-				SELECT
-					M_id as 'id', 
-					M_time as 'time', 
-					M_sid as 'sender', 
-					M_uid as 'receiver', 
-					M_subject as 'subject', 
-					M_text as 'text', 
-					M_type as 'type', 
-					M_read as 'read' 
-				FROM mail WHERE $add ORDER BY M_time DESC
-			");
-			$mail->bindParam(":user", $this->user->id);
+            $mail = $this->db->prepare("
+                SELECT
+                    M_id as 'id', 
+                    M_time as 'time', 
+                    M_sid as 'sender', 
+                    M_uid as 'receiver', 
+                    M_subject as 'subject', 
+                    M_text as 'text', 
+                    M_type as 'type', 
+                    M_read as 'read' 
+                FROM mail WHERE $add ORDER BY M_time DESC
+            ");
+            $mail->bindParam(":user", $this->user->id);
 
-			if ($id) {
-				$mail->bindParam(":id", $id);
-			}
+            if ($id) {
+                $mail->bindParam(":id", $id);
+            }
 
-			$mail->execute();
-			$allMail = $mail->fetchAll(PDO::FETCH_ASSOC);
+            $mail->execute();
+            $allMail = $mail->fetchAll(PDO::FETCH_ASSOC);
 
-			foreach ($allMail as $key => $mail) {
+            foreach ($allMail as $key => $mail) {
 
                 if ($type == 'M_sid') {
-    				$receiver = new User($mail["receiver"]);
-    				$mail["user"] = (array) $receiver->user;
+                    $receiver = new User($mail["receiver"]);
+                    $mail["user"] = (array) $receiver->user;
                 } else {
-    				$sender = new User($mail["sender"]);
-    				$mail["user"] = (array) $sender->user;
+                    $sender = new User($mail["sender"]);
+                    $mail["user"] = (array) $sender->user;
                 }
 
 
-				$mail["date"] = date("jS M H:i", $mail["time"]);
+                $mail["date"] = date("jS M H:i", $mail["time"]);
 
-				$allMail[$key] = $mail;
-			}
+                $allMail[$key] = $mail;
+            }
 
-			return $allMail; 
-		}
+            return $allMail; 
+        }
 
         public function constructModule() {
-        	if (!isset($this->methodData->action)) $this->method_inbox();
+            if (!isset($this->methodData->action)) $this->method_inbox();
         }
 
         public function method_read () {

@@ -1,111 +1,111 @@
 <?php
 
-	class Property {
+    class Property {
 
-		private $user, $db, $module;
+        private $user, $db, $module;
 
-		public function __construct($user, $module) {
-			$this ->db = $user->db;
-			$this->user = $user;
-			$this->module = $module;
-		}
+        public function __construct($user, $module) {
+            $this ->db = $user->db;
+            $this->user = $user;
+            $this->module = $module;
+        }
 
-		public function getOwnership() {
+        public function getOwnership() {
 
-			$property = $this->db->prepare("
-				SELECT
-					PR_id as 'id', 
-					PR_location as 'location',
-					PR_module as 'module', 
-					PR_user as 'user', 
-					PR_profit as 'profit', 
-					PR_cost as 'cost'
-				FROM 
-					properties
-				WHERE 
-					PR_location = :location AND 
-					PR_module = :module
-			");
+            $property = $this->db->prepare("
+                SELECT
+                    PR_id as 'id', 
+                    PR_location as 'location',
+                    PR_module as 'module', 
+                    PR_user as 'user', 
+                    PR_profit as 'profit', 
+                    PR_cost as 'cost'
+                FROM 
+                    properties
+                WHERE 
+                    PR_location = :location AND 
+                    PR_module = :module
+            ");
 
-			$property->bindParam(":location", $this->user->info->US_location);
-			$property->bindParam(":module", $this->module);
-			$property->execute();
+            $property->bindParam(":location", $this->user->info->US_location);
+            $property->bindParam(":module", $this->module);
+            $property->execute();
 
-			$property = $property->fetch(PDO::FETCH_ASSOC);
+            $property = $property->fetch(PDO::FETCH_ASSOC);
 
-			if (!isset($property["id"])) {
-				return array(
-					"id" => 0, 
-					"location" => $this->user->info->US_location, 
-					"module" => $this->module, 
-					"user" => 0, 
-					"profit" => 0,
-					"cost" => 0,
-					"userOwnsThis" => false
-				);
-			}
+            if (!isset($property["id"])) {
+                return array(
+                    "id" => 0, 
+                    "location" => $this->user->info->US_location, 
+                    "module" => $this->module, 
+                    "user" => 0, 
+                    "profit" => 0,
+                    "cost" => 0,
+                    "userOwnsThis" => false
+                );
+            }
 
-			$property["closed"] = false;
+            $property["closed"] = false;
 
-			if ($property["user"]) {
-				if ($property["user"] == -1) {
-					$property["closed"] = true;
-				} else {
-					$user = new User($property["user"]);
-					$property["user"] = $user->user;
-					$property["userOwnsThis"] = $user->id == $this->user->id;
-				}
-			}
+            if ($property["user"]) {
+                if ($property["user"] == -1) {
+                    $property["closed"] = true;
+                } else {
+                    $user = new User($property["user"]);
+                    $property["user"] = $user->user;
+                    $property["userOwnsThis"] = $user->id == $this->user->id;
+                }
+            }
 
-			$property["_profit"] = $property["profit"];
-			$property["profit"] = "$" . number_format($property["profit"]);
+            $property["_profit"] = $property["profit"];
+            $property["profit"] = "$" . number_format($property["profit"]);
 
-			return $property;
+            return $property;
 
-		}
+        }
 
-		public function updateProfit($money) {
-			$update = $this->db->prepare("
-				UPDATE  
-					properties 
-				SET 
-					PR_profit = PR_profit + :cash 
-				WHERE 
-					PR_location = :location AND 
-					PR_module = :module;
-			");
-			$update->bindParam(":cash", $money);
-			$update->bindParam(":location", $this->user->info->US_location);
-			$update->bindParam(":module", $this->module);
-			$update->execute();
-		}
+        public function updateProfit($money) {
+            $update = $this->db->prepare("
+                UPDATE  
+                    properties 
+                SET 
+                    PR_profit = PR_profit + :cash 
+                WHERE 
+                    PR_location = :location AND 
+                    PR_module = :module;
+            ");
+            $update->bindParam(":cash", $money);
+            $update->bindParam(":location", $this->user->info->US_location);
+            $update->bindParam(":module", $this->module);
+            $update->execute();
+        }
 
-		public function transfer($newOwner) {
+        public function transfer($newOwner) {
 
-			$currentOwner = $this->getOwnership();
+            $currentOwner = $this->getOwnership();
 
-			if ($currentOwner["user"]) {
-				$query = "UPDATE  properties SET PR_user = :user WHERE PR_location = :location AND PR_module = :module;";
-			} else {
-				$query = "INSERT INTO properties (PR_location, PR_module, PR_user) VALUES (:location, :module, :user);";
-			}
+            if ($currentOwner["user"]) {
+                $query = "UPDATE  properties SET PR_user = :user WHERE PR_location = :location AND PR_module = :module;";
+            } else {
+                $query = "INSERT INTO properties (PR_location, PR_module, PR_user) VALUES (:location, :module, :user);";
+            }
 
-			$transfer = $this->db->prepare($query);
-			$transfer->bindParam(":location", $this->user->info->US_location);
-			$transfer->bindParam(":module", $this->module);
-			$transfer->bindParam(":user", $newOwner);
-			$transfer->execute();
+            $transfer = $this->db->prepare($query);
+            $transfer->bindParam(":location", $this->user->info->US_location);
+            $transfer->bindParam(":module", $this->module);
+            $transfer->bindParam(":user", $newOwner);
+            $transfer->execute();
 
-		}
+        }
 
-		public function setCost($newCost) {
-			$update = $this->db->prepare("UPDATE properties SET PR_cost = :cost WHERE PR_location = :location AND PR_module = :module;");
-			$update->bindParam(":location", $this->user->info->US_location);
-			$update->bindParam(":module", $this->module);
-			$update->bindParam(":cost", $newCost);
-			$update->execute();
-		}
+        public function setCost($newCost) {
+            $update = $this->db->prepare("UPDATE properties SET PR_cost = :cost WHERE PR_location = :location AND PR_module = :module;");
+            $update->bindParam(":location", $this->user->info->US_location);
+            $update->bindParam(":module", $this->module);
+            $update->bindParam(":cost", $newCost);
+            $update->execute();
+        }
 
-	}
+    }
 
 ?>

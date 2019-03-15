@@ -8,9 +8,9 @@
  * Date: 2018-02-20T00:34Z
  */
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('jquery')) :
-	typeof define === 'function' && define.amd ? define(['jquery'], factory) :
-	(factory(global.jQuery));
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('jquery')) :
+    typeof define === 'function' && define.amd ? define(['jquery'], factory) :
+    (factory(global.jQuery));
 }(this, (function ($$1) { 'use strict';
 
 $$1 = $$1 && $$1.hasOwnProperty('default') ? $$1['default'] : $$1;

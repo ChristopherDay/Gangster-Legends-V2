@@ -3,9 +3,9 @@
     class loggedinTemplate extends template {
         
         public $newsArticle = '
-        	{#each news}
+            {#each news}
                 <div class="well well-sm">
-    	        	<h4>
+                    <h4>
                         {title} 
                         <small class="pull-right tiny">
                             By {>userName} {date}
@@ -13,9 +13,9 @@
                         <div class="clearfix"></div>
                     </h4>
                     <hr />
-    	        	<p>[{text}]</p>
+                    <p>[{text}]</p>
                 </div>
-        	{/each}
+            {/each}
         ';
   
 

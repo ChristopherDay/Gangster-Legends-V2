@@ -9,7 +9,7 @@
                 <title>{game_name} - {page}</title>
                 <link rel="stylesheet" href="themes/{_theme}/css/bootstrap.min.css">
                 <link rel="stylesheet" href="themes/{_theme}/css/style.css">
-        		<link rel="shortcut icon" href="themes/{_theme}/images/icon.png" />
+                <link rel="shortcut icon" href="themes/{_theme}/images/icon.png" />
                 <meta name="viewport" content="width=device-width, initial-scale=1">
             </head>
             

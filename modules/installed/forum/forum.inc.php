@@ -5,15 +5,15 @@
         public $allowedMethods = array(
             "id" => array( "type" => "GET" ),
             "type" => array( "type" => "GET" ),
-        	"pageNumber" => array( "type" => "GET" ),
-        	"subject" => array( "type" => "POST" ),
-        	"body" => array( "type" => "POST" ),
+            "pageNumber" => array( "type" => "GET" ),
+            "subject" => array( "type" => "POST" ),
+            "body" => array( "type" => "POST" ),
             "submit" => array( "type" => "POST" ), 
-        	"time" => array( "type" => "POST" ), 
+            "time" => array( "type" => "POST" ), 
             "quote" => array("type" => "GET" )
         );
-		
-		public $pageName = '';
+        
+        public $pageName = '';
         
         public function constructModule() {}
 
@@ -117,9 +117,9 @@
 
             if ($forum["id"]) {
                 return $forum;
-	        }
+            }
 
-	        return false;
+            return false;
 
         }
 
@@ -213,116 +213,116 @@
         }
 
         public function newTopic($forum, $user, $subject, $body) {
-        	$insert = $this->db->prepare("
-        		INSERT INTO topics (
-        			T_date, 
-        			T_user, 
-        			T_subject, 
-        			T_forum
-        		) VALUES (
-	        		UNIX_TIMESTAMP(), 
-	        		:user, 
-	        		:subject, 
-	        		:forum
-        		);
-        	");
-        	$insert->bindParam(":user", $user);
-        	$insert->bindParam(":subject", $subject);
-        	$insert->bindParam(":forum", $forum);
-        	$insert->execute();
+            $insert = $this->db->prepare("
+                INSERT INTO topics (
+                    T_date, 
+                    T_user, 
+                    T_subject, 
+                    T_forum
+                ) VALUES (
+                    UNIX_TIMESTAMP(), 
+                    :user, 
+                    :subject, 
+                    :forum
+                );
+            ");
+            $insert->bindParam(":user", $user);
+            $insert->bindParam(":subject", $subject);
+            $insert->bindParam(":forum", $forum);
+            $insert->execute();
 
-        	$topic = $this->db->lastInsertId();
+            $topic = $this->db->lastInsertId();
 
-        	$this->newPost($topic, $user, $body);
+            $this->newPost($topic, $user, $body);
 
-        	return $topic;
+            return $topic;
 
         }
 
         public function newPost($topic, $user, $body) {
-        	$insert = $this->db->prepare("
-        		INSERT INTO posts (
-        			P_date, 
-        			P_user, 
-        			P_body, 
-        			P_topic
-        		) VALUES (
-	        		UNIX_TIMESTAMP(), 
-	        		:user, 
-	        		:body, 
-	        		:topic
-        		);
-        	");
-        	$insert->bindParam(":user", $user);
-        	$insert->bindParam(":body", $body);
-        	$insert->bindParam(":topic", $topic);
-        	$insert->execute();
+            $insert = $this->db->prepare("
+                INSERT INTO posts (
+                    P_date, 
+                    P_user, 
+                    P_body, 
+                    P_topic
+                ) VALUES (
+                    UNIX_TIMESTAMP(), 
+                    :user, 
+                    :body, 
+                    :topic
+                );
+            ");
+            $insert->bindParam(":user", $user);
+            $insert->bindParam(":body", $body);
+            $insert->bindParam(":topic", $topic);
+            $insert->execute();
 
-        	return $this->db->lastInsertId();
-        	
+            return $this->db->lastInsertId();
+            
         }
 
         public function method_forum() {
-        	$forum = $this->getForum($this->methodData->id);
+            $forum = $this->getForum($this->methodData->id);
 
-        	if (!$forum) {
-        		return $this->error("This forum does not exist!");
-        	}
+            if (!$forum) {
+                return $this->error("This forum does not exist!");
+            }
 
             $topics = $this->getTopics($this->methodData->id);
 
-        	$this->html .= $this->page->buildElement("topics", array(
-        		"topics" => $topics["topics"], 
+            $this->html .= $this->page->buildElement("topics", array(
+                "topics" => $topics["topics"], 
                 "pages" => $topics["pages"],
                 "forumInfo" => $this->getForum($this->methodData->id),
-        		"forum" => $this->methodData->id
-        	));
+                "forum" => $this->methodData->id
+            ));
         }
 
         public function method_new() {
-        	$forum = $this->getForum($this->methodData->id);
+            $forum = $this->getForum($this->methodData->id);
 
-        	$params = array(
-        		"forum" => $this->methodData->id
-        	);
+            $params = array(
+                "forum" => $this->methodData->id
+            );
 
-        	if (!$forum) {
-        		return $this->error("This forum does not exist!");
-        	}
+            if (!$forum) {
+                return $this->error("This forum does not exist!");
+            }
 
-        	if (isset($this->methodData->submit)) {
+            if (isset($this->methodData->submit)) {
 
-        		$params["subject"] = $this->methodData->subject;
-        		$params["body"] = $this->methodData->body;
+                $params["subject"] = $this->methodData->subject;
+                $params["body"] = $this->methodData->body;
 
-        		$error = false;
+                $error = false;
 
                 if (!$this->user->checkTimer("forumMute")) {
                     $this->error("You have been forum muted!");
                     $error = true;
                 }
-        		if (strlen($this->methodData->subject) < 6) {
-        			$this->error("The subject must be atleast 6 characters");
-        			$error = true;
-        		}
-        		if (strlen($this->methodData->body) < 12) {
-        			$this->error("The topic content must be atleast 12 characters");
-        			$error = true;
-        		}
+                if (strlen($this->methodData->subject) < 6) {
+                    $this->error("The subject must be atleast 6 characters");
+                    $error = true;
+                }
+                if (strlen($this->methodData->body) < 12) {
+                    $this->error("The topic content must be atleast 12 characters");
+                    $error = true;
+                }
 
-        		if (!$error) {
-        			$topic = $this->newTopic(
-        				$this->methodData->id, 
-        				$this->user->id, 
-        				$this->methodData->subject, 
-        				$this->methodData->body
-        			);
-        			header("Location:?page=forum&action=topic&id=" . $topic);
-        		}
+                if (!$error) {
+                    $topic = $this->newTopic(
+                        $this->methodData->id, 
+                        $this->user->id, 
+                        $this->methodData->subject, 
+                        $this->methodData->body
+                    );
+                    header("Location:?page=forum&action=topic&id=" . $topic);
+                }
 
-        	}
+            }
 
-        	$this->html .= $this->page->buildElement("newTopic", $params);
+            $this->html .= $this->page->buildElement("newTopic", $params);
         }
 
         public function method_topic() {

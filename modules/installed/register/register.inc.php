@@ -13,8 +13,8 @@
         );
         
         public function constructModule() {
-			
-			global $regError;
+            
+            global $regError;
 
             $settings = new settings();
             $this->page->addToTemplate("loginSuffix", $settings->loadSetting("registerSuffix"));
@@ -50,7 +50,7 @@
             
             $user = @new user();
             $settings = new settings();
-	
+    
             if (!filter_var($this->methodData->email, FILTER_VALIDATE_EMAIL)) {
                 $this->regError =  $this->page->buildElement('error', array(
                     "text" => 'Please enter a valid email address'
@@ -84,7 +84,7 @@
             } else if (isset($this->methodData->password)) {
                 $this->regError =  $this->page->buildElement('error', array(
                     "text" => 'Your passwords do not match!'
-                ));	
+                ));    
             }
             
         }
