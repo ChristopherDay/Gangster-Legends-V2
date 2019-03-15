@@ -2,11 +2,11 @@
 
     class blackjackTemplate extends template {
 
-    	public $scoreTest = '
-    		<h4>{score}</h4>
-    		{>cards}
-    	';
-    	public $blackjackTable = '
+        public $scoreTest = '
+            <h4>{score}</h4>
+            {>cards}
+        ';
+        public $blackjackTable = '
 
             
             <div class="panel panel-default">
@@ -75,14 +75,14 @@
 
         public $cards = '
             {#each cards}
-    	    	{#if hide}
+                {#if hide}
                     <div class="card backs red"></div>
                 {/if}
                 {#unless hide}
-	    		    <div class="card {suit} card-{card}"></div>
+                    <div class="card {suit} card-{card}"></div>
                 {/unless}
-    		{/each}
-		';
+            {/each}
+        ';
 
     }
 

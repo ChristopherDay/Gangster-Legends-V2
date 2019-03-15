@@ -1,10 +1,10 @@
 {
-	"name": "Gangster Legends Default Theme", 
-	"version": "1.0.0", 
-	"description": "A gansgter styled theme, fully responsive.",
-	"themeType": "game",
-	"author": {
-		"name": "Chris Day", 
-		"url": "http://glscript.cdcoding.com"
-	}
+    "name": "Gangster Legends Default Theme", 
+    "version": "1.0.0", 
+    "description": "A gansgter styled theme, fully responsive.",
+    "themeType": "game",
+    "author": {
+        "name": "Chris Day", 
+        "url": "http://glscript.cdcoding.com"
+    }
 }

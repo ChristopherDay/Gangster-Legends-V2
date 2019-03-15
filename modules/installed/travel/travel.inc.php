@@ -3,8 +3,8 @@
     class travel extends module {
         
         public $allowedMethods = array('location'=>array('type'=>'get'));
-		
-		public $pageName = 'Airport';
+        
+        public $pageName = 'Airport';
         
         public function constructModule() {
 
@@ -20,7 +20,7 @@
             } 
             
             $locations = $this->db->prepare("SELECT * from locations WHERE L_id != :loc ORDER BY L_id");
-			$locations->bindParam(":loc", $this->user->info->US_location);
+            $locations->bindParam(":loc", $this->user->info->US_location);
             $locations->execute();
             
             $data = array();

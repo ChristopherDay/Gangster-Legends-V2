@@ -94,7 +94,7 @@
 
                 $error = array(
                     "timer" => "bullets",
-                    "text"=>'You have to wait to but more bullets!',
+                    "text"=>'You have to wait to buy more bullets!',
                     "time" => $this->user->getTimer("bullets")
                 );
                 $this->html .= $this->page->buildElement('timer', $error);
@@ -154,7 +154,7 @@
             if (!!$owner["cost"]) {
                 $this->setCost($owner["cost"]);
             }
-			
+            
             $cost = ($qty * $this->bulletCost);
             $maxBuy = $this->user->info->US_rank * 25;
             
@@ -170,7 +170,7 @@
                 $timeLeft = $this->timeLeft($timeLeft);
 
                 $error = array(
-                    "text"=>'You cany buy bullets yet!'
+                    "text"=>'You can\'t buy bullets yet!'
                 );
                 $this->alerts[] = $this->page->buildElement('error', $error);
                 
@@ -189,7 +189,7 @@
             } else {
             
                 $this->alerts[] = $this->page->buildElement('success', array(
-                    "text"=>'You brought '.$qty.' bullets for $'.number_format($cost)
+                    "text"=>'You bought '.$qty.' bullets for $'.number_format($cost)
                 ));
                 
                 $query = "
@@ -199,12 +199,12 @@
                     WHERE
                         US_id = :id
                 "; 
-				
+                
                 $uUser = $this->db->prepare($query);
                 $uUser->bindParam(":money", $cost);
                 $uUser->bindParam(":id", $this->user->id);
                 $uUser->execute();
-				
+                
                 if ($owner["user"]) {
                     $profit = $cost * 0.5;
                     $this->property->updateProfit($profit);
@@ -214,11 +214,11 @@
                     $uUser->execute();
                 }
 
-				$this->user->updateTimer('bullets', 60, true);
-				
+                $this->user->updateTimer('bullets', 60, true);
+                
                 $uLoc = $this->db->prepare("UPDATE locations SET L_bullets = L_bullets - $qty WHERE L_id= :loc");
                 $uLoc->bindParam(":loc", $loc->L_id);
-				$uLoc->execute();
+                $uLoc->execute();
             }
             
         }

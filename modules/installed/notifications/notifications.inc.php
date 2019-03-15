@@ -3,13 +3,13 @@
     class notifications extends module {
         
         public $allowedMethods = array(
-        	"id" => array( "type" => "GET" ),
-        	"reply" => array( "type" => "GET" ),
-        	"message" => array( "type" => "POST" ),
-        	"subject" => array( "type" => "POST" )
+            "id" => array( "type" => "GET" ),
+            "reply" => array( "type" => "GET" ),
+            "message" => array( "type" => "POST" ),
+            "subject" => array( "type" => "POST" )
         );
-		
-		public $pageName = '';
+        
+        public $pageName = '';
 
         public function constructModule() {
 

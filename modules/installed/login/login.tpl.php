@@ -11,7 +11,7 @@
                         <button type="submit" class="btn">Login</button>
                     </div>
                 </form>
-		';
+        ';
 
         public $loginOptions = '
 
