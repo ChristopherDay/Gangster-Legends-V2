@@ -168,7 +168,9 @@
                                                 {/if}
                                                 {#unless seperator}
                                                     {#unless hide}
-                                                        <a href="{url}">{text}</a> <br />
+                                                        {#if url}
+                                                            <a href="{url}">{text}</a> <br />
+                                                        {/if}
                                                     {/unless}
                                                 {/unless}
                                             {/each}
