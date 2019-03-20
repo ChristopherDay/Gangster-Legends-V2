@@ -7,6 +7,6 @@
         "url": "http:\/\/glscript.cdcoding.com"
     },
     "pageName": "Blackjack",
-    "accessInJail": false,
+    "accessInJail": true,
     "requireLogin": true
 }

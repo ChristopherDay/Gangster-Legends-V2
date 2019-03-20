@@ -98,9 +98,9 @@
                 }
             }
             
-            if (isset($_GET['action'])) {
+            if (isset($_REQUEST['action'])) {
             
-                @$this->methodData->action = $_GET['action'];
+                @$this->methodData->action = $_REQUEST['action'];
                 
             }
             

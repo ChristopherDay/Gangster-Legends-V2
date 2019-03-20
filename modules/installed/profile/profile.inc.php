@@ -45,6 +45,7 @@
                 "gangID" => $profile->getGang()["id"], 
                 "gang" => $profile->getGang()["name"], 
                 "dead" => $profile->info->U_status == 0, 
+                "laston" => $profile->getTimer("laston"), 
                 "status" => $profile->getStatus(), 
                 "bio" => $bio, 
                 "role" => $profile->info->UR_desc,
