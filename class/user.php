@@ -427,7 +427,10 @@
                 ));
 
                 $hook = new Hook("rankUp");
-                $hook->run($this->info->U_id);
+                $hook->run(array(
+                    "user" => $this->info->U_id,
+                    "rank" => $newRank->R_id
+                )
 
                 $this->newNotification($text);
                 return $this->checkRank();

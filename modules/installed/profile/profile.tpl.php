@@ -104,9 +104,15 @@
                                 <tr>
                                     <th width="100px">Username</th>
                                     <td class="text-left">
-                                        {>userName}
+                                        <a href="?page=mail&action=new&name={user.name}" class="user user-status-{user.status} user-level-{user.userLevel}" style="color: {user.color};">
+                                            {user.name}
+                                        </a>
                                         <sup>(<{status}>)</sup>
                                     </td>
+                                </tr>
+                                <tr>
+                                    <th width="100px">Last Active</th>
+                                    <td class="text-left">{_ago laston} ago</td>
                                 </tr>
                                 <tr>
                                     <th width="100px">Status</th>
@@ -140,12 +146,6 @@
                                         <a href="?page=gangs&action=view&id={gangID}">
                                             {gang}
                                         </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th width="100px">Actions</th>
-                                    <td class="text-left">
-                                        <a href="?page=mail&action=new&name={user.name}"> Send Mail </a>
                                     </td>
                                 </tr>
                             </table>
