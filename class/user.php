@@ -430,7 +430,7 @@
                 $hook->run(array(
                     "user" => $this->info->U_id,
                     "rank" => $newRank->R_id
-                )
+                ));
 
                 $this->newNotification($text);
                 return $this->checkRank();
