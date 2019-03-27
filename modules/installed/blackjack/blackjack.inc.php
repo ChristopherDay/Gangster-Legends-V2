@@ -309,7 +309,7 @@ class blackjack extends module {
                         US_id = :id;
 
                     UPDATE userStats SET 
-                        US_bank = US_bank + :bet
+                        US_money = US_money + :bet
                     WHERE 
                         US_id = :owner;
                 ");
@@ -353,7 +353,7 @@ class blackjack extends module {
 
             $owner = new User($owner["user"]["id"]);
 
-            if ($cash > $owner->info->US_bank) {
+            if ($cash > $owner->info->US_money) {
                 $this->property->transfer($this->user->id);
                 $this->html .= $this->page->buildElement("warning", array(
                     "text" => "The owner did not have enough cash to pay the bet, you took ownership of the casino."
@@ -365,7 +365,7 @@ class blackjack extends module {
                     WHERE 
                         US_id = :id;
                     UPDATE userStats SET 
-                        US_bank = US_bank - :bet
+                        US_money = US_money - :bet
                     WHERE 
                         US_id = :owner
                 ");
