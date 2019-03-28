@@ -9,10 +9,10 @@
         public function getUsers($alive) {
 
             if ($alive) {
-                $sql = "SELECT * FROM users WHERE U_status != 0 ORDER BY U_id DESC LIMIT 0, 20";
+                $sql = "SELECT * FROM users WHERE U_userLevel = 1 AND U_status != 0 ORDER BY U_id DESC LIMIT 0, 20";
                 $timer = "signup";
             } else {
-                $sql = "SELECT * FROM users WHERE U_status = 0 ORDER BY U_id DESC LIMIT 0, 20";
+                $sql = "SELECT * FROM users WHERE U_userLevel = 1 AND U_status = 0 ORDER BY U_id DESC LIMIT 0, 20";
                 $timer = "killed";
             }
 
