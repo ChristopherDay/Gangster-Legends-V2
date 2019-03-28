@@ -43,7 +43,7 @@
                     SUM(US_money) + SUM(US_bank) as 'cash', 
                     COUNT(U_id) as 'alive'
                 FROM users INNER JOIN userStats ON (US_id = U_id) 
-                WHERE U_status != 0 
+                WHERE U_status != 0 AND U_userLevel = 1
                 ORDER BY U_id DESC LIMIT 0, 20
             ");
             $stats->execute();
