@@ -7324,7 +7324,7 @@ $(function () {
             ['color', ['color']],
             ['para', ['ul', 'ol', 'paragraph']],
             ['height', ['height']],
-            ['insert', ['picture', 'hr']],
+            ['insert', ['picture', 'hr', 'video']],
             ['table', ['table']]
         ],
         height: 250,
