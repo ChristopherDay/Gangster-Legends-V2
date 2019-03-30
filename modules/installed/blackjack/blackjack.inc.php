@@ -11,7 +11,7 @@ class Deck {
         $suits = array("C" => "clubs", "D" => "diamonds", "S" => "spades", "H" => "hearts");
         $cards = array(
             "ace" => "A", 
-            /*"two" => 2, 
+            "two" => 2, 
             "three" => 3, 
             "four" => 4, 
             "five" => 5, 
@@ -21,7 +21,7 @@ class Deck {
             "nine" => 9, 
             "ten" => 10, 
             "jack" => "J", 
-            "queen" => "Q", */
+            "queen" => "Q", 
             "king" => "K"
         );
 
