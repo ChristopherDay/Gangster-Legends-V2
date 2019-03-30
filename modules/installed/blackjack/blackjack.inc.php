@@ -11,7 +11,7 @@ class Deck {
         $suits = array("C" => "clubs", "D" => "diamonds", "S" => "spades", "H" => "hearts");
         $cards = array(
             "ace" => "A", 
-            "two" => 2, 
+            /*"two" => 2, 
             "three" => 3, 
             "four" => 4, 
             "five" => 5, 
@@ -21,7 +21,7 @@ class Deck {
             "nine" => 9, 
             "ten" => 10, 
             "jack" => "J", 
-            "queen" => "Q", 
+            "queen" => "Q", */
             "king" => "K"
         );
 
@@ -304,20 +304,15 @@ class blackjack extends module {
 
                 $user = $this->db->prepare("
                     UPDATE userStats SET 
-                        US_money = US_money - :bet
-                    WHERE 
-                        US_id = :id;
-
-                    UPDATE userStats SET 
                         US_money = US_money + :bet
                     WHERE 
                         US_id = :owner;
                 ");
                 $user->bindParam(":bet", $bet);
-                $user->bindParam(":id", $this->user->info->US_id);
                 $user->bindParam(":owner", $ownerID);
                 $user->execute();
 
+                $this->user->set("US_money", $this->user->info->US_money - $bet);
 
                 $deck = new Deck();
                 $_SESSION["BJ_GAME"] = array(
@@ -345,7 +340,6 @@ class blackjack extends module {
 
         $this->property = new Property($this->user, "blackjack");
         
-        $this->property->updateProfit(-$cash);
 
         $owner = $this->property->getOwnership();
 
@@ -361,19 +355,15 @@ class blackjack extends module {
             } else {
                 $user = $this->db->prepare("
                     UPDATE userStats SET 
-                        US_money = US_money + :bet
-                    WHERE 
-                        US_id = :id;
-                    UPDATE userStats SET 
                         US_money = US_money - :bet
                     WHERE 
                         US_id = :owner
                 ");
 
                 $user->bindParam(":bet", $cash);
-                $user->bindParam(":id", $this->user->info->US_id);
                 $user->bindParam(":owner", $owner->id);
                 $user->execute();
+                $this->user->set("US_money", $this->user->info->US_money + $cash);
             }
 
         } else {
@@ -391,6 +381,7 @@ class blackjack extends module {
 
         }
 
+        $this->property->updateProfit(-$cash);
 
     }
 
