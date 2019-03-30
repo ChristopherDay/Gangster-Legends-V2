@@ -12,7 +12,7 @@
 
         public function getOwnership() {
 
-            $property = $this->db->prepare("
+            $property = $this->db->select("
                 SELECT
                     PR_id as 'id', 
                     PR_location as 'location',
@@ -25,13 +25,10 @@
                 WHERE 
                     PR_location = :location AND 
                     PR_module = :module
-            ");
-
-            $property->bindParam(":location", $this->user->info->US_location);
-            $property->bindParam(":module", $this->module);
-            $property->execute();
-
-            $property = $property->fetch(PDO::FETCH_ASSOC);
+            ", array(
+                ":location" => $this->user->info->US_location,
+                ":module" => $this->module
+            ));
 
             if (!isset($property["id"])) {
                 return array(
@@ -65,7 +62,7 @@
         }
 
         public function updateProfit($money) {
-            $update = $this->db->prepare("
+            $this->db->update("
                 UPDATE  
                     properties 
                 SET 
@@ -73,11 +70,11 @@
                 WHERE 
                     PR_location = :location AND 
                     PR_module = :module;
-            ");
-            $update->bindParam(":cash", $money);
-            $update->bindParam(":location", $this->user->info->US_location);
-            $update->bindParam(":module", $this->module);
-            $update->execute();
+            ", array(
+                ":cash" => $money,
+                ":location" => $this->user->info->US_location,
+                ":module" => $this->module
+            ));
         }
 
         public function transfer($newOwner) {
@@ -85,25 +82,27 @@
             $currentOwner = $this->getOwnership();
 
             if ($currentOwner["user"]) {
-                $query = "UPDATE  properties SET PR_user = :user WHERE PR_location = :location AND PR_module = :module;";
+                $this->db->update("UPDATE  properties SET PR_user = :user WHERE PR_location = :location AND PR_module = :module;", array(
+                    ":location" => $this->user->info->US_location,
+                    ":module" => $this->module,
+                    ":user" => $newOwner
+                ));
             } else {
-                $query = "INSERT INTO properties (PR_location, PR_module, PR_user) VALUES (:location, :module, :user);";
+                $this->db->insert("INSERT INTO properties (PR_location, PR_module, PR_user) VALUES (:location, :module, :user);", array(
+                    ":location" => $this->user->info->US_location,
+                    ":module" => $this->module,
+                    ":user" => $newOwner
+                ));
             }
-
-            $transfer = $this->db->prepare($query);
-            $transfer->bindParam(":location", $this->user->info->US_location);
-            $transfer->bindParam(":module", $this->module);
-            $transfer->bindParam(":user", $newOwner);
-            $transfer->execute();
 
         }
 
         public function setCost($newCost) {
-            $update = $this->db->prepare("UPDATE properties SET PR_cost = :cost WHERE PR_location = :location AND PR_module = :module;");
-            $update->bindParam(":location", $this->user->info->US_location);
-            $update->bindParam(":module", $this->module);
-            $update->bindParam(":cost", $newCost);
-            $update->execute();
+            $update = $this->db->update("UPDATE properties SET PR_cost = :cost WHERE PR_location = :location AND PR_module = :module;", array(
+                ":location" => $this->user->info->US_location,
+                ":module" => $this->module,
+                ":cost" => $newCost
+            ));
         }
 
     }
