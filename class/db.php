@@ -6,7 +6,7 @@ class glPDO extends PDO {
     parent::__construct($name_host, $username, $password, $driverOptions);
   }
 
-  function runQuery() {
+  function runQuery($query, $params = array()) {
   	$q = parent::prepare($query);
   	$q->execute($params);
   	$q->closeCursor();
