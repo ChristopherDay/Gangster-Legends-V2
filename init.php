@@ -48,7 +48,7 @@
                 $page->loadPage('logout');
             } else if ($user->info->U_status == 0) {
                 $page->loadPage('dead');
-            } else if ($user->info->U_status == 2) {
+            } else if ($user->info->U_status == 2 && $jailPageCheck["requireLogin"]) {
                 $page->loadPage('users');
             } else if ($user->info->U_userLevel == 3) {
                 $page->loadPage('banned');
