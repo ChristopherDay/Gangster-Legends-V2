@@ -82,7 +82,7 @@
                 
                 foreach ($cars as $row) {
                     $total2 += $row['CA_theftChance'];
-                    if ($total2 > $car) {
+                    if ($total2 >= $car) {
                         $car = $row['CA_id'];
                         $carName = $row['CA_name'];
                         break;
