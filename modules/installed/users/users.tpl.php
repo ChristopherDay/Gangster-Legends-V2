@@ -9,7 +9,7 @@
                 <div class="panel-body">
                     <div class="text-center">
                         <p class="text-center">
-                            Before you can play you need to activate your account. 
+                            Before you can play you need to activate your account. Please check your email for your validation code. This may be in your spam folder.
                         </p>
                         <form method="post" action="?page=users">
                             <input type="text" name="code" class="form-control activation-code" value="{code}" /> 
