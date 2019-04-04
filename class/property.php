@@ -10,7 +10,9 @@
             $this->module = $module;
         }
 
-        public function getOwnership() {
+        public function getOwnership($location = false) {
+
+            if (!$location) $location = $this->user->info->US_location;
 
             $property = $this->db->select("
                 SELECT
@@ -26,14 +28,14 @@
                     PR_location = :location AND 
                     PR_module = :module
             ", array(
-                ":location" => $this->user->info->US_location,
+                ":location" => $location,
                 ":module" => $this->module
             ));
 
             if (!isset($property["id"])) {
                 return array(
                     "id" => 0, 
-                    "location" => $this->user->info->US_location, 
+                    "location" => $location, 
                     "module" => $this->module, 
                     "user" => 0, 
                     "profit" => 0,
