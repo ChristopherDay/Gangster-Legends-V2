@@ -3,13 +3,15 @@
     class bullets extends module {
 
         public $maxCost = 100000;
-        public $bulletCost = 100; 
+        public $bulletCost = 150; 
         
         public $pageName = 'Bullet Factory';
         public $allowedMethods = array('bullets'=>array('type'=>'post'));
 
         public function setCost($cost) {
             $this->bulletCost = $cost; 
+            $settings = new Settings();
+            $this->maxCost = $settings->loadSetting("maxBulletCost", true, 100000);
             if ($this->bulletCost > $this->maxCost) $this->bulletCost = $this->maxCost; 
         } 
         
@@ -39,8 +41,12 @@
                 $update->execute();
             }
 
+            $settings = new $settings();
+
+            $max = abs(intval($settings->loadSetting("maxBulletStock", true, 40000)));
+
             $update = $this->db->query("
-                UPDATE locations SET L_bullets = 40000 WHERE L_bullets > 40000
+                UPDATE locations SET L_bullets = $max WHERE L_bullets > $max
             ");
 
             $lastRestock = (int) $settings->loadSetting("lastBulletRestock");
@@ -50,8 +56,10 @@
         }
 
         public function getNewBulletStock($hours) {
-            $minPerHour = 2250;
-            $maxPerHour = 2750;
+
+            $setting = new Settings();
+            $minPerHour = $setting->loadSetting("bulletsStockMinPerHour", true, 2250);
+            $maxPerHour = $setting->loadSetting("bulletsStockMaxPerHour", true, 2750);
 
             $bullets = 0;
 
@@ -72,9 +80,7 @@
             $location = $this->db->prepare("SELECT * FROM locations WHERE L_id = ?");
             $location->execute(array($this->user->info->US_location));
             $loc = $location->fetchObject();
-            
-            $this->setCost($loc->L_bulletCost);
-            
+                        
             $this->property = new Property($this->user, "bullets");
             $owner = $this->property->getOwnership();
 
@@ -82,9 +88,11 @@
                 $this->setCost($owner["cost"]);
             }
 
+            $settings = new Settings();
+
             $owner["locationName"] = $loc->L_name;
             $owner["stock"] = number_format($loc->L_bullets);
-            $owner["maxBuy"] = ($this->user->info->US_rank * 25);
+            $owner["maxBuy"] = abs(intval($settings->loadSetting("maxBulletBuy", true, 250)));
             $owner["cost"] = $this->money($this->bulletCost);
 
             if (!$this->user->checkTimer('bullets')) {
@@ -145,8 +153,6 @@
             $location = $this->db->prepare("SELECT * FROM locations WHERE L_id = ?");
             $location->execute(array($this->user->info->US_location));
             $loc = $location->fetchObject();
-
-            $this->setCost($loc->L_bulletCost);
             
             $this->property = new Property($this->user, "bullets");
             $owner = $this->property->getOwnership();

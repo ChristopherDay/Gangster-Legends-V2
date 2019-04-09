@@ -84,7 +84,7 @@
             $currentOwner = $this->getOwnership();
 
             if ($currentOwner["user"]) {
-                $this->db->update("UPDATE  properties SET PR_user = :user WHERE PR_location = :location AND PR_module = :module;", array(
+                $this->db->update("UPDATE  properties SET PR_user = :user, PR_cost = 0 WHERE PR_location = :location AND PR_module = :module;", array(
                     ":location" => $this->user->info->US_location,
                     ":module" => $this->module,
                     ":user" => $newOwner

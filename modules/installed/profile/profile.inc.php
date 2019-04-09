@@ -4,6 +4,7 @@
             
         public $allowedMethods = array(
             'view'=>array('type'=>'get'),
+            'user'=>array('type'=>'post'),
             'old'=>array('type'=>'post'),
             'new'=>array('type'=>'post'),
             'confirm'=>array('type'=>'post'),
@@ -24,6 +25,10 @@
                     $profile = new user(false, $user);
                 }
 
+                if (!isset($profile->info->US_id)) {
+                    return $this->error("This user does not exist");
+                }
+                
                 $this->pageName = 'Viewing '.$profile->info->U_name.'\'s Profile';
                 $edit = false;
             } else {
@@ -31,7 +36,8 @@
                 $this->pageName = 'My Profile';
                 $edit = true;
             }
-            
+
+
             $bio =  ((strlen($profile->info->US_bio)>0)?($profile->info->US_bio):false);
             
             // Make sure it is an image
@@ -53,6 +59,41 @@
                 "edit" => $edit
             ));
             
+        }
+
+        public function method_search() {
+
+            $this->construct = false;
+
+            $results = array();
+
+            if (isset($this->methodData->user)) {
+
+                if (strlen($this->methodData->user) < 3) {
+                    $this->error("Please enter atleast 3 characters");
+                } else {
+                    
+                    $users = $this->db->selectAll("
+                        SELECT * FROM users WHERE U_name LIKE :user
+                    ", array(
+                        ":user" => "%" . $this->methodData->user . "%"
+                    ));
+
+                    foreach ($users as $key => $value) {
+                        $user = new User($value["U_id"]);
+                        $results[] = array(
+                            "user" => $user->user, 
+                            "status" => $user->info->U_status == 0?"Dead":"Alive",
+                        );
+                    }
+
+                }
+            }
+                
+            $this->html .= $this->page->buildElement("userSearch", array(
+                "results" => $results
+            ));
+
         }
         
         public function method_password() {

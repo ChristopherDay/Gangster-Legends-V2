@@ -1,6 +1,45 @@
 <?php
 
     class bulletsTemplate extends template {
+
+
+         public $bulletOptions = '
+
+            <form method="post" action="#">
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="pull-left">Max cost per bullet ($)</label>
+                            <input type="text" class="form-control" name="maxBulletCost" value="{maxBulletCost}" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="pull-left">Minimum restock per hour</label>
+                            <input type="text" class="form-control" name="bulletsStockMinPerHour" value="{bulletsStockMinPerHour}" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="pull-left">Maximum restock per hour</label>
+                            <input type="text" class="form-control" name="bulletsStockMaxPerHour" value="{bulletsStockMaxPerHour}" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="pull-left">Max bullets to buy per transaction</label>
+                            <input type="text" class="form-control" name="maxBulletBuy" value="{maxBulletBuy}" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-right">
+                    <button class="btn btn-default" name="submit" type="submit" value="1">Save</button>
+                </div>
+
+            </form>
+        ';
         
         public $bulletPage = '
         <div class="panel panel-default">

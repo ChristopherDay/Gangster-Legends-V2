@@ -4,6 +4,7 @@
         
         public $allowedMethods = array(
             "module" => array( "type" => "GET" ),
+            "code" => array( "type" => "GET" ),
             "transfer" => array( "type" => "POST" ),
             "cost" => array( "type" => "POST" )
         );
@@ -42,6 +43,42 @@
             }
         }
 
+        public function method_dropDo() {
+
+            if ($this->methodData->code != $_SESSION["DROP_CODE"]) {
+                return $this->error("You dont have access to do this");
+            }
+
+            $this->property = new Property($this->user, $this->methodData->module);
+            $info = $this->property->getOwnership();
+
+            if ($info["user"]["id"] == $this->user->id) {
+
+                $this->db->delete(
+                    "DELETE FROM properties WHERE PR_location = :location AND PR_module = :module AND PR_user = :user", 
+                    array(
+                        ":location" => $this->user->info->US_location, 
+                        ":module" => $this->methodData->module, 
+                        ":user" => $this->user->id
+                    )
+                );
+
+                return $this->error("Property dropped!", "success");
+            }
+
+        }
+
+
+        public function method_drop() {
+
+            $_SESSION["DROP_CODE"] = mt_rand(100000, 999999);
+
+            $this->html .= $this->page->buildElement("dropProperty", array(
+                "code" => $_SESSION["DROP_CODE"], 
+                "module" => $this->methodData->module
+            ));
+        }
+
         public function method_cost() {
 
             if (!isset($this->methodData->cost)) {
@@ -59,8 +96,6 @@
             $this->property = new Property($this->user, $this->methodData->module);
             $info = $this->property->getOwnership();
             if ($info["user"]["id"] == $this->user->id) {
-
-
                 $cost = $this->methodData->cost;
                 $this->property->setCost($cost);
                 $this->alerts[] = $this->page->buildElement("success", array(

@@ -58,7 +58,7 @@ class Deck {
 
 class blackjack extends module {
 
-    public $maxBet = 10000000;
+    public $maxBet = 10000;
 
     public $allowedMethods = array(
         "bet" => array("type" => "REQUEST")
