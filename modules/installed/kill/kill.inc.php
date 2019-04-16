@@ -98,6 +98,7 @@
                 $this->user->set("US_bullets", $this->user->info->US_bullets - $bullets);
 
                 if ($userToKill->rank->R_health < $newUserHealth) {
+                    $success = true;
                     $userToKill->set("U_status", 0);
                     $userToKill->set("US_shotBy", $this->user->id);
                     $userToKill->updateTimer("killed", time());
@@ -109,9 +110,20 @@
                     );
                     $killHook->run($users);
                 } else {
+                    $success = false;
                     $this->error("You failed to kill " . $userToKill->info->U_name);
                     $userToKill->newNotification($this->user->info->U_name . " tried to shoot you!");
-                }
+                }               
+
+                $actionHook = new hook("userAction");
+                $action = array(
+                    "user" => $this->user->id, 
+                    "module" => "kill", 
+                    "id" => 1, 
+                    "success" => $success, 
+                    "reward" => $bullets
+                );
+                $actionHook->run($action);
 
                 $expireDetective = $this->db->prepare("
                     UPDATE detectives SET D_end = 0 WHERE D_id = :id 

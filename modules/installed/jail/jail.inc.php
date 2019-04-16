@@ -120,11 +120,23 @@
                         US_id = ".$this->user->id);
                 $u->execute();
 
+                $actionHook = new hook("userAction");
+                $action = array(
+                    "user" => $this->user->id, 
+                    "module" => "jail", 
+                    "id" => $user->info->US_rank, 
+                    "success" => true, 
+                    "reward" => $this->user->id == $id?1:0
+                );
+                $actionHook->run($action);
+
                 return $this->alerts[] = $this->page->buildElement('success', array(
                     "text" => "You broke " . $jailUser["name"] . " out of jail"
                 ));
+
             } else {
 
+                $user = new user($id);
 
                 if ($inJail) {
                     $jailTime = $this->user->getTimer("jail") + 90;
@@ -133,6 +145,17 @@
                     $jailTime = time() + 90;
                 }
                 $this->user->updateTimer("jail", $jailTime);
+
+                $actionHook = new hook("userAction");
+                $action = array(
+                    "user" => $this->user->id, 
+                    "module" => "jail", 
+                    "id" => $user->info->US_rank, 
+                    "success" => false, 
+                    "reward" => 0
+                );
+                $actionHook->run($action);
+
                 return $this->alerts[] = $this->page->buildElement('error', array(
                     "text" => "You failed to break " . $jailUser["name"] . " out of jail"
                 ));
