@@ -107,6 +107,7 @@
                     ));
                     $rewardValue = 0;
                 } else {
+                    $success = true;
                     $this->alerts[] = $this->page->buildElement('success', array(
                         "text" => 'You successfuly stole a '.$carName.' with '.$carDamage.'% damage.'
                     ));
