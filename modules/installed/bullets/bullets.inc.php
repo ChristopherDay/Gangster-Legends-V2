@@ -210,6 +210,16 @@
                 $uUser->bindParam(":money", $cost);
                 $uUser->bindParam(":id", $this->user->id);
                 $uUser->execute();
+
+                $actionHook = new hook("userAction");
+                $action = array(
+                    "user" => $this->user->id, 
+                    "module" => "bullets", 
+                    "id" => 1, 
+                    "success" => true, 
+                    "reward" => $qty
+                );
+                $actionHook->run($action);
                 
                 if ($owner["user"]) {
                     $profit = $cost * 0.5;

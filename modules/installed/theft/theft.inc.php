@@ -85,10 +85,13 @@
                     if ($total2 >= $car) {
                         $car = $row['CA_id'];
                         $carName = $row['CA_name'];
+                        $rewardValue = $row['CA_value'] - intval($row['CA_value'] / 100 * $carDamage); 
                         break;
                     }
                     
                 }
+
+                $success = false;
 
                 $this->user->updateTimer('theft', $theftTime, true);
                 
@@ -97,10 +100,12 @@
                         "text"=>'You failed to steal a '.$carName.', you were caught and sent to jail'
                     ));
                     $this->user->updateTimer('jail', ($id*35), true);
+                    $rewardValue = 0;
                 } else if ($chance > $userChance) {
                     $this->alerts[] = $this->page->buildElement('error', array(
                         "text"=>'You failed to steal a '.$carName.'.'
                     ));
+                    $rewardValue = 0;
                 } else {
                     $this->alerts[] = $this->page->buildElement('success', array(
                         "text" => 'You successfuly stole a '.$carName.' with '.$carDamage.'% damage.'
@@ -117,6 +122,17 @@
                     $insert->bindParam(':damage', $carDamage);
                     $insert->execute();
                 }
+
+                $actionHook = new hook("userAction");
+                $action = array(
+                    "user" => $this->user->id, 
+                    "module" => "theft", 
+                    "id" => $id, 
+                    "success" => $success, 
+                    "reward" => $rewardValue
+                );
+                $actionHook->run($action);
+
             }
         
         }
