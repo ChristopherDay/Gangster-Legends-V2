@@ -26,10 +26,14 @@
             }
 
             if (!isset($this->methodData->money)) {
-                return $this->error("How many money do you want to send?");
+                return $this->error("How much money do you want to send?");
             }
 
             $user = new User(null, $this->methodData->user);
+
+            if ($user->info->U_id == $this->user->id) {
+                return $this->error("You can't send money to yourself!");
+            }
 
             if (!isset($user->info->U_id)) {
                 return $this->error("This user does not exist");
