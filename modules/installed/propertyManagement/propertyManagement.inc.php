@@ -107,7 +107,7 @@
         public function method_transfer() {
 
             if (!isset($this->methodData->transfer)) {
-                return $this->html .= $this->page->buildElement("error", array(
+                return $this->alerts[] = $this->page->buildElement("error", array(
                     "text" => "Please provide a user to transfer this property to"
                 ));
             }
@@ -115,8 +115,14 @@
             $user = new User(null, $this->methodData->transfer);
 
             if (!isset($user->info->US_id)) {
-                return $this->html .= $this->page->buildElement("error", array(
+                return $this->alerts[] = $this->page->buildElement("error", array(
                     "text" => "This user does not exist"
+                ));
+            }
+
+            if ($user->info->U_status == 0) {
+                return $this->alerts[] = $this->page->buildElement("error", array(
+                    "text" => "This user is dead"
                 ));
             }
 

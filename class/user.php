@@ -429,6 +429,17 @@
                     "rewards" => $rewards
                 ));
 
+                $actionHook = new hook("userAction");
+                $action = array(
+                    "user" => $this->info->U_id, 
+                    "module" => "rank", 
+                    "id" => 0, 
+                    "success" => true, 
+                    "reward" => $newRank->R_id, 
+                    "gt" => true
+                );
+                $actionHook->run($action);
+
                 $hook = new Hook("rankUp");
                 $info = array(
                     "user" => $this->info->U_id,

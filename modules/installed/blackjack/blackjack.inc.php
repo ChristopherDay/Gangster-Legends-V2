@@ -340,8 +340,19 @@ class blackjack extends module {
 
         $this->property = new Property($this->user, "blackjack");
         
-
         $owner = $this->property->getOwnership();
+
+        $actionHook = new hook("userAction");
+
+        $action = array(
+            "user" => $this->user->id, 
+            "module" => "casinoPayout", 
+            "id" => 1, 
+            "success" => true, 
+            "reward" => $cash / 2, 
+            "gt" => true
+        );
+        $actionHook->run($action);
 
         if ($owner["user"]) {
 
@@ -352,6 +363,17 @@ class blackjack extends module {
                 $this->html .= $this->page->buildElement("warning", array(
                     "text" => "The owner did not have enough cash to pay the bet, you took ownership of the casino."
                 ));
+
+                $actionHook = new hook("userAction");
+                $action = array(
+                    "user" => $this->user->id, 
+                    "module" => "casinoBust", 
+                    "id" => 1, 
+                    "success" => true, 
+                    "reward" => 0
+                );
+                $actionHook->run($action);
+
             } else {
                 $user = $this->db->prepare("
                     UPDATE userStats SET 
