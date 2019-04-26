@@ -89,10 +89,15 @@
             }
 
             $settings = new Settings();
+                        
+            $perk = 0;
+            if (function_exists("getPercReward")) {
+                $perk = getPercReward(4, $this->user);
+            } 
 
             $owner["locationName"] = $loc->L_name;
             $owner["stock"] = number_format($loc->L_bullets);
-            $owner["maxBuy"] = abs(intval($settings->loadSetting("maxBulletBuy", true, 250)));
+            $owner["maxBuy"] = abs(intval($settings->loadSetting("maxBulletBuy", true, 250))) + $perk;
             $owner["cost"] = $this->money($this->bulletCost);
 
             if (!$this->user->checkTimer('bullets')) {
@@ -162,7 +167,13 @@
             }
             
             $cost = ($qty * $this->bulletCost);
-            $maxBuy = $this->user->info->US_rank * 25;
+
+            $perk = 0;
+            if (function_exists("getPercReward")) {
+                $perk = getPercReward(4, $this->user);
+            } 
+            
+            $maxBuy = abs(intval($settings->loadSetting("maxBulletBuy", true, 250))) + $perk;
             
             if ($qty == 0) {
             
