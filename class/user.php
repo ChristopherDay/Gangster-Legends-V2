@@ -96,8 +96,11 @@
                 $this->id = $this->info->U_id;
                 $this->name = $this->info->U_name;
             }
-
-            $pic = (is_array(@getimagesize($this->info->US_pic))?$this->info->US_pic:"themes/default/images/default-profile-picture.png");
+	    $pic = "";
+	    if (isset($this->info->US_pic)) $pic = $this->info->US_pic;
+	    if (!$pic || str_replace("php", "", $pic) != $pic) {
+		    $pic = "themes/default/images/default-profile-picture.png";
+	    }
 
             if (isset($this->info->U_name)) {
                 $this->user = array(
