@@ -26,11 +26,17 @@
             $data = array();
             
             while ($row = $locations->fetchObject()) {
+                        
+                $perk = 0;
+                if (function_exists("getPercReward")) {
+                    $perk = getPercReward(3, $this->user);
+                } 
+
                 $data[] = array(
                     "location" => $row->L_name, 
                     "cost" => number_format($row->L_cost), 
                     "id" => $row->L_id, 
-                    "cooldown" => $this->timeLeft($row->L_cooldown)
+                    "cooldown" => $this->timeLeft($row->L_cooldown - ($perk * 60))
                 );
                 
             }
@@ -65,8 +71,23 @@
                     $travel->bindParam(":lID", $location->L_id);
                     $travel->bindParam(":uID", $this->user->id);
                     $travel->execute();
+                        
+                    $perk = 0;
+                    if (function_exists("getPercReward")) {
+                        $perk = getPercReward(3, $this->user);
+                    } 
                     
-                    $this->user->updateTimer('travel', $location->L_cooldown, true);
+                    $this->user->updateTimer('travel', $location->L_cooldown - ($perk * 60), true);
+
+                    $actionHook = new hook("userAction");
+                    $action = array(
+                        "user" => $this->user->id, 
+                        "module" => "travel", 
+                        "id" => $id, 
+                        "success" => true, 
+                        "reward" => 0
+                    );
+                    $actionHook->run($action);
                     
                     $this->alerts[] = $this->page->buildElement('success', array("text" => 'You traveled to '.$location->L_name.' for $'.number_format($location->L_cost).'!'));
                     
