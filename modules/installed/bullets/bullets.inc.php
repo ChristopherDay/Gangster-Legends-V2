@@ -41,8 +41,6 @@
                 $update->execute();
             }
 
-            $settings = new $settings();
-
             $max = abs(intval($settings->loadSetting("maxBulletStock", true, 40000)));
 
             $update = $this->db->query("
@@ -154,6 +152,7 @@
         public function method_buy() {
             
             $qty = abs(intval($this->methodData->bullets));
+            $settings = new Settings();
             
             $location = $this->db->prepare("SELECT * FROM locations WHERE L_id = ?");
             $location->execute(array($this->user->info->US_location));
