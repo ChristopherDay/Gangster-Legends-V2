@@ -59,6 +59,7 @@
                     G_name as 'name',
                     G_desc as 'desc',
                     G_info as 'info',
+                    G_level as 'level',
                     G_boss as 'boss',
                     G_underboss as 'underboss',
                     G_location as 'location'
