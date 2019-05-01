@@ -103,6 +103,16 @@
 
         public function getForum($id) {
 
+            if ($id < 0) {
+                if (abs($id) && abs($id) == $this->user->info->US_gang) {
+                    return array(
+                        "id" => $id, 
+                        "name" => "Gang Forum"
+                    );
+                } 
+                return false;
+            }
+
             $forum = $this->db->prepare("SELECT 
                 F_id as 'id', 
                 F_name as 'name' 
