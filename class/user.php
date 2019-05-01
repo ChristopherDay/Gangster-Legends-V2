@@ -265,6 +265,7 @@
             $page->addToTemplate('points', $this->info->US_points);
             $page->addToTemplate('health', number_format($health, 2));
             $page->addToTemplate('location', $this->getLocation());
+            $page->addToTemplate('locationID', $this->info->US_location);
             $page->addToTemplate('username', $this->info->U_name);
             $page->addToTemplate('userStatus', $this->info->U_status);
 
