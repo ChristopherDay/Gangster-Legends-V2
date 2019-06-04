@@ -5,7 +5,6 @@
     session_start();
 
     require 'class/hooks.php';
-    require 'class/error.php';
 
     include 'dbconn.php';
     
@@ -21,7 +20,7 @@
     $settings = new settings();
 
     $page->loadModuleMetaData();
-    
+
     if (!isset($_GET['page'])) {
         $_GET['page'] = $page->landingPage;
     }
