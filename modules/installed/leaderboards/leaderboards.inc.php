@@ -8,6 +8,10 @@
         
         public function constructModule() {
             
+            if (!isset($this->methodData->top10)) {
+                $this->methodData->top10 = "";
+            }
+
             switch (@$this->methodData->top10) {
                 case 'rank': 
                     $order = 'US_exp'; 
