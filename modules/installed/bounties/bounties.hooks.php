@@ -19,9 +19,10 @@
         $bounties->bindParam(":killed", $killed->info->U_id);
         $bounties->execute();
 
-        $bounty = $bounties->fetchAll(PDO::FETCH_ASSOC)["reward"];
+        $bounties = $bounties->fetchAll(PDO::FETCH_ASSOC);
 
-        if ($bounty) {
+        if (isset($bounties["reward"])) {
+            $bounty = $bounties["reward"];
             $update = $shooter->db->prepare("
                 DELETE FROM bounties WHERE B_userToKill = :killed
             ");
