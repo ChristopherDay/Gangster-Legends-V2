@@ -2,9 +2,11 @@
 
     $config = array();
 
+    $config["debug"] = true;
+
     $config["db"] = array(
     	"host" => "localhost", 
-    	"database" => "lom",
+    	"database" => "glv2",
     	"user" => "root",
     	"pass" => ""
     );
