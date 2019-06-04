@@ -188,7 +188,7 @@
                         [{bio}]
                     {/if}
                     {#unless bio}
-                        <em><small>The user has not set up there bio yet!</small></em>
+                        <em><small>The user has not set up their bio yet!</small></em>
                     {/unless}
 
                     {#if edit}
