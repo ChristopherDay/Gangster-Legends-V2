@@ -8,7 +8,7 @@
                 <div class="col-md-7">
 
                     <div class="panel panel-default">
-                        <div class="panel-heading">New Users</div>
+                        <div class="panel-heading">New Players</div>
                         <div class="panel-body">
                             <table class="table table-condensed table-responsive table-bordered table-striped stats-table">
                                 <thead>
@@ -79,11 +79,11 @@
                         <div class="panel-body">
                             <ul class="list-group text-left">
                                 <li class="list-group-item">
-                                    Gangsters Alive
+                                    Players Alive
                                     <span class="badge">{alive}</span>
                                 </li>
                                 <li class="list-group-item">
-                                    Dead Gangsters
+                                    Dead Players
                                     <span class="badge">{dead}</span>
                                 </li>
                                 <li class="list-group-item">
