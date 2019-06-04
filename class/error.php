@@ -1,7 +1,7 @@
 <?php
 
     
-    class custom_error_handler {
+    class ErrorHandler {
         
         private $user, $db, $page, $minorLog = true, $majorLog = true;
         
@@ -47,33 +47,26 @@
             );
             
             $return = '';
-            $return .= '<div class="well" style="color:#000;">';
+            $return .= '<div class="well">';
             $return .= '<h1>There was an error!</h1>';
             $return .= '<p style="font-family: monospace;">';
             $return .= '<strong>File:</strong> '.$file;
             $return .= '<br /><strong>Line:</strong> '.$line;
-            $return .= '<br /><strong>Error: '.$type.'</strong> '.$string;
+            $return .= '<br /><strong>Error: </strong> '.$string;
+            $return .= '<br /><strong>Type:</strong> '.$type;
             $return .= '</p>';
             
             $return .= '</div>';
             
+            $this->log(json_encode($errorArray), $major);
                 
-            if (!$config->debug && $major) {
-            
+            if (!$config["debug"] && $major) {
                 echo '<h1>Sorry something went very wrong!</h1>';
                 echo 'The error has been logged and waiting for a developer to review this issue.';
-                $this->log(json_encode($errorArray), $major);
                 exit;
                 
-            } else if ($config->debug) {
-            
+            } else if ($config["debug"]) {
                 echo $return;
-                $this->log(json_encode($errorArray), $major);
-                
-            } else {
-                
-                $this->log(json_encode($errorArray), $major);
-            
             }
             
             
@@ -124,7 +117,7 @@
                         $this->minorLog = false;
                     }
                 }
-                if ($config->debug) {
+                if ($config["debug"]) {
                     echo $return;
                 }    
             }
@@ -132,6 +125,8 @@
         }
         
     }
+
+    $errorHandler = new ErrorHandler();
 
     function debug ($error, $usePrint = true, $returnString = false) {
         $bt = debug_backtrace();
