@@ -6,8 +6,9 @@
         
         public function constructModule() {
 
-            $adminModule = @$this->methodData->module;
-            if (!$adminModule) $this->methodData->module = "admin";
+            if (!isset($this->methodData->module)) $this->methodData->module = "admin";
+            
+            $adminModule = $this->methodData->module;
 
             if (!count($this->user->adminModules)) {
                 header("Location:?page=" . $this->page->landingPage);
