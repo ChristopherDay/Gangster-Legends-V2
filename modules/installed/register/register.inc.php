@@ -50,8 +50,12 @@
             
             $user = @new user();
             $settings = new settings();
-    
-            if (!filter_var($this->methodData->email, FILTER_VALIDATE_EMAIL)) {
+            
+            if(preg_match("/^[a-zA-Z0-9]+$/", $this->methodData->username) != 1) {
+                $this->regError =  $this->page->buildElement('error', array(
+                    "text" => 'Please enter a valid username'
+                )); 
+            } else if (!filter_var($this->methodData->email, FILTER_VALIDATE_EMAIL)) {
                 $this->regError =  $this->page->buildElement('error', array(
                     "text" => 'Please enter a valid email address'
                 )); 

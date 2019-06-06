@@ -124,10 +124,10 @@
 
             // HTML tags to replace BBcode
             $replace = array(
-                '<div style="text-align: left;">$1</div>',
-                '<div style="text-align: right;">$1</div>',
-                '<div style="text-align: center;">$1</div>',
-                '<div style="text-align: center;">$1</div>',
+                '<div class="text-left;">$1</div>',
+                '<div class="text-right;">$1</div>',
+                '<div class="text-center">$1</div>',
+                '<div class="text-center">$1</div>',
                 '<strong>$1</strong>',
                 '<em>$1</em>',
                 '<span style="text-decoration:underline;">$1</span>',
@@ -161,7 +161,7 @@
             } else {
                 if (!$html) $html = $this->template->$templateName;
 
-                ini_set('pcre.jit', false);
+                //ini_set('pcre.jit', false);
 
                 /* remove new lines ... not sure why but it stops nested ifs ... */
                 $html = trim(preg_replace('/\s+/', ' ', $html));

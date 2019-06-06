@@ -96,8 +96,11 @@
                 $this->id = $this->info->U_id;
                 $this->name = $this->info->U_name;
             }
-
-            $pic = (is_array(@getimagesize($this->info->US_pic))?$this->info->US_pic:"themes/default/images/default-profile-picture.png");
+	    $pic = "";
+	    if (isset($this->info->US_pic)) $pic = $this->info->US_pic;
+	    if (!$pic || str_replace("php", "", $pic) != $pic) {
+		    $pic = "themes/default/images/default-profile-picture.png";
+	    }
 
             if (isset($this->info->U_name)) {
                 $this->user = array(
@@ -262,6 +265,7 @@
             $page->addToTemplate('points', $this->info->US_points);
             $page->addToTemplate('health', number_format($health, 2));
             $page->addToTemplate('location', $this->getLocation());
+            $page->addToTemplate('locationID', $this->info->US_location);
             $page->addToTemplate('username', $this->info->U_name);
             $page->addToTemplate('userStatus', $this->info->U_status);
 
@@ -425,6 +429,17 @@
                     "rankName" => $newRank->R_name,
                     "rewards" => $rewards
                 ));
+
+                $actionHook = new hook("userAction");
+                $action = array(
+                    "user" => $this->info->U_id, 
+                    "module" => "rank", 
+                    "id" => 0, 
+                    "success" => true, 
+                    "reward" => $newRank->R_id, 
+                    "gt" => true
+                );
+                $actionHook->run($action);
 
                 $hook = new Hook("rankUp");
                 $info = array(
