@@ -4,6 +4,7 @@ class glPDO extends PDO {
     $driverOptions[PDO::MYSQL_ATTR_USE_BUFFERED_QUERY] = true;
     $driverOptions[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
     parent::__construct($name_host, $username, $password, $driverOptions);
+    parent::query("SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));'");
   }
 
   function runQuery($query, $params = array()) {
