@@ -202,10 +202,10 @@ class blackjack extends module {
         $user = $this->scoreHand($game["user"]);
         $dealer = $this->scoreHand($game["dealer"]);
 
-        while ($user > $dealer) {
+        while ($user > $dealer || $dealer < 17) {
             $game["dealer"][] = $deck->draw();
             $dealer = $this->scoreHand($game["dealer"]);
-            if ($dealer == 0) {
+            if ($dealer == 0 || $dealer > 17) {
                 break;
             }
         }
