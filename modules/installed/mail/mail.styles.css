@@ -1,3 +1,8 @@
+.read-mail,
+.read-mail h4 {
+    text-align: left !important;
+}
+
 @media (max-width: 767px) {
 
     .read-mail h4 {

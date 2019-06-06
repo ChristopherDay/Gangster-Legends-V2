@@ -13,6 +13,12 @@
 
             $user = new User(false, $this->methodData->username);
 
+            if(preg_match("/^[a-zA-Z0-9]+$/", $this->methodData->username) != 1) {
+                return $this->alerts[] = $this->page->buildElement('error', array(
+                    "text" => 'Please enter a valid username'
+                )); 
+            }
+
             if (isset($user->info->U_id)) {
                 return $this->alerts[] = $this->page->buildElement("error", array(
                     "text" => "Your chosen username is already in use!"
