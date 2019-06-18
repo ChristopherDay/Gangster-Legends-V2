@@ -281,12 +281,15 @@
             $armor = $this->getArmor();
 
             
-            $this->info->maxRank = true;
             if (isset($this->nextRank->R_exp)) {
                 $expIntoNextRank =  $this->info->US_exp - $rank->R_exp;
                 $expNeededForNextRank = $this->nextRank->R_exp - $rank->R_exp;
                 $expperc = round($expIntoNextRank / $expNeededForNextRank * 100, 2);
                 $this->info->maxRank = false;
+            } else {
+                $this->info->maxRank = true;
+                $thisRank = $this->getRank($this->info->U_id);
+                $expperc = round($this->info->US_exp / $thisRank->R_exp * 100, 2) % 100;
             }
             
             $page->addToTemplate('maxRank', $this->info->maxRank);
