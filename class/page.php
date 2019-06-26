@@ -108,6 +108,12 @@ class page {
                 $customMenu = new hook("customMenus");
                 $gangMenu = new hook("gangMenu");
 
+                $locationName = "";
+
+                if (isset($this->pageItems["location"])) {
+                    $locationName = $this->pageItems["location"];
+                }
+
                 $menus = array(
                     "actions" => array(
                         "title" => "Actions", 
@@ -115,7 +121,7 @@ class page {
                         "sort" => 100
                     ), 
                     "location" => array(
-                        "title" => "{location}", 
+                        "title" => $locationName, 
                         "items" => $this->sortArray($locationMenu->run($user)), 
                         "sort" => 200
                     ),
