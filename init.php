@@ -31,6 +31,7 @@
         if (!empty($_SESSION['userID'])) {
             $user = new user($_SESSION['userID']);
             $user->updateTimer('laston', time());
+            $user->checkRank();
         }
         $page->loadPage("pageNotFound");
     } else {
@@ -40,8 +41,8 @@
         if (!empty($_SESSION['userID'])) {
             
             $user = new user($_SESSION['userID']);
-            
             $user->updateTimer('laston', time());
+            $user->checkRank();
 
             if ($_GET["page"] == "logout") {
                 $page->loadPage('logout');

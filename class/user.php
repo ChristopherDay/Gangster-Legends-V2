@@ -29,7 +29,7 @@
                     $this->loggedin = true;
                 }
 
-                   $this->nextRank = $this->checkRank();
+                $this->nextRank = $this->nextRank();
 
             }
 
@@ -96,11 +96,12 @@
                 $this->id = $this->info->U_id;
                 $this->name = $this->info->U_name;
             }
-	    $pic = "";
-	    if (isset($this->info->US_pic)) $pic = $this->info->US_pic;
-	    if (!$pic || str_replace("php", "", $pic) != $pic) {
-		    $pic = "themes/default/images/default-profile-picture.png";
-	    }
+    	    
+            $pic = "";
+    	    if (isset($this->info->US_pic)) $pic = $this->info->US_pic;
+    	    if (!$pic || str_replace("php", "", $pic) != $pic) {
+    		    $pic = "themes/default/images/default-profile-picture.png";
+    	    }
 
             if (isset($this->info->U_name)) {
                 $this->user = array(
@@ -390,31 +391,34 @@
             $this->info->$stat = $value;
 
         }
-        
-        public function checkRank() {
-            
-            global $page;
-            $rank = $this->getRank();
 
+        public $counter = 0;
+        
+        public function nextRank() {
+
+            $rank = $this->getRank();
 
             $nextRank = $this->db->prepare("SELECT * FROM ranks WHERE R_exp > :oldExp ORDER BY R_exp LIMIT 0, 1");
             $nextRank->bindParam(":oldExp", $rank->R_exp);
             $nextRank->execute();
             $newRank = (object) $nextRank->fetch(PDO::FETCH_ASSOC);
 
+            return $newRank;
+        }
+
+        public function checkRank() {
+            
+            global $page;
+
+            $newRank = $this->nextRank();
+
             if (isset($newRank->R_exp) && $newRank->R_exp <= $this->info->US_exp) {
 
-                $this->db->query("
-                    UPDATE userStats SET 
-                        US_money = US_money + ".$newRank->R_cashReward.", 
-                        US_bullets = US_bullets + ".$newRank->R_bulletReward.", 
-                        US_rank = ".$newRank->R_id."
-                    WHERE 
-                        US_id = ".$this->info->US_id);
+                $this->counter++;
 
-                $this->info->US_rank = $newRank->R_id;
-                $this->info->US_bullets = $this->info->US_bullets + $newRank->R_bulletReward;
-                $this->info->US_money = $this->info->US_money + $newRank->R_cashReward;
+                $this->set("US_rank", $newRank->R_id);
+                $this->set("US_bullets", $this->info->US_bullets + $newRank->R_bulletReward);
+                $this->set("US_money", $this->info->US_money + $newRank->R_cashReward);
 
                 $rewards = array();
 
@@ -542,9 +546,11 @@
             
         }
 
-        public function getStatus($returnElement = true) {
+        public function getStatus($returnElement = true, $time = false) {
             
-            $time =(time() - $this->getTimer("laston"));
+            if (!$time) {
+                $time =(time() - $this->getTimer("laston"));
+            }
             global $page;
             
             if ($time > 300 && $time <= 900) {
