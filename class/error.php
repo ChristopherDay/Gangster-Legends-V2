@@ -31,8 +31,6 @@
                 case E_USER_ERROR: $type ='E_USER_ERROR';
                 case E_USER_WARNING: $type ='E_USER_WARNING';
                 case E_USER_NOTICE: $type ='E_USER_NOTICE';
-                case E_USER_DEPECTED: $type ='E_USER_DEPECTED';
-                case E_DEPECTED: $type ='E_DEPECTED';
                 case E_STRICT: $type ='E_STRICT';
                 case E_RECOVERABLE_ERROR: $type ='E_RECOVERABLE_ERROR';
                 case E_ALL: $type ='E_ALL';
