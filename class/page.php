@@ -6,7 +6,7 @@ class page {
         $this->addToTemplate("timestamp", time());
     }
     
-    public $theme, $template, $success = false, $loginPages = array('login', 'register'), $jailPages = array(), $loginPage, $jailPage, $dontRun = false, $modules = array(), $moduleView, $loadedTheme;
+    public $printPage = true, $theme, $template, $success = false, $loginPages = array('login', 'register'), $jailPages = array(), $loginPage, $jailPage, $dontRun = false, $modules = array(), $moduleView, $loadedTheme;
     private $pageHTML, $pageItems, $pageReplace;
     
     public function loadModuleMetaData() {
@@ -225,6 +225,8 @@ class page {
         
         $this->replaceVars();
         
+        if (!$this->printPage) return;
+
         echo $this->pageHTML;
         
     }
@@ -241,6 +243,8 @@ class page {
     public function redirectTo($page, $vars = array()) {
         
         $get = '';
+
+        $this->printPage = false;
         
         foreach ($vars as $key => $val) {
             $get .= '&' . $key . '=' . $val;
@@ -249,8 +253,6 @@ class page {
         $redirect = '?page=' . $page . '';
         
         header("Location:" . $redirect . $get);
-        
-        exit;
         
     }
     
