@@ -29,6 +29,7 @@
                 if (!$pic || str_replace("php", "", $pic) != $pic) {
                     $pic = "themes/default/images/default-profile-picture.png";
                 }
+                $online[$key] = array();
                 $online[$key]["user"] = array(
                     "name" => $value["U_name"],
                     "id" => $value["U_id"],
