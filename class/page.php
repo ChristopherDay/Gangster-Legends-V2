@@ -217,6 +217,12 @@ class page {
     
     private function replaceVars() {
         $template = new pageElement($this->pageItems);
+
+        if (isset($_SERVER["HTTP_RETURN_JSON"])) {
+            header("content-type: application/json");
+            echo json_encode($this->pageItems, JSON_PRETTY_PRINT);
+            exit;
+        }
         $this->pageHTML = $template->parse($this->pageHTML);
         
     }
