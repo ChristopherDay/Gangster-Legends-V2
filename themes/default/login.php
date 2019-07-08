@@ -18,7 +18,6 @@
             $page->addToTemplate("usersOnlineNow", number_format($usersOnline->fetch(PDO::FETCH_ASSOC)["count"]));
             $page->addToTemplate("registeredUsers", number_format($users->fetch(PDO::FETCH_ASSOC)["count"]));
 
-            debug($page->pageItems);
         }
         
         public $pageMain =  '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
