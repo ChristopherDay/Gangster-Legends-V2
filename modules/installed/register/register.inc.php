@@ -19,18 +19,6 @@
             $settings = new settings();
             $this->page->addToTemplate("loginSuffix", $settings->loadSetting("registerSuffix"));
             $this->page->addToTemplate("loginPostfix", $settings->loadSetting("registerPostfix"));
-
-            $usersOnline = $this->db->prepare("
-                SELECT COUNT(*) as 'count' FROM users
-            ");
-            $usersOnline->execute();
-            $users = $this->db->prepare("
-                SELECT COUNT(*) as 'count' FROM userTimers WHERE UT_desc = 'laston' AND UT_time > ".(time()-900)."
-            ");
-            $users->execute();
-
-            $this->page->addToTemplate("usersOnline", number_format($usersOnline->fetch(PDO::FETCH_ASSOC)["count"]));
-            $this->page->addToTemplate("users", number_format($users->fetch(PDO::FETCH_ASSOC)["count"]));
             
             $ref = false;
             if (isset($this->methodData->ref)) {
