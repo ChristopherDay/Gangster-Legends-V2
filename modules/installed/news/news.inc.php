@@ -7,19 +7,6 @@
         public $pageName = 'Welcome back';
         
         public function constructModule() {
-
-            
-            $usersOnline = $this->db->prepare("
-                SELECT COUNT(*) as 'count' FROM users
-            ");
-            $usersOnline->execute();
-            $users = $this->db->prepare("
-                SELECT COUNT(*) as 'count' FROM userTimers WHERE UT_desc = 'laston' AND UT_time > ".(time()-900)."
-            ");
-            $users->execute();
-
-            $this->page->addToTemplate("usersOnline", number_format($usersOnline->fetch(PDO::FETCH_ASSOC)["count"]));
-            $this->page->addToTemplate("users", number_format($users->fetch(PDO::FETCH_ASSOC)["count"]));
             
             $news = $this->db->prepare("
                 SELECT * FROM gameNews INNER JOIN users ON (GN_author = U_id) ORDER BY GN_date DESC LIMIT 0, 10
