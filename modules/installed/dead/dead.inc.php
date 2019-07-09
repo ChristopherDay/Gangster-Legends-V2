@@ -53,6 +53,10 @@
 
             $this->db->query("INSERT INTO userStats (US_id) VALUES (" . $id . ")");
 
+            $u = new User($id);
+
+            $u->updateTimer("signup", time());
+
             $_SESSION['userID'] = $id;
 
             header("Location:?");

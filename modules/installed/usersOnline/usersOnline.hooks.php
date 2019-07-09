@@ -37,6 +37,7 @@
                     "status" => $value["U_status"], 
                     "color" => $value["UR_color"], 
                     "gang" => $value["US_gang"], 
+                    "gangBoss" => $value["G_boss"], 
                     "profilePicture" => $pic,
                     "onlineStatus" => $user->getStatus(false, time() - $value["UT_time"])
                 );
@@ -44,9 +45,9 @@
 
             $lastRank = 0;
             foreach ($online as $onlineUser) {
-            	$onlineUser["isUser"] = $user->id == $onlineUser["U_id"];
-            	if ($onlineUser["US_gang"] && $onlineUser["US_gang"] == $user->info->US_gang) {
-            		if ($onlineUser["G_boss"] == $onlineUser["U_id"]) {
+            	$onlineUser["isUser"] = $user->id == $onlineUser["user"]["id"];
+            	if ($onlineUser["user"]["gang"] && $onlineUser["user"]["gang"] == $user->info->US_gang) {
+            		if ($onlineUser["user"]["gangBoss"] == $onlineUser["user"]["id"]) {
             			$onlineUser["isCrewOwner"] = true;
             		}
             		$onlineUser["isCrew"] = true;

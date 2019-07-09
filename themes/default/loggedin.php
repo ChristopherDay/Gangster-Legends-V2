@@ -195,7 +195,7 @@
 
             <script src="themes/{_theme}/js/jquery.js"></script>
             <!--<script src="themes/{_theme}/js/bootstrap.min.js"></script>-->
-            <script src="themes/{_theme}/js/ajax.js"></script>
+            <!--<script src="themes/{_theme}/js/ajax.js"></script>-->
             <script src="themes/{_theme}/js/timer.js"></script>
             <script src="themes/{_theme}/js/mobile.js"></script>
             {#if moduleJSFile}
