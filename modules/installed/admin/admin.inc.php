@@ -124,8 +124,11 @@
                     
                     $add = "";
 
+
                     if (!isset($this->methodData->action) || $this->methodData->module != $moduleName) {
-                        $add = "&action=" . $moduleInfo["admin"][0]["method"];
+                        if (is_array($moduleInfo["admin"])) {
+                            $add = "&action=" . $moduleInfo["admin"][0]["method"];
+                        }
                     } else {
                         $add = "&action=" . $this->methodData->action;
                     }

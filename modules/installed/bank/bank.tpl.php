@@ -16,7 +16,7 @@
                                 <input type="text" class="form-control" value="{deposit}" name="deposit" />
                             </p>
                             <p class="text-right">
-                                <button type="submit" class="btn" name="bank" value="deposit">Deposit</button>
+                                <button type="submit" class="btn btn-default" name="bank" value="deposit">Deposit</button>
                             </p>
                         </div>
                     </div>
@@ -32,7 +32,7 @@
                                 <input type="text" class="form-control" value="{withdraw}" name="withdraw" />
                             </p>
                             <p class="text-right">
-                                <button type="submit" class="btn" name="bank" value="withdraw">Withdraw</button>
+                                <button type="submit" class="btn btn-default" name="bank" value="withdraw">Withdraw</button>
                             </p>
                         </div>
                     </div>
@@ -54,9 +54,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="text-center">
+                <p class="text-center">
                     <button class="btn btn-default" name="submit" type="submit" value="1">Transfer</button>
-                </div>
+                </p>
             </div>
         </form>
         ';
