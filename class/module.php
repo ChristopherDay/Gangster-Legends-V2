@@ -2,7 +2,7 @@
 
     class module {
         
-        public $alerts = array(), $html = '', $page, $user, $db, $methodData, $construct = true;
+        public $alerts = array(), $html = '', $page, $user, $db, $methodData, $construct = true, $_settings;
         
         public function __construct() {
         
@@ -11,6 +11,7 @@
             $this->db = $db;
             $this->page = $page;
             $this->methodData = (object) array();
+            $this->_settings = new Settings();
             
             if (isset($user->id)) {
                 $this->user = $user;
