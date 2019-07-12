@@ -7,9 +7,18 @@
                 <form action="?page=login&action=login" method="post">
                     <input autocomplete="new-password" type="input" class="form-control" name="email" placeholder="Email" /><br />
                     <input autocomplete="new-password" type="password" class="form-control" name="password" placeholder="Password" /><br />
-                    <div class="text-right">
-                        <button type="submit" class="btn">Login</button>
+
+                    <div class="row">
+                        <div class="col-xs-8 text-left">
+                            <a href="?page=forgotPassword">Forgot Password?</a>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="text-right">
+                                <button type="submit" class="btn">Login</button>
+                            </div>
+                        </div>
                     </div>
+
                 </form>
         ';
 

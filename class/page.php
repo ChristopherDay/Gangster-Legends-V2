@@ -6,7 +6,7 @@ class page {
         $this->addToTemplate("timestamp", time());
     }
     
-    public $theme, $template, $success = false, $loginPages = array('login', 'register'), $jailPages = array(), $loginPage, $jailPage, $dontRun = false, $modules = array(), $moduleView, $loadedTheme;
+    public $printPage = true, $theme, $template, $success = false, $loginPages = array('login', 'register'), $jailPages = array(), $loginPage, $jailPage, $dontRun = false, $modules = array(), $moduleView, $loadedTheme;
     private $pageHTML, $pageItems, $pageReplace;
     
     public function loadModuleMetaData() {
@@ -217,6 +217,12 @@ class page {
     
     private function replaceVars() {
         $template = new pageElement($this->pageItems);
+
+        if (isset($_SERVER["HTTP_RETURN_JSON"])) {
+            header("content-type: application/json");
+            echo json_encode($this->pageItems, JSON_PRETTY_PRINT);
+            exit;
+        }
         $this->pageHTML = $template->parse($this->pageHTML);
         
     }
@@ -225,6 +231,8 @@ class page {
         
         $this->replaceVars();
         
+        if (!$this->printPage) return;
+
         echo $this->pageHTML;
         
     }
@@ -241,6 +249,8 @@ class page {
     public function redirectTo($page, $vars = array()) {
         
         $get = '';
+
+        $this->printPage = false;
         
         foreach ($vars as $key => $val) {
             $get .= '&' . $key . '=' . $val;
@@ -249,8 +259,6 @@ class page {
         $redirect = '?page=' . $page . '';
         
         header("Location:" . $redirect . $get);
-        
-        exit;
         
     }
     

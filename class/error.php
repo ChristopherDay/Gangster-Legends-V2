@@ -34,7 +34,7 @@
                 case E_STRICT: $type ='E_STRICT';
                 case E_RECOVERABLE_ERROR: $type ='E_RECOVERABLE_ERROR';
                 case E_ALL: $type ='E_ALL';
-                default: $type = false;
+
 
             }
 

@@ -252,6 +252,8 @@
             $this->getNotificationCount($this->info->U_id, 'mail'); 
             $this->getNotificationCount($this->info->U_id, 'notifications'); 
 
+            if (empty($this->info->US_pic)) $this->info->US_pic = "themes/default/images/default-profile-picture.png";
+
             $pic = (is_array(@getimagesize($this->info->US_pic))?$this->info->US_pic:"themes/default/images/default-profile-picture.png");
 
             $maxHealth = $this->rank->R_health;
