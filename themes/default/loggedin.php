@@ -182,8 +182,12 @@
                         </div>
                         
                         <div class="col-md-9 game-container text-center">
-                            <{alerts}>
-                            <{game}>
+                            <div data-ajax-element="alerts" data-ajax-type="html">
+                                <{alerts}>
+                            </div>
+                            <div data-ajax-element="game" data-ajax-type="html">
+                                <{game}>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -191,6 +195,7 @@
 
             <script src="themes/{_theme}/js/jquery.js"></script>
             <!--<script src="themes/{_theme}/js/bootstrap.min.js"></script>-->
+            <!--<script src="themes/{_theme}/js/ajax.js"></script>-->
             <script src="themes/{_theme}/js/timer.js"></script>
             <script src="themes/{_theme}/js/mobile.js"></script>
             {#if moduleJSFile}
