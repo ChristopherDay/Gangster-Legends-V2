@@ -9,9 +9,9 @@
         public $pageName = '';
         
         public function constructModule() {
-            $code = @$this->methodData->code;
 
-            if ($code) {
+            if (isset($this->methodData->code)) {
+                $code = $this->methodData->code;
                 $settings = new settings();
                 $correctCode = $this->user->activationCode($this->user->info->U_id, $this->user->info->U_name);
                 if ($code == $correctCode) {
