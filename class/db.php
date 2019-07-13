@@ -1,7 +1,7 @@
 <?php
 class glPDO extends PDO {
   function __construct($name_host, $username='', $password='', $driverOptions=array()) {
-    $driverOptions[PDO::MYSQL_ATTR_USE_BUFFERED_QUERY] = true;
+    //$driverOptions[PDO::MYSQL_ATTR_USE_BUFFERED_QUERY] = true;
     $driverOptions[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
     parent::__construct($name_host, $username, $password, $driverOptions);
   }

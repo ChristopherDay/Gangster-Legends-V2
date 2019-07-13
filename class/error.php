@@ -18,7 +18,7 @@
         public function handler($number,$string,$file,$line,$context,$major = false) {
             
             global $config;
-            
+
             switch ($number) {
                 case E_ERROR: $type ='E_ERROR';
                 case E_WARNING: $type ='E_WARNING';
@@ -33,13 +33,12 @@
                 case E_USER_NOTICE: $type ='E_USER_NOTICE';
                 case E_STRICT: $type ='E_STRICT';
                 case E_RECOVERABLE_ERROR: $type ='E_RECOVERABLE_ERROR';
-                case E_ALL: $type ='E_ALL';
-
-
+            }
+            
+            if (!isset($type)) {
+                return;
             }
 
-            if (!$type) return;
-            
             $errorArray = array(
                 $type,
                 $string,
@@ -75,21 +74,14 @@
         }
         
         public function shutdown() {
-            
-            global $page;
-            
-            if (!$page->success) {
-                    
-                $error = error_get_last();
-                
-                $this->handler($error['type'], $error['message'], $error['file'], $error['line'], NULL, true);
-                
-            }
-            
+            $error = error_get_last();
+            $this->handler($error['type'], $error['message'], $error['file'], $error['line'], NULL, true);
         }
         
         private function log($text, $major = false) {
         
+            global $config;
+
             if ($major) {
                 $file = dirname( __FILE__ ).'/../logs/errors/major.txt';
             } else {
