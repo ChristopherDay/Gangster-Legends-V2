@@ -10,6 +10,8 @@
         
         public function constructModule() {
 
+            $code = "";
+
             if (isset($this->methodData->code)) {
                 $code = $this->methodData->code;
                 $settings = new settings();
