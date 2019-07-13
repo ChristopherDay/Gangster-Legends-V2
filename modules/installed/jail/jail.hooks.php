@@ -17,7 +17,9 @@
             
             $count = $user->db->prepare("
                     SELECT DISTINCT 
-                        `U_id` as 'id'
+                        `U_id` as 'id', 
+                        `U_name` as 'name', 
+                        `US_rank` as 'rank'
                     FROM 
                         `userTimers` `jail`
                         INNER JOIN `users` ON (U_id = UT_user) 

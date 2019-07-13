@@ -13,7 +13,7 @@ INSERT INTO `crimes` (`C_id`, `C_name`, `C_cooldown`, `C_money`, `C_maxMoney`, `
 (2, 'Rob a cab driver', 45, 10, 18, 1);
 
 INSERT INTO `gameNews` (`GN_id`, `GN_author`, `GN_title`, `GN_text`, `GN_date`) VALUES
-(1, 1, 'Instalation Complete', 'GL v2 successfully installed', NOW());
+(1, 1, 'Instalation Complete', 'GL v2 successfully installed', UNIX_TIMESTAMP());
 
 INSERT INTO `garage` (`GA_id`, `GA_uid`, `GA_car`, `GA_damage`, `GA_location`) VALUES
 (23, 1, 4, 0, 3),
@@ -24,8 +24,8 @@ INSERT INTO `locations` (`L_id`, `L_name`, `L_cost`, `L_bullets`, `L_bulletCost`
 (3, 'Rome', 220, 0, 100, 4800),
 (2, 'Paris', 200, 0, 100, 4200);
 
-INSERT INTO `notifications` (`N_id`, `N_uid`, `N_text`, `N_read`) VALUES
-(1, 1, 'GL V2 installed successfully', 0);
+INSERT INTO `notifications` (`N_time`, `N_id`, `N_uid`, `N_text`, `N_read`) VALUES
+(UNIX_TIMESTAMP(), 1, 1, 'GL V2 installed successfully', 0);
 
 INSERT INTO `ranks` (`R_id`, `R_name`, `R_exp`, `R_limit`, `R_cashReward`, `R_bulletReward`, `R_health`) VALUES
 (1, 'Lowlife', 0, 0, 75, 25, 5000),
