@@ -93,19 +93,15 @@
                     </div>
                 </div>
 
-                {#if canAlterModules}
-                    <h3>Admin Modules</h3>
-                    <ul class="list-group">
-                        {#each modules}
-                            {#if admin}
-                                <li class="list-group-item col-md-4">
-                                    <input type="checkbox" name="access[]" value="{id}" {#if selected}checked{/if}> {pageName}
-                                </li>
-                            {/if}
-                        {/each}
-                    </ul>
-                    <div class="clearfix"></div>
-                {/if}
+                <h3>Admin Modules</h3>
+                <ul class="list-group">
+                    {#each modules}
+                        <li class="list-group-item col-md-4">
+                            <input type="checkbox" name="access[]" value="{id}" {#if selected} checked {/if} /> {pageName}
+                        </li>
+                    {/each}
+                </ul>
+                <div class="clearfix"></div>
 
                 <div class="text-right">
                     <button class="btn btn-default" name="submit" type="submit" value="1">

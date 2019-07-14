@@ -162,7 +162,7 @@
 
             $role["editType"] = "edit";
             $role["modules"] = $this->page->modules;
-            $role["canAlterModules"] = intval($role["id"] > 3);
+            $role["canAlterModules"] = true;//intval($role["id"] > 3);
             
             array_unshift($role["modules"], array(
                 "admin" => true, 
