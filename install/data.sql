@@ -44,6 +44,9 @@ INSERT INTO `users` (`U_id`, `U_name`, `U_email`, `U_password`, `U_userLevel`, `
 
 INSERT INTO `userStats` (`US_id`) VALUES (1);
 
+INSERT INTO `settings` (`S_desc`, `S_value`) VALUES
+('pointsName', 'Points');
+
 INSERT INTO `weapons` (`W_id`, `W_name`, `W_accuracy`) VALUES
 (1, 'Pistol', 5);
 
