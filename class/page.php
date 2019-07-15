@@ -27,6 +27,12 @@ class page {
         }
     }
 
+    public function username($user) {
+        return $this->buildElement("userName", array(
+            "user" => $user->user
+        ));
+    }
+
     public function loadPage($page, $dontRun = false) {
 
         $this->dontRun = $dontRun;
