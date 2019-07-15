@@ -244,6 +244,14 @@
                         </div>
                     {/each}
 
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination">
+                            {#each pages}
+                                <li {#if active}class="active"{/if}><a href="?page=forum&action=topic&id={id}&pageNumber={page}"><{name}></a></li>
+                            {/each}
+                        </ul>
+                    </nav>
+
                     {#if locked}
                         <div class="text-center">
                             <em>
@@ -270,6 +278,7 @@
                             </div>
                         </form>
                     {/unless}
+
                 </div>
             </div>
         ';
