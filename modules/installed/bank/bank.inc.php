@@ -31,12 +31,12 @@
 
             $user = new User(null, $this->methodData->user);
 
-            if ($user->info->U_id == $this->user->id) {
-                return $this->error("You can't send money to yourself!");
-            }
-
             if (!isset($user->info->U_id)) {
                 return $this->error("This user does not exist");
+            }
+
+            if ($user->info->U_id == $this->user->id) {
+                return $this->error("You can't send money to yourself!");
             }
 
             $money = abs(intval($this->methodData->money));
