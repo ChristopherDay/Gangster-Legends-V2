@@ -40,6 +40,20 @@
         }
 
         public function getTopic($id) {
+
+            $page = 1;
+            if (isset($this->methodData->pageNumber)) $page = abs(intval($this->methodData->pageNumber));
+            $perPage = 10;
+            $from = ($page - 1) * $perPage;
+
+            $count = $this->db->prepare("
+                SELECT CEIL(COUNT(*) / $perPage) as 'count' FROM posts WHERE P_topic = :topic
+            ");
+            $count->bindParam(":topic", $id);
+            $count->execute();
+
+            $count = $count->fetch(PDO::FETCH_ASSOC)["count"];
+
             $topic = $this->db->prepare("
                 SELECT * FROM topics WHERE T_id = :id
             ");
@@ -58,6 +72,7 @@
                 WHERE
                     P_topic = :topic
                 ORDER BY P_date ASC
+                LIMIT $from, $perPage
             ");
 
             $posts->bindParam(":topic", $id);
@@ -94,7 +109,9 @@
                 "topic" => $topic["T_id"], 
                 "locked" => $topic["T_status"] == 1, 
                 "posts" => $posts, 
-                "type" => $type
+                "type" => $type, 
+                "lastPage" => $count,
+                "pages" => $this->buildPages($page, $count, $topic["T_id"])
             );
 
             return $output;
@@ -145,6 +162,9 @@
             ");
             $count->bindParam(":forum", $forum);
             $count->execute();
+
+            $count = $count->fetch(PDO::FETCH_ASSOC)["count"];
+
             $topics = $this->db->prepare("
                 SELECT 
                     T_id as 'id', 
@@ -179,7 +199,7 @@
 
             return array(
                 "topics" => $topics,
-                "pages" => $this->buildPages($page, $count->fetch(PDO::FETCH_ASSOC)["count"], $forum)
+                "pages" => $this->buildPages($page, $count, $forum)
             ); 
         }
 
@@ -320,7 +340,23 @@
                     $error = true;
                 }
 
+
+                
+                if (!$this->user->checkTimer("forumTopic")) {
+                    $time = $this->user->getTimer('forumTopic');
+                    $error = array(
+                        "timer" => "forumTopic",
+                        "text"=>'You cant post another topic again untill your timer is up!',
+                        "time" => $this->user->getTimer("forumTopic")
+                    );
+                    $this->html .= $this->page->buildElement('timer', $error);
+                    $error = true;
+                }
+
+
+
                 if (!$error) {
+                    $this->user->updateTimer('forumTopic', 60, true);
                     $topic = $this->newTopic(
                         $this->methodData->id, 
                         $this->user->id, 
@@ -359,14 +395,37 @@
                     $this->error("The reply must be atleast 6 characters");
                     $error = true;
                 }
+                
+                if (!$this->user->checkTimer("forumPost")) {
+                    $time = $this->user->getTimer('forumPost');
+                    $error = array(
+                        "timer" => "forumPost",
+                        "text"=>'You cant post again untill your timer is up!',
+                        "time" => $this->user->getTimer("forumPost")
+                    );
+                    $this->html .= $this->page->buildElement('timer', $error);
+                    $error = true;
+                }
 
                 if (!$error) {
+
+                    $this->user->updateTimer('forumPost', 15, true);
+
                     $topic = $this->newPost(
                         $this->methodData->id, 
                         $this->user->id, 
                         $this->methodData->body
                     );
-                    header("Location:?page=forum&action=topic&id=" . $this->methodData->id);
+
+                    $count = $this->db->prepare("
+                        SELECT CEIL(COUNT(*) / 10) as 'count' FROM posts WHERE P_topic = :topic
+                    ");
+                    $count->bindParam(":topic", $this->methodData->id);
+                    $count->execute();
+
+                    $lastPage = $count->fetch(PDO::FETCH_ASSOC)["count"];
+
+                    header("Location:?page=forum&action=topic&id=" . $this->methodData->id . "&pageNumber=" . $lastPage);
                 }
 
             }
