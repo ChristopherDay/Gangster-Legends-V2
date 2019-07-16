@@ -79,7 +79,7 @@
                                         <input type="text" class="form-control" autocomplete="off" name="bullets" placeholder="Qty. to buy" />
                                     </td>
                                     <td>
-                                        <button type="submit" class="btn btn-block" style="margin: 0px;">Buy</button>
+                                        <button type="submit" class="btn btn-default btn-block" style="margin: 0px;">Buy</button>
                                     </td>
                                 </tr>
                             </tbody>
