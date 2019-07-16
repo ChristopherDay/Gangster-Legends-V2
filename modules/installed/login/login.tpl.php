@@ -14,7 +14,7 @@
                         </div>
                         <div class="col-xs-4">
                             <div class="text-right">
-                                <button type="submit" class="btn">Login</button>
+                                <button type="submit" class="btn btn-default">Login</button>
                             </div>
                         </div>
                     </div>
@@ -32,8 +32,8 @@
                         <div class="form-group">
                             <textarea type="text" class="form-control" data-editor="html" name="loginSuffix" rows="5">{loginSuffix}</textarea>
                         </div>
-                    </div>
-                </div>
+                    </div">
+                    "                </div>
 
                 <div class="row">
                     <div class="col-md-12">
