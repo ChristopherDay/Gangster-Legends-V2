@@ -36,7 +36,9 @@ class page {
     public function loadPage($page, $dontRun = false) {
 
         $this->dontRun = $dontRun;
-        
+        $hook = new Hook("moduleLoad");
+        $page = $hook->run($page, true);
+
         if (ctype_alpha($page)) {
             return $this->load($page);
         } else {

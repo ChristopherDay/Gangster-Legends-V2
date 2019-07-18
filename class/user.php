@@ -545,6 +545,14 @@
             $update->bindParam(':user', $user);
             $update->bindParam(':desc', $timer);
             $update->execute();
+
+            $hook = new Hook("userTimerUpdated");
+            $data = array(
+                "timer" => $timer, 
+                "time" => $time, 
+                "user" => $user
+            );
+            $hook->run($data);
             
         }
 
