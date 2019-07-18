@@ -25,7 +25,11 @@
         public function run(&$opts, $returnSingleItem = false) {
             global $hooks;
             if ($returnSingleItem) {
-                $rtn = array();
+                if (is_array($opts)) {
+                    $rtn = array();
+                } else {
+                    $rtn = $opts;
+                }
             } else {
                 $rtn = null;
             }
