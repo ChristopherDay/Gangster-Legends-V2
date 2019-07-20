@@ -44,7 +44,7 @@
             $page = 1;
             if (isset($this->methodData->pageNumber)) $page = abs(intval($this->methodData->pageNumber));
             $perPage = 10;
-            $from = ($page - 1) * $perPage;
+            $from = ($page - 1) * $perPage + 1;
 
             $count = $this->db->prepare("
                 SELECT CEIL(COUNT(*) / $perPage) as 'count' FROM posts WHERE P_topic = :topic
@@ -66,6 +66,7 @@
                     P_id as 'id', 
                     P_date as 'time', 
                     P_user as 'user', 
+                    '' as 'style',
                     P_topic as 'topic', 
                     P_body as 'body'
                 FROM posts
@@ -74,10 +75,29 @@
                 ORDER BY P_date ASC
                 LIMIT $from, $perPage
             ");
-
             $posts->bindParam(":topic", $id);
             $posts->execute();
             $posts = $posts->fetchAll(PDO::FETCH_ASSOC);
+
+            $firstPost = $this->db->prepare("
+                SELECT 
+                    P_id as 'id', 
+                    P_date as 'time', 
+                    P_user as 'user', 
+                    'first-post' as 'style',
+                    P_topic as 'topic', 
+                    P_body as 'body'
+                FROM posts
+                WHERE
+                    P_topic = :topic
+                ORDER BY P_date ASC
+                LIMIT 0, 1
+            ");
+            $firstPost->bindParam(":topic", $id);
+            $firstPost->execute();
+            $firstPost = $firstPost->fetch(PDO::FETCH_ASSOC);
+            
+            array_unshift($posts, $firstPost);
 
             $userIsAdmin = $this->user->hasAdminAccessTo("forum");
 
