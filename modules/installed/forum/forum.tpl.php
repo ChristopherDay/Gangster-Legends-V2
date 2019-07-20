@@ -169,7 +169,7 @@
                         </small>
                     </h4>
                     {#each posts}
-                        <div class="well well-sm text-left">
+                        <div class="well well-sm text-left {style}">
                             <h5 class="text-left forum-header">
                                 {>userName}
                                 <small class="pull-right">

@@ -22,6 +22,10 @@
     padding: 7px; 
 }
 
+.first-post {
+    background-color: #191919;
+}
+
 
 @media (max-width: 767px) {
     .forum-topics tr,
