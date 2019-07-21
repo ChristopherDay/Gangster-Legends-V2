@@ -6,7 +6,7 @@ class page {
         $this->addToTemplate("timestamp", time());
     }
     
-    public $printPage = true, $theme, $template, $success = false, $loginPages = array('login', 'register'), $jailPages = array(), $loginPage, $jailPage, $dontRun = false, $modules = array(), $moduleView, $loadedTheme;
+    public $printPage = true, $theme, $template, $success = false, $loginPages = array('login', 'register'), $jailPages = array(), $loginPage, $jailPage, $dontRun = false, $modules = array(), $moduleView, $loadedTheme, $loadedModule;
     private $pageHTML, $pageItems, $pageReplace;
     
     public function loadModuleMetaData() {
@@ -52,6 +52,9 @@ class page {
         global $user;
         
         $moduleInfo = $this->modules[$page];
+
+        $this->loadedModule = $moduleInfo;
+
         $this->moduleController = 'modules/installed/' . $page . '/' . $page . '.inc.php';
         $this->moduleView = 'modules/installed/' . $page . '/' . $page . '.tpl.php';
 
