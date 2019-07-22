@@ -45,7 +45,7 @@
                                     </div>
                                 </div>
                                 <p class="text-center">
-                                    <button class="btn" name="submit" value="1">Hire Detectives</button>
+                                    <button class="btn btn-default" name="submit" value="1">Hire Detectives</button>
                                 </p>
                             </form>
                         </div>
