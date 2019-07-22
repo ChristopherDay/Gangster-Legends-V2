@@ -13,28 +13,29 @@
                         </p>
                     {/unless}
 
-                    {#if detectives}
-                        <form action="?page=kill&action=shoot" method="post">
-                            {#each detectives}
-                                <label class="select-detective">
-                                    <div class="crime-holder">
-                                        <p>
-                                            <span class="action">
-                                                <input type="radio" name="detective" value="{id}" />
-                                                {>userName} 
-                                            </span> 
-                                            <span class="cooldown">
-                                                <small>
-                                                    Expires in <span data-reload-when-done data-timer-type="inline" data-timer="{expires}"></span>
-                                                </small>
-                                            </span> 
-                                            <span class="commit">
-                                                {location}
-                                            </span>
-                                        </p>
-                                    </div>
-                                </label>
-                            {/each}
+                    <form action="?page=kill&action=shoot" method="post">
+                        {#each detectives}
+                            <label class="select-detective">
+                                <div class="crime-holder">
+                                    <p>
+                                        <span class="action">
+                                            <input type="radio" name="detective" value="{id}" />
+                                            {>userName} 
+                                        </span> 
+                                        <span class="cooldown">
+                                            <small>
+                                                Expires in <span data-reload-when-done data-timer-type="inline" data-timer="{expires}"></span>
+                                            </small>
+                                        </span> 
+                                        <span class="commit">
+                                            {location}
+                                        </span>
+                                    </p>
+                                </div>
+                            </label>
+                        {/each}
+
+                        {#if detectives}
 
                             <div class="clearfix"></div>
 
@@ -49,12 +50,12 @@
                             <h4>How many bullets are you shooting?</h4>
 
                             <input type="number" name="bullets" class="form-control form-control-inline" />
-                            <button class="btn" name="submit" value="1">
+                            <button class="btn btn-default" name="submit" value="1">
                                 Shoot!
                             </button>
-                        </form>
+                        {/if}
+                    </form>
 
-                    {/if}
                 </div>
             </div>
             

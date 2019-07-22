@@ -43,9 +43,19 @@
             // Make sure it is an image
             $pic = (is_array(@getimagesize($profile->info->US_pic))?$profile->info->US_pic:"themes/default/images/default-profile-picture.png");
 
+            $killedBy = false;
+
+            if ($profile->info->US_shotBy) {
+                $killer = new User($profile->info->US_shotBy);
+                if (isset($killer->info->U_id)) {
+                    $killedBy = "killed by " . $this->page->username($killer);
+                }
+            }
+
             $this->html .= $this->page->buildElement('profile', array(
                 "picture" => $pic,
                 "user" => $profile->user, 
+                "killedBy" => $killedBy,
                 "moneyRank" => $profile->getMoneyRank()->MR_desc, 
                 "rank" => $profile->getRank()->R_name, 
                 "gangID" => $profile->getGang()["id"], 

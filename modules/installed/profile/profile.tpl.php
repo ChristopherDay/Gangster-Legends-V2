@@ -139,7 +139,7 @@
                                         <a href="?page=mail&action=new&name={user.name}" class="user user-status-{user.status} user-level-{user.userLevel}" style="color: {user.color};">
                                             {user.name}
                                         </a>
-                                        <sup>(<{status}>)</sup>
+                                        <sup><{status}></sup>
                                     </td>
                                 </tr>
                                 <tr>
@@ -150,7 +150,7 @@
                                     <th width="100px">Status</th>
                                     <td class="text-left">
                                         {#if dead}
-                                            <strong style="color: #900;">DEAD</strong>
+                                            <strong style="color: #900;">DEAD</strong> <{killedBy}>
                                         {/if}
                                         {#unless dead}
                                             <strong style="color: #090;">Alive</strong>

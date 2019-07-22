@@ -10,7 +10,7 @@
                 </div>
                 <div class='panel-body'>
 
-                    <h4>You have been shot by {>userName}!</h4>
+                    <h4>You have been shot{#if user.name} by {>userName}{/if}!</h4>
                     <p>
                         To get revenge you can create a new account!
                     </p>

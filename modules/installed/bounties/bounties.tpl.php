@@ -24,7 +24,7 @@
                                     <strong>Stay Anonymous</strong>
                                 </p>
                                 <p class="text-center">
-                                    <button class="btn" name="submit" value="1">Open Bounty</button>
+                                    <button class="btn btn-default" name="submit" value="1">Open Bounty</button>
                                 </p>
                             </form>
                         </div>
