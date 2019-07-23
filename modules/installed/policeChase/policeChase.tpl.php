@@ -5,7 +5,7 @@
         public $policeChase = '
 
             <div class="alert alert-warning">
-                The police have noticed your driving a stolen car, better get rid of them!
+                The police have noticed that you\'re driving a stolen car, better get rid of them!
             </div>
 
             <div class="panel panel-default">
