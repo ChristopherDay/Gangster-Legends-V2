@@ -1,6 +1,28 @@
 <?php
 
     class bankTemplate extends template {
+
+
+         public $options = '
+
+            <form method="post" action="#">
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="pull-left">Tax (%)</label>
+                            <input type="text" class="form-control" name="bankTax" value="{bankTax}" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-right">
+                    <button class="btn btn-default" name="submit" type="submit" value="1">Save</button>
+                </div>
+
+            </form>
+        ';
+
         
         public $bank = '
         <form action="?page=bank&action=process" method="post">
@@ -10,7 +32,7 @@
                         <div class="panel-heading">Deposit</div>
                         <div class="panel-body">
                             <p style="height:54px; line-height:18px;">
-                                To launder your money so it is safe to deposit in your bank account will cost you 15% of the amount you are going to deposit!
+                                To launder your money so it is safe to deposit in your bank account will cost you {tax}% of the amount you are going to deposit!
                             </p>
                             <p>
                                 <input type="text" class="form-control" value="{deposit}" name="deposit" />

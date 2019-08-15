@@ -11,8 +11,11 @@
         );
         
         public function constructModule() {
+
+            $tax = $this->_settings->loadSetting("bankTax", true, 15);
             
             $this->html .= $this->page->buildElement("bank", array(
+                "tax" => $tax,
                 "deposit" => '$'.number_format($this->user->info->US_money),
                 "withdraw" => '$'.number_format(@$this->user->info->US_bank)
             ));
@@ -95,8 +98,10 @@
                     $this->alerts[] = $this->page->buildElement("error", array("text"=>"You dont have enough money for this transaction!"));
                     
                 } else {
+
+                    $tax = (100 - $this->_settings->loadSetting("bankTax", true, 15)) / 100;
                     
-                    $bank = $money * 0.85;
+                    $bank = $money * $tax;
                     
                     $update = $this->db->prepare("UPDATE userStats SET US_bank = US_bank + :w1, US_money = US_money - :w2 WHERE US_id = :id");
                     $update->bindParam(":w1", $bank);

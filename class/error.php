@@ -19,6 +19,8 @@
             
             global $config;
 
+            if (error_reporting() === 0) return;
+
             switch ($number) {
                 case E_ERROR: $type ='E_ERROR';
                 case E_WARNING: $type ='E_WARNING';

@@ -8,5 +8,12 @@
     },
     "pageName": "Bank",
     "accessInJail": false,
-    "requireLogin": true
+    "requireLogin": true,
+    "adminGroup": "Game Mechanics",
+    "admin": [
+        {
+            "text": "Options",
+            "method": "options"
+        }
+    ]
 }
