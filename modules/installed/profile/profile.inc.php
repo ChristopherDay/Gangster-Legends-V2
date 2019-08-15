@@ -41,7 +41,7 @@
             $bio =  ((strlen($profile->info->US_bio)>0)?($profile->info->US_bio):false);
             
             // Make sure it is an image
-            $pic = (is_array(@getimagesize($profile->info->US_pic))?$profile->info->US_pic:"themes/default/images/default-profile-picture.png");
+            $pic = $profile->getProfilePicture();
 
             $killedBy = false;
 

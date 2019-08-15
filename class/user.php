@@ -97,11 +97,7 @@
                 $this->name = $this->info->U_name;
             }
     	    
-            $pic = "";
-    	    if (isset($this->info->US_pic)) $pic = $this->info->US_pic;
-    	    if (!$pic || str_replace("php", "", $pic) != $pic) {
-    		    $pic = "themes/default/images/default-profile-picture.png";
-    	    }
+            $pic = $this->getProfilePicture();
 
             if (isset($this->info->U_name)) {
                 $this->user = array(
@@ -244,6 +240,23 @@
 
             return 0;
         }
+
+        public function getProfilePicture() {
+
+            if (isset($this->info->profilePictureChecked)) return $this->info->US_pic;
+
+            $image = @new FastImage($this->info->US_pic);
+            $size = $image->getSize();
+
+            if (!isset($size[0])) {
+                $this->info->US_pic = "themes/" . _setting("theme") . "/images/default-profile-picture.png";
+            }
+
+            $this->info->profilePictureChecked = true;
+
+            return $this->info->US_pic;
+
+        }
         
         public function bindVarsToTemplate() {
             
@@ -252,9 +265,8 @@
             $this->getNotificationCount($this->info->U_id, 'mail'); 
             $this->getNotificationCount($this->info->U_id, 'notifications'); 
 
-            if (empty($this->info->US_pic)) $this->info->US_pic = "themes/default/images/default-profile-picture.png";
-
-            $pic = (is_array(@getimagesize($this->info->US_pic))?$this->info->US_pic:"themes/default/images/default-profile-picture.png");
+            
+            $pic = $this->getProfilePicture();
 
             $maxHealth = $this->rank->R_health;
 

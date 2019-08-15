@@ -32,7 +32,7 @@
                 SELECT DISTINCT 
                     `U_id` as 'id', 
                     `U_name` as 'name', 
-                    `US_rank` as 'name', 
+                    `US_rank` as 'rank', 
                     (`U_id` = ".$this->user->id.") as 'currentUser',
                     `jail`.`UT_time` as 'time', 
                     (`max`.`UT_time` = `jail`.`UT_time`) as 'superMax',  

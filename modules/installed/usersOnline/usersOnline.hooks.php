@@ -27,7 +27,7 @@
                 $pic = "";
                 if (isset($value["US_pic"])) $pic = $value["US_pic"];
                 if (!$pic || str_replace("php", "", $pic) != $pic) {
-                    $pic = "themes/default/images/default-profile-picture.png";
+                    $pic = "themes/". _setting("theme")."/images/default-profile-picture.png";
                 }
                 $online[$key] = array();
                 $online[$key]["user"] = array(

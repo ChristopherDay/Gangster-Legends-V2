@@ -132,26 +132,26 @@
                 $to = new User(null, $this->methodData->name);
 
                 if (!isset($to->info->U_id)) {
-                    return $this->alerts[] = $this->page->buildElement("error", array(
-                        "text" => "This user does not exist"
-                    ));
+                    return $this->error("This user does not exist");
                 }
 
                 if ($to->info->U_id == $this->user->id) {
-                    return $this->alerts[] = $this->page->buildElement("error", array(
-                        "text" => "You cant message yourself"
-                    ));
+                    return $this->error("You cant message yourself");
                 }
 
+            }
+
+            if (!$this->user->checkTimer("sentMail")) {
+                return $this->error("You can't sent another mail yet, please wait a little bit!");
             }
 
             $error = $this->validateMail();
 
             if (!$error) {
                 $send = $this->db->prepare("INSERT INTO mail (
-                    M_time, M_uid, M_sid, M_subject, M_text  
+                    M_time, M_uid, M_sid, M_subject, M_text, M_parent, M_type
                 ) VALUES(
-                    UNIX_TIMESTAMP(), :to, :from, :subject, :message
+                    UNIX_TIMESTAMP(), :to, :from, :subject, :message, 0, 0
                 )");
 
                 $send->bindParam(":to", $to->info->U_id);
@@ -164,6 +164,8 @@
                 $this->alerts[] = $this->page->buildElement("success", array(
                     "text" => "Message Sent"
                 ));
+
+                $this->user->updateTimer("sentMail", 20, true);
             }
 
             $opts = array(

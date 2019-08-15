@@ -13,6 +13,7 @@
     require 'class/template.php';
     require 'class/templateRender.php';
     require 'class/page.php';
+    require 'class/image.php';
     require 'class/user.php';
     require 'class/gang.php';
     require 'class/property.php';
