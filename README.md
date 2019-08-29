@@ -4,7 +4,7 @@ Gangster Legends v2 is a open source PBBG game engine written in PHP using a MyS
 
 # Requirements
 
-- PHP 5.4.X or higher
+- PHP 5.6.X or higher
 - MySQL 5.5 or higher
 
 # How To Install
