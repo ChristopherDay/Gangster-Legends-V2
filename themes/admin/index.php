@@ -168,6 +168,7 @@
                 <script src="themes/{_theme}/3rdparty/summernote/summernote.js"></script>
                 <script src="themes/{_theme}/3rdparty/sidebar/assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
                 <script src="themes/{_theme}/3rdparty/sidebar/assets/js/custom.js"></script>
+                <script src="themes/{_theme}/js/admin.js"></script>
                 {#if moduleJSFile}
                     <script src="{moduleJSFile}"></script>
                 {/if}
