@@ -44,6 +44,16 @@
                     $this->user->updateTimer('chase', 300, true);
                     
                     $this->alerts[] = $this->page->buildElement('success', array("text"=>'You got away, you were paid $'.number_format($winnings).'!'));
+
+                    $actionHook = new hook("userAction");
+                    $action = array(
+                        "user" => $this->user->id, 
+                        "module" => "chase", 
+                        "id" => 0, 
+                        "success" => true, 
+                        "reward" => $winnings
+                    );
+                    $actionHook->run($action);
                     
                 } else if ($rand == 3) {
                                     
@@ -51,6 +61,16 @@
                     $this->user->updateTimer('chase', 300, true);
                     
                     $this->alerts[] = $this->page->buildElement('error', array("text"=>'You crashed and was sent to jail!'));
+
+                    $actionHook = new hook("userAction");
+                    $action = array(
+                        "user" => $this->user->id, 
+                        "module" => "chase", 
+                        "id" => 0, 
+                        "success" => false, 
+                        "reward" => 0
+                    );
+                    $actionHook->run($action);
                     
                 } else {
                     

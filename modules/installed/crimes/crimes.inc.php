@@ -34,7 +34,7 @@
                 $time = $this->user->getTimer('crime');
                 $crimeError = array(
                     "timer" => "crime",
-                    "text"=>'You cant commit another crime untill your timer is up!',
+                    "text"=>'You can\'t commit another crime untill your timer is up!',
                     "time" => $this->user->getTimer("crime")
                 );
                 $this->html .= $this->page->buildElement('timer', $crimeError);
