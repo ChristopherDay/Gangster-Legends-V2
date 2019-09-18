@@ -50,7 +50,7 @@
             );
             
             $return = '';
-            $return .= '<div class="well">';
+            $return .= '<div class="well error-well">';
             $return .= '<h1>There was an error!</h1>';
             $return .= '<p style="font-family: monospace;">';
             $return .= '<strong>File:</strong> '.$file;

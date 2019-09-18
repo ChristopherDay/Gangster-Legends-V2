@@ -92,6 +92,7 @@
                 }
 
                 $success = false;
+                $carID = 0;
 
                 $this->user->updateTimer('theft', $theftTime, true);
                 
@@ -122,6 +123,7 @@
                     $insert->bindParam(':car', $car);
                     $insert->bindParam(':damage', $carDamage);
                     $insert->execute();
+
                 }
 
                 $actionHook = new hook("userAction");
