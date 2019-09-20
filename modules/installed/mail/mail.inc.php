@@ -125,6 +125,36 @@
             
         } 
 
+        public function method_delete() {
+
+            $mail = $this->db->select("
+                SELECT
+                    M_id as 'id', 
+                    M_time as 'time', 
+                    M_sid as 'sender', 
+                    M_uid as 'receiver', 
+                    M_subject as 'subject', 
+                    M_text as 'text', 
+                    M_type as 'type', 
+                    M_read as 'read' 
+                FROM mail WHERE 
+                    M_id = :id
+                ORDER BY M_time DESC
+            ", array(
+                ":id" => $this->methodData->id
+            ));
+
+            if ($mail["receiver"] != $this->user->id) {
+                $this->error("You can't delete this mail!");
+            } else {
+                $this->db->delete("DELETE FROM mail WHERE M_id = :id", array(
+                    ":id" => $this->methodData->id
+                ));
+            }
+
+            $this->method_inbox();
+        }
+
         public function method_new() {
 
             if (isset($this->methodData->name)) {
