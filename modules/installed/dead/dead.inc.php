@@ -67,6 +67,10 @@
             
             $killer = new User($this->user->info->US_shotBy);
 
+            if ($this->user->info->U_status != 0) {
+                return $this->error("You're not dead ... yet!");
+            }
+
             $this->html .= $this->page->buildElement("newAccount", array(
                 "user" => $killer->user
             ));
