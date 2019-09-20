@@ -66,7 +66,7 @@
                             {/unless}
                         </th>
                         <th>Subject</th>
-                        <th style="width:50px">Action</th>
+                        <th style="width:120px" class="text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -91,7 +91,8 @@
                                 {subject}
                             </td>
                             <td class="text-center">
-                                <a href="?page=mail&action=read&id={id}">Read</a>
+                                <a class="btn btn-xs btn-success" href="?page=mail&action=read&id={id}">Read</a>
+                                <a class="btn btn-xs btn-danger" href="?page=mail&action=delete&id={id}">Delete</a>
                             </td>
                         </tr>
                     {/each}
@@ -104,11 +105,11 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Inbox
-                    <span class="small pull-right">
-                        <a href="?page=mail&action=outbox">Outbox</a>
+                    <span class="small pull-left">
+                        &nbsp;&nbsp;<a class="btn btn-info btn-xs" href="?page=mail&action=outbox">Outbox</a>
                     </span>
                     <span class="small pull-right">
-                        <a href="?page=mail&action=new">New Mail</a>&nbsp;&nbsp;
+                        <a class="btn btn-success btn-xs" href="?page=mail&action=new">New Mail</a>&nbsp;&nbsp;
                     </span> 
                 </div>
                 <div class="panel-body">
@@ -123,11 +124,11 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Outbox
-                    <span class="small pull-right">
-                        <a href="?page=mail">Inbox</a>
+                    <span class="small pull-left">
+                        &nbsp;&nbsp;<a class="btn btn-info btn-xs" href="?page=mail">Inbox</a>
                     </span>
                     <span class="small pull-right">
-                        <a href="?page=mail&action=new">New Mail</a>&nbsp;&nbsp;
+                        <a class="btn btn-success btn-xs" href="?page=mail&action=new">New Mail</a>&nbsp;&nbsp;
                     </span> 
                 </div>
                 <div class="panel-body">
