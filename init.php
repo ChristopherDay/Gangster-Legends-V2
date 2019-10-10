@@ -27,7 +27,7 @@
     }
 
     $pageToLoad = $_GET['page'];
-
+    
     if (!isset($page->modules[$pageToLoad])) {
         if (!empty($_SESSION['userID'])) {
             $user = new user($_SESSION['userID']);
@@ -45,19 +45,29 @@
             $user->updateTimer('laston', time());
             $user->checkRank();
 
+
             if ($_GET["page"] == "logout") {
                 $page->loadPage('logout');
             } else if ($user->info->U_status == 0) {
-                $page->loadPage('dead');
+                $deadPage = "dead";
+                $hook = new Hook("deadPage");
+                $deadPage = $hook->run($deadPage, true);
+                $page->loadPage($deadPage);
             } else if ($user->info->U_status == 2 && $jailPageCheck["requireLogin"]) {
                 $page->loadPage('users');
             } else if ($user->info->U_userLevel == 3) {
-                $page->loadPage('banned');
+                $bannedPage = "banned";
+                $hook = new Hook("bannedPage");
+                $bannedPage = $hook->run($bannedPage, true);
+                $page->loadPage($bannedPage);
             } else if (!$user->checkTimer('jail')) {
                 if ($jailPageCheck["accessInJail"]) {
                     $page->loadPage($pageToLoad);
                 } else {
-                    $page->loadPage('jail');
+                    $jailPage = "jail";
+                    $hook = new Hook("jailPage");
+                    $jailPage = $hook->run($jailPage, true);
+                    $page->loadPage($jailPage);
                 }
             } else {
                 $page->loadPage($pageToLoad);
