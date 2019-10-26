@@ -62,6 +62,7 @@
                                 <a href="?page=news">News</a>
                             </li>
                         </ul>
+                        <{alerts}>
                         <{game}>
                     </div>
                 </div>
