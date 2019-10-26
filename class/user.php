@@ -297,6 +297,11 @@
 
             
             if (isset($this->nextRank->R_exp)) {
+
+                if ($rank->R_id == $this->nextRank->R_id) {
+                    $this->nextRank = $this->nextRank();
+                }
+
                 $expIntoNextRank =  $this->info->US_exp - $rank->R_exp;
                 $expNeededForNextRank = $this->nextRank->R_exp - $rank->R_exp;
                 $expperc = round($expIntoNextRank / $expNeededForNextRank * 100, 2);

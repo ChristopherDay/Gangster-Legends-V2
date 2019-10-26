@@ -11,16 +11,23 @@ class page {
     
     public function loadModuleMetaData() {
         $moduleDirectories = scandir("modules/installed/");
+        
+        /* Load meta data first */
         foreach ($moduleDirectories as $moduleName) {
             if ($moduleName[0] == ".") continue;
             $moduleInfoFile = "modules/installed/" . $moduleName . "/module.json";
-            $moduleHooksFile = "modules/installed/" . $moduleName . "/" . $moduleName . ".hooks.php";
 
             if (file_exists($moduleInfoFile)) {
                 $info = json_decode(file_get_contents($moduleInfoFile), true);
                 $info["id"] = $moduleName;
                 $this->modules[$moduleName] = $info;
             }
+        }
+
+        /* Run hooks after */
+        foreach ($moduleDirectories as $moduleName) {
+            if ($moduleName[0] == ".") continue;
+            $moduleHooksFile = "modules/installed/" . $moduleName . "/" . $moduleName . ".hooks.php";
             if (file_exists($moduleHooksFile)) {
                 include_once $moduleHooksFile;
             }

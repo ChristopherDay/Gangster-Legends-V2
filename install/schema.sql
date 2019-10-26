@@ -1,39 +1,39 @@
 CREATE TABLE IF NOT EXISTS `cars` (
   `CA_id` int(11) NOT NULL AUTO_INCREMENT,
-  `CA_name` varchar(255) NOT NULL,
-  `CA_value` int(11) NOT NULL,
-  `CA_theftChance` int(11) NOT NULL,
+  `CA_name` varchar(255) NULL,
+  `CA_value` int(11) NOT NULL DEFAULT 0,
+  `CA_theftChance` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`CA_id`)
 ) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `crimes` (
   `C_id` int(11) NOT NULL AUTO_INCREMENT,
-  `C_name` varchar(120) NOT NULL,
-  `C_cooldown` int(11) NOT NULL,
-  `C_money` int(11) NOT NULL,
-  `C_maxMoney` int(11) NOT NULL,
+  `C_name` varchar(120) NULL,
+  `C_cooldown` int(11) NOT NULL DEFAULT 0,
+  `C_money` int(11) NOT NULL DEFAULT 0,
+  `C_maxMoney` int(11) NOT NULL DEFAULT 0,
   `C_bullets` int(11) NOT NULL DEFAULT 0,
   `C_maxBullets` int(11) NOT NULL DEFAULT 0,
   `C_exp` int(11) NOT NULL DEFAULT 1,
-  `C_level` int(11) NOT NULL,
+  `C_level` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`C_id`)
 ) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `gameNews` (
   `GN_id` int(11) NOT NULL AUTO_INCREMENT,
-  `GN_author` int(11) NOT NULL,
-  `GN_title` varchar(120) NOT NULL,
-  `GN_text` text NOT NULL,
-  `GN_date` int(11) NOT NULL,
+  `GN_author` int(11) NOT NULL DEFAULT 0,
+  `GN_title` varchar(120) NULL,
+  `GN_text` text NULL,
+  `GN_date` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`GN_id`)
 ) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `gangs` (
   `G_id` int(11) NOT NULL AUTO_INCREMENT,
-  `G_name` varchar(120) NOT NULL,
+  `G_name` varchar(120) NULL,
   `G_bank` int(11) NOT NULL DEFAULT 0,
-  `G_info` text NOT NULL,
-  `G_desc` text NOT NULL,
+  `G_info` text NULL,
+  `G_desc` text NULL,
   `G_location` int(11) NOT NULL DEFAULT 0,
   `G_boss` int(11) NOT NULL DEFAULT 0,
   `G_underboss` int(11) NOT NULL DEFAULT 0,
@@ -43,80 +43,80 @@ CREATE TABLE IF NOT EXISTS `gangs` (
 
 CREATE TABLE IF NOT EXISTS `garage` (
   `GA_id` int(11) NOT NULL AUTO_INCREMENT,
-  `GA_uid` int(11) NOT NULL,
-  `GA_car` int(11) NOT NULL,
-  `GA_damage` int(11) NOT NULL,
-  `GA_location` int(11) NOT NULL,
+  `GA_uid` int(11) NOT NULL DEFAULT 0,
+  `GA_car` int(11) NOT NULL DEFAULT 0,
+  `GA_damage` int(11) NOT NULL DEFAULT 0,
+  `GA_location` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`GA_id`)
 ) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `locations` (
   `L_id` int(11) NOT NULL AUTO_INCREMENT,
-  `L_name` varchar(120) NOT NULL,
-  `L_cost` int(11) NOT NULL,
-  `L_bullets` int(11) NOT NULL,
+  `L_name` varchar(120) NULL,
+  `L_cost` int(11) NOT NULL DEFAULT 0,
+  `L_bullets` int(11) NOT NULL DEFAULT 0,
   `L_bulletCost` int(11) NOT NULL DEFAULT '100',
-  `L_cooldown` int(11) NOT NULL,
+  `L_cooldown` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`L_id`)
 ) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `mail` (
   `M_id` int(11) NOT NULL AUTO_INCREMENT,
-  `M_time` int(11) NOT NULL,
-  `M_uid` int(11) NOT NULL,
-  `M_sid` int(11) NOT NULL,
-  `M_subject` varchar(120) NOT NULL,
-  `M_parent` int(11) NOT NULL,
-  `M_text` text NOT NULL,
-  `M_type` int(11) NOT NULL,
+  `M_time` int(11) NOT NULL DEFAULT 0,
+  `M_uid` int(11) NOT NULL DEFAULT 0,
+  `M_sid` int(11) NOT NULL DEFAULT 0,
+  `M_subject` varchar(120) NULL,
+  `M_parent` int(11) NOT NULL DEFAULT 0,
+  `M_text` text NULL,
+  `M_type` int(11) NOT NULL DEFAULT 0,
   `M_read` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`M_id`)
 ) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `notifications` (
   `N_id` int(11) NOT NULL AUTO_INCREMENT,
-  `N_uid` int(11) NOT NULL,
-  `N_time` int(11) NOT NULL,
-  `N_text` text NOT NULL,
+  `N_uid` int(11) NOT NULL DEFAULT 0,
+  `N_time` int(11) NOT NULL DEFAULT 0,
+  `N_text` text NULL,
   `N_read` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`N_id`)
 ) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `ranks` (
   `R_id` int(11) NOT NULL AUTO_INCREMENT,
-  `R_name` varchar(100) NOT NULL,
-  `R_exp` int(11) NOT NULL,
-  `R_limit` int(11) NOT NULL,
-  `R_cashReward` int(11) NOT NULL,
-  `R_health` int(11) NOT NULL,
-  `R_bulletReward` int(11) NOT NULL,
+  `R_name` varchar(100) NULL,
+  `R_exp` int(11) NOT NULL DEFAULT 0,
+  `R_limit` int(11) NOT NULL DEFAULT 0,
+  `R_cashReward` int(11) NOT NULL DEFAULT 0,
+  `R_health` int(11) NOT NULL DEFAULT 0,
+  `R_bulletReward` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`R_id`)
 ) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `settings` (
   `S_id` int(11) NOT NULL AUTO_INCREMENT,
-  `S_desc` varchar(255) NOT NULL,
-  `S_value` text NOT NULL,
+  `S_desc` varchar(255) NULL,
+  `S_value` text NULL,
   PRIMARY KEY (`S_id`)
 ) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `theft` (
   `T_id` int(11) NOT NULL AUTO_INCREMENT,
-  `T_name` varchar(255) NOT NULL,
-  `T_chance` int(11) NOT NULL,
-  `T_maxDamage` int(11) NOT NULL,
-  `T_worstCar` int(11) NOT NULL,
-  `T_bestCar` int(11) NOT NULL,
+  `T_name` varchar(255) NULL,
+  `T_chance` int(11) NOT NULL DEFAULT 0,
+  `T_maxDamage` int(11) NOT NULL DEFAULT 0,
+  `T_worstCar` int(11) NOT NULL DEFAULT 0,
+  `T_bestCar` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`T_id`)
 ) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `users` (
   `U_id` int(11) NOT NULL AUTO_INCREMENT,
-  `U_name` varchar(30) NOT NULL,
-  `U_email` varchar(100) NOT NULL,
+  `U_name` varchar(30) NULL,
+  `U_email` varchar(100) NULL,
   `U_password` varchar(255) NOT NULL DEFAULT '',
-  `U_userLevel` int(1) NOT NULL,
-  `U_status` int(1) NOT NULL,
+  `U_userLevel` int(1) NULL,
+  `U_status` int(1) NULL,
   PRIMARY KEY (`U_id`)
 ) DEFAULT CHARSET=utf8;
 
@@ -141,15 +141,15 @@ CREATE TABLE IF NOT EXISTS `userStats` (
 ) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `userTimers` (
-  `UT_user` int(11) NOT NULL,
-  `UT_desc` varchar(32) NOT NULL,
+  `UT_user` int(11) NOT NULL DEFAULT 0,
+  `UT_desc` varchar(32) NULL,
   `UT_time` int(11) NOT NULL
 ) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `weapons` (
   `W_id` int(11) NOT NULL AUTO_INCREMENT,
-  `W_name` varchar(100) NOT NULL,
-  `W_accuracy` int(11) NOT NULL,
+  `W_name` varchar(100) NULL,
+  `W_accuracy` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`W_id`)
 ) DEFAULT CHARSET=utf8;
 
@@ -161,18 +161,18 @@ CREATE TABLE IF NOT EXISTS `roleAccess` (
 
 CREATE TABLE IF NOT EXISTS `userRoles` (
   `UR_id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `UR_desc` varchar(128) NOT NULL,
+  `UR_desc` varchar(128) NULL,
   `UR_color` varchar(7) NOT NULL
 ) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `moneyRanks` ( 
-  `MR_id` INT(11) PRIMARY KEY AUTO_INCREMENT , 
+  `MR_id` INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT , 
   `MR_desc` VARCHAR(128), 
   `MR_money` INT(11)
 ) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `forums` ( 
-  `F_id` INT(11) PRIMARY KEY AUTO_INCREMENT , 
+  `F_id` INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT , 
   `F_sort` INT(11),
   `F_name` VARCHAR(128)
 ) DEFAULT CHARSET=utf8;
@@ -183,7 +183,7 @@ CREATE TABLE IF NOT EXISTS `forumAccess` (
 ) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `topics` ( 
-  `T_id` INT(11) PRIMARY KEY AUTO_INCREMENT , 
+  `T_id` INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT , 
   `T_date` INT(11), 
   `T_forum` INT(11), 
   `T_user` INT(11), 
@@ -193,7 +193,7 @@ CREATE TABLE IF NOT EXISTS `topics` (
 ) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `posts` ( 
-  `P_id` INT(11) PRIMARY KEY AUTO_INCREMENT , 
+  `P_id` INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT , 
   `P_topic` INT(11), 
   `P_date` INT(11), 
   `P_user` INT(11), 
@@ -209,8 +209,8 @@ CREATE TABLE IF NOT EXISTS `properties` (
   `PR_id` INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT , 
   `PR_location` INT(11) NOT NULL , 
   `PR_module` VARCHAR(128) NOT NULL , 
-  `PR_user` INT(11) NOT NULL,
-  `PR_cost` INT(11) NOT NULL,
+  `PR_user` int(11) NOT NULL DEFAULT 0,
+  `PR_cost` int(11) NOT NULL DEFAULT 0,
   `PR_profit` INT(11) NOT NULL
 ) ENGINE = InnoDB;
 
