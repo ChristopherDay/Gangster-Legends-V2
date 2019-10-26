@@ -50,6 +50,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<title>Gangster Legends V2 - Installer</title>
 		<link href="../themes/default/css/bootstrap.min.css" rel="stylesheet" />
 	</head>
 	<body>

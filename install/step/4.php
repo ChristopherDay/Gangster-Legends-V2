@@ -7,7 +7,7 @@
 		$admins = $db->selectAll("SELECT * FROM users WHERE U_userLevel = 2;");
 		
 
-		if (!count($admins)) {
+		if (count($admins)) {
 
 			if (isset($_GET["remove"])) {
 				success(4, "Remove Installer");
