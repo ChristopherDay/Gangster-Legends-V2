@@ -6,7 +6,6 @@
 
 		$admins = $db->selectAll("SELECT * FROM users WHERE U_userLevel = 2;");
 		
-
 		if (count($admins)) {
 
 			if (isset($_GET["remove"])) {
@@ -19,9 +18,11 @@
 
 			} else {
 				heading(4, "Remove Installer");
-				echo '<a href="?remove=true" class="btn btn-danger">
-					Finish Install and remove installer
-				</a>';
+				echo '<p>
+					<a href="?remove=true" class="btn btn-danger">
+						Finish Install and remove installer
+					</a>
+				</p>';
 				heading(5, "Complete!");
 			}
 
@@ -29,4 +30,7 @@
 			heading(4, "Remove Installer");
 			heading(5, "Complete!");
 		}
+	} else {
+		heading(4, "Remove Installer");
+		heading(5, "Complete!");
 	}
