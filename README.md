@@ -7,7 +7,13 @@ Gangster Legends v2 is a open source PBBG game engine written in PHP using a MyS
 - PHP 5.6.X or higher
 - MySQL 5.5 or higher
 
-# How To Install
+# How to install
+
+1. Extract files to your webserver
+2. Navigate to GL v2 on your server in a web browser i.e. `http://127.0.0.1/Gangster-Legends-V2`
+3. Follow instructions
+
+# How To Manualy Install
 
 1. Extract files to your webserver
 2. Create a new database and a user
