@@ -4,12 +4,14 @@
 
     session_start();
 
-    require 'class/hooks.php';
+    if (file_exists("install/")) {
+        header("Location: install/");
+        exit;
+    }
 
+    require 'class/hooks.php';
     include 'dbconn.php';
-    
     require 'class/settings.php'; 
-    
     require 'class/template.php';
     require 'class/templateRender.php';
     require 'class/page.php';
