@@ -14,7 +14,7 @@
 				unlink("../install");
 				success(5, "Complete!");
 				echo '<ol><li>Redirecting you in 5 seconds</li></ol>';
-				echo '<script>setTimeout(function () { document.location = "../" }, 5000);';
+				echo '<script>setTimeout(function () { document.location = "../" }, 5000); </script>';
 
 			} else {
 				heading(4, "Remove Installer");
