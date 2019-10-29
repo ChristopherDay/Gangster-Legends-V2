@@ -1,6 +1,24 @@
 <?php
 
     class mainTemplate {
+
+        public function __construct() {
+            global $db, $page;
+
+
+            $usersOnline = $db->prepare("
+                SELECT COUNT(*) as 'count' FROM userTimers WHERE UT_desc = 'laston' AND UT_time > ".(time()-900)."
+            ");
+            $usersOnline->execute();
+            $users = $db->prepare("
+                SELECT COUNT(*) as 'count' FROM users
+            ");
+            $users->execute();
+
+            $page->addToTemplate("usersOnlineNow", number_format($usersOnline->fetch(PDO::FETCH_ASSOC)["count"]));
+            $page->addToTemplate("registeredUsers", number_format($users->fetch(PDO::FETCH_ASSOC)["count"]));
+
+        }
         
         public $pageMain =  '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
         <html xmlns="http://www.w3.org/1999/xhtml">
@@ -9,7 +27,7 @@
                 <title>{game_name} - {page}</title>
                 <link rel="stylesheet" href="themes/{_theme}/css/bootstrap.min.css">
                 <link rel="stylesheet" href="themes/{_theme}/css/style.css">
-        		<link rel="shortcut icon" href="themes/{_theme}/images/icon.png" />
+                <link rel="shortcut icon" href="themes/{_theme}/images/icon.png" />
                 <meta name="viewport" content="width=device-width, initial-scale=1">
             </head>
             
@@ -44,6 +62,7 @@
                                 <a href="?page=news">News</a>
                             </li>
                         </ul>
+                        <{alerts}>
                         <{game}>
                     </div>
                 </div>
@@ -56,10 +75,10 @@
                         {/if}
                         <div class="row text-center">
                             <div class="col-md-6">
-                                Gangsters: {usersOnline}
+                                Gangsters: {registeredUsers}
                             </div>
                             <div class="col-md-6">
-                                Gangsters Online: {users}
+                                Gangsters Online: {usersOnlineNow}
                             </div>
                         </div>
                     </div>

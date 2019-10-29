@@ -2,7 +2,7 @@
 
     class module {
         
-        public $html = '', $page, $user, $db, $methodData, $construct = true;
+        public $alerts = array(), $html = '', $page, $user, $db, $methodData, $construct = true, $_settings;
         
         public function __construct() {
         
@@ -11,6 +11,7 @@
             $this->db = $db;
             $this->page = $page;
             $this->methodData = (object) array();
+            $this->_settings = new Settings();
             
             if (isset($user->id)) {
                 $this->user = $user;
@@ -42,18 +43,33 @@
         }
     
         public function timeLeft($ts) {
-            return date('H:i:s', $ts);
+            $oldTZ = date_default_timezone_get();
+            date_default_timezone_set("UTC");
+            if ($ts > 86400) {
+                $ts = date('j \D\a\y H:i:s', $ts);
+            } else {
+                $ts = date('H:i:s', $ts);
+            }
+            date_default_timezone_set($oldTZ);
+            return $ts; 
         }
         
         public function htmlOutput() {
             return $this->html;
         }
-        
+
+        public function alertsOutput() {
+            $html = '';
+            foreach ($this->alerts as $key => $value) {
+                $html .= $value;
+            }
+            return $html;
+        }       
 
         private function buildMethodData() {
         
             $data = $this->allowedMethods;
-			
+            
             if ($data == "*") {
 
                 foreach ($_GET as $key => $value) {
@@ -67,8 +83,8 @@
             }
 
             foreach ($data as $key => $val) {
-				
-				if (strtolower($val['type']) == 'get') {
+                
+                if (strtolower($val['type']) == 'get') {
                     if (isset($_GET[$key])) {
                       @$this->methodData->$key = $_GET[$key];
                     }
@@ -83,9 +99,9 @@
                 }
             }
             
-            if (isset($_GET['action'])) {
+            if (isset($_REQUEST['action'])) {
             
-                @$this->methodData->action = $_GET['action'];
+                @$this->methodData->action = $_REQUEST['action'];
                 
             }
             
@@ -186,6 +202,10 @@
         
         }
         
+        public function money($cash) {
+            return "$" . number_format($cash);
+        }
+
         public function date($ts = '-1') {
             
             if ($ts == '-1') {
@@ -195,6 +215,14 @@
             return date('l jS F H:i', $ts);
         }
         
+        
+        
+        public function error($text, $type = "error") {
+            $this->alerts[] = $this->page->buildElement($type, array(
+                "text" => $text
+            ));
+        }
+
     }
 
 ?>

@@ -26,12 +26,11 @@
             return $rtn;
         }
         
-        public function if($matches) {
+        public function __if($matches) {
             $var = $matches[1];
             $template = $matches[2];
             $items = $this->items;
             $item = $this->stringToArrayConversion($var, $items);
-            if ($var == "notifications") debug($item);
             if (is_array($item)) $item = count($item);
             if ($item && $item != "0") {
                 $html = new pageElement($items, $this->template, $this->templateName);
@@ -69,8 +68,27 @@
         
         public function replace($matches) {
             $var = $matches[1];
-            $items = $this->items;
-            return htmlspecialchars($this->stringToArrayConversion($var, $this->items));
+
+            $parts = explode(" ", $var);
+
+            if (count($parts) == 2) {
+                $var = $parts[1];
+            } 
+            
+            if ($var[0] == '"') {
+                //pass back the string
+                $var = str_replace('"', "", $var);
+                $rtn = $var;
+            } else {
+                $items = $this->items;
+                $rtn = htmlspecialchars($this->stringToArrayConversion($var, $this->items));
+            }
+            
+            if (count($parts) == 2) {
+                $rtn = $parts[0]($rtn);
+            } 
+
+            return $rtn;
         }
         
         public function subTemplate($matches) {
@@ -88,26 +106,38 @@
 
             // BBcode array
             $find = array(
+                '~\[left\](.*?)\[/left\]~s',
+                '~\[right\](.*?)\[/right\]~s',
+                '~\[center\](.*?)\[/center\]~s',
+                '~\[c\](.*?)\[/c\]~s',
                 '~\[b\](.*?)\[/b\]~s',
                 '~\[i\](.*?)\[/i\]~s',
                 '~\[u\](.*?)\[/u\]~s',
                 '~\[quote\](.*?)\[/quote\]~s',
-                '~\[size=(.*?)\](.*?)\[/size\]~s',
-                '~\[color=(.*?)\](.*?)\[/color\]~s',
+                '~\[quote=([# a-z A-Z 0-9]{1,22})\](.*?)\[/quote\]~s',
+                '~\[size=([0-9]{1,10})\](.*?)\[/size\]~s',
+                '~\[color=([# a-z A-Z 0-9]{1,10})\](.*?)\[/color\]~s',
+                '~\[user=([a-z A-Z 0-9]{1,22})\](.*?)\[/user\]~s',
                 '~\[url\]((?:ftp|https?)://.*?)\[/url\]~s',
                 '~\[img\](https?://.*?\.(?:jpg|jpeg|gif|png|bmp))\[/img\]~s'
             );
 
             // HTML tags to replace BBcode
             $replace = array(
+                '<div class="text-left;">$1</div>',
+                '<div class="text-right;">$1</div>',
+                '<div class="text-center">$1</div>',
+                '<div class="text-center">$1</div>',
                 '<strong>$1</strong>',
                 '<em>$1</em>',
                 '<span style="text-decoration:underline;">$1</span>',
-                '<pre>$1</pre>',
+                '<div class="quote">$1</div>',
+                '<div class="quote"><strong>$1</strong><br />$2</div>',
                 '<span style="font-size:$1px;">$2</span>',
                 '<span style="color:$1;">$2</span>',
+                '<a href="?page=profile&view=$1">$2</a>',
                 '<a href="$1">$1</a>',
-                '<img src="$1" alt="" />'
+                '<img class="img-responsive" src="$1" alt="" />'
             );
 
             // Replacing the BBcodes with corresponding HTML tags
@@ -130,50 +160,56 @@
 
             } else {
                 if (!$html) $html = $this->template->$templateName;
-                
+
+                //ini_set('pcre.jit', false);
+
+                /* remove new lines ... not sure why but it stops nested ifs ... */
+                $html = trim(preg_replace('/\s+/', ' ', $html));
+
                 // process each blocks
                 $html = preg_replace_callback(
-                    '#\{\#each (.+)\}(((?R)|.+)+)\{\/each}#iUs', 
+                    '#\{\#each (.+)\}(((?R)|.+)+)\{\/each}#iUsS', 
                     array($this, "each"), 
                     $html
                 );
+
                 // process if blocks
                 $html = preg_replace_callback(
-                    '#\{\#if (.+)\}(((?R)|.+)+)\{\/if}#iUs', 
-                    array($this, "if"), 
+                    '#\{\#if (.+)\}(((?R)|.+)+)\{\/if}#iUsS', 
+                    array($this, "__if"), 
                     $html
                 );
                 // process unless blocks
                 $html = preg_replace_callback(
-                    '#\{\#unless (.+)\}(((?R)|.+)+)\{\/unless}#iUs', 
+                    '#\{\#unless (.+)\}(((?R)|.+)+)\{\/unless}#iUsS', 
                     array($this, "unless"), 
                     $html
                 );
 
                 // replace variables
                 $html = preg_replace_callback(
-                    '#\{\>(.+)\}#iUs', 
+                    '#\{\>(.+)\}#iUsS', 
                     array($this, "subTemplate"), 
                     $html
                 );
 
                 // replace variables
                 $html = preg_replace_callback(
-                    '#\<\{(.+)\}\>#iUs', 
+                    '#\<\{(.+)\}\>#iUsS', 
                     array($this, "replaceHTML"), 
                     $html
                 );
 
                 // replace variables
                 $html = preg_replace_callback(
-                    '#\[\{(.+)\}\]#iUs', 
+                    '#\[\{(.+)\}\]#iUsS', 
                     array($this, "replaceBBCode"), 
                     $html
                 );
 
                 // replace variables
                 $html = preg_replace_callback(
-                    '#\{(.+)\}#iUs', 
+                    '#\{(.+)\}#iUsS', 
                     array($this, "replace"), 
                     $html
                 );

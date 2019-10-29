@@ -1,0 +1,11 @@
+@media (max-width: 767px) {
+    h4 {
+        text-align: center !important;
+    }
+
+    .pull-right {
+        float: none !important;
+        display: block;
+    }
+
+}

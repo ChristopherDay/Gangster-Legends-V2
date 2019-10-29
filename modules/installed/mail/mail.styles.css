@@ -1,0 +1,73 @@
+.read-mail,
+.read-mail h4 {
+    text-align: left !important;
+}
+
+@media (max-width: 767px) {
+
+    .read-mail h4 {
+        text-align: center !important;
+    }
+
+    .read-mail h4 .pull-right {
+        float: none !important;
+        display: block;
+    }
+
+    .mail-table tr,
+    .mail-table tr th,
+    .mail-table tr td {
+        display: block;
+        float: left;
+        line-height: 25px !important;
+        padding: 0px 4px !important;
+        border: none !important;
+    }
+    
+    .mail-table tr th,
+    .mail-table tr td {
+        height: 25px;
+    }
+
+    .mail-table tr th {
+        display: none;
+    }
+
+    .mail-table tr th:nth-child(1) {
+        display: block;
+        width: 100% !important;
+    }
+
+    .mail-table tr:after {
+        content: "";
+        clear: both;
+    }
+
+    .mail-table tr {
+        width: 100%;
+    }
+
+    .mail-table tr td:nth-child(1) {
+        display: none;
+    }
+
+    .mail-table tr td:nth-child(2) {
+        width: 40%;
+    }
+    .mail-table tr td:nth-child(3) {
+        width: 60%;
+        text-align: right;
+    }
+    .mail-table tr td:nth-child(4) {
+        width: 55%;
+    }
+    .mail-table tr td:nth-child(5) {
+        width: 45%;
+        text-align: right;
+    }
+
+    .new.visible-xs {
+        display: inline-block !important;
+    }
+
+}

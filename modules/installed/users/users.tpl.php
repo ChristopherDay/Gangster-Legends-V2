@@ -3,19 +3,25 @@
     class usersTemplate extends template {
 
         public $validateAccount = '
-            <div class="text-center">
-                <p class="text-center">
-                    Before you can play you need to activate your account. 
-                </p>
-                <form method="post" action="?page=users">
-                    <input type="text" name="code" class="form-control activation-code" value="{code}" /> 
-                    <button type="submit" class="btn btn-default">
-                        Activate
-                    </button>
-                </form>
-                <p>
-                    <a href="?page=users&action=resend">Resend activation code</a>
-                </p>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Account Activation</div>
+                <div class="panel-body">
+                    <div class="text-center">
+                        <p class="text-center">
+                            Before you can play you need to activate your account. Please check your email for your validation code. This may be in your spam folder.
+                        </p>
+                        <form method="post" action="?page=users">
+                            <input type="text" name="code" class="form-control activation-code" value="{code}" /> 
+                            <button type="submit" class="btn btn-default">
+                                Activate
+                            </button>
+                        </form>
+                        <p>
+                            <a href="?page=users&action=resend">Resend activation code</a>
+                        </p>
+                    </div>
+                </div>
             </div>
         ';
 
@@ -53,30 +59,28 @@
 
             </form>
 
-            {#if submit}
-                <hr />
-                <table class="table table-condensed table-responsive table-striped table-bordered">
-                    <thead>
+            <hr />
+            <table class="table table-condensed table-responsive table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th width="50px">ID</th>
+                        <th>User</th>
+                        <th width="100px">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {#each users}
                         <tr>
-                            <th width="50px">ID</th>
-                            <th>User</th>
-                            <th width="100px">Actions</th>
+                            <td>{id}</td>
+                            <td>{name}</td>
+                            <td>
+                                [<a href="?page=admin&module=users&action=edit&id={id}">Edit</a>] 
+                                [<a href="?page=admin&module=users&action=delete&id={id}">Delete</a>]
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        {#each users}
-                            <tr>
-                                <td>{id}</td>
-                                <td>{name}</td>
-                                <td>
-                                    [<a href="?page=admin&module=users&action=edit&id={id}">Edit</a>] 
-                                    [<a href="?page=admin&module=users&action=delete&id={id}">Delete</a>]
-                                </td>
-                            </tr>
-                        {/each}
-                    </tbody>
-                </table>
-            {/if}
+                    {/each}
+                </tbody>
+            </table>
         ';
 
         public $userDelete = '
@@ -115,10 +119,18 @@
                         <div class="form-group">
                             <label class="pull-left">User Level</label>
                             <select class="form-control" name="userLevel">
-                                <option {#if isBanned}selected{/if} value="0">Banned</option>
-                                <option {#if isMod}selected{/if} value="1">User</option>
-                                <option {#if isAdmin}selected{/if} value="2">Admin</option>
+                                {#each userRoles}
+                                    <option {#if selected}selected{/if} value="{id}">{name}</option>
+                                {/each}
                             </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="pull-left">Email</label>
+                            <input type="text" class="form-control" name="email" value="{email}">
                         </div>
                     </div>
                 </div>
@@ -145,8 +157,8 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="pull-left">Credits</label>
-                            <input type="number" class="form-control" name="credits" value="{credits}">
+                            <label class="pull-left">Points</label>
+                            <input type="number" class="form-control" name="points" value="{points}">
                         </div>
                     </div>
                 </div>

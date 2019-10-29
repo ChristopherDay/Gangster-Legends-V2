@@ -1,7 +1,3 @@
---
--- Dumping data for table `cars`
---
-
 INSERT INTO `cars` (`CA_id`, `CA_name`, `CA_value`, `CA_theftChance`) VALUES
 (1, 'Peugeot 106', 400, 333),
 (2, 'Citroen Saxo', 500, 333),
@@ -12,84 +8,53 @@ INSERT INTO `cars` (`CA_id`, `CA_name`, `CA_value`, `CA_theftChance`) VALUES
 (7, 'Porsche 911', 45000, 15),
 (8, 'Ferrari California', 90000, 5);
 
---
--- Dumping data for table `crimes`
---
-
 INSERT INTO `crimes` (`C_id`, `C_name`, `C_cooldown`, `C_money`, `C_maxMoney`, `C_level`) VALUES
 (1, 'Mug an old lady', 20, 1, 5, 1),
 (2, 'Rob a cab driver', 45, 10, 18, 1);
 
---
--- Dumping data for table `gameNews`
---
-
 INSERT INTO `gameNews` (`GN_id`, `GN_author`, `GN_title`, `GN_text`, `GN_date`) VALUES
-(1, 1, 'Some Title 1', 'edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v ', 1388562841),
-(2, 1, 'Some Title 2', 'edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v ', 1388562801),
-(3, 1, 'Some Title 3', 'edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v ', 1388562741),
-(4, 1, 'Some Title 4', 'edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v ', 1388562701),
-(5, 1, 'Some Title 5', 'edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v ', 1388562641),
-(6, 1, 'Some Title 6', 'edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v edrjkkjlhvghbkj bkxj bvkjzxcb vkjzxb v ', 1388562601);
-
-
---
--- Dumping data for table `garage`
---
+(1, 1, 'Instalation Complete', 'GL v2 successfully installed', UNIX_TIMESTAMP());
 
 INSERT INTO `garage` (`GA_id`, `GA_uid`, `GA_car`, `GA_damage`, `GA_location`) VALUES
 (23, 1, 4, 0, 3),
 (22, 3, 4, 2, 1);
-
---
--- Dumping data for table `locations`
---
 
 INSERT INTO `locations` (`L_id`, `L_name`, `L_cost`, `L_bullets`, `L_bulletCost`, `L_cooldown`) VALUES
 (1, 'London', 170, 11977, 100, 3600),
 (3, 'Rome', 220, 0, 100, 4800),
 (2, 'Paris', 200, 0, 100, 4200);
 
---
--- Dumping data for table `notifications`
---
+INSERT INTO `notifications` (`N_time`, `N_id`, `N_uid`, `N_text`, `N_read`) VALUES
+(UNIX_TIMESTAMP(), 1, 1, 'GL V2 installed successfully', 0);
 
-INSERT INTO `notifications` (`N_id`, `N_uid`, `N_text`, `N_read`) VALUES
-(1, 1, 'dsfdsasdsadsds', 0);
-
---
--- Dumping data for table `ranks`
---
-
-INSERT INTO `ranks` (`R_id`, `R_name`, `R_exp`, `R_limit`, `R_cashReward`, `R_bulletReward`) VALUES
-(1, 'Lowlife', 0, 0, 75, 25),
-(2, 'Thug', 50, 0, 150, 60),
-(3, 'Criminal', 100, 0, 250, 100);
-
---
--- Dumping data for table `theft`
---
+INSERT INTO `ranks` (`R_id`, `R_name`, `R_exp`, `R_limit`, `R_cashReward`, `R_bulletReward`, `R_health`) VALUES
+(1, 'Lowlife', 0, 0, 75, 25, 5000),
+(2, 'Thug', 50, 0, 150, 60, 10000),
+(3, 'Criminal', 100, 0, 250, 100, 15000);
 
 INSERT INTO `theft` (`T_id`, `T_name`, `T_chance`, `T_maxDamage`, `T_worstCar`, `T_bestCar`) VALUES
-(1, 'Steal from street corner', 50, 100, 1, 3),
-(2, 'Steel from 24hour car park', 35, 75, 1, 3),
-(3, 'Steal from private car park', 25, 60, 1, 4),
-(4, 'Steal from golf course', 18, 30, 3, 6),
-(5, 'Steal from car dearlership', 10, 10, 4, 7);
+(1, 'Steal from street corner', 50, 100, 1, 1000),
+(2, 'Steel from 24hour car park', 35, 75, 1, 1000),
+(3, 'Steal from private car park', 25, 60, 1, 2000),
+(4, 'Steal from golf course', 18, 30, 500, 20000),
+(5, 'Steal from car dearlership', 10, 10, 1000, 50000);
 
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`U_id`, `U_name`, `U_email`, `U_password`, `U_userLevel`, `U_status`) VALUES
-(1, 'Admin', 'Admin@yourgame.com', '17A52EB47CFC741A02C0FB8841B0A7794973DF3A06A53CF5D9F73B486E06945E', 2, 1);
---
-
-INSERT INTO `userStats` (`US_id`) VALUES (1);
-
---
--- Dumping data for table `weapons`
---
+INSERT INTO `settings` (`S_desc`, `S_value`) VALUES
+('pointsName', 'Points');
 
 INSERT INTO `weapons` (`W_id`, `W_name`, `W_accuracy`) VALUES
 (1, 'Pistol', 5);
+
+INSERT INTO `userRoles` (`UR_id`, `UR_desc`, `UR_color`) VALUES
+(1, 'User', '#777777'),
+(2, 'Admin', '#FFFFFF'),
+(3, 'Banned', '#FF0000');
+
+INSERT INTO `roleAccess` (`RA_role`, `RA_module`) VALUES (2, '*');
+
+INSERT INTO `moneyRanks` (`MR_id`, `MR_desc`, `MR_money`) VALUES
+(1, "Broke", 0),
+(2, "Very Poor", 10000),
+(3, "Poor", 100000),
+(4, "Rich", 1000000),
+(5, "Very Rich", 10000000);

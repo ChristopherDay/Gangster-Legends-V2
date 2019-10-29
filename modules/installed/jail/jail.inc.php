@@ -31,6 +31,8 @@
             $usersInJail = $this->db->prepare("
                 SELECT DISTINCT 
                     `U_id` as 'id', 
+                    `U_name` as 'name', 
+                    `US_rank` as 'rank', 
                     (`U_id` = ".$this->user->id.") as 'currentUser',
                     `jail`.`UT_time` as 'time', 
                     (`max`.`UT_time` = `jail`.`UT_time`) as 'superMax',  
@@ -79,13 +81,13 @@
             $jailUser = $this->getJailUsers($id);
 
             if (!$jailUser["time"]) {
-                return $this->html .= $this->page->buildElement('error', array(
+                return $this->alerts[] = $this->page->buildElement('error', array(
                     "text" => "This user is not in this jail"
                 ));
             }
 
             if ((int) $jailUser["superMax"]) {
-                return $this->html .= $this->page->buildElement('error', array(
+                return $this->alerts[] = $this->page->buildElement('error', array(
                     "text" => "This user is in super max"
                 ));
             }
@@ -97,7 +99,7 @@
 
 
             if ($inSuperMax) {
-                return $this->html .= $this->page->buildElement('error', array(
+                return $this->alerts[] = $this->page->buildElement('error', array(
                     "text" => "You can't bust anyone out while you are in super max"
                 ));
             }
@@ -109,11 +111,33 @@
             if ($jailUser["percent"] >= $chance) {
                 $user = new user($id);
                 $user->updateTimer("jail", time()-1);
-                return $this->html .= $this->page->buildElement('success', array(
+
+                $u = $this->db->prepare("
+                    UPDATE 
+                        userStats 
+                    SET 
+                        US_exp = US_exp + 1 
+                    WHERE 
+                        US_id = ".$this->user->id);
+                $u->execute();
+
+                $actionHook = new hook("userAction");
+                $action = array(
+                    "user" => $this->user->id, 
+                    "module" => "jail", 
+                    "id" => $user->info->US_rank, 
+                    "success" => true, 
+                    "reward" => $this->user->id == $id?1:0
+                );
+                $actionHook->run($action);
+
+                return $this->alerts[] = $this->page->buildElement('success', array(
                     "text" => "You broke " . $jailUser["name"] . " out of jail"
                 ));
+
             } else {
 
+                $user = new user($id);
 
                 if ($inJail) {
                     $jailTime = $this->user->getTimer("jail") + 90;
@@ -122,7 +146,18 @@
                     $jailTime = time() + 90;
                 }
                 $this->user->updateTimer("jail", $jailTime);
-                return $this->html .= $this->page->buildElement('error', array(
+
+                $actionHook = new hook("userAction");
+                $action = array(
+                    "user" => $this->user->id, 
+                    "module" => "jail", 
+                    "id" => $user->info->US_rank, 
+                    "success" => false, 
+                    "reward" => 0
+                );
+                $actionHook->run($action);
+
+                return $this->alerts[] = $this->page->buildElement('error', array(
                     "text" => "You failed to break " . $jailUser["name"] . " out of jail"
                 ));
             }
@@ -134,19 +169,21 @@
 
             if (!$this->user->checkTimer("jail")) {
                 $inSuperMax = $this->user->getTimer("jail") == $this->user->getTimer("superMax")?"super max":"jail";
-            	$this->html .= $this->page->buildElement('error', array(
-                    "text" => 'You are in '.$inSuperMax.' for <span data-reload-when-done data-timer-type="inline" data-timer="'.$this->user->getTimer("jail").'"></span>!'
+                $this->alerts[] = $this->page->buildElement('timer', array(
+                    "timer" => ($inSuperMax=="super max")?"superMax":"jail",
+                    "text" => 'You are in '.$inSuperMax,
+                    "time" => $this->user->getTimer("jail")
                 ));
             }   
 
             $users = $this->getJailUsers();
 
             $this->html .= $this->page->buildElement("jailUsers", 
-	        	array(
-	        		"users" => $users, 
+                array(
+                    "users" => $users, 
                     "location" => $this->user->getLocation()
-		        )
-	        );
+                )
+            );
         }
         
     }

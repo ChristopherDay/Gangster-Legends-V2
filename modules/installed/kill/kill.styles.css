@@ -1,0 +1,9 @@
+.crime-holder input[type='radio'],
+.crime-holder input[type='checkbox'] {
+    margin: 0px;
+    vertical-align: middle;
+}
+
+label.select-detective {
+    display: inline;
+}

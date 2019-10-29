@@ -5,30 +5,37 @@
         public $allowedMethods = "*";
         
         public function constructModule() {
+
+            if (!isset($this->methodData->module)) $this->methodData->module = "admin";
             
-            /* Redirect the user to the home page if they are a user */
-            if ($this->user->info->U_userLevel != 2) {
+            $adminModule = $this->methodData->module;
+
+            if (!count($this->user->adminModules)) {
                 header("Location:?page=" . $this->page->landingPage);
                 exit;
             }
 
-            $adminModule = @$this->methodData->module;
-            if (!$adminModule) $this->methodData->module = "admin";
-            
+            if (
+                !in_array($this->methodData->module, $this->user->adminModules) &&
+                !in_array("*", $this->user->adminModules)
+            ) {
+                header("Location:?page=" . $this->page->landingPage);
+                exit;
+            }
+
             new hook("menus", function ($menus) {
                 return array();
             });
 
             $this->viewModule();
-            
             $this->viewModules();
 
         }
 
         private function viewModule() {
+
             $adminModule = $this->methodData->module;
             $this->moduleInfo = @$this->page->modules[$adminModule];
-
 
             if (!$this->moduleInfo || !$this->moduleInfo["admin"]) {
 
@@ -72,6 +79,12 @@
                 $this->page->moduleView = $moduleViewFile;
             }
 
+            $moduleJSFile = "modules/installed/" . $adminModule . "/" . $adminModule . ".admin.script.js";
+
+            if (file_exists($moduleJSFile)) {
+                $this->page->addToTemplate("moduleJSFile", $moduleJSFile);
+            }
+
             $adminModule = new adminModule();
             $adminModule->db = $this->db;
             $adminModule->user = $this->user;
@@ -96,6 +109,10 @@
             
                 foreach ($this->page->modules as $moduleName => $moduleInfo) {
                     if (!isset($moduleInfo["adminGroup"])) continue;
+                    if (
+                        !in_array($moduleInfo["id"], $this->user->adminModules) &&
+                        !in_array("*", $this->user->adminModules)
+                    ) continue;
 
                     if (!isset($menus[$moduleInfo["adminGroup"]])) {
                         $menus[$moduleInfo["adminGroup"]] = array(
@@ -107,8 +124,9 @@
                     
                     $add = "";
 
+
                     if (!isset($this->methodData->action) || $this->methodData->module != $moduleName) {
-                        $add = "&action=" . $moduleInfo["admin"][0]["method"];
+                        //$add = "&action=" . $moduleInfo["admin"][0]["method"];
                     } else {
                         $add = "&action=" . $this->methodData->action;
                     }

@@ -1,0 +1,12 @@
+{
+    "name": "Game Stats",
+    "version": "1.0.0",
+    "description": "This page shows the user a few stats about the game.",
+    "author": {
+        "name": "Chris Day",
+        "url": "http:\/\/glscript.cdcoding.com"
+    },
+    "pageName": "Game Statistics",
+    "accessInJail": true,
+    "requireLogin": true
+}
