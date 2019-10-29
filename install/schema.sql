@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `mail` (
   `M_parent` int(11) NOT NULL DEFAULT 0,
   `M_text` text NULL,
   `M_type` int(11) NOT NULL DEFAULT 0,
-  `M_read` int(11) NOT NULL DEFAULT '0',
+  `M_read` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`M_id`)
 ) DEFAULT CHARSET=utf8;
 
@@ -211,33 +211,33 @@ CREATE TABLE IF NOT EXISTS `properties` (
   `PR_module` VARCHAR(128) NOT NULL , 
   `PR_user` int(11) NOT NULL DEFAULT 0,
   `PR_cost` int(11) NOT NULL DEFAULT 0,
-  `PR_profit` INT(11) NOT NULL
+  `PR_profit` INT(11) NOT NULL DEFAULT 0
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `items` (
   `I_id` INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT , 
   `I_name` VARCHAR(128) NOT NULL , 
-  `I_damage` INT(11) NOT NULL , 
-  `I_cost` INT(11) NOT NULL , 
-  `I_points` INT(11) NOT NULL , 
-  `I_type` INT(11) NOT NULL , 
-  `I_rank` INT(11) NOT NULL
+  `I_damage` INT(11) NOT NULL DEFAULT 0 , 
+  `I_cost` INT(11) NOT NULL DEFAULT 0 , 
+  `I_points` INT(11) NOT NULL DEFAULT 0 , 
+  `I_type` INT(11) NOT NULL DEFAULT 0 , 
+  `I_rank` INT(11) NOT NULL DEFAULT 0
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `detectives` (
   `D_id` INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT , 
-  `D_user` INT(11) NOT NULL , 
-  `D_userToFind` INT(11) NOT NULL , 
-  `D_detectives` INT(11) NOT NULL , 
-  `D_start` INT(11) NOT NULL , 
-  `D_end` INT(11) NOT NULL , 
-  `D_success` INT(11) NOT NULL
+  `D_user` INT(11) NOT NULL DEFAULT 0 , 
+  `D_userToFind` INT(11) NOT NULL DEFAULT 0 , 
+  `D_detectives` INT(11) NOT NULL DEFAULT 0 , 
+  `D_start` INT(11) NOT NULL DEFAULT 0 , 
+  `D_end` INT(11) NOT NULL DEFAULT 0 , 
+  `D_success` INT(11) NOT NULL DEFAULT 0
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `bounties` (
   `B_id` INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT , 
-  `B_user` INT(11) NOT NULL , 
-  `B_userToKill` INT(11) NOT NULL , 
-  `B_cost` INT(11) NOT NULL
+  `B_user` INT(11) NOT NULL DEFAULT 0 , 
+  `B_userToKill` INT(11) NOT NULL DEFAULT 0 , 
+  `B_cost` INT(11) NOT NULL DEFAULT 0
 ) ENGINE = InnoDB;
 
