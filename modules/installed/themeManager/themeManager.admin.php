@@ -57,6 +57,7 @@
             if (isset($this->methodData->submit)) {
                 $settings->update("landingPage", $this->methodData->landingPage);
                 $settings->update("game_name", $this->methodData->game_name);
+                $settings->update("from_email", $this->methodData->from_email);
                 $settings->update("pointsName", $this->methodData->pointsName);
                 $settings->update("theme", $this->methodData->theme);
                 $settings->update("adminTheme", $this->methodData->adminTheme);
@@ -64,6 +65,7 @@
                     "text" => "Theme options updated."
                 ));
                 $this->page->addToTemplate("game_name", $this->methodData->game_name);
+                $this->page->addToTemplate("from_email", $this->methodData->from_email);
                 $this->page->addToTemplate("pointsName", $this->methodData->pointsName);
                 $this->page->loadedTheme = $this->methodData->adminTheme;
             }
@@ -72,6 +74,7 @@
             $output = array(
                 "landingPage" => $settings->loadSetting("landingPage"),
                 "game_name" => $settings->loadSetting("game_name"),
+                "from_email" => $settings->loadSetting("from_email"),
                 "pointsName" => $settings->loadSetting("pointsName"),
                 "theme" => $settings->loadSetting("theme"),
                 "adminTheme" => $settings->loadSetting("adminTheme"),
