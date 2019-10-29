@@ -1,12 +1,12 @@
 {
-    "name": "Admin",
+    "name": "Admin Panel",
     "version": "1.0.0",
     "description": "This module allows a user to deposit and withdraw money from a bank",
     "author": {
         "name": "Chris Day",
         "url": "http:\/\/glscript.cdcoding.com"
     },
-    "pageName": "Admin",
+    "pageName": "Admin Control Panel",
     "moduleCantBeDisabled": true,
     "accessInJail": true,
     "requireLogin": true,

@@ -3,21 +3,28 @@
    class theftTemplate extends template {
 
         public $theftHolder = '
-        {#each theft}
-        <div class="crime-holder">
-            <p>
-                <span class="action">
-                    {name} 
-                </span>
-                <span class="commit">
-                    <a href="?page=theft&action=commit&id={id}">Steal</a>
-                </span>
-            </p>
-            <div class="crime-perc">
-                <div class="perc" style="width:{percent}%;"></div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Theft</div>
+                <div class="panel-body">
+                    {#each theft}
+                        <div class="crime-holder">
+                            <p>
+                                <span class="action">
+                                    {name} 
+                                </span>
+                                <span class="commit">
+                                    <a href="?page=theft&action=commit&id={id}">Steal</a>
+                                </span>
+                            </p>
+                            <div class="crime-perc">
+                                <div class="perc" style="width:{percent}%;"></div>
+                            </div>
+                        </div>
+                    {/each}
+                </div>
             </div>
-        </div>
-        {/each}';
+        ';
         
 
         public $theftList = '
@@ -25,10 +32,10 @@
                 <thead>
                     <tr>
                         <th>Theft</th>
-                        <th width="120px">Chance</th>
+                        <th width="70px">Chance</th>
                         <th width="120px">maxDamage</th>
-                        <th width="120px">worstCar</th>
-                        <th width="70px">bestCar</th>
+                        <th width="120px">Min car value</th>
+                        <th width="120px">Max car value</th>
                         <th width="100px">Actions</th>
                     </tr>
                 </thead>
@@ -36,10 +43,10 @@
                     {#each theft}
                         <tr>
                             <td>{name}</td>
-                            <td>{chance} %</td>
+                            <td>{chance}%</td>
                             <td>{maxDamage}</td>
-                            <td>{worstCar}</td>
-                            <td>{bestCar}</td>
+                            <td>${worstCar}</td>
+                            <td>${bestCar}</td>
                             <td>
                                 [<a href="?page=admin&module=theft&action=edit&id={id}">Edit</a>] 
                                 [<a href="?page=admin&module=theft&action=delete&id={id}">Delete</a>]
@@ -73,16 +80,16 @@
                     <input type="number" class="form-control" name="chance" value="{chance}">
                 </div>
                 <div class="form-group">
-                    <label class="pull-left">Minimum worstCar for successful theft</label>
+                    <label class="pull-left">Minimum car value for successful theft</label>
                     <input type="number" class="form-control" name="worstCar" value="{worstCar}">
+                </div>
+                <div class="form-group">
+                    <label class="pull-left">Maximum car value for successful theft</label>
+                    <input type="number" class="form-control" name="bestCar" value="{bestCar}">
                 </div>
                 <div class="form-group">
                     <label class="pull-left">Maximum damage of successful theft</label>
                     <input type="number" class="form-control" name="maxDamage" value="{maxDamage}">
-                </div>
-                <div class="form-group">
-                    <label class="pull-left">Min bestCar to comit this crime</label>
-                    <input type="number" class="form-control" name="bestCar" value="{bestCar}">
                 </div>
                 <div class="text-right">
                     <button class="btn btn-default" name="submit" type="submit" value="1">Save</button>

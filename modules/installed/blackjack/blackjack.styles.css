@@ -1,0 +1,30 @@
+/* card layout */ 
+.card {
+    width: 71px;
+    height: 96px;
+    display: inline-block;
+    background-image: url("cards.png");
+}
+
+
+/* suits */
+.card.clubs { background-position-y: -2px; }
+.card.hearts { background-position-y: -100px; }
+.card.spades { background-position-y: -198px; }
+.card.diamonds { background-position-y: -296px; }
+.card.backs { background-position-y: -394px; }
+
+/* numbers */
+.card.card-A, .card.ace, .card.blue { background-position-x: -2px; }
+.card.card-2, .card.two, .card.red { background-position-x: -75px; }
+.card.card-3, .card.three { background-position-x: -148px; }
+.card.card-4, .card.four { background-position-x: -221px; }
+.card.card-5, .card.five { background-position-x: -294px; }
+.card.card-6, .card.six { background-position-x: -367px; }
+.card.card-7, .card.seven { background-position-x: -440px; }
+.card.card-8, .card.eight { background-position-x: -513px; }
+.card.card-9, .card.nine { background-position-x: -586px; }
+.card.card-10, .card.ten { background-position-x: -659px; }
+.card.card-J, .card.jack { background-position-x: -732px; }
+.card.card-Q, .card.queen { background-position-x: -805px; }
+.card.card-K, .card.king { background-position-x: -878px; }

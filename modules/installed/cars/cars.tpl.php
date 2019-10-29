@@ -18,7 +18,7 @@
                 <thead>
                     <tr>
                         <th>Cars</th>
-                        <th width="120px">Theft Chance</th>
+                        <th width="120px">Number of cars</th>
                         <th width="120px">Value ($)</th>
                         <th width="100px">Actions</th>
                     </tr>
@@ -27,8 +27,8 @@
                     {#each cars}
                         <tr>
                             <td>{name}</td>
-                            <td>{theftChance} %</td>
-                            <td>{value}</td>
+                            <td>{theftChance}</td>
+                            <td>${value}</td>
                             <td>
                                 [<a href="?page=admin&module=cars&action=edit&id={id}">Edit</a>] 
                                 [<a href="?page=admin&module=cars&action=delete&id={id}">Delete</a>]
@@ -58,7 +58,7 @@
                     <input type="text" class="form-control" name="name" value="{name}">
                 </div>
                 <div class="form-group">
-                    <label class="pull-left">Theft Chance (percent)</label>
+                    <label class="pull-left">Number of cars available</label>
                     <input type="number" class="form-control" name="theftChance" value="{theftChance}">
                 </div>
                 <div class="form-group">

@@ -1,0 +1,12 @@
+{
+    "name": "Kill",
+    "version": "1.0.0",
+    "description": "This module allows users to kill one-another",
+    "author": {
+        "name": "Chris Day",
+        "url": "http:\/\/glscript.cdcoding.com"
+    },
+    "pageName": "Kill",
+    "accessInJail": false,
+    "requireLogin": true
+}

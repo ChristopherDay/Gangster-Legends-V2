@@ -2,7 +2,7 @@
 
     class adminTemplate extends template {
         public $dashboard = '
-        	<div class="row">
+            <div class="row">
                 <div class="col-md-6">
                     <h3>Statistics</h3>
                     <table class="table table-condensed table-striped table-bordered">

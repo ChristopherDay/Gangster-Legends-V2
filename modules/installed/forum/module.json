@@ -1,0 +1,33 @@
+{
+    "name": "Forum",
+    "version": "1.0.0",
+    "description": "A forum for users to talk to everyone",
+    "author": {
+        "name": "Chris Day",
+        "url": "http:\/\/glscript.cdcoding.com"
+    },
+    "pageName": "Forum",
+    "accessInJail": true,
+    "requireLogin": true,
+    "adminGroup": "Communication",
+    "admin": [
+        {
+            "text": "View Forums",
+            "method": "viewForum"
+        },
+        {
+            "text": "New Forum",
+            "method": "newForum"
+        },
+        {
+            "hide": true,
+            "text": "Delete Forum",
+            "method": "editForum"
+        },
+        {
+            "hide": true,
+            "text": "Delete Forum",
+            "method": "deleteForum"
+        }
+    ]
+}

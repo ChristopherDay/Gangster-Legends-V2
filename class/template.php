@@ -40,7 +40,9 @@
                     $this->$templateName = $templateStructure;
                 }
             }
-            
+
+            $hook = new Hook("alterGlobalTemplate");
+            $hook->run($this);
         }
         
         /* Global elements */
@@ -60,9 +62,35 @@
             <{text}>
         </div>';
 
-        public $userName = '<a href="?page=profile&view={user.id}" class="user user-status-{user.status} user-level-{user.userLevel}">
-            {user.name}
-        </a>';
+        public $userName = '
+            <a href="?page=profile&view={user.id}" class="user user-status-{user.status} user-level-{user.userLevel}" style="color: {user.color};">
+                {user.name}
+            </a>
+        ';
+
+        public $timer = '
+            <div class="alert alert-danger game-timer">
+                <{text}> <br />
+                Time remaining: <span data-remove-when-done data-timer-type="inline" data-timer="{time}"></span>
+            </div>
+        ';
+
+        public $propertyOwnership = '
+            {#unless closed}
+                {#if user}
+                    Owned by {>userName}
+                {/if}
+                {#unless user}
+                    No Owner - <a href="?page={module}&action=own">Buy property $1,000,000</a>
+                {/unless}
+
+                {#if userOwnsThis}
+                    <hr />
+                    Profit: {profit} <br />
+                    <a href="?page=propertyManagement&module={module}">Manage Property</a>  
+                {/if}
+            {/unless}
+        ';
 
         public $levelUpNotification = '
             You have ranked up, you are now a {rankName}.
@@ -82,6 +110,17 @@
             {/if}
         ';
 
+    }
+
+    function _ago($tm,$rcs = 0) {
+        $cur_tm = time(); $dif = $cur_tm-$tm;
+        $pds = array('second','minute','hour','day','week','month','year','decade');
+        $lngh = array(1,60,3600,86400,604800,2630880,31570560,315705600);
+        for($v = sizeof($lngh)-1; ($v >= 0)&&(($no = $dif/$lngh[$v])<=1); $v--); if($v < 0) $v = 0; $_tm = $cur_tm-($dif%$lngh[$v]);
+
+        $no = floor($no); if($no <> 1) $pds[$v] .='s'; $x=sprintf("%d %s ",$no,$pds[$v]);
+        if(($rcs == 1)&&($v >= 1)&&(($cur_tm-$_tm) > 0)) $x .= time_ago($_tm);
+        return $x;
     }
 
 ?>

@@ -1,5 +1,7 @@
 <?php
-
-	$db = NEW PDO("mysql:host=localhost;dbname=GLV2", "gl_user", "gl_password");
 	
+	require 'class/db.php';
+
+    $db = NEW glPDO("mysql:host=" . $config["db"]["host"] . ";dbname=" . $config["db"]["database"], $config["db"]["user"], $config["db"]["pass"]);
+
 ?>

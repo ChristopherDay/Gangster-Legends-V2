@@ -1,0 +1,12 @@
+{
+    "name": "Blackjack",
+    "version": "1.0.0",
+    "description": "The casino game black jack (known as 21)",
+    "author": {
+        "name": "Chris Day",
+        "url": "http:\/\/glscript.cdcoding.com"
+    },
+    "pageName": "Blackjack",
+    "accessInJail": true,
+    "requireLogin": true
+}

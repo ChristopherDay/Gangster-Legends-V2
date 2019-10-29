@@ -1,0 +1,61 @@
+@media (max-width: 767px) {
+
+    .garage-table tr,
+    .garage-table tr th,
+    .garage-table tr td {
+        display: block;
+        float: left;
+        line-height: 25px !important;
+        padding: 0px 4px !important;
+        border: none !important;
+    }
+    
+    .garage-table tr th,
+    .garage-table tr td {
+        height: 25px;
+    }
+
+    .garage-table tr th {
+        display: none;
+    }
+
+    .garage-table tr th:nth-child(1) {
+        display: block;
+        width: 100% !important;
+    }
+
+    .garage-table tr:after {
+        content: "";
+        clear: both;
+    }
+
+    .garage-table tr {
+        width: 100%;
+    }
+
+    .garage-table tr td:nth-child(1) {
+        font-weight: bold;
+        width: 80%;
+    }
+
+    .garage-table tr td:nth-child(4),
+    .garage-table tr td:nth-child(2) {
+        width: 20%;
+        text-align: right;
+    }
+
+    .garage-table tr td:nth-child(3),
+    .garage-table tr td:nth-child(4) {
+        width: 50%;
+    }
+
+    .garage-table tr td:nth-child(5) {
+        width: 100%;
+        text-align: center;
+    }
+
+    .new.visible-xs {
+        display: inline-block !important;
+    }
+
+}

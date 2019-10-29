@@ -9,7 +9,7 @@
     "pageName": "Cars",
     "accessInJail": false,
     "requireLogin": true,
-    "adminGroup": "Game Mechanics",
+    "adminGroup": "Vehicles",
     "admin": [
         {
             "text": "View Cars",

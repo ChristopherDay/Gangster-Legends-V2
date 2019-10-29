@@ -3,11 +3,11 @@
     class loggedin extends module {
         
         public $allowedMethods = array();
-		
-		public $pageName = 'Welcome back';
+        
+        public $pageName = 'Welcome back';
         
         public function constructModule() {
-			
+            
             $news = $this->db->prepare("
                 SELECT * FROM gameNews INNER JOIN users ON (GN_author = U_id) ORDER BY GN_date DESC LIMIT 0, 10
             ");
@@ -30,7 +30,7 @@
             $this->html .= $this->page->buildElement('newsArticle', array(
                 "news" => $articleInfo
             ));
-		
+        
         }
         
     }

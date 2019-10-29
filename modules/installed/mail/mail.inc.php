@@ -5,62 +5,62 @@
         public $allowedMethods = array(
             "id" => array( "type" => "GET" ),
             "name" => array( "type" => "REQUEST" ),
-        	"reply" => array( "type" => "GET" ),
-        	"message" => array( "type" => "POST" ),
-        	"subject" => array( "type" => "POST" )
+            "reply" => array( "type" => "GET" ),
+            "message" => array( "type" => "POST" ),
+            "subject" => array( "type" => "POST" )
         );
-		
-		public $pageName = '';
         
-		public function getMailList($type = 'M_uid', $id = false) {
-			$add = "$type = :user";
-			
-			if ($id) {
-				$add = "M_id = :id AND (M_sid = :user OR M_uid = :user)";
-			}
+        public $pageName = '';
+        
+        public function getMailList($type = 'M_uid', $id = false) {
+            $add = "$type = :user";
+            
+            if ($id) {
+                $add = "M_id = :id AND (M_sid = :user OR M_uid = :user)";
+            }
 
-			$mail = $this->db->prepare("
-				SELECT
-					M_id as 'id', 
-					M_time as 'time', 
-					M_sid as 'sender', 
-					M_uid as 'receiver', 
-					M_subject as 'subject', 
-					M_text as 'text', 
-					M_type as 'type', 
-					M_read as 'read' 
-				FROM mail WHERE $add ORDER BY M_time DESC
-			");
-			$mail->bindParam(":user", $this->user->id);
+            $mail = $this->db->prepare("
+                SELECT
+                    M_id as 'id', 
+                    M_time as 'time', 
+                    M_sid as 'sender', 
+                    M_uid as 'receiver', 
+                    M_subject as 'subject', 
+                    M_text as 'text', 
+                    M_type as 'type', 
+                    M_read as 'read' 
+                FROM mail WHERE $add ORDER BY M_time DESC
+            ");
+            $mail->bindParam(":user", $this->user->id);
 
-			if ($id) {
-				$mail->bindParam(":id", $id);
-			}
+            if ($id) {
+                $mail->bindParam(":id", $id);
+            }
 
-			$mail->execute();
-			$allMail = $mail->fetchAll(PDO::FETCH_ASSOC);
+            $mail->execute();
+            $allMail = $mail->fetchAll(PDO::FETCH_ASSOC);
 
-			foreach ($allMail as $key => $mail) {
+            foreach ($allMail as $key => $mail) {
 
                 if ($type == 'M_sid') {
-    				$receiver = new User($mail["receiver"]);
-    				$mail["user"] = (array) $receiver->user;
+                    $receiver = new User($mail["receiver"]);
+                    $mail["user"] = (array) $receiver->user;
                 } else {
-    				$sender = new User($mail["sender"]);
-    				$mail["user"] = (array) $sender->user;
+                    $sender = new User($mail["sender"]);
+                    $mail["user"] = (array) $sender->user;
                 }
 
 
-				$mail["date"] = date("jS M H:i", $mail["time"]);
+                $mail["date"] = date("jS M H:i", $mail["time"]);
 
-				$allMail[$key] = $mail;
-			}
+                $allMail[$key] = $mail;
+            }
 
-			return $allMail; 
-		}
+            return $allMail; 
+        }
 
         public function constructModule() {
-        	if (!isset($this->methodData->action)) $this->method_inbox();
+            if (!isset($this->methodData->action)) $this->method_inbox();
         }
 
         public function method_read () {
@@ -105,14 +105,14 @@
 
             if (isset($this->methodData->subject)) {
                 if (strlen($this->methodData->subject) < 2) {
-                    $this->html .= $this->page->buildElement("error", array(
+                    $this->alerts[] = $this->page->buildElement("error", array(
                         "text" => "The subject must be at least two characters"
                     ));
                     $error = true;
                 }
 
                 if (strlen($this->methodData->message) < 6) {
-                    $this->html .= $this->page->buildElement("error", array(
+                    $this->alerts[] = $this->page->buildElement("error", array(
                         "text" => "The message must be at least six characters"
                     ));
                     $error = true;
@@ -125,6 +125,36 @@
             
         } 
 
+        public function method_delete() {
+
+            $mail = $this->db->select("
+                SELECT
+                    M_id as 'id', 
+                    M_time as 'time', 
+                    M_sid as 'sender', 
+                    M_uid as 'receiver', 
+                    M_subject as 'subject', 
+                    M_text as 'text', 
+                    M_type as 'type', 
+                    M_read as 'read' 
+                FROM mail WHERE 
+                    M_id = :id
+                ORDER BY M_time DESC
+            ", array(
+                ":id" => $this->methodData->id
+            ));
+
+            if ($mail["receiver"] != $this->user->id) {
+                $this->error("You can't delete this mail!");
+            } else {
+                $this->db->delete("DELETE FROM mail WHERE M_id = :id", array(
+                    ":id" => $this->methodData->id
+                ));
+            }
+
+            $this->method_inbox();
+        }
+
         public function method_new() {
 
             if (isset($this->methodData->name)) {
@@ -132,26 +162,26 @@
                 $to = new User(null, $this->methodData->name);
 
                 if (!isset($to->info->U_id)) {
-                    return $this->html .= $this->page->buildElement("error", array(
-                        "text" => "This user does not exist"
-                    ));
+                    return $this->error("This user does not exist");
                 }
 
                 if ($to->info->U_id == $this->user->id) {
-                    return $this->html .= $this->page->buildElement("error", array(
-                        "text" => "You cant message yourself"
-                    ));
+                    return $this->error("You cant message yourself");
                 }
 
+            }
+
+            if (!$this->user->checkTimer("sentMail")) {
+                return $this->error("You can't sent another mail yet, please wait a little bit!");
             }
 
             $error = $this->validateMail();
 
             if (!$error) {
                 $send = $this->db->prepare("INSERT INTO mail (
-                    M_time, M_uid, M_sid, M_subject, M_text  
+                    M_time, M_uid, M_sid, M_subject, M_text, M_parent, M_type
                 ) VALUES(
-                    UNIX_TIMESTAMP(), :to, :from, :subject, :message
+                    UNIX_TIMESTAMP(), :to, :from, :subject, :message, 0, 0
                 )");
 
                 $send->bindParam(":to", $to->info->U_id);
@@ -161,9 +191,11 @@
 
                 $send->execute();
 
-                $this->html .= $this->page->buildElement("success", array(
+                $this->alerts[] = $this->page->buildElement("success", array(
                     "text" => "Message Sent"
                 ));
+
+                $this->user->updateTimer("sentMail", 20, true);
             }
 
             $opts = array(
@@ -187,13 +219,13 @@
             $replyTo = @$this->getMailList(false, $this->methodData->id)[0];
 
             if (!$replyTo) {
-                return $this->html .= $this->page->buildElement("error", array(
+                return $this->alerts[] = $this->page->buildElement("error", array(
                     "text" => "This mail does not exist"
                 ));
             }
 
             if ($replyTo["sender"] == $this->user->id) {
-                return $this->html .= $this->page->buildElement("error", array(
+                return $this->alerts[] = $this->page->buildElement("error", array(
                     "text" => "You cant message yourself"
                 ));
             }
@@ -215,7 +247,7 @@
 
                 $send->execute();
 
-                $this->html .= $this->page->buildElement("success", array(
+                $this->alerts[] = $this->page->buildElement("success", array(
                     "text" => "Reply Sent"
                 ));
             }

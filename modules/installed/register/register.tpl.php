@@ -3,8 +3,8 @@
     class registerTemplate extends template {
     
         public $registerForm = '
-			<{text}>
-            <form action="?page=register&action=register" method="post">
+            <{text}>
+            <form action="?page=register&action=register{#if ref}&ref={ref}{/if}" method="post">
                 <input class="form-control" type="text" name="username" placeholder="Username" /><br />
                 <input class="form-control" type="text" autocomplete="off" name="email" placeholder="EMail" /><br />
                 <div class="row">
@@ -14,9 +14,10 @@
                     <div class="col-xs-6">
                         <input class="form-control" type="password" name="cpassword" placeholder="Confirm Password" />
                     </div>
+                </div><br />
+                <div class="text-right">
+                    <button type="submit" class="btn btn-default">Register</button>
                 </div>
-                <br />
-                <button type="submit" class="btn pull-right">Register</button>
             </form>
         ';
 
