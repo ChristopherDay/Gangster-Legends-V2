@@ -283,6 +283,7 @@
             $page->addToTemplate('locationID', $this->info->US_location);
             $page->addToTemplate('username', $this->info->U_name);
             $page->addToTemplate('userStatus', $this->info->U_status);
+            $page->addToTemplate('user', $this->user);
 
             $page->addToTemplate('isAdmin', count($this->adminModules) != 0);
             
@@ -511,7 +512,7 @@
             return (time() > $time);
         }
         
-        public function getTimer($timer) {
+        public function getTimer($timer, $make = true) {
         
             $userID = $this->id;
             
@@ -528,14 +529,17 @@
             
             // If the array is empty we make the user timer, this way the developer does not have to make any changes to the database to make a new timer.
             if (empty($array['UT_time'])) {
-                
-                $time = time()-1;
-                $insert = $this->db->prepare("INSERT INTO userTimers (UT_user, UT_desc, UT_time) VALUES (:user, :desc, :time)");
-                $insert->bindParam(':user', $userID);
-                $insert->bindParam(':desc', $timer);
-                $insert->bindParam(':time', $time);
-                $insert->execute();
-                return $time;
+                if ($make) {
+                    $time = time()-1;
+                    $insert = $this->db->prepare("INSERT INTO userTimers (UT_user, UT_desc, UT_time) VALUES (:user, :desc, :time)");
+                    $insert->bindParam(':user', $userID);
+                    $insert->bindParam(':desc', $timer);
+                    $insert->bindParam(':time', $time);
+                    $insert->execute();
+                    return $time;
+                } else {
+                    return 0;
+                }
                 
             } else {
                 

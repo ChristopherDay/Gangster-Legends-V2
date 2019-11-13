@@ -14,13 +14,11 @@
             $this->page->addToTemplate("loginSuffix", $settings->loadSetting("loginSuffix"));
             $this->page->addToTemplate("loginPostfix", $settings->loadSetting("loginPostfix"));
             
-            $this->html .= $this->page->buildElement('loginForm', array("text" => (isset($this->loginError)?$this->loginError:'')));
-            
         }
         
         public function method_logout() {
             
-            $this->loginError = $this->page->buildElement('info', array("text" => 'You have been logged out!'));
+            $this->error('You have been logged out!');
         
         }
         
@@ -40,10 +38,10 @@
                     $_SESSION['userID'] = $user->info->U_id;
                     header("Location:?page=" . $this->page->landingPage);
                 } else {
-                    $this->loginError = $this->page->buildElement('error', array("text" => 'You have entered a wrong email/password!'));;
+                    $this->error('You have entered a wrong email/password!');
                 }
             } else {
-                $this->loginError = $this->page->buildElement('error', array("text" => 'You have entered a wrong email/password!'));    
+                $this->error('You have entered a wrong email/password!');    
             }
             
         }
