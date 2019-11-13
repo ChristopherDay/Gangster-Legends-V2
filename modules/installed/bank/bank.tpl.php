@@ -77,10 +77,10 @@
                             <input type="number" class="form-control" name="money" placeholder="Money to transfer" />
                         </div>
                     </div>
+                    <p class="text-center">
+                        <button class="btn btn-default" name="submit" type="submit" value="1">Transfer</button>
+                    </p>
                 </div>
-                <p class="text-center">
-                    <button class="btn btn-default" name="submit" type="submit" value="1">Transfer</button>
-                </p>
             </div>
         </form>
         ';
