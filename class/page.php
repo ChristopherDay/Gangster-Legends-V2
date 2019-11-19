@@ -73,6 +73,7 @@ class page {
                 
                 $moduleCSSFile = "modules/installed/" . $page . "/" . $page . ".styles.css";
 
+
                 if (file_exists($moduleCSSFile)) {
                     $this->addToTemplate("moduleCSSFile", $moduleCSSFile);
                 }

@@ -22,7 +22,7 @@
 
         }
 
-        public function run(&$opts, $returnSingleItem = false) {
+        public function run(&$opts = array(), $returnSingleItem = false) {
             global $hooks;
             if ($returnSingleItem) {
                 if (is_array($opts)) {
