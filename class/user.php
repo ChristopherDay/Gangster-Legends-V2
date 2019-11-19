@@ -412,6 +412,14 @@
 
         }
 
+        public function add($value, $stat) {
+            $this->set($stat, $this->info->$stat + $value);
+        }
+
+        public function subtract($value, $stat) {
+            $this->set($stat, $this->info->$stat + $value);
+        }
+
         public $counter = 0;
         
         public function nextRank() {
@@ -552,6 +560,8 @@
         public function updateTimer($timer, $time, $add = false) {
         
             $user = $this->id;
+            
+            if (!$user) $user = $this->info->U_id;
             
             // Check that the timer exists, if it dosent this function will automaticly make it.
             // We do this so the user does not have to make any database changes to make a module.

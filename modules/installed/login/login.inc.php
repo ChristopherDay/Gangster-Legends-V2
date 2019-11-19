@@ -13,13 +13,14 @@
             $settings = new settings();
             $this->page->addToTemplate("loginSuffix", $settings->loadSetting("loginSuffix"));
             $this->page->addToTemplate("loginPostfix", $settings->loadSetting("loginPostfix"));
+
+            $this->html .= $this->page->buildElement('loginForm');
+
             
         }
         
         public function method_logout() {
-            
             $this->error('You have been logged out!');
-        
         }
         
         public function method_login() {

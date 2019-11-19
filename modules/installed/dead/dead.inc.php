@@ -59,6 +59,14 @@
 
             $_SESSION['userID'] = $id;
 
+            $hook = new Hook("newUserRevive");
+            $hook->run(
+                array(
+                    "old" => $this->user->id,
+                    "new" => $id
+                )
+            );
+
             header("Location:?");
 
         }
