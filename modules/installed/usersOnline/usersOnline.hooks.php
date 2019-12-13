@@ -48,12 +48,13 @@
             foreach ($online as $onlineUser) {
             	$onlineUser["isUser"] = $user->id == $onlineUser["user"]["id"];
             	if ($onlineUser["user"]["gang"] && $onlineUser["user"]["gang"] == $user->info->US_gang) {
-            		if ($onlineUser["user"]["gangBoss"] == $onlineUser["user"]["id"]) {
-            			$onlineUser["isCrewOwner"] = true;
-            		}
             		$onlineUser["isCrew"] = true;
             		$crew[] = $onlineUser;
             	}
+        		
+                if ($onlineUser["user"]["gangBoss"] == $onlineUser["user"]["id"]) {
+        			$onlineUser["isCrewOwner"] = true;
+        		}
 
             	if ($lastRank != $onlineUser["user"]["rank"] && count($currentGroup)) {
             		$onlineGroups[] = array("users" => $currentGroup);
