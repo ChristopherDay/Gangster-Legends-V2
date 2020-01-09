@@ -77,7 +77,10 @@
         
         public function shutdown() {
             $error = error_get_last();
-            $this->handler($error['type'], $error['message'], $error['file'], $error['line'], NULL, true);
+
+            if (!is_null($error)) {
+                $this->handler($error['type'], $error['message'], $error['file'], $error['line'], NULL, true);
+            }
         }
         
         private function log($text, $major = false) {
