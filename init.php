@@ -4,7 +4,7 @@
 
     session_start();
 
-    if (file_exists("install/")) {
+    if (file_exists("install/index.php")) {
         header("Location: install/");
         exit;
     }
