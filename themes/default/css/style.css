@@ -394,6 +394,28 @@ table tr td, table tr th {
     background-color: transparent;
 }
 
+.pagination li a {
+    background-color: #252524;
+    color: #fff;
+    border-color: #474747;
+}
+
+.pagination li:hover a {
+    background-color: inherit !important;
+    color: inherit !important;
+    border-color: #474747;
+}
+
+.pagination li.active a {
+    background-color: #676767 !important;
+    color: #fff;
+    border-color: #ccc;
+}
+
+.pagination li:nth-child(odd) a {
+    background-color: #161616;
+}
+
 @media (max-width: 767px) {
     html, body {
         height: 100%;
