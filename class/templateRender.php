@@ -95,7 +95,7 @@
         
         public function subTemplate($matches) {
             $var = $matches[1];
-            return $this->parse($this->template->$var);
+            return $this->parse($this->template->$var, $var);
         }
 
         /* 
@@ -124,7 +124,7 @@
             return $bbcode->Parse($text);
         }
 
-        public function parse($html = false) {
+        public function parse($html = false, $subTemplateName = false) {
             $find = array();
             $replace = array();
 
@@ -139,9 +139,37 @@
                 ));
 
             } else {
-                if (!$html) $html = $this->template->$templateName;
 
-                //ni_set('pcre.jit', false);
+                $templateToLoad = false;
+
+                if (!$html) {
+                    $templateToLoad = ($templateName);
+                    $html = $this->template->$templateName;
+                } else {
+                    $templateToLoad = ($subTemplateName);
+                }
+
+                if ($templateToLoad) {
+                    $items = $this->items;
+                    $hook = new Hook("alterModuleTemplate");
+                    $data = array(
+                        "templateName" => $templateToLoad, 
+                        "items" => $items,
+                        "html" => $html
+                    );
+                    $newTemplate = $hook->run($data, true);
+
+                    if (isset($newTemplate["html"])) {
+                        $html = $newTemplate["html"];
+                    }
+
+                    if (isset($newTemplate["items"])) {
+                        $this->items = $newTemplate["items"];
+                    }
+
+                }
+
+                //ini_set('pcre.jit', false);
 
                 /* remove new lines ... not sure why but it stops nested ifs ... */
                 $html = trim(preg_replace('/\s+/', ' ', $html));

@@ -65,7 +65,8 @@
                 
             if (!$config["debug"] && $major) {
                 echo '<h1>Sorry something went very wrong!</h1>';
-                echo 'The error has been logged and waiting for a developer to review this issue.';
+                echo '<p>The error has been logged and waiting for a developer to review this issue.</p>';
+                echo '<p>If you are the developer you can enable better dubuging by editing config.php and enabling debug</p>';
                 exit;
                 
             } else if ($config["debug"]) {
