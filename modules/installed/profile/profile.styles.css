@@ -1,0 +1,16 @@
+.user-profile .panel-body {
+	padding: 5px;
+}
+
+.profile-user-stats, 
+.user-profile .nav li a {
+	margin-bottom:0px;
+}
+
+.panel-body.profile-pic {
+	padding: 0px;
+}
+
+.profile-user-stats li {
+	padding: 7px;
+}
