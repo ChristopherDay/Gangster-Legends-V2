@@ -54,6 +54,11 @@
             $location->bindParam(':id', $id);
             $location->execute();
             $location = $location->fetchObject();
+           
+            if (!$location){ 
+                header("Location:?page=travel"); 
+                exit; 
+            }
 
             if ($this->user->checkTimer('travel')) {
                 if ($location->L_id == $this->user->info->US_location) {
