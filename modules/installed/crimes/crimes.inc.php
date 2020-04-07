@@ -59,6 +59,11 @@
                 $crime->bindParam(':crime', $crimeID);
                 $crime->execute();
                 $crimeInfo = $crime->fetchObject();
+             
+                if (!$crimeInfo){ 
+                    header("Location:?page=crimes"); 
+                    exit; 
+                }
                 
                 $userCrimeChance = explode('-', $this->user->info->US_crimes);
                 $userChance = $userCrimeChance[($crimeInfo->C_id - 1)];
