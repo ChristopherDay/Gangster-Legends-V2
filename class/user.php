@@ -319,6 +319,7 @@
             $page->addToTemplate('gang', $gang);
             $page->addToTemplate('weapon', $weapon->I_name);
             $page->addToTemplate('armor', $armor->I_name);
+            $page->addToTemplate('nextRank', $this->nextRank->R_name);
             
         }
         
