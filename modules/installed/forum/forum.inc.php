@@ -192,6 +192,8 @@
                     T_user as 'user', 
                     T_status as 'locked', 
                     T_subject as 'subject', 
+                    COUNT(P_topic)-1 as 'posts',
+                    MAX(P_date) as 'lastPost',
                     (
                         CASE T_type
                         WHEN 2 THEN 'Important:'
@@ -200,9 +202,11 @@
                     )
                     as 'type'
                 FROM topics
+                INNER JOIN posts ON (P_topic = T_id)
                 WHERE
                     T_forum = :forum
-                ORDER BY T_type DESC, T_date DESC
+                GROUP BY T_id
+                ORDER BY T_type DESC, MAX(P_date) DESC
                 LIMIT $from, $perPage
             ");
 
