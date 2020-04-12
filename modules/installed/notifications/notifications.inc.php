@@ -47,7 +47,7 @@
                     N_text as 'text', 
                     N_time as 'time'
                 FROM notifications WHERE N_uid = :id
-                ORDER BY N_time DESC
+                ORDER BY N_time DESC, N_id DESC
                 LIMIT " . $from . ", " . $perPage . ";
                 UPDATE notifications SET N_read = 1 WHERE N_uid = :id AND N_read = 0;
             ");
