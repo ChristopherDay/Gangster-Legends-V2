@@ -61,8 +61,7 @@
                 $crimeInfo = $crime->fetchObject();
              
                 if (!$crimeInfo){ 
-                    header("Location:?page=crimes"); 
-                    exit; 
+                    return $this->error("This crime does not exist!"); 
                 }
                 
                 $userCrimeChance = explode('-', $this->user->info->US_crimes);
