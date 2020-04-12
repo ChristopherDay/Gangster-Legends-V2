@@ -19,7 +19,7 @@
         $bounties->bindParam(":killed", $killed->info->U_id);
         $bounties->execute();
 
-        $bounties = $bounties->fetchAll(PDO::FETCH_ASSOC);
+        $bounties = $bounties->fetch(PDO::FETCH_ASSOC);
 
         if (isset($bounties["reward"])) {
             $bounty = $bounties["reward"];
