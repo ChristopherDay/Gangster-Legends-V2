@@ -43,7 +43,40 @@
         public function method_install () {
 
             if (isset($this->methodData->submit)) {
-                $this->html .= debug($_FILES, 1, 1);
+                $themeFile = $_FILES["file"];
+
+                $fileName = str_replace(".zip", "", $themeFile["name"]);
+
+                if ($fileName == $themeFile["name"]) {
+                    return $this->page->buildElement("error", array(
+                        "text" => "Please provide a module in the correctFormat (themeName.zip)"
+                    ));
+                } 
+
+                $installDir = "themes/";
+                $installLocation = $installDir . $fileName . "/";
+
+
+                //Remove previous install of this module
+                if (file_exists($installLocation)) { 
+                    $this->removeDir($installLocation);
+                } else {
+                    // Remake new directory
+                    mkdir($installLocation);
+                }
+
+                // Extract module
+                $zip = new ZipArchive;
+                $res = $zip->open($themeFile["tmp_name"]);
+
+                if ($res === TRUE) {
+                    $zip->extractTo($installLocation);
+                    $zip->close();
+                    $this->page->buildElement("error", array(
+                        "text" => "Theme installed successfully!"
+                    ));
+                    return $this->method_options();
+                }
             } else {
                 $this->html .= $this->page->buildElement("themeForm");
             }
