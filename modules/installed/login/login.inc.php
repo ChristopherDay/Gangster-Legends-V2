@@ -37,6 +37,17 @@
                 $user = new User($userExists["U_id"]);
                 if ($user->info->U_password == $user->encrypt($user->info->U_id . $this->methodData->password)) {
                     $_SESSION['userID'] = $user->info->U_id;
+     
+                    $actionHook = new hook("userAction");
+                    $action = array(
+                        "user" => $this->user->id, 
+                        "module" => "login", 
+                        "id" => $this->user->id, 
+                        "success" => true, 
+                        "reward" => 0
+                    );
+                    $actionHook->run($action);
+
                     header("Location:?page=" . $this->page->landingPage);
                 } else {
                     $this->error('You have entered a wrong email/password!');

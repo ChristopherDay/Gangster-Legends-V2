@@ -70,10 +70,32 @@
                     $this->alerts[] = $this->page->buildElement('error', $crimeError);
                     $this->user->updateTimer('jail', ($crimeInfo->C_id * 15), true);
                     $add = 0;
+     
+                    $actionHook = new hook("userAction");
+                    $action = array(
+                        "user" => $this->user->id, 
+                        "module" => "crimes", 
+                        "id" => $crimeID, 
+                        "success" => false, 
+                        "reward" => 0
+                    );
+                    $actionHook->run($action);
+
                 } else if ($chance > $userChance) {
                     $crimeError = array("text"=>'You failed to commit the crime!');
                     $this->alerts[] = $this->page->buildElement('error', $crimeError);
                     $add = mt_rand(1, 2);
+     
+                    $actionHook = new hook("userAction");
+                    $action = array(
+                        "user" => $this->user->id, 
+                        "module" => "crimes", 
+                        "id" => $crimeID, 
+                        "success" => false, 
+                        "reward" => 0
+                    );
+                    $actionHook->run($action);
+
                 } else {
 
                     $rewards = array();
@@ -90,6 +112,17 @@
                     $this->user->set("US_money", $this->user->info->US_money + $cashReward);
                     $this->user->set("US_bullets", $this->user->info->US_bullets + $bulletReward);
                     $this->user->set("US_exp", $this->user->info->US_exp + $crimeInfo->C_exp);
+     
+                    $actionHook = new hook("userAction");
+                    $action = array(
+                        "user" => $this->user->id, 
+                        "module" => "crimes", 
+                        "id" => $crimeID, 
+                        "success" => true, 
+                        "reward" => $cashReward
+                    );
+                    $actionHook->run($action);
+
                     $add = mt_rand(1, 4);
                 }
                 

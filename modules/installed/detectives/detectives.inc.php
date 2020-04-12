@@ -106,6 +106,16 @@
                 $insert->bindParam(":end", $end);
                 $insert->bindParam(":success", $success);
                 $insert->execute();
+     
+                $actionHook = new hook("userAction");
+                $action = array(
+                    "user" => $this->user->id, 
+                    "module" => "detectives", 
+                    "id" => $user->info->US_id, 
+                    "success" => true, 
+                    "reward" => $cost
+                );
+                $actionHook->run($action);
 
                 $this->user->set("US_money", $this->user->info->US_money - $cost);
 
