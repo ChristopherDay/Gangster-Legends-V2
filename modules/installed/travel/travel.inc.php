@@ -56,8 +56,7 @@
             $location = $location->fetchObject();
            
             if (!$location){ 
-                header("Location:?page=travel"); 
-                exit; 
+                return $this->error("This location does not exist!");
             }
 
             if ($this->user->checkTimer('travel')) {
