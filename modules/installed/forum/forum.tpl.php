@@ -2,7 +2,31 @@
 
     class forumTemplate extends template {
         
-        public $blankElement = '';
+        public $allForums = '
+
+            <div class="panel panel-default">
+                <div class="panel-heading text-left">
+                    Forums
+                </div>
+                <div class="panel-body">
+
+                    {#each forums}
+                        <div class="crime-holder forum-topic">
+                            <p> 
+                                <span class="action"> 
+                                    <a href="?page=forum&action=forum&id={id}">{name}</a>
+                                </span> 
+                                <span class="cooldown"> 
+                                    {number_format topics} Topics
+                                </span> 
+                                <a href="?page=forum&action=forum&id={id}" class="commit"> View </a> 
+                            </p>
+                        </div>
+                    {/each}
+                </div>
+            </div>
+
+        ';
 
         public $forumsList = '
             <table class="table table-condensed table-striped table-bordered table-responsive">

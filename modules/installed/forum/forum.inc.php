@@ -15,7 +15,27 @@
         
         public $pageName = '';
         
-        public function constructModule() {}
+        public function constructModule() {
+            
+            if (isset($_GET["action"])) {
+                return;
+            }
+
+            $forums = $this->db->selectAll("
+                SELECT
+                    F_id as 'id', 
+                    F_name as 'name',
+                    COUNT(T_id) as 'topics'
+                FROM forums 
+                INNER JOIN topics ON (T_forum = F_id)
+                ORDER BY F_sort ASC, F_name");
+
+            $this->html .= $this->page->buildElement("allForums", array(
+                "forums" => $forums
+            ));
+
+
+        }
 
         public function getPost($id) {
             $post = $this->db->prepare("
