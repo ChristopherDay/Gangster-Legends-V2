@@ -32,6 +32,8 @@ CREATE TABLE IF NOT EXISTS `gangs` (
   `G_id` int(11) NOT NULL AUTO_INCREMENT,
   `G_name` varchar(120) NULL,
   `G_bank` int(11) NOT NULL DEFAULT 0,
+  `G_money` int(11) NOT NULL DEFAULT 0,
+  `G_bullets` int(11) NOT NULL DEFAULT 0,
   `G_info` text NULL,
   `G_desc` text NULL,
   `G_location` int(11) NOT NULL DEFAULT 0,
