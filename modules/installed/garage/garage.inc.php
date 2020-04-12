@@ -59,6 +59,16 @@
                 $this->alerts[] = $this->page->buildElement('success', array("text"=>'You sold your car for $'.number_format($value).'!'));
                 
                 $this->db->query("UPDATE userStats SET US_money = US_money + $value WHERE US_id = ".$this->user->id);
+     
+                $actionHook = new hook("userAction");
+                $action = array(
+                    "user" => $this->user->id, 
+                    "module" => "garage.sell", 
+                    "id" => $car->CA_id, 
+                    "success" => true, 
+                    "reward" => $value
+                );
+                $actionHook->run($action);
             
             }
             
@@ -86,6 +96,16 @@
                 $this->alerts[] = $this->page->buildElement('success', array("text"=>'You crushed your car for '.number_format($value).' bullets!'));
                 
                 $this->db->query("UPDATE userStats SET US_bullets = US_bullets + $value WHERE US_id = ".$this->user->id);
+     
+                $actionHook = new hook("userAction");
+                $action = array(
+                    "user" => $this->user->id, 
+                    "module" => "garage.crush", 
+                    "id" => $car->CA_id, 
+                    "success" => true, 
+                    "reward" => $value
+                );
+                $actionHook->run($action);
             
             }
             
@@ -118,6 +138,16 @@
                     $this->alerts[] = $this->page->buildElement('success', array("text"=>'You repaired your car for $'.number_format($value).'!'));
                     $this->db->query("UPDATE garage SET GA_damage = 0 WHERE GA_id = ".$car->GA_id);
                     $this->db->query("UPDATE userStats SET US_money = US_money - $value WHERE US_id = ".$this->user->id);
+     
+                    $actionHook = new hook("userAction");
+                    $action = array(
+                        "user" => $this->user->id, 
+                        "module" => "garage.repair", 
+                        "id" => $car->CA_id, 
+                        "success" => true, 
+                        "reward" => $value
+                    );
+                    $actionHook->run($action);
                     
                 } else {
                 
