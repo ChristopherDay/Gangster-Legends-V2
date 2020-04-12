@@ -27,6 +27,12 @@
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
+                            <label class="pull-left">Gang Name</label>
+                            <input type="text" class="form-control" name="gangName" value="{gangName}" />
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
                             <label class="pull-left">Landing Module</label>
                             <select class="form-control" name="landingPage">
                                 {#each modules}
