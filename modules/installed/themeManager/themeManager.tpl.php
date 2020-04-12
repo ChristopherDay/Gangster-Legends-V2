@@ -139,7 +139,7 @@
                     </div>
                 </div>
                 <div class="text-right">
-                    <button class="btn btn-default" name="submit" type="submit" value="1">Upload</button>
+                    <button class="btn btn-default" name="submitInstall" type="submit" value="1">Upload</button>
                 </div>
             </form>
         ';

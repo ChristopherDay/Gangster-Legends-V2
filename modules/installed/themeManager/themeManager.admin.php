@@ -1,8 +1,18 @@
 <?php
 
+    function delete_files($target) {
+        if(is_dir($target)){
+            $files = glob( $target . '*', GLOB_MARK ); //GLOB_MARK adds a slash to directories returned
+            foreach( $files as $file ){
+                delete_files( $file );      
+            }
+            rmdir( $target );
+        } elseif(is_file($target)) {
+            unlink( $target );  
+        }
+    }
+
     class adminModule {
-
-
 
         private function getTheme($themeNameToLoad = false, $type="game") {
 
@@ -42,7 +52,7 @@
 
         public function method_install () {
 
-            if (isset($this->methodData->submit)) {
+            if (isset($this->methodData->submitInstall)) {
                 $themeFile = $_FILES["file"];
 
                 $fileName = str_replace(".zip", "", $themeFile["name"]);
@@ -72,7 +82,7 @@
                 if ($res === TRUE) {
                     $zip->extractTo($installLocation);
                     $zip->close();
-                    $this->page->buildElement("error", array(
+                    $this->html .= $this->page->buildElement("success", array(
                         "text" => "Theme installed successfully!"
                     ));
                     return $this->method_options();
@@ -81,6 +91,11 @@
                 $this->html .= $this->page->buildElement("themeForm");
             }
 
+        }
+
+        private function removeDir($dir) {
+            if ($dir[0] == ".") return false;
+            delete_files($dir);
         }
 
         public function method_options() {
