@@ -60,61 +60,69 @@
         public $topics = '
 
             <div class="panel panel-default">
-                <div class="panel-heading">Forum</div>
+                <div class="panel-heading text-left">
+                    {forumInfo.name}
+                    <small class="pull-right">
+                        <a href="?page=forum&action=new&id={forum}">
+                            New Topic
+                        </a>
+                    </small>
+                </div>
                 <div class="panel-body">
-                    <h4 class="text-left">
-                        {forumInfo.name}
-                        <small class="pull-right">
-                            <a href="?page=forum&action=new&id={forum}">
-                                New Topic
-                            </a>
-                        </small>
-                    </h4>
 
-
-                    <table class="table table-bordered table-striped forum-topics">
-                        <thead>
-                            <tr>
-                                <th>Subject</th>
-                                <th width="150px">User</th>
-                                <th width="230px">Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {#unless topics}
-                                <tr>
-                                    <td class="text-center" colspan="3">
-                                        <em>This forum has no topics.</em>
-                                    </td>
-                                </tr>
-                            {/unless}
-                            {#each topics}
-                                <tr>
-                                    <td>
-                                        {#if locked}
-                                            <i class="glyphicon glyphicon-lock"></i>
-                                        {/if}
-                                        <a href="?page=forum&action=topic&id={id}">
-                                            {type} {subject}
-                                        </a>
-                                    </td>
-                                    <td>
-                                        {>userName}
-                                    </td>
-                                    <td>
+                    {#each topics}
+                        <div class="crime-holder forum-topic">
+                            <p> 
+                                <span class="action">
+                                    {#if locked}
+                                        <i class="glyphicon glyphicon-lock"></i>
+                                    {/if}
+                                    <a href="?page=forum&action=topic&id={id}" data-type="{type}">
+                                        {type} {subject}
+                                    </a><br />
+                                    <small>
                                         {date}
-                                    </td>
-                            {/each}
-                        </tbody>
-                    </table>
+                                    </small>
+                                </span> 
+                                <span class="cooldown">
+                                    {posts} Replies<br />
+                                    <small>
+                                        Last reply {_ago lastPost} ago
+                                    </small>
+                                </span> 
+                                <span class="cooldown">
+                                    {>userName}
+                                </span>
+                                <a href="?page=forum&action=topic&id={id}" class="commit">
+                                    View
+                                </a>
+                            </p> 
+                        </div>
+                    {/each}
 
-                    <nav aria-label="Page navigation">
-                        <ul class="pagination">
-                            {#each pages}
-                                <li {#if active}class="active"{/if}><a href="?page=forum&action=forum&id={id}&pageNumber={page}"><{name}></a></li>
-                            {/each}
-                        </ul>
-                    </nav>
+
+                    {#unless topics}
+                        <div class="crime-holder forum-topic">
+                            <p> 
+                                <span class="action" style="line-height: 36px;">
+                                    <em>This forum has no topics.</em>
+                                </span>
+                                <a href="?page=forum&action=new&id={forum}" class="commit">
+                                    New Topic
+                                </a>
+                            </p> 
+                        </div>
+                    {/unless}
+
+                    {#if topics}
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination">
+                                {#each pages}
+                                    <li {#if active}class="active"{/if}><a href="?page=forum&action=forum&id={id}&pageNumber={page}"><{name}></a></li>
+                                {/each}
+                            </ul>
+                        </nav>
+                    {/if}
 
                 </div>
             </div>
@@ -158,16 +166,17 @@
         public $topic = '
 
             <div class="panel panel-default">
-                <div class="panel-heading">Forum</div>
-                <div class="panel-body">
-                    <h4 class="text-left">
+                <div class="panel-heading text-left">
+                    <span data-type="{type}">
                         {type} {subject}
-                        <small class="pull-right">
-                            <a href="?page=forum&action=forum&id={forum.id}">
-                                {forum.name}
-                            </a>
-                        </small>
-                    </h4>
+                    </span>
+                    <small class="pull-right">
+                        <a href="?page=forum&action=forum&id={forum.id}">
+                            {forum.name}
+                        </a>
+                    </small>
+                </div>
+                <div class="panel-body">
                     {#each posts}
                         <div class="well well-sm text-left {style}">
                             <h5 class="text-left forum-header">
