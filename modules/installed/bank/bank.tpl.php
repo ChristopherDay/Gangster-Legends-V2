@@ -64,25 +64,26 @@
                 </div>
             </div>
 
-
-        <form method="post" action="?page=bank&action=transfer">
-            <div class="panel panel-default">
-                <div class="panel-heading">Transfer Money</div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" name="user" placeholder="Username" />
+            <div class="row">
+                <div class="col-md-6">
+                    <form method="post" action="?page=bank&action=transfer">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Transfer Money</div>
+                            <div class="panel-body">
+                                <p>
+                                    <input type="text" class="form-control" name="user" placeholder="Username" />
+                                </p>
+                                <p>
+                                    <input type="number" class="form-control" name="money" placeholder="Money to transfer" />
+                                </p>
+                                <p class="text-right">
+                                    <button type="submit" class="btn btn-default" name="submit" value="1">Transfer</button>
+                                </p>
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <input type="number" class="form-control" name="money" placeholder="Money to transfer" />
-                        </div>
-                    </div>
-                    <p class="text-center">
-                        <button class="btn btn-default" name="submit" type="submit" value="1">Transfer</button>
-                    </p>
+                    </form>
                 </div>
-            </div>
-        </form>
+            </div>    
         ';
         
     }
