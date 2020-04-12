@@ -59,6 +59,10 @@
                 $crime->bindParam(':crime', $crimeID);
                 $crime->execute();
                 $crimeInfo = $crime->fetchObject();
+             
+                if (!$crimeInfo){ 
+                    return $this->error("This crime does not exist!"); 
+                }
                 
                 $userCrimeChance = explode('-', $this->user->info->US_crimes);
                 $userChance = $userCrimeChance[($crimeInfo->C_id - 1)];
