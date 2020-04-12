@@ -189,11 +189,12 @@
         
         public function sendActivationCode($email, $id, $username) {
             $settings = new settings();
+            $headers['From'] = $settings->loadSetting('from_email');
             $gameName = $settings->loadSetting("game_name");
             $activationCode = $this->activationCode($id, $username);
             $subject = $gameName . " - Registration";
             $body = "$username your activation code for $gameName is $activationCode, after you have logged in please enter this when prompted.";
-            mail($email, $subject, $body);
+            mail($email, $subject, $body, $headers);
         }
 
         public function activationCode($id, $username) {

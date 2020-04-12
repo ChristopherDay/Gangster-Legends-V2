@@ -4,11 +4,11 @@
         
         public $notifications = '
 
-            <div class="panel">
+            <div class="panel panel-default">
                 <div class="panel-heading">
                     Notifications
                 </div>
-                <div class="panel-body">
+                <div class="panel-body-">
 
                      <ul class="list-group text-left">
         
@@ -38,19 +38,17 @@
 
                     </ul>
 
-                    <nav>
-                        <ul class="pagination">
-                            {#each pages}
-                                <li {#if active}class="active"{/if}><a href="?page=notifications&p={page}">{page}</a></li>
-                            {/each}
-                        </ul>
-                    </nav>
 
                 </div>
             </div>
+            <nav>
+                <ul class="pagination">
+                    {#each pages}
+                        <li {#if active}class="active"{/if}><a href="?page=notifications&p={page}">{page}</a></li>
+                    {/each}
+                </ul>
+            </nav>
 
         ';
         
     }
-
-?>

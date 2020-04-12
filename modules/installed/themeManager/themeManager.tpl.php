@@ -15,8 +15,20 @@
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
+                            <label class="pull-left">From Email</label>
+                            <input type="text" class="form-control" name="from_email" value="{from_email}" />
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
                             <label class="pull-left">Points Name</label>
                             <input type="text" class="form-control" name="pointsName" value="{pointsName}" />
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="pull-left">Gang Name</label>
+                            <input type="text" class="form-control" name="gangName" value="{gangName}" />
                         </div>
                     </div>
                     <div class="col-md-12">

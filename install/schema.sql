@@ -41,6 +41,30 @@ CREATE TABLE IF NOT EXISTS `gangs` (
   PRIMARY KEY (`G_id`)
 ) DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `gangPermissions` (
+  `GP_id` int(11) NOT NULL AUTO_INCREMENT,
+  `GP_user` int(11) NOT NULL,
+  `GP_access` varchar(128) NOT NULL,
+  PRIMARY KEY (`GP_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `gangInvites` (
+  `GI_id` int(11) NOT NULL AUTO_INCREMENT,
+  `GI_user` int(11) NOT NULL,
+  `GI_gangUser` int(11) NOT NULL,
+  `GI_gang` int(11) NOT NULL,
+  PRIMARY KEY (`GI_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `gangLogs` (
+  `GL_id` int(11) NOT NULL AUTO_INCREMENT,
+  `GL_gang` int(11) NOT NULL,
+  `GL_time` int(11) NOT NULL,
+  `GL_user` int(11) NOT NULL,
+  `GL_log` varchar(255) NOT NULL,
+  PRIMARY KEY (`GL_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE IF NOT EXISTS `garage` (
   `GA_id` int(11) NOT NULL AUTO_INCREMENT,
   `GA_uid` int(11) NOT NULL DEFAULT 0,
