@@ -54,6 +54,10 @@
             $location->bindParam(':id', $id);
             $location->execute();
             $location = $location->fetchObject();
+           
+            if (!$location){ 
+                return $this->error("This location does not exist!");
+            }
 
             if ($this->user->checkTimer('travel')) {
                 if ($location->L_id == $this->user->info->US_location) {
