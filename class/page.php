@@ -239,6 +239,7 @@ class page {
 
     public function sortArray($arr) {
         if (!$arr) return $arr;
+        $arr = array_filter($arr);
         uasort($arr, array($this, "cmp"));
         return $arr;
 
