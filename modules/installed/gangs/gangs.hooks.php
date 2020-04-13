@@ -56,7 +56,7 @@
         return array(
             "url" => "?page=gangs", 
             "text" => "All " . $name, 
-            "sort" => 100
+            "sort" => 10
         );
     });
 
@@ -66,7 +66,17 @@
         if ($user && $user->info->US_gang) return array(
             "url" => "?page=gangs&action=home", 
             "text" => "My " . $name, 
-            "sort" => 100
+            "sort" => 20
+        );
+    });
+
+    new hook("gangMenu", function ($user) {
+        $s = new Settings();
+        $name = $s->loadSetting("gangName");
+        if ($user && $user->info->US_gang) return array(
+            "url" => "?page=gangs&action=logs", 
+            "text" => "Logs", 
+            "sort" => 150
         );
     });
 
