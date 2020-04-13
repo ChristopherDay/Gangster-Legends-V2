@@ -304,11 +304,9 @@
 
             
             if (isset($this->nextRank->R_exp)) {
-
                 if ($rank->R_id == $this->nextRank->R_id) {
                     $this->nextRank = $this->nextRank();
                 }
-
                 $expIntoNextRank =  $this->info->US_exp - $rank->R_exp;
                 $expNeededForNextRank = $this->nextRank->R_exp - $rank->R_exp;
                 $expperc = round($expIntoNextRank / $expNeededForNextRank * 100, 2);
@@ -448,6 +446,18 @@
             $newRank = $this->nextRank();
 
             if (isset($newRank->R_exp) && $newRank->R_exp <= $this->info->US_exp) {
+
+                if ($newRank->R_limit) {
+                    $usersInRank = $this->db->select("
+                        SELECT COUNT(US_id) as 'count' 
+                        FROM userStats 
+                        INNER JOIN users ON (U_id = US_id)
+                        WHERE US_rank = :rank AND U_status = 1
+                    ", array(
+                        ":rank" => $newRank->R_id
+                    ));
+                    if ($usersInRank["count"] >= $newRank->R_limit) return $newRank;
+                }
 
                 $this->counter++;
 
