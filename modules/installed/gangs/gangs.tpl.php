@@ -43,7 +43,7 @@
                         <ul class="list-group text-left">
                             {#each logs}
                                 <li class="list-group-item">
-                                    {>userName} {log}
+                                    {>userName} {log} <small class="pull-right">{date}</small>
                                 </li>
                             {/each}
                         </ul>
