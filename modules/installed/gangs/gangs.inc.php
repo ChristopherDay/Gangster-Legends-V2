@@ -202,6 +202,7 @@
                 if (!isset($users[$log["uID"]])) {
                     $users[$log["uID"]] = new User($log["uID"]);
                 }
+                $log["date"] = $this->date($log["time"]);
                 $log["user"] = $users[$log["uID"]]->user;
                 $logs[$key] = $log;
             }
