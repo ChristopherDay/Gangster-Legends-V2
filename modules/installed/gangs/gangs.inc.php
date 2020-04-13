@@ -331,6 +331,8 @@
                 $this->user->set("US_gang", $invite["GI_gang"]);
                 $this->error("You have accepted the invite!", "success");
                 $gang->log("joined the gang");
+                $hook = new Hook("joinGang");
+                $hook = $hook->run($this->user);
             } else {
                 $this->error("You have declined the invite!", "warning");
                 $gang->log("declined the invite to join the gang");
