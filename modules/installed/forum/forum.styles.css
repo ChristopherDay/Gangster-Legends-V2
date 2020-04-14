@@ -26,45 +26,40 @@
     background-color: #191919;
 }
 
+.forum-topic p {
+    line-height: 18px;
+}
+
+.forum-topic .action {
+    text-align: left;
+    vertical-align: middle;
+}
+
+.forum-topic .cooldown {
+    text-align: left;
+    vertical-align: middle;
+    display: inline-block;
+    width: 150px;
+}
+
+[data-type="Important:"] {
+    color: #FF0000;
+}
+
+[data-type="Sticky:"] {
+    color: #fff900;
+}
 
 @media (max-width: 767px) {
-    .forum-topics tr,
-    .forum-topics tr th,
-    .forum-topics tr td {
-        display: block;
-        float: left;
-        line-height: 25px !important;
-        padding: 0px 4px !important;
-        border: none !important;
-    }
-    .forum-topics tr:after {
-        content: "";
-        clear: both;
+
+
+    .forum-topic .action {
+        width: 75%;
     }
 
-    .forum-topics tr {
-        width: 100%;
-    }
-    .forum-topics tr th:nth-child(1),
-    .forum-topics tr td:nth-child(1) {
-        height: 25px;
-        width: 100%;
-    }
-
-    .forum-topics tr td:nth-child(2) {
-        height: 25px;
-        width: 33%;
-    }
-    
-    .forum-topics tr td:nth-child(3) {
-        width: 67%;
-        height: 25px;
-        font-size: 11px;
-        text-align: right;
-    }
-    .forum-topics tr th:nth-child(3),
-    .forum-topics tr th:nth-child(2) {
+    .forum-topic .cooldown {
         display: none;
+
     }
 
 }

@@ -1,5 +1,17 @@
 <?php
 
+    function delete_files($target) {
+        if(is_dir($target)){
+            $files = glob( $target . '*', GLOB_MARK ); //GLOB_MARK adds a slash to directories returned
+            foreach( $files as $file ){
+                delete_files( $file );      
+            }
+            rmdir( $target );
+        } elseif(is_file($target)) {
+            unlink( $target );  
+        }
+    }
+
     class adminModule {
 
         private function getModule($moduleName = false) {
@@ -40,8 +52,7 @@
 
         private function removeDir($dir) {
             if ($dir[0] == ".") return false;
-            array_map('unlink', glob("$dir/*"));
-            rmdir($dir);
+            delete_files($dir);
         }
 
         private function validateModule($module) {
@@ -161,33 +172,6 @@
 
         }
 
-        public function method_delete () {
-
-            if (!isset($this->methodData->id)) {
-                return $this->html = $this->page->buildElement("error", array("text" => "No module ID specified"));
-            }
-
-            $module = $this->getModule($this->methodData->id);
-
-            if (!isset($module["id"])) {
-                return $this->html = $this->page->buildElement("error", array("text" => "This module does not exist"));
-            }
-
-            if (isset($this->methodData->commit)) {
-                $delete = $this->db->prepare("
-                    DELETE FROM modules WHERE C_id = :id;
-                ");
-                $delete->bindParam(":id", $this->methodData->id);
-                $delete->execute();
-
-                header("Location: ?page=admin&module=modules");
-
-            }
-
-
-            $this->html .= $this->page->buildElement("moduleDelete", $module);
-        }
-
         public function method_view () {
             
             if (!isset($this->methodData->moduleName)) {
@@ -217,6 +201,35 @@
             }
             $this->html .= $this->page->buildElement("deactivatedModuleList", array(
                 "modules" => $this->getOtherModules("disabled")
+            ));
+        }
+
+        public function method_remove () {
+
+            $moduleName = @$this->methodData->moduleName;
+            $info = @json_decode(file_get_contents("modules/disabled/$moduleName/module.json"), 1);
+            $info["id"] = $moduleName;
+
+            if (!$info) {
+                return $this->html .= $this->page->buildElement("error", array(
+                    "text" => "This module does not exist"
+                ));
+            }
+
+            if (isset($this->methodData->do)) {
+                if (!$this->removeDir("modules/disabled/$moduleName")) {
+                    return $this->html .= $this->page->buildElement("error", array(
+                        "text" => "This module cant be removed"
+                    ));
+                }
+                return $this->html .= $this->page->buildElement("success", array(
+                    "text" => "This module has been removed"
+                ));
+            }
+
+            $this->html .= $this->page->buildElement("alterModuleConfirm", array(
+                "type" => "remove", 
+                "module" => $info
             ));
         }
 

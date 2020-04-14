@@ -34,6 +34,16 @@
                 DELETE FROM bounties WHERE B_id = :id;
                 UPDATE userStats SET US_money = US_money - :cost WHERE US_id = :uid;
             ");
+     
+            $actionHook = new hook("userAction");
+            $action = array(
+                "user" => $this->user->id, 
+                "module" => "bounties.remove", 
+                "id" => $bounty["B_userToKill"], 
+                "success" => true, 
+                "reward" => $bounty["B_cost"]
+            );
+            $actionHook->run($action);
 
             $del->bindParam(":id", $this->methodData->id);
             $del->bindParam(":cost", $bounty["B_cost"]);
@@ -99,6 +109,16 @@
                 $insert->bindParam(":toKill", $user->info->US_id);
                 $insert->bindParam(":cost", $cost);
                 $insert->execute();
+     
+                $actionHook = new hook("userAction");
+                $action = array(
+                    "user" => $this->user->id, 
+                    "module" => "bounties.add", 
+                    "id" => $user->info->US_id, 
+                    "success" => true, 
+                    "reward" => $cost
+                );
+                $actionHook->run($action);
 
                 $this->alerts[] = $this->page->buildElement("success", array(
                     "text" => "You put a $" . number_format($cost) . " bounty on " . $user->info->U_name

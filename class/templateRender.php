@@ -1,5 +1,7 @@
 <?php
 
+    require("nbbc.php");
+
     class pageElement {
         
         public function __construct($items, $template = false, $templateName = false) {
@@ -93,58 +95,36 @@
         
         public function subTemplate($matches) {
             $var = $matches[1];
-            return $this->parse($this->template->$var);
+            return $this->parse($this->template->$var, $var);
         }
 
-        /** 
-        * A simple PHP BBCode Parser function
-        *
-        * @author Afsal Rahim
-        * @link http://digitcodes.com/create-simple-php-bbcode-parser-function/
-        **/
+        /* 
+            full bbcodes list available here 
+            http://nbbc.sourceforge.net/readme.php?page=bbc
+        */
         public function convertBBCodeToHTML($text) {
 
-            // BBcode array
-            $find = array(
-                '~\[left\](.*?)\[/left\]~s',
-                '~\[right\](.*?)\[/right\]~s',
-                '~\[center\](.*?)\[/center\]~s',
-                '~\[c\](.*?)\[/c\]~s',
-                '~\[b\](.*?)\[/b\]~s',
-                '~\[i\](.*?)\[/i\]~s',
-                '~\[u\](.*?)\[/u\]~s',
-                '~\[quote\](.*?)\[/quote\]~s',
-                '~\[quote=([# a-z A-Z 0-9]{1,22})\](.*?)\[/quote\]~s',
-                '~\[size=([0-9]{1,10})\](.*?)\[/size\]~s',
-                '~\[color=([# a-z A-Z 0-9]{1,10})\](.*?)\[/color\]~s',
-                '~\[user=([a-z A-Z 0-9]{1,22})\](.*?)\[/user\]~s',
-                '~\[url\]((?:ftp|https?)://.*?)\[/url\]~s',
-                '~\[img\](https?://.*?\.(?:jpg|jpeg|gif|png|bmp))\[/img\]~s'
-            );
+            $bbcode = new BBCode;
+            $settings = new Settings();
 
-            // HTML tags to replace BBcode
-            $replace = array(
-                '<div class="text-left;">$1</div>',
-                '<div class="text-right;">$1</div>',
-                '<div class="text-center">$1</div>',
-                '<div class="text-center">$1</div>',
-                '<strong>$1</strong>',
-                '<em>$1</em>',
-                '<span style="text-decoration:underline;">$1</span>',
-                '<div class="quote">$1</div>',
-                '<div class="quote"><strong>$1</strong><br />$2</div>',
-                '<span style="font-size:$1px;">$2</span>',
-                '<span style="color:$1;">$2</span>',
-                '<a href="?page=profile&view=$1">$2</a>',
-                '<a href="$1">$1</a>',
-                '<img class="img-responsive" src="$1" alt="" />'
-            );
+            $dir = 'themes/' . $settings->loadSetting("theme") . '/images/smileys';
+            $bbcode->smiley_dir = $dir;
+            $bbcode->smiley_url = $dir;
 
-            // Replacing the BBcodes with corresponding HTML tags
-            return preg_replace($find,$replace,nl2br($text));
+            $h = new Hook("customSmiley");
+
+            $smileys = $h->run();
+
+            if (is_array($smileys)) {
+                foreach ($smileys as $smiley) {
+                    $bbcode->AddSmiley($smiley["code"], $smiley["image"]);
+                }
+            }
+
+            return $bbcode->Parse($text);
         }
 
-        public function parse($html = false) {
+        public function parse($html = false, $subTemplateName = false) {
             $find = array();
             $replace = array();
 
@@ -159,7 +139,35 @@
                 ));
 
             } else {
-                if (!$html) $html = $this->template->$templateName;
+
+                $templateToLoad = false;
+
+                if (!$html) {
+                    $templateToLoad = ($templateName);
+                    $html = $this->template->$templateName;
+                } else {
+                    $templateToLoad = ($subTemplateName);
+                }
+
+                if ($templateToLoad) {
+                    $items = $this->items;
+                    $hook = new Hook("alterModuleTemplate");
+                    $data = array(
+                        "templateName" => $templateToLoad, 
+                        "items" => $items,
+                        "html" => $html
+                    );
+                    $newTemplate = $hook->run($data, true);
+
+                    if (isset($newTemplate["html"])) {
+                        $html = $newTemplate["html"];
+                    }
+
+                    if (isset($newTemplate["items"])) {
+                        $this->items = $newTemplate["items"];
+                    }
+
+                }
 
                 //ini_set('pcre.jit', false);
 

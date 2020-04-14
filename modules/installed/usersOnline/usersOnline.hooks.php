@@ -17,7 +17,7 @@
                 LEFT OUTER JOIN userRoles ON (UR_id = U_userLevel)
                 LEFT OUTER JOIN gangs on G_id = US_gang
                 WHERE UT_desc = 'laston' AND UT_time > ".(time()-1800)." 
-                ORDER BY UT_time DESC
+                ORDER BY US_rank DESC
             ");
             $online->execute();
             $online = $online->fetchAll(PDO::FETCH_ASSOC);
@@ -33,6 +33,7 @@
                 $online[$key]["user"] = array(
                     "name" => $value["U_name"],
                     "id" => $value["U_id"],
+                    "rank" => $value["US_rank"],
                     "userLevel" => $value["U_userLevel"],
                     "status" => $value["U_status"], 
                     "color" => $value["UR_color"], 
@@ -47,16 +48,18 @@
             foreach ($online as $onlineUser) {
             	$onlineUser["isUser"] = $user->id == $onlineUser["user"]["id"];
             	if ($onlineUser["user"]["gang"] && $onlineUser["user"]["gang"] == $user->info->US_gang) {
-            		if ($onlineUser["user"]["gangBoss"] == $onlineUser["user"]["id"]) {
-            			$onlineUser["isCrewOwner"] = true;
-            		}
             		$onlineUser["isCrew"] = true;
             		$crew[] = $onlineUser;
             	}
+        		
+                if ($onlineUser["user"]["gangBoss"] == $onlineUser["user"]["id"]) {
+        			$onlineUser["isCrewOwner"] = true;
+        		}
 
-            	if ($lastRank != $user->info->US_rank && count($currentGroup)) {
+            	if ($lastRank != $onlineUser["user"]["rank"] && count($currentGroup)) {
             		$onlineGroups[] = array("users" => $currentGroup);
             		$currentGroup = array();
+                    $lastRank = $onlineUser["user"]["rank"];
             	}
 
             	$currentGroup[] = $onlineUser;

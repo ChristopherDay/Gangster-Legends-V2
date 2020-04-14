@@ -162,6 +162,7 @@
                                 [<a href="?page=admin&module=moduleManager&action=deactivated&moduleName={id}">View</a>] 
                                 {#unless moduleCantBeDisabled}
                                 [<a href="?page=admin&module=moduleManager&action=reactivate&moduleName={id}">Reactivate</a>]
+                                [<a href="?page=admin&module=moduleManager&action=remove&moduleName={id}">Remove</a>]
                                 {/unless}
                             </td>
                         </tr>
@@ -170,18 +171,6 @@
             </table>
         ';
 
-        public $moduleDelete = '
-            <form method="post" action="?page=admin&module=moduleManager&action=delete&id={id}&commit=1">
-                <div class="text-center">
-                    <p> Are you sure you want to delete this module?</p>
-
-                    <p><em>"{name}"</em></p>
-
-                    <button class="btn btn-danger" name="submit" type="submit" value="1">Yes delete this module</button>
-                </div>
-            </form>
-        
-        ';
         public $alterModuleConfirm = '
             <div class="text-center">
                 <p> 

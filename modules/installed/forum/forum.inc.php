@@ -15,7 +15,27 @@
         
         public $pageName = '';
         
-        public function constructModule() {}
+        public function constructModule() {
+            
+            if (isset($_GET["action"])) {
+                return;
+            }
+
+            $forums = $this->db->selectAll("
+                SELECT
+                    F_id as 'id', 
+                    F_name as 'name',
+                    COUNT(T_id) as 'topics'
+                FROM forums 
+                INNER JOIN topics ON (T_forum = F_id)
+                ORDER BY F_sort ASC, F_name");
+
+            $this->html .= $this->page->buildElement("allForums", array(
+                "forums" => $forums
+            ));
+
+
+        }
 
         public function getPost($id) {
             $post = $this->db->prepare("
@@ -192,6 +212,8 @@
                     T_user as 'user', 
                     T_status as 'locked', 
                     T_subject as 'subject', 
+                    COUNT(P_topic)-1 as 'posts',
+                    MAX(P_date) as 'lastPost',
                     (
                         CASE T_type
                         WHEN 2 THEN 'Important:'
@@ -200,9 +222,11 @@
                     )
                     as 'type'
                 FROM topics
+                INNER JOIN posts ON (P_topic = T_id)
                 WHERE
                     T_forum = :forum
-                ORDER BY T_type DESC, T_date DESC
+                GROUP BY T_id
+                ORDER BY T_type DESC, MAX(P_date) DESC
                 LIMIT $from, $perPage
             ");
 
