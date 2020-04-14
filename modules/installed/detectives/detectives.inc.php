@@ -106,7 +106,7 @@
                 $insert->bindParam(":end", $end);
                 $insert->bindParam(":success", $success);
                 $insert->execute();
-                
+     
                 $actionHook = new hook("userAction");
                 $action = array(
                     "user" => $this->user->id, 
@@ -155,7 +155,6 @@
 
             $active->bindParam(":id", $this->user->id);
             $active->bindParam(":duration", $reportDuration);
-           
             $active->execute();
 
             $hiredDetectives = $active->fetchAll(PDO::FETCH_ASSOC);
