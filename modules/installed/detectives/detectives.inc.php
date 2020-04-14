@@ -171,9 +171,20 @@
                 $hiredDetectives[$key] = $value;
             }
 
+            $hours = array();
+            $i = 1;
+            while ($i <= 5) {
+                $hour = $i*$reportDuration;
+                $label = ($hour==1)?"1 Hour":($hour." Hours");
+                $hours[] = array("value" => $i, "label" => $label);
+                $i++;
+            }
+
+
             $this->html .= $this->page->buildElement("detectives", array(
                 "detectiveCost" => $costPerDetective, 
                 "hiredDetectives" => $hiredDetectives,
+                "hours" => $hours,
                 "user" => $user
             ));
         }
