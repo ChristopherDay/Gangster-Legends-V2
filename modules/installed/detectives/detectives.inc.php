@@ -132,6 +132,7 @@
             $settings = new settings();
 
             $costPerDetective = $settings->loadSetting("detectiveCost", true, 125000);
+            $reportDuration = $settings->loadSetting("detectiveReport", true, 1);
 
             $user = "";
 
@@ -146,13 +147,14 @@
                     D_detectives as 'detectives', 
                     D_start as 'start',
                     D_end as 'end',
-                    D_end + 3600 as 'expires',
+                    D_end + :duration * 3600 as 'expires',
                     D_success as 'success'
                 FROM detectives WHERE D_user = :id
                 ORDER BY D_start DESC
             ");
 
             $active->bindParam(":id", $this->user->id);
+            $active->bindParam(":duration", $reportDuration);
             $active->execute();
 
             $hiredDetectives = $active->fetchAll(PDO::FETCH_ASSOC);
