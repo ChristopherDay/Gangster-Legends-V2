@@ -41,6 +41,7 @@ INSERT INTO `theft` (`T_id`, `T_name`, `T_chance`, `T_maxDamage`, `T_worstCar`, 
 
 INSERT INTO `settings` (`S_desc`, `S_value`) VALUES
 ('pointsName', 'Points'),
+('detectiveReport', '2'),
 ('gangName', 'Gang');
 
 INSERT INTO `weapons` (`W_id`, `W_name`, `W_accuracy`) VALUES
