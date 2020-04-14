@@ -189,7 +189,12 @@
         
         public function sendActivationCode($email, $id, $username) {
             $settings = new settings();
-            $headers['From'] = $settings->loadSetting('from_email');
+            $from =  $settings->loadSetting('from_email');
+            $headers = array();
+            if ($from) {
+                $headers['From'] = $from;
+            }
+
             $gameName = $settings->loadSetting("game_name");
             $activationCode = $this->activationCode($id, $username);
             $subject = $gameName . " - Registration";
@@ -284,6 +289,7 @@
             $page->addToTemplate('locationID', $this->info->US_location);
             $page->addToTemplate('username', $this->info->U_name);
             $page->addToTemplate('userStatus', $this->info->U_status);
+            $page->addToTemplate('user', $this->user);
 
             $page->addToTemplate('isAdmin', count($this->adminModules) != 0);
             
@@ -298,11 +304,9 @@
 
             
             if (isset($this->nextRank->R_exp)) {
-
                 if ($rank->R_id == $this->nextRank->R_id) {
                     $this->nextRank = $this->nextRank();
                 }
-
                 $expIntoNextRank =  $this->info->US_exp - $rank->R_exp;
                 $expNeededForNextRank = $this->nextRank->R_exp - $rank->R_exp;
                 $expperc = round($expIntoNextRank / $expNeededForNextRank * 100, 2);
@@ -319,6 +323,7 @@
             $page->addToTemplate('gang', $gang);
             $page->addToTemplate('weapon', $weapon->I_name);
             $page->addToTemplate('armor', $armor->I_name);
+            $page->addToTemplate('nextRank', $this->nextRank->R_name);
             
         }
         
@@ -412,6 +417,14 @@
 
         }
 
+        public function add($value, $stat) {
+            $this->set($stat, $this->info->$stat + $value);
+        }
+
+        public function subtract($value, $stat) {
+            $this->set($stat, $this->info->$stat + $value);
+        }
+
         public $counter = 0;
         
         public function nextRank() {
@@ -433,6 +446,18 @@
             $newRank = $this->nextRank();
 
             if (isset($newRank->R_exp) && $newRank->R_exp <= $this->info->US_exp) {
+
+                if ($newRank->R_limit) {
+                    $usersInRank = $this->db->select("
+                        SELECT COUNT(US_id) as 'count' 
+                        FROM userStats 
+                        INNER JOIN users ON (U_id = US_id)
+                        WHERE US_rank = :rank AND U_status = 1
+                    ", array(
+                        ":rank" => $newRank->R_id
+                    ));
+                    if ($usersInRank["count"] >= $newRank->R_limit) return $newRank;
+                }
 
                 $this->counter++;
 
@@ -512,7 +537,7 @@
             return (time() > $time);
         }
         
-        public function getTimer($timer) {
+        public function getTimer($timer, $make = true) {
         
             $userID = $this->id;
             
@@ -529,14 +554,17 @@
             
             // If the array is empty we make the user timer, this way the developer does not have to make any changes to the database to make a new timer.
             if (empty($array['UT_time'])) {
-                
-                $time = time()-1;
-                $insert = $this->db->prepare("INSERT INTO userTimers (UT_user, UT_desc, UT_time) VALUES (:user, :desc, :time)");
-                $insert->bindParam(':user', $userID);
-                $insert->bindParam(':desc', $timer);
-                $insert->bindParam(':time', $time);
-                $insert->execute();
-                return $time;
+                if ($make) {
+                    $time = time()-1;
+                    $insert = $this->db->prepare("INSERT INTO userTimers (UT_user, UT_desc, UT_time) VALUES (:user, :desc, :time)");
+                    $insert->bindParam(':user', $userID);
+                    $insert->bindParam(':desc', $timer);
+                    $insert->bindParam(':time', $time);
+                    $insert->execute();
+                    return $time;
+                } else {
+                    return 0;
+                }
                 
             } else {
                 
@@ -549,6 +577,8 @@
         public function updateTimer($timer, $time, $add = false) {
         
             $user = $this->id;
+            
+            if (!$user) $user = $this->info->U_id;
             
             // Check that the timer exists, if it dosent this function will automaticly make it.
             // We do this so the user does not have to make any database changes to make a module.

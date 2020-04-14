@@ -35,6 +35,10 @@
                 $errors[] = "Forum name is to short, this must be at least 5 characters";
             }
 
+            if (!ctype_digit($forum["sort"])) {
+                $errors[] = "Forum order needs to be a number!";
+            }
+
             return $errors;
             
         }

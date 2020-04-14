@@ -60,6 +60,8 @@ class page {
         
         $moduleInfo = $this->modules[$page];
 
+        $s = new Settings();
+
         $this->loadedModule = $moduleInfo;
 
         $this->moduleController = 'modules/installed/' . $page . '/' . $page . '.inc.php';
@@ -72,6 +74,7 @@ class page {
                 include_once $this->moduleView;
                 
                 $moduleCSSFile = "modules/installed/" . $page . "/" . $page . ".styles.css";
+
 
                 if (file_exists($moduleCSSFile)) {
                     $this->addToTemplate("moduleCSSFile", $moduleCSSFile);
@@ -123,7 +126,9 @@ class page {
                 $locationMenu = new hook("locationMenu");
                 $accountMenu = new hook("accountMenu");
                 $killMenu = new hook("killMenu");
+                $casinoMenu = new hook("casinoMenu");
                 $customMenu = new hook("customMenus");
+                $pointsMenu = new hook("pointsMenus");
                 $gangMenu = new hook("gangMenu");
 
                 $locationName = "";
@@ -143,6 +148,11 @@ class page {
                         "items" => $this->sortArray($locationMenu->run($user)), 
                         "sort" => 200
                     ),
+                    "casino" => array(
+                        "title" => "Gambling", 
+                        "items" => $this->sortArray($casinoMenu->run($user)), 
+                        "sort" => 202
+                    ),
                     "gang" => array(
                         "title" => "Gangs", 
                         "items" => $this->sortArray($gangMenu->run($user)), 
@@ -152,6 +162,11 @@ class page {
                         "title" => "Murder", 
                         "items" => $this->sortArray($killMenu->run($user)), 
                         "sort" => 210
+                    ),
+                    "points" => array(
+                        "title" => $s->loadSetting("pointsName"), 
+                        "items" => $this->sortArray($pointsMenu->run($user)), 
+                        "sort" => 400
                     ),
                     "account" => array(
                         "title" => "Account", 
@@ -224,6 +239,7 @@ class page {
 
     public function sortArray($arr) {
         if (!$arr) return $arr;
+        $arr = array_filter($arr);
         uasort($arr, array($this, "cmp"));
         return $arr;
 

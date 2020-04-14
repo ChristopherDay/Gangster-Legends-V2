@@ -58,6 +58,16 @@
 
             $this->error("You have sent $" . number_format($money) . " to " . htmlentities($user->info->U_name), "success");
 
+            $actionHook = new hook("userAction");
+            $action = array(
+                "user" => $this->user->id, 
+                "module" => "bank.sendMoney", 
+                "id" => $user->info->id, 
+                "success" => true, 
+                "reward" => $money
+            );
+            $actionHook->run($action);
+
         }
         
         public function method_process() {
@@ -84,6 +94,16 @@
                     
                     $this->user->info->US_money += $money;
                     $this->user->info->US_bank -= $money;
+                    
+                    $actionHook = new hook("userAction");
+                    $action = array(
+                        "user" => $this->user->id, 
+                        "module" => "bank.withdraw", 
+                        "id" => 0, 
+                        "success" => true, 
+                        "reward" => $money
+                    );
+                    $actionHook->run($action);
                     
                 }
                 
@@ -113,6 +133,16 @@
                     
                     $this->user->info->US_bank += $bank;
                     $this->user->info->US_money -= $money;
+                    
+                    $actionHook = new hook("userAction");
+                    $action = array(
+                        "user" => $this->user->id, 
+                        "module" => "bank.deposit", 
+                        "id" => 0, 
+                        "success" => true, 
+                        "reward" => $money
+                    );
+                    $actionHook->run($action);
                     
                 }
                 

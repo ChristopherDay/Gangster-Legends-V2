@@ -1,0 +1,12 @@
+{
+    "name": "Gang Bank",
+    "version": "1.0.0",
+    "description": "This module allows a gang to deposit and withdraw money/bullets from a bank",
+    "author": {
+        "name": "Chris Day",
+        "url": "http:\/\/glscript.cdcoding.com"
+    },
+    "pageName": "Gang Bank",
+    "accessInJail": false,
+    "requireLogin": true
+}

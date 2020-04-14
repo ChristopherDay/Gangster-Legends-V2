@@ -52,6 +52,9 @@
                 }
             }
 
+            $links = new Hook("profileLink");
+            $stats = new Hook("profileStat");
+
             $this->html .= $this->page->buildElement('profile', array(
                 "picture" => $pic,
                 "user" => $profile->user, 
@@ -66,7 +69,9 @@
                 "bio" => $bio, 
                 "role" => $profile->info->UR_desc,
                 "showRole" => $profile->info->UR_id != 1,
-                "edit" => $edit
+                "edit" => $edit, 
+                "profileLinks" => $links->run($profile), 
+                "profileStats" => $stats->run($profile)
             ));
             
         }
