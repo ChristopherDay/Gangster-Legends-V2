@@ -1,8 +1,18 @@
 <?php
 
+    function delete_files($target) {
+        if(is_dir($target)){
+            $files = glob( $target . '*', GLOB_MARK ); //GLOB_MARK adds a slash to directories returned
+            foreach( $files as $file ){
+                delete_files( $file );      
+            }
+            rmdir( $target );
+        } elseif(is_file($target)) {
+            unlink( $target );  
+        }
+    }
+
     class adminModule {
-
-
 
         private function getTheme($themeNameToLoad = false, $type="game") {
 
@@ -42,12 +52,50 @@
 
         public function method_install () {
 
-            if (isset($this->methodData->submit)) {
-                $this->html .= debug($_FILES, 1, 1);
+            if (isset($this->methodData->submitInstall)) {
+                $themeFile = $_FILES["file"];
+
+                $fileName = str_replace(".zip", "", $themeFile["name"]);
+
+                if ($fileName == $themeFile["name"]) {
+                    return $this->page->buildElement("error", array(
+                        "text" => "Please provide a module in the correctFormat (themeName.zip)"
+                    ));
+                } 
+
+                $installDir = "themes/";
+                $installLocation = $installDir . $fileName . "/";
+
+
+                //Remove previous install of this module
+                if (file_exists($installLocation)) { 
+                    $this->removeDir($installLocation);
+                } else {
+                    // Remake new directory
+                    mkdir($installLocation);
+                }
+
+                // Extract module
+                $zip = new ZipArchive;
+                $res = $zip->open($themeFile["tmp_name"]);
+
+                if ($res === TRUE) {
+                    $zip->extractTo($installLocation);
+                    $zip->close();
+                    $this->html .= $this->page->buildElement("success", array(
+                        "text" => "Theme installed successfully!"
+                    ));
+                    return $this->method_options();
+                }
             } else {
                 $this->html .= $this->page->buildElement("themeForm");
             }
 
+        }
+
+        private function removeDir($dir) {
+            if ($dir[0] == ".") return false;
+            delete_files($dir);
         }
 
         public function method_options() {
@@ -59,6 +107,7 @@
                 $settings->update("game_name", $this->methodData->game_name);
                 $settings->update("from_email", $this->methodData->from_email);
                 $settings->update("pointsName", $this->methodData->pointsName);
+                $settings->update("gangName", $this->methodData->gangName);
                 $settings->update("theme", $this->methodData->theme);
                 $settings->update("adminTheme", $this->methodData->adminTheme);
                 $this->html .= $this->page->buildElement("success", array(
@@ -67,6 +116,7 @@
                 $this->page->addToTemplate("game_name", $this->methodData->game_name);
                 $this->page->addToTemplate("from_email", $this->methodData->from_email);
                 $this->page->addToTemplate("pointsName", $this->methodData->pointsName);
+                $this->page->addToTemplate("gangName", $this->methodData->gangName);
                 $this->page->loadedTheme = $this->methodData->adminTheme;
             }
 
@@ -76,6 +126,7 @@
                 "game_name" => $settings->loadSetting("game_name"),
                 "from_email" => $settings->loadSetting("from_email"),
                 "pointsName" => $settings->loadSetting("pointsName"),
+                "gangName" => $settings->loadSetting("gangName"),
                 "theme" => $settings->loadSetting("theme"),
                 "adminTheme" => $settings->loadSetting("adminTheme"),
             );

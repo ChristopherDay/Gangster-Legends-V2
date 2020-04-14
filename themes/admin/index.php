@@ -19,7 +19,7 @@
             </head>
             <body>
 
-                <nav class="navbar navbar-default navbar-static-top">
+                <nav class="navbar navbar-default navbar-fixed-top">
                     <div class="container-fluid">
                         <!-- Brand and toggle get grouped for better mobile display -->
                         <div class="navbar-header">
@@ -83,7 +83,7 @@
                                         </li>
 
                                         {#each menus}
-                                            <li class="sidebar-dropdown {#each items}{#if active}active{/if}{/each}"> 
+                                            <li class="sidebar-dropdown {#each items}{#if active}active{/if}{/each}">
                                                 <a>
                                                     <span>{title}</span>
                                                 </a>
@@ -151,7 +151,7 @@
                         </div>
                     </div>
                 </div>
-                
+
 
                 <script src="themes/{_theme}/js/jquery.js"></script>
                 <script src="themes/{_theme}/3rdparty/datatables/datatables.min.js"></script>
@@ -163,7 +163,7 @@
                 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
                 <script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
                 <script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
-                
+
                 <script src="themes/{_theme}/js/bootstrap.min.js"></script>
                 <script src="themes/{_theme}/3rdparty/summernote/summernote.js"></script>
                 <script src="themes/{_theme}/3rdparty/sidebar/assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
@@ -175,7 +175,7 @@
 
             </body>
             </html>';
-    }    
+    }
 }
 
 ?>

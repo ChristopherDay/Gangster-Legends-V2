@@ -62,6 +62,16 @@
                         ":user" => $this->user->id
                     )
                 );
+     
+                $actionHook = new hook("userAction");
+                $action = array(
+                    "user" => $this->user->id, 
+                    "module" => "property.drop", 
+                    "id" => $this->user->info->US_location, 
+                    "success" => true, 
+                    "reward" => $this->methodData->module
+                );
+                $actionHook->run($action);
 
                 return $this->error("Property dropped!", "success");
             }
@@ -131,6 +141,17 @@
 
             if ($info["user"]["id"] == $this->user->id) {
                 $this->property->transfer($user->info->US_id);
+     
+                $actionHook = new hook("userAction");
+                $action = array(
+                    "user" => $this->user->id, 
+                    "module" => "propety.transfer", 
+                    "id" => $user->info->US_id, 
+                    "success" => true, 
+                    "reward" => $this->methodData->module
+                );
+                $actionHook->run($action);
+
                 $this->alerts[] = $this->page->buildElement("success", array(
                     "text" => "Property transfered to " . $user->info->U_name
                 ));
