@@ -106,6 +106,16 @@
                 $insert->bindParam(":end", $end);
                 $insert->bindParam(":success", $success);
                 $insert->execute();
+                
+                $actionHook = new hook("userAction");
+                $action = array(
+                    "user" => $this->user->id, 
+                    "module" => "detectives", 
+                    "id" => $user->info->US_id, 
+                    "success" => true, 
+                    "reward" => $cost
+                );
+                $actionHook->run($action);
 
                 $this->user->set("US_money", $this->user->info->US_money - $cost);
 
@@ -122,6 +132,7 @@
             $settings = new settings();
 
             $costPerDetective = $settings->loadSetting("detectiveCost", true, 125000);
+            $reportDuration = $settings->loadSetting("detectiveReport", true, 1);
 
             $user = "";
 
@@ -136,13 +147,15 @@
                     D_detectives as 'detectives', 
                     D_start as 'start',
                     D_end as 'end',
-                    D_end + 3600 as 'expires',
+                    D_end + :duration * 3600 as 'expires',
                     D_success as 'success'
                 FROM detectives WHERE D_user = :id
                 ORDER BY D_start DESC
             ");
 
             $active->bindParam(":id", $this->user->id);
+            $active->bindParam(":duration", $reportDuration);
+           
             $active->execute();
 
             $hiredDetectives = $active->fetchAll(PDO::FETCH_ASSOC);
