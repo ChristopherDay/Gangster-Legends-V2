@@ -110,6 +110,14 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="pull-left">Detective report duration (hours)</label>
+                            <input type="text" class="form-control" name="detectiveReport" value="{detectiveReport}" />
+                        </div>
+                    </div>
+                </div>
 
                 <div class="text-right">
                     <button class="btn btn-default" name="submit" type="submit" value="1">Save</button>
