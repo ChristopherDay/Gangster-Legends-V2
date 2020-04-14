@@ -132,6 +132,18 @@
                     $this->user->info->US_money -= $item["I_cost"];
                     $this->user->info->US_points -= $item["I_points"];
 
+
+                    
+                    $actionHook = new hook("userAction");
+                    $action = array(
+                        "user" => $this->user->id, 
+                        "module" => "blackmarket", 
+                        "id" => $item["I_id"], 
+                        "success" => true, 
+                        "reward" => 0
+                    );
+                    $actionHook->run($action);
+
                 }
 
             }

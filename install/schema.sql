@@ -32,6 +32,8 @@ CREATE TABLE IF NOT EXISTS `gangs` (
   `G_id` int(11) NOT NULL AUTO_INCREMENT,
   `G_name` varchar(120) NULL,
   `G_bank` int(11) NOT NULL DEFAULT 0,
+  `G_money` int(11) NOT NULL DEFAULT 0,
+  `G_bullets` int(11) NOT NULL DEFAULT 0,
   `G_info` text NULL,
   `G_desc` text NULL,
   `G_location` int(11) NOT NULL DEFAULT 0,
@@ -40,6 +42,30 @@ CREATE TABLE IF NOT EXISTS `gangs` (
   `G_level` int(11) NOT NULL DEFAULT 1,
   PRIMARY KEY (`G_id`)
 ) DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `gangPermissions` (
+  `GP_id` int(11) NOT NULL AUTO_INCREMENT,
+  `GP_user` int(11) NOT NULL,
+  `GP_access` varchar(128) NOT NULL,
+  PRIMARY KEY (`GP_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `gangInvites` (
+  `GI_id` int(11) NOT NULL AUTO_INCREMENT,
+  `GI_user` int(11) NOT NULL,
+  `GI_gangUser` int(11) NOT NULL,
+  `GI_gang` int(11) NOT NULL,
+  PRIMARY KEY (`GI_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `gangLogs` (
+  `GL_id` int(11) NOT NULL AUTO_INCREMENT,
+  `GL_gang` int(11) NOT NULL,
+  `GL_time` int(11) NOT NULL,
+  `GL_user` int(11) NOT NULL,
+  `GL_log` varchar(255) NOT NULL,
+  PRIMARY KEY (`GL_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `garage` (
   `GA_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -69,7 +95,7 @@ CREATE TABLE IF NOT EXISTS `mail` (
   `M_parent` int(11) NOT NULL DEFAULT 0,
   `M_text` text NULL,
   `M_type` int(11) NOT NULL DEFAULT 0,
-  `M_read` int(11) NOT NULL DEFAULT '0',
+  `M_read` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`M_id`)
 ) DEFAULT CHARSET=utf8;
 
@@ -173,7 +199,7 @@ CREATE TABLE IF NOT EXISTS `moneyRanks` (
 
 CREATE TABLE IF NOT EXISTS `forums` ( 
   `F_id` INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT , 
-  `F_sort` INT(11),
+  `F_sort` INT(11) NOT NULL DEFAULT 0,
   `F_name` VARCHAR(128)
 ) DEFAULT CHARSET=utf8;
 
@@ -211,33 +237,33 @@ CREATE TABLE IF NOT EXISTS `properties` (
   `PR_module` VARCHAR(128) NOT NULL , 
   `PR_user` int(11) NOT NULL DEFAULT 0,
   `PR_cost` int(11) NOT NULL DEFAULT 0,
-  `PR_profit` INT(11) NOT NULL
+  `PR_profit` INT(11) NOT NULL DEFAULT 0
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `items` (
   `I_id` INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT , 
   `I_name` VARCHAR(128) NOT NULL , 
-  `I_damage` INT(11) NOT NULL , 
-  `I_cost` INT(11) NOT NULL , 
-  `I_points` INT(11) NOT NULL , 
-  `I_type` INT(11) NOT NULL , 
-  `I_rank` INT(11) NOT NULL
+  `I_damage` INT(11) NOT NULL DEFAULT 0 , 
+  `I_cost` INT(11) NOT NULL DEFAULT 0 , 
+  `I_points` INT(11) NOT NULL DEFAULT 0 , 
+  `I_type` INT(11) NOT NULL DEFAULT 0 , 
+  `I_rank` INT(11) NOT NULL DEFAULT 0
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `detectives` (
   `D_id` INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT , 
-  `D_user` INT(11) NOT NULL , 
-  `D_userToFind` INT(11) NOT NULL , 
-  `D_detectives` INT(11) NOT NULL , 
-  `D_start` INT(11) NOT NULL , 
-  `D_end` INT(11) NOT NULL , 
-  `D_success` INT(11) NOT NULL
+  `D_user` INT(11) NOT NULL DEFAULT 0 , 
+  `D_userToFind` INT(11) NOT NULL DEFAULT 0 , 
+  `D_detectives` INT(11) NOT NULL DEFAULT 0 , 
+  `D_start` INT(11) NOT NULL DEFAULT 0 , 
+  `D_end` INT(11) NOT NULL DEFAULT 0 , 
+  `D_success` INT(11) NOT NULL DEFAULT 0
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `bounties` (
   `B_id` INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT , 
-  `B_user` INT(11) NOT NULL , 
-  `B_userToKill` INT(11) NOT NULL , 
-  `B_cost` INT(11) NOT NULL
+  `B_user` INT(11) NOT NULL DEFAULT 0 , 
+  `B_userToKill` INT(11) NOT NULL DEFAULT 0 , 
+  `B_cost` INT(11) NOT NULL DEFAULT 0
 ) ENGINE = InnoDB;
 

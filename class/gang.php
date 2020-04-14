@@ -55,6 +55,7 @@
 
             $gang = $this->db->prepare("
                 SELECT 
+                    *, 
                     G_id as 'id',
                     G_name as 'name',
                     G_desc as 'desc',
@@ -62,6 +63,7 @@
                     G_level as 'level',
                     G_boss as 'boss',
                     G_underboss as 'underboss',
+                    G_level + 4 as 'maxMembers',
                     G_location as 'location'
                 FROM
                     gangs

@@ -4,7 +4,7 @@
 
     session_start();
 
-    if (file_exists("install/")) {
+    if (file_exists("install/index.php")) {
         header("Location: install/");
         exit;
     }
@@ -19,6 +19,7 @@
     require 'class/user.php';
     require 'class/gang.php';
     require 'class/property.php';
+    require 'class/cron.php';
 
     $settings = new settings();
 
@@ -29,7 +30,7 @@
     }
 
     $pageToLoad = $_GET['page'];
-    
+
     if (!isset($page->modules[$pageToLoad])) {
         if (!empty($_SESSION['userID'])) {
             $user = new user($_SESSION['userID']);
