@@ -2,7 +2,7 @@
 
     class module {
         
-        public $alerts = array(), $html = '', $page, $user, $db, $methodData, $construct = true, $_settings;
+        public $alerts = array(), $html = '', $page, $user, $db, $methodData, $construct = true, $_settings, $allowedMethods = array();
         
         public function __construct() {
         
