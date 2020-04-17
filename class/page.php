@@ -128,7 +128,7 @@ class page {
                 $killMenu = new hook("killMenu");
                 $casinoMenu = new hook("casinoMenu");
                 $customMenu = new hook("customMenus");
-                $pointsMenu = new hook("pointsMenus");
+                $pointsMenu = new hook("pointsMenu");
                 $gangMenu = new hook("gangMenu");
 
                 $locationName = "";
