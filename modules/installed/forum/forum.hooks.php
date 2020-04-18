@@ -28,4 +28,13 @@
             return false;
         }
     });
-?>
+
+    new hook("gangPermission", function ($user) {
+        $s = new Settings();
+        $name = $s->loadSetting("gangName");
+        return array(
+            "name" => "Moderate Forum", 
+            "description" => "This gives this ".$name." member the ability to manage the ".$name." forum", 
+            "key" => "forum"
+        );
+    });
