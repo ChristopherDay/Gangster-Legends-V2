@@ -15,6 +15,28 @@
         
         public $pageName = '';
         
+        public function isForumMod($topic) {
+
+            if ($this->user->hasAdminAccessTo("forum")) {
+                return true;
+            }
+            
+            if (is_array($topic)) {
+                $forum = $topic["T_forum"];
+            } else {
+                $topic = $this->getTopic($topic);
+                $forum = $topic["forum"]["id"];
+            }
+
+            if (abs($forum) == $this->user->info->US_gang) {
+                $g = new Gang($this->user->info->US_gang);
+                return $g->can("forum");
+            } else {
+                return false;
+            }
+
+        }
+
         public function constructModule() {
             
             if (isset($_GET["action"])) {
@@ -119,7 +141,7 @@
             
             array_unshift($posts, $firstPost);
 
-            $userIsAdmin = $this->user->hasAdminAccessTo("forum");
+            $userIsAdmin = $this->isForumMod($topic);
 
             $i = 0;
 
@@ -146,6 +168,7 @@
             $output = array(
                 "forum" => $this->getForum($topic["T_forum"]),
                 "subject" => $topic["T_subject"], 
+                "id" => $topic["T_id"], 
                 "topic" => $topic["T_id"], 
                 "locked" => $topic["T_status"] == 1, 
                 "posts" => $posts, 
@@ -495,7 +518,7 @@
 
             if (
                 $post["user"] != $this->user->id &&
-                !$this->user->hasAdminAccessTo("forum")
+                !$this->isForumMod($post["topic"])
             ) {
                 return $this->html .= $this->error("You dont have permission to edit this post");
             }
@@ -531,7 +554,7 @@
 
             $post = $this->getPost($this->methodData->id);
 
-            if (!$this->user->hasAdminAccessTo("forum")) {
+            if (!$this->isForumMod($post["topic"])) {
                 return $this->html .= $this->error("You dont have permission to delete this post");
             }
 
@@ -561,7 +584,7 @@
 
             $topic = $this->getTopic($this->methodData->id);
 
-            if (!$this->user->hasAdminAccessTo("forum")) {
+            if (!$this->isForumMod($topic["id"])) {
                 return $this->html .= $this->error("You dont have permission to delete this topic");
             }
 
@@ -596,7 +619,7 @@
 
             $topic = $this->getTopic($this->methodData->id);
 
-            if (!$this->user->hasAdminAccessTo("forum")) {
+            if (!$this->isForumMod($topic["id"])) {
                 return $this->html .= $this->error("You dont have permission to delete this topic");
             }
 
@@ -616,7 +639,7 @@
 
             $topic = $this->getTopic($this->methodData->id);
 
-            if (!$this->user->hasAdminAccessTo("forum")) {
+            if (!$this->isForumMod($topic["id"])) {
                 return $this->html .= $this->error("You dont have permission to delete this topic");
             }
 
