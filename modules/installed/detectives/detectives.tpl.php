@@ -24,7 +24,7 @@
                                             <strong>For how long</strong>
                                             <select onChange="updateDetectiveCost()" class="form-control" name="hours">
                                                 {#each hours}
-                                                    <option value="{duration}">{label}</option>
+                                                    <option value="{value}">{label}</option>
                                                 {/each}
                                             </select>
                                         </p>
