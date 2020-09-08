@@ -44,7 +44,7 @@
             $settings = new settings();
 
             $costPerDetective = $settings->loadSetting("detectiveCost");
-
+            $reportDuration = $settings->loadSetting("detectiveReport");
             if (isset($this->methodData->submit)) {
                 if (!strlen($this->methodData->user)) {
                     return $this->error("Who are you looking for?");
@@ -66,8 +66,8 @@
 
                 $hours = $this->methodData->hours;
 
-                if ($hours < 1 || $hours > 5) {
-                    return $this->error("Detectices can only search for 1-5 hours");
+                if ($hours < (1*$reportDuration) || $hours > (5*$reportDuration)) {
+                    return $this->error("Detectives can only search for ".(1*$reportDuration)."-".(5*$reportDuration)." hours");
                 }
 
                 if (!isset($this->methodData->detectives)) {
@@ -176,7 +176,7 @@
             while ($i <= 5) {
                 $hour = $i*$reportDuration;
                 $label = ($hour==1)?"1 Hour":($hour." Hours");
-                $hours[] = array("value" => $i, "label" => $label);
+                $hours[] = array("duration" => $hour, "label" => $label);
                 $i++;
             }
 
