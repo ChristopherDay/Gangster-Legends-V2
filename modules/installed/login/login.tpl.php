@@ -1,7 +1,7 @@
 <?php
 
     class loginTemplate extends template {
-    
+
         public $loginForm = '
                 <{text}>
                 <form action="?page=login&action=login" method="post">
@@ -32,8 +32,8 @@
                         <div class="form-group">
                             <textarea type="text" class="form-control" data-editor="html" name="loginSuffix" rows="5">{loginSuffix}</textarea>
                         </div>
-                    </div">
-                    "                </div>
+                    </div>
+                </div>
 
                 <div class="row">
                     <div class="col-md-12">
@@ -49,7 +49,7 @@
                 </div>
             </form>
         ';
-        
+
     }
 
 ?>
