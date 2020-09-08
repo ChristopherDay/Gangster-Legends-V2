@@ -145,7 +145,7 @@
                 $actionHook = new hook("userAction");
                 $action = array(
                     "user" => $this->user->id, 
-                    "module" => "propety.transfer", 
+                    "module" => "property.transfer", 
                     "id" => $user->info->US_id, 
                     "success" => true, 
                     "reward" => $this->methodData->module
