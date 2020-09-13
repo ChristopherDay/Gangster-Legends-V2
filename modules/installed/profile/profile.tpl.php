@@ -128,7 +128,7 @@
                 <div class="panel-body">
                     <ul class="nav nav-pills">
                         {#each profileLinks}
-                            <li><a href="{url}">{text}</a></li>
+                            {#if url}<a href="{url}">{text}</a>{/if}
                         {/each}
                     </ul>
                 </div>
