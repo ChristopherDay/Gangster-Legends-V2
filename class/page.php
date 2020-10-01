@@ -101,7 +101,7 @@ class page {
                     return $this;
                 }
 
-                include 'class/module.php';
+                //include 'class/module.php';
                 include $this->moduleController;
                 
                 $module = new $page();

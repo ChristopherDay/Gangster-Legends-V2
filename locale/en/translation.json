@@ -1,0 +1,18 @@
+{
+    "locale": "en_US",
+    "layout": {
+      "navigation": {
+          "toggle": "Toggle Navigation",
+          "money": "Money:",
+          "bullets": "Bullets:",
+          "rank": "Rank:",
+          "family": "Family:"
+      },
+      "sidebar": {
+          "actions": "Actions",
+          "london": "London",
+          "account" : "Account",
+          "admin": "Admin"
+      }
+    }
+}

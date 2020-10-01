@@ -211,8 +211,8 @@
             if ($ts == '-1') {
                 $ts = time();
             }
-            
-            return date('l jS F H:i', $ts);
+            setlocale(LC_ALL, L::locale);
+            return strftime('%A %e %B %I:%M:%S %p', $ts); //date('l jS F H:i', $ts)
         }
         
         

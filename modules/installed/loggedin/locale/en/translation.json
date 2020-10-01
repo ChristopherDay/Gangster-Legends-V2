@@ -1,0 +1,10 @@
+{
+    "module":{
+        "loggedin":{
+            "author": "Author",
+            "title": "Title",
+            "date": "Date",
+            "options": "Options"
+        }
+    }
+}

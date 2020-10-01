@@ -8,12 +8,24 @@
         header("Location: install/");
         exit;
     }
-
+    require 'class/i18n.class.php';
+    $i18n = new i18n();
+    $i18n->setCachePath('./tmp/cache');
+    $languages = array();
+    array_push($languages, "./locale/");
+    foreach(glob('./modules/installed/*/locale/') as $filename){
+        array_push($languages, $filename);
+    }
+    $i18n->setFilePath($languages);
+    $i18n->setFallbackLang('en');
+    $i18n->setSectionSeparator('_');
+    $i18n->init();
     require 'class/hooks.php';
     include 'dbconn.php';
     require 'class/settings.php'; 
     require 'class/template.php';
     require 'class/templateRender.php';
+    require 'class/module.php';
     require 'class/page.php';
     require 'class/image.php';
     require 'class/user.php';
