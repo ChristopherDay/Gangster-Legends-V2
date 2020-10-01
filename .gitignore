@@ -2,3 +2,4 @@ dbconn.php
 config.php
 logs/errors/major.txt
 logs/errors/minor.txt
+config.php
