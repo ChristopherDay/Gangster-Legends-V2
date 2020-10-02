@@ -131,13 +131,13 @@ class i18n {
 
         // search for language file
         $this->appliedLang = NULL;
-        foreach ($this->userLangs as $priority => $langcode) 
+        foreach ($this->userLangs as $priority => $langcode)
         {
-            
+
             for($i=0; $i < count($this->filePath); ++$i){
-                $this->filePath[$i] = preg_replace('#/+#','/',$this->filePath[$i] . "/{LANGUAGE}/translation.json"); 
+                $this->filePath[$i] = preg_replace('#/+#','/',$this->filePath[$i] . "/{LANGUAGE}/translation.json");
             }
-            
+
             foreach($this->filePath as $languageFile){
                 $defaultLangPath = "";
                 if($languageFile == $this->filePath[0]){
@@ -179,10 +179,10 @@ class i18n {
 
             $compiled = "<?php class " . $this->prefix . " {\n"
             	. $this->compile($config)
-            	. 'public static function __callStatic($string, $args) {' . "\n"
-            	. '    return vsprintf(constant("self::" . $string), $args);'
+                . 'public static function __callStatic($string, $args) {' . "\n"
+            	. '    return vsprintf(constant("'.$this->prefix.'::" . $string), $args);'
             	. "\n}\n}\n"
-            	. "function ".$this->prefix .'($string, $args=NULL) {'."\n"
+                . "function ".$this->prefix .'($string, $args=NULL) {'."\n"
             	. '    $return = constant("'.$this->prefix.'::".$string);'."\n"
             	. '    return $args ? vsprintf($return,$args) : $return;'
             	. "\n}";
