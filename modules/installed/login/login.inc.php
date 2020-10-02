@@ -9,7 +9,9 @@
         );
         
         public function constructModule() {
-
+			if(isset($this->user->loggedin)){
+				$this->page->redirectTo($this->page->landingPage);
+			}
             $settings = new settings();
             $this->page->addToTemplate("loginSuffix", $settings->loadSetting("loginSuffix"));
             $this->page->addToTemplate("loginPostfix", $settings->loadSetting("loginPostfix"));

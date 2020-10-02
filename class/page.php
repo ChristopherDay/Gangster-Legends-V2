@@ -23,13 +23,17 @@ class page {
                 $this->modules[$moduleName] = $info;
             }
         }
-
+        
         /* Run hooks after */
         foreach ($moduleDirectories as $moduleName) {
             if ($moduleName[0] == ".") continue;
             $moduleHooksFile = "modules/installed/" . $moduleName . "/" . $moduleName . ".hooks.php";
             if (file_exists($moduleHooksFile)) {
                 include_once $moduleHooksFile;
+                if(array_key_exists($moduleName,$info)){
+                    $this->modules[$moduleName] = array_merge(array("id"=>$moduleName), $info[$moduleName]);
+                    //die('<pre>'.var_export($this->modules[$moduleName], true).'</pre>');
+                }
             }
         }
     }
@@ -49,7 +53,7 @@ class page {
         if (ctype_alpha($page)) {
             return $this->load($page);
         } else {
-            die("Invalid page name");
+            die(L::page_errors_invalid_page_name);
         }
         
     }
@@ -101,7 +105,7 @@ class page {
                     return $this;
                 }
 
-                include 'class/module.php';
+                //include 'class/module.php';
                 include $this->moduleController;
                 
                 $module = new $page();
@@ -139,7 +143,7 @@ class page {
 
                 $menus = array(
                     "actions" => array(
-                        "title" => "Actions", 
+                        "title" => L::menus_titles_actions, 
                         "items" => $this->sortArray($actionMenu->run($user)), 
                         "sort" => 100
                     ), 
@@ -149,17 +153,17 @@ class page {
                         "sort" => 200
                     ),
                     "casino" => array(
-                        "title" => "Gambling", 
+                        "title" => L::menus_titles_gambling, 
                         "items" => $this->sortArray($casinoMenu->run($user)), 
                         "sort" => 202
                     ),
                     "gang" => array(
-                        "title" => "Gangs", 
+                        "title" => L::menus_titles_gangs, 
                         "items" => $this->sortArray($gangMenu->run($user)), 
                         "sort" => 205
                     ),
                     "kill" => array(
-                        "title" => "Murder", 
+                        "title" => L::menus_titles_murder, 
                         "items" => $this->sortArray($killMenu->run($user)), 
                         "sort" => 210
                     ),
@@ -169,7 +173,7 @@ class page {
                         "sort" => 400
                     ),
                     "account" => array(
-                        "title" => "Account", 
+                        "title" => L::menus_titles_account, 
                         "items" => $this->sortArray($accountMenu->run($user)), 
                         "sort" => 400
                     )
@@ -182,7 +186,6 @@ class page {
                         $customMenus[$key] = $menu;
                     }
                 }
-    
                 $allMenus = new hook("menus", function ($menus) {
                     return $this->sortArray($menus);
                 });
