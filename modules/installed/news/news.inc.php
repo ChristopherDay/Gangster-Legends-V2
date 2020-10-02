@@ -7,7 +7,9 @@
         public $pageName = 'Welcome back';
         
         public function constructModule() {
-            
+			if(isset($this->user->loggedin)){
+				$this->page->redirectTo($this->page->landingPage);
+			}
             $news = $this->db->prepare("
                 SELECT * FROM gameNews INNER JOIN users ON (GN_author = U_id) ORDER BY GN_date DESC LIMIT 0, 10
             ");
