@@ -13,7 +13,9 @@
         );
         
         public function constructModule() {
-            
+			if(isset($this->user->loggedin)){
+				$this->page->redirectTo($this->page->landingPage);
+			}
             global $regError;
 
             $settings = new settings();
