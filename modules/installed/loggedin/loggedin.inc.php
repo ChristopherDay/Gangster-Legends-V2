@@ -26,7 +26,7 @@
                 );
                 
             }
-            
+
             $this->html .= $this->page->buildElement('newsArticle', array(
                 "news" => $articleInfo
             ));

@@ -1,33 +1,33 @@
 <?php
-    $info = array(
-        "name" => "Game News", 
+    $info['loggedin'] = array(
+        "name" => L::module_loggedin_title, 
         "version" => "1.0.0", 
         "description" => "",
         "author" => array(
             "name" => "Chris Day", 
             "url" => "http://glscript.cdcoding.com"
         ), 
-        "pageName" => "Game News",
+        "pageName" => L::module_loggedin_pagename,
         "accessInJail" => false, 
         "requireLogin" => true, 
-        "adminGroup" => "Communication",
+        "adminGroup" => L::module_loggedin_admin_news_group,
         "admin" => array(
             array(
-                "text" => "View News", 
+                "text" => L::module_loggedin_admin_news_view, 
                 "method" => "view",
             ),
             array(
-                "text" => "Add News", 
+                "text" => L::module_loggedin_admin_news_add, 
                 "method" => "new",
             ),
             array(
                 "hide" => true,
-                "text" => "Edit News", 
+                "text" => L::module_loggedin_admin_news_edit, 
                 "method" => "edit",
             ),
             array(
                 "hide" => true,
-                "text" => "Delete News", 
+                "text" => L::module_loggedin_admin_news_delete, 
                 "method" => "delete",
             )
         )
@@ -36,7 +36,7 @@
     new hook("accountMenu", function () {
         return array(
             "url" => "?page=loggedin", 
-            "text" => "Game News"
+            "text" => L::module_loggedin_title
         );
     });
 ?>

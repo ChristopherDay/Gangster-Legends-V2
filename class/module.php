@@ -125,7 +125,8 @@
                 
             } else {
                 
-                return 'Location dosent exist!';
+                return L::modules_main_location-not-found;
+                //return 'Location dosent exist!';
                 
             }
         }
@@ -148,7 +149,8 @@
                 
             } else {
                 
-                return 'Car dosent exist!';
+                L::modules_main_car-not-found;
+                //return 'Car dosent exist!';
                 
             }
             
@@ -172,7 +174,8 @@
                 
             } else {
                 
-                return 'Weapon dosent exist!';
+                L::modules_main_weapon-not-found;
+                //return 'Weapon dosent exist!';
                 
             }
         
@@ -196,7 +199,8 @@
                 
             } else {
                 
-                return 'Rank dosent exist!';
+                L::modules_main_rank-not-found;
+                //return 'Rank dosent exist!';
                 
             }
         

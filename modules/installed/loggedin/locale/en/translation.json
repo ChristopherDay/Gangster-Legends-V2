@@ -1,10 +1,31 @@
 {
     "module":{
         "loggedin":{
-            "author": "Author",
-            "title": "Title",
-            "date": "Date",
-            "options": "Options"
+            "admin": {
+                "news":{
+                    "view": "View News",
+                    "add": "Add News",
+                    "edit": "Edit News",
+                    "delete": "Delete News",
+                    "author": "Author",
+                    "title": "Title",
+                    "date": "Date",
+                    "options": "Options",
+                    "group": "Communication",
+                    "errors":{
+                        "title_too_short": "News title is too short, this must be atleast 5 characters.",
+                        "text_too_short": "News text is too short, this must be atleast 10 characters.",
+                        "empty_news_id": "No news ID specified",
+                        "post_not_found": "This news post does not exist"
+                    },
+                    "success":{
+                        "post_created": "This news post has been created!",
+                        "post_updated": "News post has been updated"
+                    }
+                }
+            },
+            "title": "Game News",
+            "pagename": "Game News"
         }
     }
 }

@@ -36,10 +36,10 @@
             $errors = array();
         
             if (strlen($news["gntitle"]) < 2) {
-                $errors[] = "News title is to short, this must be atleast 5 characters.";
+                $errors[] = L::module_loggedin_admin_news_errors_title_too_short;
             } 
             if (strlen($news["gntext"]) < 10) {
-                $errors[] = "News text is to short, this must be atleast 10 characters.";
+                $errors[] = L::module_loggedin_admin_news_errors_text_too_short;
             } 
 
             return $errors;
@@ -67,7 +67,7 @@
                     $insert->bindParam(":gntext", $this->methodData->gntext);
                     $insert->execute();
 
-                    $this->html .= $this->page->buildElement("success", array("text" => "This news post has been created"));
+                    $this->html .= $this->page->buildElement("success", array("text" => L::module_loggedin_admin_news_success_post_created));
 
                 }
 
@@ -80,7 +80,7 @@
         public function method_edit () {
 
             if (!isset($this->methodData->id)) {
-                return $this->html = $this->page->buildElement("error", array("text" => "No news ID specified"));
+                return $this->html = $this->page->buildElement("error", array("text" => L::module_loggedin_admin_news_errors_empty_news_id));
             }
 
             $news = $this->getNews($this->methodData->id);
@@ -102,7 +102,7 @@
                     $update->bindParam(":id", $this->methodData->id);
                     $update->execute();
 
-                    $this->html .= $this->page->buildElement("success", array("text" => "News post has been updated"));
+                    $this->html .= $this->page->buildElement("success", array("text" => L::module_loggedin_admin_news_success_post_updated));
 
                 }
 
@@ -115,13 +115,13 @@
         public function method_delete () {
 
             if (!isset($this->methodData->id)) {
-                return $this->html = $this->page->buildElement("error", array("text" => "No news ID specified"));
+                return $this->html = $this->page->buildElement("error", array("text" => L::module_loggedin_admin_news_errors_empty_news_id));
             }
 
             $news = $this->getNews($this->methodData->id);
 
             if (!isset($news["id"])) {
-                return $this->html = $this->page->buildElement("error", array("text" => "This news post does not exist"));
+                return $this->html = $this->page->buildElement("error", array("text" => L::module_loggedin_admin_news_errors_post_not_found));
             }
 
             if (isset($this->methodData->commit)) {

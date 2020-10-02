@@ -1,5 +1,16 @@
 <?php
-
+    $info['gangs'] = array(
+        "name" => "Gangs",
+        "version"=> "1.0.0",
+        "description"=> "This alows users to join gangs",
+        "author"=> array(
+            "name"=> "Chris Day",
+            "url"=> "http:\/\/glscript.cdcoding.com"
+        ),
+        "pageName"=> "Gangs",
+        "accessInJail"=> true,
+        "requireLogin"=> true
+    );
     /* Check if the leadership is killed */
     new hook("userKilled", function ($users) {
         $shooter = $users["shooter"];

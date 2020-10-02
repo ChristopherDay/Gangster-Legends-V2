@@ -14,5 +14,39 @@
           "account" : "Account",
           "admin": "Admin"
       }
+    },
+    "page": {
+        "errors": {
+            "invalid_page_name": "Invalid page name",
+            "module_template_not_found": "Module template not found!",
+            "404": "404 Error: The page %s was not found!",
+            "page_not_found": "We could not find the page %s you requested!",
+            "something_went_wrong": "Something went wrong"
+        }
+    },
+    "user": {
+        "in_use": "Username or Email Address are in use!",
+        "activation_code": "%s your activation code for %s is %s, after you have logged in please enter this when prompted.",
+        "activation_subject": "%s - Registration" 
+    },
+    "template": {
+        "time_remaining": "Time remaining"
+    },
+    "menus":{
+        "titles": {
+            "actions":"Actions",
+            "gambling": "Gambling",
+            "gangs": "Gangs",
+            "murder": "Murder",
+            "account": "Account"
+        }
+    },
+    "modules": {
+        "main": {
+            "rank_not_found": "Rank doesn't exist!",
+            "weapon_not_found": "Weapon doesn't exist!",
+            "car_not_found": "Car doesn't exist!",
+            "location_not_found": "Location doesn't exist!"
+        }
     }
 }

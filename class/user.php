@@ -138,7 +138,7 @@
             
             if (isset($checkInfo->U_id)) {
                 
-                return 'Username or EMail are in use!';
+                return L::user_in_use;
                 
             } else {
 
@@ -197,8 +197,9 @@
 
             $gameName = $settings->loadSetting("game_name");
             $activationCode = $this->activationCode($id, $username);
-            $subject = $gameName . " - Registration";
-            $body = "$username your activation code for $gameName is $activationCode, after you have logged in please enter this when prompted.";
+            $subject = L::user_activation_subject($gameName);//$gameName . " - Registration";
+            $body = L::user_activation_code($username, $gameName, $activationCode);
+            //$body = "$username your activation code for $gameName is $activationCode, after you have logged in please enter this when prompted.";
             mail($email, $subject, $body, $headers);
         }
 
