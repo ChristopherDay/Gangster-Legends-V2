@@ -1,7 +1,7 @@
 <?php
 
     class forgotPassword extends module {
-        
+
         public $regError = "";
 
         public $allowedMethods = array(
@@ -11,19 +11,19 @@
             'password'=>array('type'=>'post'),
             'cpassword'=>array('type'=>'post')
         );
-        
+
         public function constructModule() {
-            
+
             global $regError;
 
             $settings = new settings();
             $this->page->addToTemplate("loginSuffix", $settings->loadSetting("loginSuffix"));
             $this->page->addToTemplate("loginPostfix", $settings->loadSetting("loginPostfix"));
-            
+
             $this->html .= $this->page->buildElement('resetPasswordEmail');
-            
+
         }
-        
+
         public function method_reset() {
 
             $this->error("A password reset email has been sent to you!", "success");
@@ -44,7 +44,7 @@
         }
 
         public function method_resetPassword() {
-            
+
 
             if (!isset($this->methodData->id)) {
                 return $this->error("Invalid reset link");
@@ -69,7 +69,7 @@
                 if ($this->methodData->password != $this->methodData->cpassword) {
                     $this->error("Passwords do not match");
                 } else {
-                    $new = $user->encrypt($user->info->U_id . $this->methodData->password);
+                    $new = $user->hash_password($this->methodData->password);
                     $user->set("U_password", $new);
                     $this->error("Your password has been reset, you can now login!", "success");
                 }
@@ -85,9 +85,9 @@
                 "id" => $this->methodData->id,
                 "auth" => $this->methodData->auth
             ));
-            
+
         }
-        
+
     }
 
 ?>
