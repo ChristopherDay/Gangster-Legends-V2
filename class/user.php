@@ -422,7 +422,7 @@
         }
 
         public function subtract($value, $stat) {
-            $this->set($stat, $this->info->$stat + $value);
+            $this->set($stat, $this->info->$stat - $value);
         }
 
         public $counter = 0;
