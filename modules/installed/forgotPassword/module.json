@@ -8,6 +8,5 @@
     },
     "pageName": "Forgot Password",
     "accessInJail": false,
-    "requireLogin": false,
-    "adminGroup": "Pages"
+    "requireLogin": false
 }
