@@ -1,12 +1,10 @@
 $(function () {
-    $(".navbar-toggle, .close-mobile-menu").unbind().bind("click", function () {
-        var e = $(".mobile-menu");
-        if (e.is(":visible")) {
-            e.hide();
-            $("body").removeClass("no-scroll");
+    $(".navbar-toggle").unbind().bind("click", function () {
+        var body = $("body");
+        if (body.hasClass("show-sidebar")) {
+            body.removeClass("show-sidebar");
         } else {
-            e.show();
-            $("body").addClass("no-scroll");
+            body.addClass("show-sidebar");
         }
     });
 });
