@@ -3,10 +3,18 @@
 class page {
 
     public function __construct() {
+
+        $setting = new Settings();
+    
+        $this->addToTemplate('game_name', $setting->loadSetting('game_name', true, 'Game Name'));
+        $this->theme = $setting->loadSetting('theme', true, 'default');
+        $this->adminTheme = $setting->loadSetting('adminTheme', true, 'admin');
+        $this->landingPage = $setting->loadSetting('landingPage', true, 'loggedin');
+
         $this->addToTemplate("timestamp", time());
     }
     
-    public $printPage = true, $theme, $template, $success = false, $loginPages = array('login', 'register'), $jailPages = array(), $loginPage, $jailPage, $dontRun = false, $modules = array(), $moduleView, $loadedTheme, $loadedModule;
+    public $printPage = true, $theme, $template, $success = false, $loginPages = array('login', 'register'), $jailPages = array(), $loginPage, $jailPage, $dontRun = false, $modules = array(), $moduleView, $loadedTheme, $loadedModule, $landingPage;
     private $pageHTML, $pageItems, $pageReplace;
     
     public function loadModuleMetaData() {
@@ -101,7 +109,6 @@ class page {
                     return $this;
                 }
 
-                include 'class/module.php';
                 include $this->moduleController;
                 
                 $module = new $page();
@@ -297,7 +304,5 @@ class page {
     }
     
 }
-
-$page = new page();
 
 ?>
