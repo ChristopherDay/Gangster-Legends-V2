@@ -44,7 +44,7 @@
 
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-md-3">
+				<div class="col-md-3 col-lg-2">
                     {#each menus}
 
                         <div class="list-group">
@@ -64,7 +64,7 @@
                     {/each}
 
 				</div>
-				<div class="col-md-9">
+				<div class="col-md-9 col-lg-10">
 					<div class="admin-page">
 						{#if moduleActions.items}
 							<ul class="nav nav-tabs">
