@@ -1,0 +1,19 @@
+{
+    "name": "Hospital",
+    "version": "1.0.0",
+    "description": "A place users can go to after they have been shot",
+    "author": {
+        "name": "Chris Day",
+        "url": "http:\/\/glscript.cdcoding.com"
+    },
+    "pageName": "Hospital",
+    "accessInJail": true,
+    "requireLogin": true,
+    "adminGroup": "Killing",
+    "admin": [
+        {
+            "text": "Options",
+            "method": "options"
+        }
+    ]
+}
