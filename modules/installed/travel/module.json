@@ -8,5 +8,26 @@
     },
     "pageName": "Travel",
     "accessInJail": false,
-    "requireLogin": true
+    "requireLogin": true,
+    "adminGroup": "Game Mechanics",
+    "admin": [
+        {
+            "text": "View Locations",
+            "method": "view"
+        },
+        {
+            "text": "New Locations",
+            "method": "new"
+        },
+        {
+            "hide": true,
+            "text": "Edit Locations",
+            "method": "edit"
+        },
+        {
+            "hide": true,
+            "text": "Delete Locations",
+            "method": "delete"
+        }
+    ]
 }
