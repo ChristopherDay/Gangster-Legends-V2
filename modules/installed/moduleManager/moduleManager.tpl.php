@@ -187,7 +187,7 @@
             <table class="table table-condensed table-responsive table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th width="90px">Name</th>
+                        <th width="190px">Name</th>
                         <th>Description</th>
                         <th width="70px">Version</th>
                         <th width="90px">Author</th>
