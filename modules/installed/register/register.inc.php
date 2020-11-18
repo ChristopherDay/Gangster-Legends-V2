@@ -16,6 +16,10 @@
             
             global $regError;
 
+            if(isset($this->user->loggedin)){
+                $this->page->redirectTo($this->page->landingPage);
+            }
+
             $settings = new settings();
             $this->page->addToTemplate("loginSuffix", $settings->loadSetting("registerSuffix"));
             $this->page->addToTemplate("loginPostfix", $settings->loadSetting("registerPostfix"));
