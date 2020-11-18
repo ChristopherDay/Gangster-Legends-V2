@@ -9,10 +9,11 @@
             $page->addToTemplate('theft_timer', 0);
         }
     });
-    new hook("actionMenu", function () {
-        return array(
+    new hook("actionMenu", function ($user) {
+        if ($user) return array(
             "url" => "?page=theft", 
             "text" => "Car Theft", 
+            "timer" => $user->getTimer("theft"),
             "sort" => 200
         );
     });

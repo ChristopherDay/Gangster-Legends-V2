@@ -10,9 +10,11 @@
             
     });
 
-    new hook("locationMenu", function () {
-        return array(
+    new hook("locationMenu", function ($user) {
+        if ($user) return array(
             "url" => "?page=bullets", 
+            "timer" => $user->getTimer("bullets"),
+            "sort" => 999,
             "text" => "Bullet Factory"
         );
     });

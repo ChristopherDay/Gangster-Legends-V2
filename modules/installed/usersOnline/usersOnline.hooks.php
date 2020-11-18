@@ -80,8 +80,10 @@
         $page->addTotemplate("crewOnline", count($crew));
         $page->addTotemplate("onlineGroups", $onlineGroups);
 
+
         return array(
             "url" => "?page=usersOnline", 
+            "extra" => count($online),
             "text" => "Users Online"
         );
     });

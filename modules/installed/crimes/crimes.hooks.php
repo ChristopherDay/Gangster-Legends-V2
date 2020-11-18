@@ -10,11 +10,13 @@
         }
     });
 
-    new hook("actionMenu", function () {
-        return array(
+    new hook("actionMenu", function ($user) {
+        if ($user) return array(
             "url" => "?page=crimes", 
             "text" => "Crimes", 
+            "timer" => $user->getTimer("crime"),
             "sort" => 100
         );
     });
+
 ?>

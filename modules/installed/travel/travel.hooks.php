@@ -10,9 +10,11 @@
         }
     });
 
-    new hook("locationMenu", function () {
-        return array(
-            "url" => "?page=travel", 
+    new hook("locationMenu", function ($user) {
+        if ($user) return array(
+            "url" => "?page=travel",
+            "sort" => 1000, 
+            "timer" => $user->getTimer("travel"),
             "text" => "Travel"
         );
     });
