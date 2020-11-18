@@ -1,0 +1,51 @@
+body {
+	background-color: #151515;
+}
+
+.navbar-brand {
+	padding: 5px 15px;
+	font-size: 12px;
+	font-weight: normal;
+	text-align: center;
+}
+.navbar-brand img {
+	max-height: 26px;
+	max-width: 140px;
+}
+
+.list-group-item {
+	padding: 0px 5px;
+	line-height: 26px
+}
+
+.heading {
+	background-color: #111;
+}
+
+.list-group-item.active {
+	background-color: #333;
+}
+
+.page {
+	border: 1px solid #444;
+	background-color: #222;
+	padding: 15px;
+	border-top: none;
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+}
+
+.nav.nav-tabs {
+	border-bottom: 1px solid #444;
+}
+.nav.nav-tabs li a {
+	border: 1px solid #444;
+	margin-right: 3px;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+}
+
+.nav.nav-tabs li.active a {
+	background-color: #222;
+	border-bottom: 1px solid #222;
+}
