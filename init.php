@@ -1,4 +1,11 @@
 <?php
+    
+    spl_autoload_register(function ($class) {
+        if(file_exists('class/' . $class . '.php'))
+            include 'class/' . $class . '.php';
+    });
+
+    new ErrorHandler();
 
     $start = microtime();
 
@@ -9,20 +16,11 @@
         exit;
     }
 
-    require 'class/hooks.php';
     include 'dbconn.php';
-    require 'class/settings.php'; 
-    require 'class/template.php';
-    require 'class/templateRender.php';
-    require 'class/page.php';
-    require 'class/image.php';
-    require 'class/user.php';
-    require 'class/gang.php';
-    require 'class/property.php';
-    require 'class/cron.php';
 
     $settings = new settings();
 
+    $page = new Page();
     $page->loadModuleMetaData();
 
     if (!isset($_GET['page'])) {
