@@ -1,5 +1,4 @@
 <?php
-
     class moduleManagerTemplate extends template {
 
         public $continueWithError = '
@@ -51,49 +50,124 @@
 
             <div class="row">
                 <div class="col-md-6">
-                    <table class="table table-condensed table-striped table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Option</th>
-                                <th width="60px" class="text-center">Value</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Module accessible within jail</td>
-                                <td class="text-center">
-                                    {#if allowedInJail}
-                                        <i class="glyphicon glyphicon-ok"></i>
-                                    {/if}
-                                    {#unless allowedInJail}
-                                        <i class="glyphicon glyphicon-remove"></i>
-                                    {/unless}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Module requires user to be logged in</td>
-                                <td class="text-center">
-                                    {#if requireLogin}
-                                        <i class="glyphicon glyphicon-ok"></i>
-                                    {/if}
-                                    {#unless requireLogin}
-                                        <i class="glyphicon glyphicon-remove"></i>
-                                    {/unless}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Has admin panel</td>
-                                <td class="text-center">
-                                    {#if admin}
-                                        <i class="glyphicon glyphicon-ok"></i>
-                                    {/if}
-                                    {#unless admin}
-                                        <i class="glyphicon glyphicon-remove"></i>
-                                    {/unless}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+
+                    {#if bundle}
+                        <table class="table table-condensed table-striped table-bordered no-dt">
+                            <thead>
+                                <tr>
+                                    <th>Module</th>
+                                    <th class="text-center" width="100px">Extracted</th>
+                                    <th class="text-center" width="100px">Installed</th>
+                                    <th class="text-center" width="100px">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <a href="?page=admin&module=moduleManager&action=install&view={id}&extract=*" class="btn btn-xs btn-block btn-success">
+                                                Extract All
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="?page=admin&module=moduleManager&action=install&view={id}&installBundleModule=*" class="btn btn-xs btn-block btn-warning">
+                                                Install All
+                                            </a>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                {#each modules}
+                                    <tr>
+                                        <td>{name}</td>
+                                        <td class="text-center">
+                                            {#unless installed}
+                                                {#if extracted}
+                                                    <i class="glyphicon text-success glyphicon-ok"></i>
+                                                {/if}
+                                                {#unless extracted}
+                                                    <i class="glyphicon text-danger glyphicon-remove"></i>
+                                                {/unless}
+                                            {/unless}
+                                        </td>
+                                        <td class="text-center">
+                                            {#if installed}
+                                                <i class="glyphicon text-success glyphicon-ok"></i>
+                                            {/if}
+                                            {#unless installed}
+                                                <i class="glyphicon text-danger glyphicon-remove"></i>
+                                            {/unless}
+                                        </td>
+                                        <td class="text-center">
+                                            {#unless installed}
+                                                {#unless extracted}
+                                                    <a href="?page=admin&module=moduleManager&action=install&view={id}&extract={name}">
+                                                        Extract
+                                                    </a>
+                                                {/unless}
+                                            {/unless}
+                                            {#if extracted}
+                                                {#unless installed}
+                                                    <a href="?page=admin&module=moduleManager&action=install&view={id}&installBundleModule={name}">
+                                                        Install
+                                                    </a>
+                                                {/unless}
+                                            {/if}
+                                            {#if installed}
+                                                <a href="?page=admin&module=moduleManager&action=install&view={id}&deactivateBundleModule={name}">
+                                                    De-Activate
+                                                </a>
+                                            {/if}
+                                        </td>
+                                    </tr>
+                                {/each}
+                            </tbody>
+                        </table>
+                    {/if}
+                    {#unless bundle}
+                        <table class="table table-condensed table-striped table-bordered no-dt">
+                            <thead>
+                                <tr>
+                                    <th>Option</th>
+                                    <th width="60px" class="text-center">Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Module accessible within jail</td>
+                                    <td class="text-center">
+                                        {#if allowedInJail}
+                                            <i class="glyphicon glyphicon-ok"></i>
+                                        {/if}
+                                        {#unless allowedInJail}
+                                            <i class="glyphicon glyphicon-remove"></i>
+                                        {/unless}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Module requires user to be logged in</td>
+                                    <td class="text-center">
+                                        {#if requireLogin}
+                                            <i class="glyphicon glyphicon-ok"></i>
+                                        {/if}
+                                        {#unless requireLogin}
+                                            <i class="glyphicon glyphicon-remove"></i>
+                                        {/unless}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Has admin panel</td>
+                                    <td class="text-center">
+                                        {#if admin}
+                                            <i class="glyphicon glyphicon-ok"></i>
+                                        {/if}
+                                        {#unless admin}
+                                            <i class="glyphicon glyphicon-remove"></i>
+                                        {/unless}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    {/unless}
                 </div>
                 <div class="col-md-6">
                     {#if admin}
@@ -123,7 +197,9 @@
                 <tbody>
                     {#each modules}
                         <tr>
-                            <td>{name}</td>
+                            <td>
+                                {name}
+                            </td>
                             <td>{description}</td>
                             <td>{version}</td>
                             <td><a href="{author.url}" target="_blank">{author.name}</a></td>

@@ -6,7 +6,7 @@
             foreach( $files as $file ){
                 delete_files( $file );      
             }
-            rmdir( $target );
+            @rmdir( $target );
         } elseif(is_file($target)) {
             unlink( $target );  
         }
@@ -22,17 +22,75 @@
             return $this->page->modules;
         }
 
+        public function getInfo($file, $moduleName, $dir) {
+            $info = json_decode(file_get_contents($file), true);
+            if (isset($info["bundle"])) {
+                $modules = glob($dir . $moduleName . "/*.zip");
+                $count = count($modules);   
+
+                $info["name"] = $moduleName;
+                $info["modules"] = array();
+
+                foreach ($modules as $file) {
+
+                    $name = pathinfo($file, PATHINFO_FILENAME);
+
+
+                    $installedDir = "modules/installed/";
+                    $installedLocation = $installedDir . $name . "/";
+
+                    $installDir = "modules/installing/";
+                    $installLocation = $installDir . $name . "/";
+                    
+                    $modInfo = array(
+                        "id" => $moduleName, 
+                        "path" => $file, 
+                        "name" => $name, 
+                        "installed" => file_exists($installedLocation), 
+                        "extracted" => file_exists($installLocation)
+                    );
+
+                    if (
+                        isset($this->methodData->extract) && 
+                        ($this->methodData->extract == "*" || $this->methodData->extract == $name)
+                    ) {
+                        if (file_exists($installLocation)) { 
+                            $this->removeDir($installLocation);
+                        } else {
+                            mkdir($installLocation);
+                        }
+
+                        $zip = new ZipArchive;
+                        $res = $zip->open($file);
+
+                        if ($res === TRUE) {
+                            $zip->extractTo($installLocation);
+                            $zip->close();
+                        } 
+                        $modInfo["extracted"] = true;
+                    }
+
+
+                    $info["modules"][] = $modInfo;
+                }
+
+            }
+            $info["id"] = $moduleName;
+            return $info;
+        }
+
         private function getOtherModules($dirType = "installing") {
             $dir = "modules/$dirType/";
             $moduleDirectories = scandir($dir);
             $modules = array();
+
             foreach ($moduleDirectories as $moduleName) {
                 if ($moduleName[0] == ".") continue;
-                $moduleInfoFile = $dir . $moduleName . "/module.json";
 
+                $moduleInfoFile = $dir . $moduleName . "/module.json";
+                
                 if (file_exists($moduleInfoFile)) {
-                    $info = json_decode(file_get_contents($moduleInfoFile), true);
-                    $info["id"] = $moduleName;
+                    $info = $this->getInfo($moduleInfoFile, $moduleName, $dir);
                     $modules[$moduleName] = $info;
                 }
             }
@@ -42,12 +100,39 @@
         private function viewInstall($moduleName) {
             $moduleFolder = "modules/installing/$moduleName/";
 
-            chmod($moduleFolder, 0765);
-            $info = json_decode(file_get_contents($moduleFolder . "module.json"), true);
-            chmod($moduleFolder, 0440);
-            $info["id"] = $moduleName;
-            $info["_installing"] = true;
-            $this->html .= $this->page->buildElement("moduleOverview", $info);
+            $info = $this->getInfo($moduleFolder . "module.json", $moduleName, "modules/installing/");
+
+            if (isset($info["bundle"])) {
+                //debug($info);
+                
+                if (isset($this->methodData->installBundleModule)) { 
+
+                    if ($this->methodData->installBundleModule == "*") {
+                        foreach ($info["modules"] as $module) {
+                            if ($module["extracted"]) {
+                                $this->installModuleCommit($module["name"]);
+                            }
+                        }
+                    } else {
+                        $this->installModuleCommit($this->methodData->installBundleModule);
+                    }
+
+                    $info = $this->getInfo($moduleFolder . "module.json", $moduleName, "modules/installing/");
+                } 
+                if (isset($this->methodData->deactivateBundleModule)) { 
+                    $this->deactivateModule($this->methodData->deactivateBundleModule);
+
+                    $info = $this->getInfo($moduleFolder . "module.json", $moduleName, "modules/installing/");
+                } 
+                
+
+                $this->html .= $this->page->buildElement("moduleOverview", $info);
+            } else {
+                $info["id"] = $moduleName;
+                $info["_installing"] = true;
+                $this->html .= $this->page->buildElement("moduleOverview", $info);
+            }
+
         }
 
         private function removeDir($dir) {
@@ -86,41 +171,8 @@
             } else if (isset($this->methodData->view)) {
                 $this->viewInstall($this->methodData->view);
             } else if (isset($this->methodData->installModule)) {
-
                 $moduleName = $this->methodData->installModule;
-                $installDir = "modules/installing/";
-                $installLocation = $installDir . $moduleName . "/";
-                
-                // Move files over
-                $oldDir = "modules/installing/" . $moduleName;
-                $newDir = "modules/installed/" . $moduleName;
-                chmod($oldDir, 0765);
-
-                $sqlFile = $installLocation . "schema.sql";
-                if (file_exists($sqlFile)) {
-                    $sql = file_get_contents($sqlFile);
-                    if (!$this->db->query($sql)) {
-                        if (!isset($this->methodData->force)) {
-                            return $this->html .= $this->page->buildElement("continueWithError", array(
-                                "error" => array(
-                                    "text" => "There was an error with the SQL when installing this module",
-                                    "output" => debug($this->db->errorInfo(), true, true)
-                                ),
-                                "id" => $moduleName
-                            ));
-                        }
-                    }
-                }
-
-                if (@rename($oldDir, $newDir)) {
-                    return $this->html .= $this->page->buildElement("success", array(
-                        "text" => "Module installed successfully"
-                    ));
-                } else {
-                    return $this->html .= $this->page->buildElement("error", array(
-                        "text" => "Module failed to install"
-                    ));
-                }
+                $this->installModuleCommit($moduleName);
             } else if (isset($this->methodData->submit)) {
 
                 $moduleFile = $_FILES["file"];
@@ -136,27 +188,18 @@
                 $installDir = "modules/installing/";
                 $installLocation = $installDir . $fileName . "/";
 
-                // Lock down $installDir to read/write for the php user only
-                chmod($installDir, 0765);
-
-                //Remove previous install of this module
                 if (file_exists($installLocation)) { 
-                    chmod($installLocation, 0765);
                     $this->removeDir($installLocation);
                 } else {
-                    // Remake new directory
                     mkdir($installLocation);
                 }
 
-                // Extract module
                 $zip = new ZipArchive;
                 $res = $zip->open($moduleFile["tmp_name"]);
 
                 if ($res === TRUE) {
                     $zip->extractTo($installLocation);
                     $zip->close();
-                    // Lock down the module to read only for the php user
-                    chmod($installLocation, 0440);
                     $this->viewInstall($fileName);
                 } else {
                     return $this->page->buildElement("error", array(
@@ -167,6 +210,46 @@
             } else {
                 $this->html .= $this->page->buildElement("moduleForm", array(
                     "modules" => $this->getOtherModules()
+                ));
+            }
+
+        }
+
+        public function installModuleCommit($moduleName) {
+
+            $installDir = "modules/installing/";
+            $installLocation = $installDir . $moduleName . "/";
+            
+            // Move files over
+            $oldDir = "modules/installing/" . $moduleName;
+            $newDir = "modules/installed/" . $moduleName;
+
+            $sqlFile = $installLocation . "schema.sql";
+            if (file_exists($sqlFile)) {
+                $sql = file_get_contents($sqlFile);
+                if (!$this->db->query($sql)) {
+                    if (!isset($this->methodData->force)) {
+                        return $this->html .= $this->page->buildElement("continueWithError", array(
+                            "error" => array(
+                                "text" => "There was an error with the SQL when installing this module",
+                                "output" => debug($this->db->errorInfo(), true, true)
+                            ),
+                            "id" => $moduleName
+                        ));
+                    }
+                }
+            }
+
+            $info = json_decode(file_get_contents($installLocation . "module.json"), true);
+
+
+            if (@rename($oldDir, $newDir)) {
+                return $this->html .= $this->page->buildElement("success", array(
+                    "text" => $info["name"] . " installed successfully"
+                ));
+            } else {
+                return $this->html .= $this->page->buildElement("error", array(
+                    "text" => $info["name"] . " failed to install"
                 ));
             }
 
@@ -245,20 +328,28 @@
             }
 
             if (isset($this->methodData->do)) {
-                if (!@rename("modules/installed/$moduleName", "modules/disabled/$moduleName")) {
-                    return $this->html .= $this->page->buildElement("error", array(
-                        "text" => "This module cant be deactivated"
-                    ));
-                }
-                return $this->html .= $this->page->buildElement("success", array(
-                    "text" => "This module has been deactivated"
-                ));
+                $this->deactivateModule($moduleName);
             }
 
             $this->html .= $this->page->buildElement("alterModuleConfirm", array(
                 "type" => "deactivate", 
                 "module" => $info
             ));
+        }
+
+        public function deactivateModule($moduleName) {
+            if (file_exists("modules/disabled/$moduleName/module.json")) {
+                $this->removeDir("modules/disabled/$moduleName");
+            }
+            if (!@rename("modules/installed/$moduleName", "modules/disabled/$moduleName")) {
+                return $this->html .= $this->page->buildElement("error", array(
+                    "text" => "This module cant be deactivated"
+                ));
+            }
+            return $this->html .= $this->page->buildElement("success", array(
+                "text" => "This module has been deactivated"
+            ));
+
         }
 
         public function method_reactivate () {
