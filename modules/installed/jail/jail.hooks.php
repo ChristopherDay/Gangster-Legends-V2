@@ -37,10 +37,12 @@
             $usersInJail = $count->fetchAll(PDO::FETCH_ASSOC);
 
             $page->addToTemplate("jailCount", count($usersInJail));
+            return array(
+                "url" => "?page=jail", 
+                "extra" => count($usersInJail),
+                "sort" => 998,
+                "text" => "Jail"
+            );
         }
-        return array(
-            "url" => "?page=jail", 
-            "text" => "Jail"
-        );
     });
 ?>

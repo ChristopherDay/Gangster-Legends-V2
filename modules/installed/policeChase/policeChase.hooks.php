@@ -10,10 +10,11 @@
         }
     });
 
-    new hook("actionMenu", function () {
-        return array(
+    new hook("actionMenu", function ($user) {
+        if ($user) return array(
             "url" => "?page=policeChase", 
             "text" => "Police Chase", 
+            "timer" => $user->getTimer("chase"),
             "sort" => 300
         );
     });
