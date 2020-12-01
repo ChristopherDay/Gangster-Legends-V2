@@ -52,19 +52,7 @@
             }
             date_default_timezone_set($oldTZ);
             return $ts; 
-        }
-        
-        public function htmlOutput() {
-            return $this->html;
-        }
-
-        public function alertsOutput() {
-            $html = '';
-            foreach ($this->alerts as $key => $value) {
-                $html .= $value;
-            }
-            return $html;
-        }       
+        }      
 
         private function buildMethodData() {
         
@@ -215,12 +203,12 @@
             return date('l jS F H:i', $ts);
         }
         
-        
-        
         public function error($text, $type = "error") {
-            $this->alerts[] = $this->page->buildElement($type, array(
-                "text" => $text
-            ));
+            $this->page->alert($text, $type);
+        }
+        
+        public function success($text, $type = "success") {
+            $this->page->alert($text, $type);
         }
 
     }
