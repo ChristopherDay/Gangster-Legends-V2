@@ -43,8 +43,10 @@
 
             $settings = new settings();
 
-            $costPerDetective = $settings->loadSetting("detectiveCost");
-            $reportDuration = $settings->loadSetting("detectiveReport");
+            $costPerDetective = $settings->loadSetting("detectiveCost", true, 125000);
+            $reportDuration = $settings->loadSetting("detectiveDuration", true, 1);
+            $expireTime = $settings->loadSetting("detectiveExpire", true, 600);
+
             if (isset($this->methodData->submit)) {
                 if (!strlen($this->methodData->user)) {
                     return $this->error("Who are you looking for?");
@@ -64,10 +66,10 @@
                     return $this->error("How long do you want to look for?");
                 } 
 
-                $hours = $this->methodData->hours;
+                $duration = $this->methodData->hours;
 
-                if ($hours < (1*$reportDuration) || $hours > (5*$reportDuration)) {
-                    return $this->error("Detectives can only search for ".(1*$reportDuration)."-".(5*$reportDuration)." hours");
+                if ($duration < 1 || $duration > 5) {
+                    return $this->error("Detectives cant search for this long");
                 }
 
                 if (!isset($this->methodData->detectives)) {
@@ -80,13 +82,13 @@
                     return $this->error("You can only hire 1-5 detectives");
                 }
 
-                $cost = $costPerDetective * $detectives * $hours;
+                $cost = $costPerDetective * $detectives * $duration;
 
                 if ($cost > $this->user->info->US_money) {
-                    return $this->error("You need $".number_format($cost)." to hire " . $detectives . " detective for " . $hours . " hours");
+                    return $this->error("You need $".number_format($cost)." to do this!");
                 }
 
-                $success = (mt_rand(1, 100) <= ($detectives * 4) * $hours)?1:0;
+                $success = (mt_rand(1, 100) <= ($detectives * 4) * $duration)?1:0;
 
                 $insert = $this->db->prepare("
                     INSERT INTO detectives (
@@ -97,7 +99,7 @@
                 ");
 
                 $start = time();
-                $end = $start + (3600 * $hours);
+                $end = $start + ($reportDuration * $duration);
 
                 $insert->bindParam(":user", $this->user->id);
                 $insert->bindParam(":toFind", $user->info->US_id);
@@ -120,11 +122,41 @@
                 $this->user->set("US_money", $this->user->info->US_money - $cost);
 
                 $this->alerts[] = $this->page->buildElement("success", array(
-                    "text" => "You hired " . $detectives . " detective for " . $hours . " hours costing you $" . number_format($cost)
+                    "text" => "You hired the detectives"
                 ));
 
             }             
             
+        }
+
+        /* https://stackoverflow.com/questions/1416697/converting-timestamp-to-time-ago-in-php-e-g-1-day-ago-2-days-ago */
+        public function timeElapsedString($datetime, $full = false) {
+            $now = new DateTime;
+            $ago = new DateTime($datetime);
+            $diff = $now->diff($ago);
+
+            $diff->w = floor($diff->d / 7);
+            $diff->d -= $diff->w * 7;
+
+            $string = array(
+                'y' => 'year',
+                'm' => 'month',
+                'w' => 'week',
+                'd' => 'day',
+                'h' => 'hour',
+                'i' => 'minute',
+                's' => 'second',
+            );
+            foreach ($string as $k => &$v) {
+                if ($diff->$k) {
+                    $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+                } else {
+                    unset($string[$k]);
+                }
+            }
+
+            if (!$full) $string = array_slice($string, 0, 1);
+            return $string ? implode(', ', $string) . '' : 'just now';
         }
         
         public function constructModule() {
@@ -132,7 +164,8 @@
             $settings = new settings();
 
             $costPerDetective = $settings->loadSetting("detectiveCost", true, 125000);
-            $reportDuration = $settings->loadSetting("detectiveReport", true, 1);
+            $reportDuration = $settings->loadSetting("detectiveDuration", true, 1);
+            $expireTime = $settings->loadSetting("detectiveExpire", true, 600);
 
             $user = "";
 
@@ -147,14 +180,14 @@
                     D_detectives as 'detectives', 
                     D_start as 'start',
                     D_end as 'end',
-                    D_end + :duration * 3600 as 'expires',
+                    D_end + :expireTime as 'expires',
                     D_success as 'success'
                 FROM detectives WHERE D_user = :id
                 ORDER BY D_start DESC
             ");
 
             $active->bindParam(":id", $this->user->id);
-            $active->bindParam(":duration", $reportDuration);
+            $active->bindParam(":expireTime", $expireTime);
             $active->execute();
 
             $hiredDetectives = $active->fetchAll(PDO::FETCH_ASSOC);
@@ -173,10 +206,15 @@
 
             $hours = array();
             $i = 1;
+
             while ($i <= 5) {
-                $hour = $i*$reportDuration;
-                $label = ($hour==1)?"1 Hour":($hour." Hours");
-                $hours[] = array("duration" => $hour, "label" => $label);
+                $hour = $i;
+                $time = $i * $reportDuration;
+                $ts = "@" . (time() - $time);
+                $hours[] = array(
+                    "duration" => $hour, 
+                    "time" => $this->timeElapsedString($ts, true)
+                );
                 $i++;
             }
 

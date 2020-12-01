@@ -38,6 +38,8 @@
 
             if (isset($this->methodData->submit)) {
 
+                $expireTime = $this->_settings->loadSetting("detectiveExpire", true, 600);
+
                 $detective = $this->db->prepare("SELECT * FROM detectives WHERE D_id = :id");
                 $detective->bindParam(":id", $this->methodData->detective);
                 $detective->execute();
@@ -52,7 +54,7 @@
                     return $this->error("The detective does not know where this user is yet!");
                 }
 
-                if (($detective["D_end"] + 3600) < time()) {
+                if (($detective["D_end"] + $expireTime) < time()) {
                     return $this->error("The detective report has expired!");
                 }
 
@@ -138,28 +140,28 @@
 
         public function constructModule() {
 
-            $active = $this->db->prepare("
+            $expireTime = $this->_settings->loadSetting("detectiveExpire", true, 600);
+
+            $detectives = $this->db->selectAll("
                 SELECT
                     D_id as 'id', 
                     D_userToFind as 'uid',
                     D_detectives as 'detectives', 
                     D_start as 'start',
                     D_end as 'end',
-                    D_end + 3600 as 'expires',
+                    D_end + :expireTime as 'expires',
                     D_success as 'success'
                 FROM detectives 
                 WHERE 
                     D_user = :id AND 
                     D_end < UNIX_TIMESTAMP() AND 
-                    (D_end + 3600) > UNIX_TIMESTAMP() AND 
+                    (D_end + :expireTime) > UNIX_TIMESTAMP() AND 
                     D_success = 1
                 ORDER BY D_start DESC
-            ");
-
-            $active->bindParam(":id", $this->user->id);
-            $active->execute();
-
-            $detectives = $active->fetchAll(PDO::FETCH_ASSOC);
+            ", array(
+                ":expireTime" => $expireTime,
+                ":id" => $this->user->id
+            ));
 
             foreach ($detectives as $key => $value) {
                 $u = new User($value["uid"]);
@@ -171,10 +173,6 @@
             $this->html .= $this->page->buildElement("killPage", array(
                 "detectives" => $detectives
             ));
-        }
-
-        public function success($text) {
-            $this->alerts[] = $this->page->buildElement("success", array("text" => $text));
         }
 
     }

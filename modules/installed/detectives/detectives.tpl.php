@@ -24,7 +24,7 @@
                                             <strong>For how long</strong>
                                             <select onChange="updateDetectiveCost()" class="form-control" name="hours">
                                                 {#each hours}
-                                                    <option value="{value}">{label}</option>
+                                                    <option value="{duration}">{time}</option>
                                                 {/each}
                                             </select>
                                         </p>
@@ -103,7 +103,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label class="pull-left">Cost of detective per hour</label>
+                            <label class="pull-left">Cost of detective per interval</label>
                             <input type="text" class="form-control" name="detectiveCost" value="{detectiveCost}" />
                         </div>
                     </div>
@@ -111,8 +111,16 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label class="pull-left">Detective report duration (hours)</label>
-                            <input type="text" class="form-control" name="detectiveReport" value="{detectiveReport}" />
+                            <label class="pull-left">Detective search duration (seconds)</label>
+                            <input type="text" class="form-control" name="detectiveDuration" value="{detectiveDuration}" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="pull-left">Detective expire time (seconds)</label>
+                            <input type="text" class="form-control" name="detectiveExpire" value="{detectiveExpire}" />
                         </div>
                     </div>
                 </div>
