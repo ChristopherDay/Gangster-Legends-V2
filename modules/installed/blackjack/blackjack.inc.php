@@ -409,4 +409,3 @@ class blackjack extends module {
 
 }
 
-?>
