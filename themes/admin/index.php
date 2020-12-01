@@ -81,6 +81,7 @@
 							</ul>
 						{/if}
 						<div class="page">
+							<{alerts}>
 							<{game}>
 						</div>
 					</div>
