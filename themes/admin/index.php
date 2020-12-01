@@ -36,6 +36,9 @@
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-9">
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="?">Back To Game</a></li>
+						{#if adminModule}
+							<li><a href="?page={adminModule}">View Module</a></li>
+						{/if}
 						<li><a href="?page=logout">Logout</a></li>
 				 	</ul>
 				</div>
