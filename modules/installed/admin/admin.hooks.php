@@ -1,8 +1,11 @@
 <?php
 
     new hook("customMenus", function ($user) {
-
         global $page;
+
+        if (isset($_GET["page"]) && $_GET["page"] == "admin" && isset($_GET["module"])) {
+            $page->addToTemplate("adminModule", $_GET["module"]);
+        }
 
         if ($user && count($user->adminModules)) {
             $items = array(
