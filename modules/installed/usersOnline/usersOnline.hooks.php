@@ -87,4 +87,3 @@
             "text" => "Users Online"
         );
     });
-?>

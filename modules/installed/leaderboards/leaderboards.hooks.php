@@ -18,4 +18,3 @@
             "text" => "Leaderboards"
         );
     });
-?>
