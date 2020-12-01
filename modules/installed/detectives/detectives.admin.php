@@ -8,7 +8,8 @@
 
             if (isset($this->methodData->submit)) {
                 $settings->update("detectiveCost", $this->methodData->detectiveCost);
-                $settings->update("detectiveReport", $this->methodData->detectiveReport);
+                $settings->update("detectiveDuration", $this->methodData->detectiveDuration);
+                $settings->update("detectiveExpire", $this->methodData->detectiveExpire);
                
                 $this->html .= $this->page->buildElement("success", array(
                     "text" => "Detective options updated."
@@ -17,7 +18,8 @@
 
             $output = array(
                 "detectiveCost" => $settings->loadSetting("detectiveCost"),
-                "detectiveReport" => $settings->loadSetting("detectiveReport")
+                "detectiveDuration" => $settings->loadSetting("detectiveDuration"),
+                "detectiveExpire" => $settings->loadSetting("detectiveExpire")
                
             );
 
