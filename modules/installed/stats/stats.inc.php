@@ -70,9 +70,9 @@
                 "deadUsers" => $this->getUsers(false), 
                 "dead" => $deadStats["dead"],
                 "alive" => $stats["alive"],
-                "points" => $stats["points"],
-                "cash" => $stats["cash"],
-                "bullets" => $stats["bullets"]
+                "points" => (int) $stats["points"],
+                "cash" => (int) $stats["cash"],
+                "bullets" => (int) $stats["bullets"]
             ));
         }
         
