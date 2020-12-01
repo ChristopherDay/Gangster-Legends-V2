@@ -3,17 +3,23 @@
 
         public function method_view() {
 
-            $users = $this->db->prepare("
-                SELECT COUNT(*) as 'users' FROM users
-            ");
+            $tables = new Hook("adminWidget-table");
+            $tables = $tables->run($this->user);
 
-            $users->execute();
+            $widgets = array();
 
+            if ($tables) {
+                foreach ($tables as $table) {
+                    $widgets[] = array(
+                        "html" => $this->page->buildElement("widget" . $table["type"], $table)
+                    );
+                }
+            }
 
-            $this->html = $this->page->buildElement("dashboard", array(
-                "users" => $users->fetch(PDO::FETCH_ASSOC)["users"], 
-                "modules" => count($this->page->modules)
+            $this->html .= $this->page->buildElement("widgets", array(
+                "widgets" => $widgets
             ));
+
         }
 
     }
