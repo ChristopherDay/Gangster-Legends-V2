@@ -15,7 +15,7 @@ class page {
     }
     
     public $printPage = true, $theme, $template, $success = false, $loginPages = array('login', 'register'), $jailPages = array(), $loginPage, $jailPage, $dontRun = false, $modules = array(), $moduleView, $loadedTheme, $loadedModule, $landingPage;
-    private $pageHTML, $pageItems, $pageReplace;
+    private $pageHTML, $pageItems, $pageReplace, $alerts = array();
     
     public function loadModuleMetaData() {
         $moduleDirectories = scandir("modules/installed/");
@@ -61,6 +61,21 @@ class page {
         }
         
     }
+        
+    public function htmlOutput($module) {
+        return $module->html;
+    }
+
+    public function alertsOutput($module) {
+        $html = '';
+
+        $alerts = array_merge($module->alerts, $this->alerts);
+
+        foreach ($alerts as $key => $value) {
+            $html .= $value;
+        }
+        return $html;
+    } 
     
     private function load($page) {
         
@@ -113,22 +128,15 @@ class page {
                 
                 $module = new $page();
 
-                
-                if (isset($module)) {
-                    $this->addToTemplate('game', $module->htmlOutput());
-                    $this->addToTemplate('alerts', $module->alertsOutput());
-                }
-                
                 $pageName = $page;
 
-                if (isset($moduleInfo["pageName"])) {
-                    
+                if (isset($moduleInfo["pageName"])) {   
                     $pageName = $moduleInfo["pageName"];
-                    
                 }
-                
+                    
                 $this->addToTemplate('page', $pageName);
 
+                $loginMenu = new hook("loginMenu");
                 $actionMenu = new hook("actionMenu");
                 $locationMenu = new hook("locationMenu");
                 $accountMenu = new hook("accountMenu");
@@ -143,44 +151,56 @@ class page {
                 if (isset($this->pageItems["location"])) {
                     $locationName = $this->pageItems["location"];
                 }
+                    
+                if ($user) {
+                    $menus = array(
+                        "actions" => array(
+                            "title" => "Actions", 
+                            "items" => $this->sortArray($actionMenu->run($user)), 
+                            "sort" => 100
+                        ), 
+                        "location" => array(
+                            "title" => $locationName, 
+                            "items" => $this->sortArray($locationMenu->run($user)), 
+                            "sort" => 200
+                        ),
+                        "casino" => array(
+                            "title" => "Gambling", 
+                            "items" => $this->sortArray($casinoMenu->run($user)), 
+                            "sort" => 202
+                        ),
+                        "gang" => array(
+                            "title" => "Gangs", 
+                            "items" => $this->sortArray($gangMenu->run($user)), 
+                            "sort" => 205
+                        ),
+                        "kill" => array(
+                            "title" => "Murder", 
+                            "items" => $this->sortArray($killMenu->run($user)), 
+                            "sort" => 210
+                        ),
+                        "points" => array(
+                            "title" => $s->loadSetting("pointsName"), 
+                            "items" => $this->sortArray($pointsMenu->run($user)), 
+                            "sort" => 400
+                        ),
+                        "account" => array(
+                            "title" => "Account", 
+                            "items" => $this->sortArray($accountMenu->run($user)), 
+                            "sort" => 400
+                        )
+                    );
+                } else {
+                    $menus = array(
+                        "actions" => array(
+                            "title" => "Login", 
+                            "items" => $this->sortArray($loginMenu->run($user)), 
+                            "sort" => 100
+                        )
+                    );
 
-                $menus = array(
-                    "actions" => array(
-                        "title" => "Actions", 
-                        "items" => $this->sortArray($actionMenu->run($user)), 
-                        "sort" => 100
-                    ), 
-                    "location" => array(
-                        "title" => $locationName, 
-                        "items" => $this->sortArray($locationMenu->run($user)), 
-                        "sort" => 200
-                    ),
-                    "casino" => array(
-                        "title" => "Gambling", 
-                        "items" => $this->sortArray($casinoMenu->run($user)), 
-                        "sort" => 202
-                    ),
-                    "gang" => array(
-                        "title" => "Gangs", 
-                        "items" => $this->sortArray($gangMenu->run($user)), 
-                        "sort" => 205
-                    ),
-                    "kill" => array(
-                        "title" => "Murder", 
-                        "items" => $this->sortArray($killMenu->run($user)), 
-                        "sort" => 210
-                    ),
-                    "points" => array(
-                        "title" => $s->loadSetting("pointsName"), 
-                        "items" => $this->sortArray($pointsMenu->run($user)), 
-                        "sort" => 400
-                    ),
-                    "account" => array(
-                        "title" => "Account", 
-                        "items" => $this->sortArray($accountMenu->run($user)), 
-                        "sort" => 400
-                    )
-                );
+                }
+
 
                 $customMenus = array();
                 foreach ($customMenu->run($user) as $key => $menu) {
@@ -197,6 +217,11 @@ class page {
                 $allMenus = $allMenus->run($menus, true);
 
                 $customMenus = $this->sortArray($customMenus);
+
+                if (isset($module)) {
+                    $this->addToTemplate('game', $this->htmlOutput($module));
+                    $this->addToTemplate('alerts', $this->alertsOutput($module));
+                }
 
                 $this->addToTemplate('menus', $this->setActiveLinks($allMenus));
                 $this->addToTemplate('customMenus', $this->setActiveLinks($customMenus));
@@ -252,6 +277,10 @@ class page {
 
     }
     
+    public function getPageItem($find) {
+        return $this->pageItems[$find];
+    }
+
     public function addToTemplate($find, $replace) {
         $this->pageItems[$find] = $replace;
     }
@@ -276,6 +305,12 @@ class page {
 
         echo $this->pageHTML;
         
+    }
+        
+    public function alert($text, $type = "error") {
+        $this->alerts[] = $this->buildElement($type, array(
+            "text" => $text
+        ));
     }
 
     public function buildElement($templateName, $vars = array()) {
