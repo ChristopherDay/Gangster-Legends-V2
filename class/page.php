@@ -192,10 +192,10 @@ class page {
                     );
                 } else {
                     $menus = array(
-                        "actions" => array(
+                        "login" => array(
                             "title" => "Login", 
-                            "items" => $this->sortArray($loginMenu->run($user)), 
-                            "sort" => 100
+                            "items" => $this->sortArray($loginMenu->run()), 
+                            "sort" => 1
                         )
                     );
 

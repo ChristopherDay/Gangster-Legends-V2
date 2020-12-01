@@ -52,15 +52,11 @@
                     </div>
                     <div class="panel-body">
                         <ul class="nav nav-pills nav-justified">
-                            <li>
-                                <a href="?page=login">Login</a>
-                            </li>
-                            <li>
-                                <a href="?page=register">Register</a>
-                            </li>
-                            <li>
-                                <a href="?page=news">News</a>
-                            </li>
+                            {#each menus.login.items}
+                                <li>
+                                    <a href="{url}">{text}</a>
+                                </li>
+                            {/each}
                         </ul>
                         <{alerts}>
                         <{game}>
