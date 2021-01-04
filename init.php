@@ -1,8 +1,10 @@
 <?php
     
     spl_autoload_register(function ($class) {
-        if(file_exists('class/' . $class . '.php'))
-            include 'class/' . $class . '.php';
+        $file = 'class/' . lcfirst($class) . '.php';
+        if(file_exists($file)) {
+            include $file;
+        }
     });
 
     new ErrorHandler();
