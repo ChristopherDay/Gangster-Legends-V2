@@ -22,6 +22,8 @@
         }
         
         public function method_move() {
+
+            if (!$this->checkCSFRToken()) return;
             
             if ($this->user->checkTimer('chase')) {
                 

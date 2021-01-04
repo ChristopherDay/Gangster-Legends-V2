@@ -46,6 +46,8 @@
         }
         
         public function method_commit() {
+
+            if (!$this->checkCSFRToken()) return;
             
             $id = abs(intval($this->methodData->crime)); 
             

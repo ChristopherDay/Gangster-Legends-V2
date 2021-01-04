@@ -14,7 +14,7 @@
                                     {name} 
                                 </span>
                                 <span class="commit">
-                                    <a href="?page=theft&action=commit&id={id}">Steal</a>
+                                    <a href="?page=theft&action=commit&id={id}&_CSFR={_CSFRToken}">Steal</a>
                                 </span>
                             </p>
                             <div class="crime-perc">

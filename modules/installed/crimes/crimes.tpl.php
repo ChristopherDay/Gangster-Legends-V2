@@ -17,7 +17,7 @@
                                 ({cooldown})
                             </span> 
                             <span class="commit">
-                                <a href="?page=crimes&action=commit&crime={id}">
+                                <a href="?page=crimes&action=commit&crime={id}&_CSFR={_CSFRToken}">
                                     Commit
                                 </a>
                             </span>

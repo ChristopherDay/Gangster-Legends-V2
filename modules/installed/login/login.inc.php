@@ -28,6 +28,8 @@
         }
         
         public function method_login() {
+
+            if (!$this->checkCSFRToken()) return;
                 
             $userExists = @$this->db->prepare("
                 SELECT * FROM users WHERE U_email = :email ORDER BY U_id DESC LIMIT 0, 1
