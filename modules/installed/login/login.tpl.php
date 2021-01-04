@@ -5,6 +5,7 @@
         public $loginForm = '
                 <{text}>
                 <form action="?page=login&action=login" method="post">
+                    <input type="hidden" name="_CSFR" value="{_CSFRToken}" />
                     <input autocomplete="new-password" type="input" class="form-control" name="email" placeholder="Email" /><br />
                     <input autocomplete="new-password" type="password" class="form-control" name="password" placeholder="Password" /><br />
 

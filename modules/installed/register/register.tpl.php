@@ -5,6 +5,7 @@
         public $registerForm = '
             <{text}>
             <form action="?page=register&action=register{#if ref}&ref={ref}{/if}" method="post">
+                <input type="hidden" name="_CSFR" value="{_CSFRToken}" />
                 <input class="form-control" type="text" name="username" placeholder="Username" /><br />
                 <input class="form-control" type="text" autocomplete="off" name="email" placeholder="EMail" /><br />
                 <div class="row">

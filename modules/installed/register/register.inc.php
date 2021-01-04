@@ -37,6 +37,8 @@
         }
         
         public function method_register() {
+
+            if (!$this->checkCSFRToken()) return;
             
             $this->regError = '';
             
