@@ -76,8 +76,10 @@
             if (count($parts) == 2) {
                 $var = $parts[1];
             } 
-            
-            if ($var[0] == '"') {
+
+            if ($var == "_CSFRToken") {
+                $rtn = $_SESSION["CSFR"]["new"];
+            } else if ($var[0] == '"') {
                 //pass back the string
                 $var = str_replace('"', "", $var);
                 $rtn = $var;
