@@ -31,13 +31,11 @@
 
             if (!$this->checkCSFRToken()) return;
                 
-            $userExists = @$this->db->prepare("
+            $userExists = @$this->db->select("
                 SELECT * FROM users WHERE U_email = :email ORDER BY U_id DESC LIMIT 0, 1
-            ");
-            $userExists->bindParam(":email", $this->methodData->email);
-            $userExists->execute();
-            $userExists = $userExists->fetch(PDO::FETCH_ASSOC);
-
+            ", array(
+                ":email" => $this->methodData->email
+            ));
             
             if (isset($userExists["U_id"])) {
                 $user = new User($userExists["U_id"]);

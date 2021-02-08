@@ -20,9 +20,7 @@
                 $timer = "killed";
             }
 
-            $users = $this->db->prepare($sql);
-            $users->execute();
-            $allUsers = $users->fetchAll(PDO::FETCH_ASSOC);
+            $allUsers = $this->db->selectAll($sql);
 
             $userObjects = array();
 
@@ -40,7 +38,7 @@
         
         public function constructModule() {
 
-            $stats = $this->db->prepare("
+            $stats = $this->db->select("
                 SELECT 
                     SUM(US_bullets) as 'bullets',
                     SUM(US_points) as 'points',
@@ -50,10 +48,8 @@
                 WHERE U_status != 0 AND U_userLevel = 1
                 ORDER BY U_id DESC LIMIT 0, 20
             ");
-            $stats->execute();
-            $stats = $stats->fetch(PDO::FETCH_ASSOC);
 
-            $deadStats = $this->db->prepare("
+            $deadStats = $this->db->select("
                 SELECT 
                     SUM(US_bullets) as 'bullets',
                     SUM(US_money) + SUM(US_bank) as 'cash', 
@@ -62,8 +58,6 @@
                 WHERE U_status = 0 
                 ORDER BY U_id DESC LIMIT 0, 20
             ");
-            $deadStats->execute();
-            $deadStats = $deadStats->fetch(PDO::FETCH_ASSOC);
 
             $this->html .= $this->page->buildElement("stats", array(
                 "newUsers" => $this->getUsers(true), 
