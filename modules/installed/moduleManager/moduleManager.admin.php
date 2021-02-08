@@ -200,9 +200,17 @@
                 if ($res === TRUE) {
                     $zip->extractTo($installLocation);
                     $zip->close();
+
+                    if (!file_exists($installLocation . "module.json")) {
+                        $this->removeDir($installLocation);
+                        return $this->html .= $this->page->buildElement("error", array(
+                            "text" => "Please provide a zipped with a module.json file"
+                        ));
+                    }
+
                     $this->viewInstall($fileName);
                 } else {
-                    return $this->page->buildElement("error", array(
+                    return $this->html .= $this->page->buildElement("error", array(
                         "text" => "Please provide a zipped module in the correctFormat (moduleName.zip)"
                     ));
                 }
@@ -241,7 +249,6 @@
             }
 
             $info = json_decode(file_get_contents($installLocation . "module.json"), true);
-
 
             if (@rename($oldDir, $newDir)) {
                 return $this->html .= $this->page->buildElement("success", array(
