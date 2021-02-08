@@ -137,6 +137,7 @@ class page {
                 $this->addToTemplate('page', $pageName);
 
                 $loginMenu = new hook("loginMenu");
+                $moneyMenu = new hook("moneyMenu");
                 $actionMenu = new hook("actionMenu");
                 $locationMenu = new hook("locationMenu");
                 $accountMenu = new hook("accountMenu");
@@ -164,20 +165,25 @@ class page {
                             "items" => $this->sortArray($locationMenu->run($user)), 
                             "sort" => 200
                         ),
+                        "money" => array(
+                            "title" => "Money", 
+                            "items" => $this->sortArray($moneyMenu->run($user)), 
+                            "sort" => 220
+                        ),
                         "casino" => array(
                             "title" => "Gambling", 
                             "items" => $this->sortArray($casinoMenu->run($user)), 
-                            "sort" => 202
+                            "sort" => 240
                         ),
                         "gang" => array(
                             "title" => "Gangs", 
                             "items" => $this->sortArray($gangMenu->run($user)), 
-                            "sort" => 205
+                            "sort" => 260
                         ),
                         "kill" => array(
                             "title" => "Murder", 
                             "items" => $this->sortArray($killMenu->run($user)), 
-                            "sort" => 210
+                            "sort" => 280
                         ),
                         "points" => array(
                             "title" => $s->loadSetting("pointsName"), 
