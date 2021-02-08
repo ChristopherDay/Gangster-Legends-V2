@@ -45,6 +45,8 @@
 
             $access = $access->fetch(PDO::FETCH_ASSOC);
 
+            if (!$access) return false; 
+
             return !!$access["GP_user"];
 
         }
