@@ -74,7 +74,7 @@
         
             if ($this->methodData->bank == 'withdraw') {
                 
-                $money = str_replace(array(',', '$'), array('', ''), $this->methodData->withdraw);
+                $money = abs(intval(str_replace(array(',', '$'), array('', ''), $this->methodData->withdraw)));
                 
                 if ($money < 0) {                
                     $this->alerts[] = $this->page->buildElement("error", array("text"=>"You cant withdraw negative cash"));
@@ -109,7 +109,7 @@
                 
             } else if ($this->methodData->bank == 'deposit') {
                 
-                $money = str_replace(array(',', '$'), array('', ''), $this->methodData->deposit);
+                $money = abs(intval(str_replace(array(',', '$'), array('', ''), $this->methodData->deposit)));
                 
                 if ($money < 0) {                
                     $this->alerts[] = $this->page->buildElement("error", array("text"=>"You cant deposit negative cash"));

@@ -6,17 +6,15 @@
             global $db, $page;
 
 
-            $usersOnline = $db->prepare("
+            $usersOnline = $db->select("
                 SELECT COUNT(*) as 'count' FROM userTimers WHERE UT_desc = 'laston' AND UT_time > ".(time()-900)."
             ");
-            $usersOnline->execute();
-            $users = $db->prepare("
+            $users = $db->select("
                 SELECT COUNT(*) as 'count' FROM users
             ");
-            $users->execute();
 
-            $page->addToTemplate("usersOnlineNow", number_format($usersOnline->fetch(PDO::FETCH_ASSOC)["count"]));
-            $page->addToTemplate("registeredUsers", number_format($users->fetch(PDO::FETCH_ASSOC)["count"]));
+            $page->addToTemplate("usersOnlineNow", number_format($usersOnline["count"]));
+            $page->addToTemplate("registeredUsers", number_format($users["count"]));
 
         }
         

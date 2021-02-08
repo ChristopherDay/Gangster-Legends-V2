@@ -14,15 +14,13 @@
                 $add = " WHERE U_id = :id";
             }
             
-            $user = $this->db->prepare("
+            $sql = ("
                 SELECT
                     U_id as 'id',  
                     U_name as 'name', 
                     U_email as 'email', 
+                    U_status as 'userStatus', 
                     U_userLevel as 'userLevel',   
-                    (U_status = 0) as 'isDead', 
-                    (U_status = 1) as 'isValidated',  
-                    (U_status = 2) as 'isAwaitingValidation',  
                     US_money as 'money', 
                     US_exp as 'exp', 
                     US_bank as 'bank', 
@@ -35,16 +33,17 @@
                 " . $add . "
                 ORDER BY U_name"
             );
-            $user->bindParam(":id", $userID);
 
             if ($search) {
                 $searchTerm = "%".$userID."%";
-                $user->bindParam(":search", $searchTerm);
-                $user->execute();
-                return $user->fetchAll(PDO::FETCH_ASSOC);
+                return $this->db->selectAll($sql, array(
+                    ":id" => $userID,
+                    ":search" => $searchTerm
+                ));
             } else {
-                $user->execute();
-                return $user->fetch(PDO::FETCH_ASSOC);
+                return $this->db->select($sql, array(
+                    ":id" => $userID
+                ));
             }
         }
 
@@ -71,7 +70,7 @@
 
             $user = $this->getUser($this->methodData->id);
 
-            $roles = $this->db->prepare("
+            $userRoles = $this->db->selectAll("
                 SELECT 
                     UR_id as 'id', 
                     UR_desc as 'name'
@@ -79,10 +78,6 @@
                     userRoles 
                 ORDER BY UR_desc
             ");
-
-            $roles->execute();
-
-            $userRoles = $roles->fetchAll(PDO::FETCH_ASSOC);
 
             if (isset($this->methodData->submit)) {
                 $user = (array) $this->methodData;
@@ -93,7 +88,7 @@
                         $this->html .= $this->page->buildElement("error", array("text" => $error));
                     }
                 } else {
-                    $update = $this->db->prepare("
+                    $update = $this->db->update("
                         UPDATE 
                             users 
                         SET 
@@ -103,7 +98,15 @@
                             U_userLevel = :userLevel 
                         WHERE 
                             U_id = :id;
+                    ", array(
+                        ":name" => $this->methodData->name,
+                        ":email" => $this->methodData->email,
+                        ":userStatus" => $this->methodData->userStatus,
+                        ":userLevel" => $this->methodData->userLevel,
+                        ":id" => $this->methodData->id
+                    ));
 
+                    $update = $this->db->update("
                         UPDATE 
                             userStats 
                         SET 
@@ -116,20 +119,16 @@
                             US_money = :money 
                         WHERE 
                             US_id = :id;
-                    ");
-                    $update->bindParam(":name", $this->methodData->name);
-                    $update->bindParam(":email", $this->methodData->email);
-                    $update->bindParam(":userLevel", $this->methodData->userLevel);
-                    $update->bindParam(":userStatus", $this->methodData->userStatus);
-                    $update->bindParam(":pic", $this->methodData->pic);
-                    $update->bindParam(":bio", $this->methodData->bio);
-                    $update->bindParam(":bullets", $this->methodData->bullets);
-                    $update->bindParam(":points", $this->methodData->points);
-                    $update->bindParam(":bank", $this->methodData->bank);
-                    $update->bindParam(":exp", $this->methodData->exp);
-                    $update->bindParam(":money", $this->methodData->money);
-                    $update->bindParam(":id", $this->methodData->id);
-                    $update->execute();
+                    ", array(
+                        ":pic" => $this->methodData->pic,
+                        ":bio" => $this->methodData->bio,
+                        ":bullets" => $this->methodData->bullets,
+                        ":points" => $this->methodData->points,
+                        ":bank" => $this->methodData->bank,
+                        ":exp" => $this->methodData->exp,
+                        ":money" => $this->methodData->money,
+                        ":id" => $this->methodData->id
+                    ));
 
                     $this->html .= $this->page->buildElement("success", array(
                         "text" => "This user has been updated"
@@ -150,7 +149,7 @@
             $this->html .= $this->page->buildElement("userForm", $user);
         }
 
-        public function method_delete () {
+        public function method_delete() {
 
             if (!isset($this->methodData->id)) {
                 return $this->html = $this->page->buildElement("error", array("text" => "No user ID specified"));
@@ -163,12 +162,14 @@
             }
 
             if (isset($this->methodData->commit)) {
-                $delete = $this->db->prepare("
-                    DELETE FROM users WHERE U_id = :id;
-                    DELETE FROM userStats WHERE US_id = :id;
-                ");
-                $delete->bindParam(":id", $this->methodData->id);
-                $delete->execute();
+                
+                $delete = $this->db->delete("DELETE FROM users WHERE U_id = :id;", array(
+                    ":id" => $this->methodData->id
+                ));
+
+                $delete = $this->db->delete("DELETE FROM userStats WHERE US_id = :id;", array(
+                    ":id" => $this->methodData->id
+                ));
 
                 header("Location: ?page=admin&module=users");
 

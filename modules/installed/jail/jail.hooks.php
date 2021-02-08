@@ -15,7 +15,7 @@
 
         if ($user) {
             
-            $count = $user->db->prepare("
+            $usersInJail = $user->db->selectAll("
                     SELECT DISTINCT 
                         `U_id` as 'id', 
                         `U_name` as 'name', 
@@ -30,11 +30,10 @@
                         `jail`.`UT_desc` = 'jail' AND 
                         `jail`.`UT_time` > UNIX_TIMESTAMP()
                     ORDER BY US_rank ASC, U_name
-            ");
-            $count->bindParam(":location", $user->info->US_location);
-            $count->execute();
+            ", array(
+                ":location" => $user->info->US_location
+            ));
 
-            $usersInJail = $count->fetchAll(PDO::FETCH_ASSOC);
 
             $page->addToTemplate("jailCount", count($usersInJail));
             return array(

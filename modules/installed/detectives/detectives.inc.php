@@ -13,25 +13,17 @@
         public $pageName = '';
 
         public function method_remove() {
-            $search = $this->db->prepare("
-                SELECT * FROM detectives WHERE D_id = :id
-            ");
-
-            $search->bindParam(":id", $this->methodData->id);
-            $search->execute();
-
-            $search = $search->fetch(PDO::FETCH_ASSOC);
+            $search = $this->db->select("SELECT * FROM detectives WHERE D_id = :id", array(
+                ":id" => $this->methodData->id
+            ));
 
             if ($search["D_user"] != $this->user->id) {
                 return $this->error("This is not yours to remove!");
             }
 
-            $del = $this->db->prepare("
-                DELETE FROM detectives WHERE D_id = :id
-            ");
-
-            $del->bindParam(":id", $this->methodData->id);
-            $del->execute();
+            $del = $this->db->delete("DELETE FROM detectives WHERE D_id = :id", array(
+                ":id" => $this->methodData->id
+            ));
 
             $this->alerts[] = $this->page->buildElement("success", array(
                 "text" => "Detective result has been removed"
@@ -90,24 +82,23 @@
 
                 $success = (mt_rand(1, 100) <= ($detectives * 4) * $duration)?1:0;
 
-                $insert = $this->db->prepare("
+                $start = time();
+                $end = $start + ($reportDuration * $duration);
+
+                $insert = $this->db->insert("
                     INSERT INTO detectives (
                         D_user, D_userToFind, D_detectives, D_start, D_end, D_success
                     ) VALUES (
                         :user, :toFind, :dets, :start, :end, :success
                     );
-                ");
-
-                $start = time();
-                $end = $start + ($reportDuration * $duration);
-
-                $insert->bindParam(":user", $this->user->id);
-                $insert->bindParam(":toFind", $user->info->US_id);
-                $insert->bindParam(":dets", $detectives);
-                $insert->bindParam(":start", $start);
-                $insert->bindParam(":end", $end);
-                $insert->bindParam(":success", $success);
-                $insert->execute();
+                ", array(
+                    ":user" => $this->user->id,
+                    ":toFind" => $user->info->US_id,
+                    ":dets" => $detectives,
+                    ":start" => $start,
+                    ":end" => $end,
+                    ":success" => $success
+                ));
      
                 $actionHook = new hook("userAction");
                 $action = array(
@@ -173,7 +164,7 @@
                 $user = $this->methodData->user;
             }
 
-            $active = $this->db->prepare("
+            $hiredDetectives = $this->db->selectAll("
                 SELECT
                     D_id as 'id', 
                     D_userToFind as 'uid',
@@ -184,13 +175,10 @@
                     D_success as 'success'
                 FROM detectives WHERE D_user = :id
                 ORDER BY D_start DESC
-            ");
-
-            $active->bindParam(":id", $this->user->id);
-            $active->bindParam(":expireTime", $expireTime);
-            $active->execute();
-
-            $hiredDetectives = $active->fetchAll(PDO::FETCH_ASSOC);
+            ", array(
+                ":id" => $this->user->id,
+                ":expireTime" => $expireTime
+            ));
 
             foreach ($hiredDetectives as $key => $value) {
                 $u = new User($value["uid"]);

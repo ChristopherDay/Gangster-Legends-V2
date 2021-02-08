@@ -17,11 +17,7 @@
                 $settings = new settings();
                 $correctCode = $this->user->activationCode($this->user->info->U_id, $this->user->info->U_name);
                 if ($code == $correctCode) {
-                    $u = $this->db->prepare("
-                        UPDATE users SET U_status = 1 WHERE U_id = :id;
-                    ");
-                    $u->bindParam(":id", $this->user->id);
-                    $u->execute();
+                    $this->user->set("U_status", 1);
                     header("Location: ?page=" . $settings->loadSetting("landingPage"));
                 } else {
                     $this->html .= $this->page->buildElement("error", array(

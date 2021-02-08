@@ -25,7 +25,7 @@
                 break;
             }
             
-            $select = $this->db->prepare("
+            $select = $this->db->selectAll("
                 SELECT 
                     * 
                 FROM 
@@ -36,12 +36,11 @@
                     U_status != 0
                 ORDER BY ".$order." DESC LIMIT 0, 10
             ");
-            $select->execute();
             
             $i = 1;
             $users = array();
             
-            while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
+            foreach ($select as $row) {
                 $u = new User($row['U_id']);
 
                 if ($type == 'rank') {

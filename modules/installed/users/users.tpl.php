@@ -108,7 +108,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label class="pull-left">User Status</label>
-                            <select class="form-control" name="userStatus">
+                            <select class="form-control" name="userStatus" data-value="{userStatus}">
                                 <option {#if isDead}selected{/if} value="0">Dead</option>
                                 <option {#if isValidated}selected{/if} value="1">Alive</option>
                                 <option {#if isAwaitingValidation}selected{/if} value="2">Awaiting Email Verification</option>
@@ -118,9 +118,9 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label class="pull-left">User Level</label>
-                            <select class="form-control" name="userLevel">
+                            <select class="form-control" name="userLevel" data-value="{userLevel}">
                                 {#each userRoles}
-                                    <option {#if selected}selected{/if} value="{id}">{name}</option>
+                                    <option value="{id}">{name}</option>
                                 {/each}
                             </select>
                         </div>
