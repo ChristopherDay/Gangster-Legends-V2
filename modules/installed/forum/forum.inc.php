@@ -38,25 +38,24 @@
         }
 
         public function constructModule() {
-            
-            if (isset($_GET["action"])) {
-                return;
-            }
 
             $forums = $this->db->selectAll("
                 SELECT
                     F_id as 'id', 
-                    F_name as 'name',
-                    COUNT(T_id) as 'topics'
+                    F_name as 'name'
                 FROM forums 
-                INNER JOIN topics ON (T_forum = F_id)
+                WHERE F_sort != 999999
                 ORDER BY F_sort ASC, F_name");
+
+            foreach ($forums as $key => $value) {
+                $forums[$key]["topics"] = count($this->db->selectAll("SELECT * FROM topics WHERE T_forum = :f", array(
+                    ":f" => $value["id"]
+                )));
+            }
 
             $this->html .= $this->page->buildElement("allForums", array(
                 "forums" => $forums
             ));
-
-
         }
 
         public function getPost($id) {
@@ -360,6 +359,7 @@
         }
 
         public function method_forum() {
+            $this->construct = false;
             $forum = $this->getForum($this->methodData->id);
 
             if (!$forum) {
@@ -377,6 +377,7 @@
         }
 
         public function method_new() {
+            $this->construct = false;
             $forum = $this->getForum($this->methodData->id);
 
             $params = array(
@@ -439,6 +440,7 @@
         }
 
         public function method_topic() {
+            $this->construct = false;
 
             $topic = $this->getTopic($this->methodData->id);
 
@@ -513,6 +515,7 @@
         }
 
         public function method_edit() {
+            $this->construct = false;
 
             $post = $this->getPost($this->methodData->id);
 
@@ -551,6 +554,7 @@
         }
 
         public function method_delete() {
+            $this->construct = false;
 
             $post = $this->getPost($this->methodData->id);
 
@@ -581,6 +585,7 @@
         }
 
         public function method_deleteTopic() {
+            $this->construct = false;
 
             $topic = $this->getTopic($this->methodData->id);
 
@@ -616,6 +621,7 @@
         }
 
         public function method_lock() {
+            $this->construct = false;
 
             $topic = $this->getTopic($this->methodData->id);
 
@@ -636,6 +642,7 @@
         }
 
         public function method_type() {
+            $this->construct = false;
 
             $topic = $this->getTopic($this->methodData->id);
 
@@ -655,6 +662,7 @@
         }
 
         public function method_mute() {
+            $this->construct = false;
 
             if (!$this->user->hasAdminAccessTo("forum")) {
                 return $this->html .= $this->error("You dont have permission to delete this post");
