@@ -79,6 +79,7 @@
         }
 
         public function method_manage() {
+            if (!$this->user->info->US_gang) return;
             $this->construct = false;
 
             $gang = new Gang($this->user->info->US_gang);
@@ -133,6 +134,7 @@
         }
 
         public function method_disband() {
+            if (!$this->user->info->US_gang) return;
             $g = new Gang($this->user->info->US_gang);
             $gang = $g->gang;
 
@@ -168,6 +170,13 @@
         }
 
         public function method_logs() {
+            if (!$this->user->info->US_gang) return;
+            $g = new Gang($this->user->info->US_gang);
+            $gang = $g->gang;
+
+            if (!$g->can("viewLogs")) {
+                return $this->error("You dont have permission to do this!");
+            }
             $this->construct = false;
             $today = strtotime("00:00:00");
             if (isset($this->methodData->time)) {
@@ -223,7 +232,10 @@
         }
 
         public function method_home() {
+            if (!$this->user->info->US_gang) return;
+
             $this->construct = false;
+
             $g = new Gang($this->user->info->US_gang);
             $gang = $g->gang;
 
@@ -264,6 +276,7 @@
         }
 
         public function method_setUnderboss() {
+            if (!$this->user->info->US_gang) return;
             $this->construct = false;
             $gang = new Gang($this->user->info->US_gang);
             
@@ -327,12 +340,23 @@
                 return $this->error("This is not your invite!");
             }
 
+            if (count($gang->gang["members"]) >= $gang->gang["maxMembers"]) {
+                return $this->error("This gang is full!");
+            }
+
             if ($this->methodData->type == "accept") {
                 $this->user->set("US_gang", $invite["GI_gang"]);
                 $this->error("You have accepted the invite!", "success");
                 $gang->log("joined the gang");
                 $hook = new Hook("joinGang");
                 $hook = $hook->run($this->user);
+
+                $access = $this->db->delete("
+                    DELETE FROM gangPermissions WHERE GP_user = :user 
+                ", array(
+                    ":user" => $this->user->id
+                ));
+
             } else {
                 $this->error("You have declined the invite!", "warning");
                 $gang->log("declined the invite to join the gang");
@@ -347,6 +371,7 @@
         }
 
         public function method_kick() {
+            if (!$this->user->info->US_gang) return;
             $this->construct = false;
             $gang = new Gang($this->user->info->US_gang);
             if (!$gang->can("kick")) {
@@ -381,7 +406,38 @@
             $this->method_home();
         }
 
+        public function method_leave() {
+            if (!$this->user->info->US_gang) return;
+
+            $this->construct = false;
+
+            if (!isset($this->methodData->type)) {
+                return $this->html .= $this->page->buildElement("leaveSure");
+            }
+
+            $gang = new Gang($this->user->info->US_gang);
+
+            $gang->log("left the gang");
+
+            $this->db->update("
+                UPDATE gangs SET G_underboss = 0 WHERE G_underboss = :uid and G_id = :id;
+                UPDATE gangs SET G_coLeader = 0 WHERE G_coLeader = :uid and G_id = :id;
+                UPDATE gangs SET G_LHM = 0 WHERE G_LHM = :uid and G_id = :id;
+                UPDATE gangs SET G_RHM = 0 WHERE G_RHM = :uid and G_id = :id;
+            ", array(
+                ":uid" => $this->user->id,
+                ":id" => $this->user->info->US_gang
+            ));
+
+            $this->user->set("US_gang", 0);
+
+            $this->error("You have left your gang!", "success");
+            return $this->constructModule(); 
+
+        }
+
         public function method_upgrade() {
+            if (!$this->user->info->US_gang) return;
             $this->construct = false;
             
 
@@ -415,6 +471,7 @@
         }
             
         public function method_invite() {
+            if (!$this->user->info->US_gang) return;
             $this->construct = false;
             
             $gang = new Gang($this->user->info->US_gang);
@@ -466,6 +523,7 @@
         }
 
         public function method_editInfo() {
+            if (!$this->user->info->US_gang) return;
             $this->construct = false;
 
             $gang = new Gang($this->user->info->US_gang);
@@ -493,6 +551,7 @@
         }
 
         public function method_editProfile() {
+            if (!$this->user->info->US_gang) return;
             $this->construct = false;
 
             $gang = new Gang($this->user->info->US_gang);
