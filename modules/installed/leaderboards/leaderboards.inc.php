@@ -14,10 +14,12 @@
 
             switch (@$this->methodData->top10) {
                 case 'rank': 
+                    $type = "rank";
                     $order = 'US_exp'; 
                     $title = "Top 10 Players"; 
                 break;
                 default: 
+                    $type = "money";
                     $order = '(US_money + US_bank)'; 
                     $title = "Top 10 Richest Players"; 
                 break;
@@ -41,10 +43,18 @@
             
             while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
                 $u = new User($row['U_id']);
+
+                if ($type == 'rank') {
+                    $rank = $u->getRank()->R_name;
+                } else if ($type == 'money') {
+                    $rank = $u->getMoneyRank()->MR_desc;
+                }
+
                 $users[] = array(
-                    "rank" => $i, 
+                    "number" => $i, 
                     "user" => $u->user, 
-                    "id" => $row['U_id']
+                    "id" => $row['U_id'], 
+                    "rank" => $rank
                 ); 
                 $i++;
             }
