@@ -3,19 +3,25 @@
     class loggedinTemplate extends template {
         
         public $newsArticle = '
-            {#each news}
-                <div class="well well-sm">
-                    <h4>
-                        {title} 
-                        <small class="pull-right tiny">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Game News
+                </div>
+                <div class="panel-body text-left">
+                    {#each news}
+                        <strong>{title}</strong>
+                        <small class="pull-right news-info">
                             By {>userName} {date}
                         </small>
-                        <div class="clearfix"></div>
-                    </h4>
-                    <hr />
-                    <p>[{text}]</p>
+                        <div class="well well-sm">
+                            [{text}]
+                        </div>
+                    {/each}
                 </div>
-            {/each}
+            </div>
+
+
         ';
   
 
