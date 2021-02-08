@@ -12,7 +12,7 @@
         
         global $db;
 
-        $stats = $db->prepare("
+        $stats = $db->select("
             SELECT 
                 SUM(US_bullets) as 'bullets',
                 SUM(US_points) as 'points',
@@ -22,10 +22,8 @@
             WHERE U_status != 0 AND U_userLevel = 1
             ORDER BY U_id DESC LIMIT 0, 20
         ");
-        $stats->execute();
-        $stats = $stats->fetch(PDO::FETCH_ASSOC);
 
-        $deadStats = $db->prepare("
+        $deadStats = $db->select("
             SELECT 
                 SUM(US_bullets) as 'bullets',
                 SUM(US_money) + SUM(US_bank) as 'cash', 
@@ -34,8 +32,6 @@
             WHERE U_status = 0 
             ORDER BY U_id DESC LIMIT 0, 20
         ");
-        $deadStats->execute();
-        $deadStats = $deadStats->fetch(PDO::FETCH_ASSOC);
 
         return array(
             "size" => 4, 

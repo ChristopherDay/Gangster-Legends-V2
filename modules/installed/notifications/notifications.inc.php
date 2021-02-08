@@ -40,7 +40,7 @@
 
             $from = ($page - 1) * $perPage;
 
-            $notifications = $this->db->prepare("
+            $notifications = $this->db->selectAll("
                 SELECT
                     N_id as 'id', 
                     N_read as 'read', 
@@ -50,11 +50,10 @@
                 ORDER BY N_time DESC, N_id DESC
                 LIMIT " . $from . ", " . $perPage . ";
                 UPDATE notifications SET N_read = 1 WHERE N_uid = :id AND N_read = 0;
-            ");
+            ", array(
+                ":id" => $this->user->id
+            ));
 
-            $notifications->bindParam(":id", $this->user->id);
-            $notifications->execute();
-            $notifications = $notifications->fetchAll(PDO::FETCH_ASSOC);
 
             foreach ($notifications as $key => $value) {
                 $notifications[$key]["date"] = date("jS M H:i", $value["time"]);
