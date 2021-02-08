@@ -77,7 +77,7 @@
                         </div><br />
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" name="submit" value="true" class="btn">Update</button>
+                                <button type="submit" name="submit" value="true" class="btn btn-default">Update</button>
                             </div>
                         </div>
                     </form>
@@ -113,7 +113,7 @@
                         </div><br />
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" name="submit" value="true" class="btn">Update</button>
+                                <button type="submit" name="submit" value="true" class="btn btn-default">Update</button>
                             </div>
                         </div>
                     </form>
@@ -128,7 +128,7 @@
                 <div class="panel-body">
                     <ul class="nav nav-pills">
                         {#each profileLinks}
-                            {#if url}<a href="{url}">{text}</a>{/if}
+                            {#if url}<a class="btn btn-xs btn-default" href="{url}">{text}</a> &nbsp;{/if}
                         {/each}
                     </ul>
                 </div>
