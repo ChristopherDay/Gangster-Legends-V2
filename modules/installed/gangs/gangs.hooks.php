@@ -73,11 +73,14 @@
     new hook("gangMenu", function ($user) {
         $s = new Settings();
         $name = $s->loadSetting("gangName");
-        if ($user && $user->info->US_gang) return array(
-            "url" => "?page=gangs&action=logs", 
-            "text" => "Logs", 
-            "sort" => 150
-        );
+        $g = new Gang($user->info->US_gang);
+        if ($user && $user->info->US_gang)  {
+            if ($g->can("viewLogs", $user)) return array(
+                "url" => "?page=gangs&action=logs", 
+                "text" => "Logs", 
+                "sort" => 150
+            );
+        }
     });
 
 
@@ -109,6 +112,16 @@
             "name" => "Upgrade " . $name . " Size", 
             "description" => "This gives this ".$name." member the ability to kick members from your ".$name."", 
             "key" => "upgrade"
+        );
+    });
+
+    new hook("gangPermission", function ($user) {
+        $s = new Settings();
+        $name = $s->loadSetting("gangName");
+        return array(
+            "name" => "View " . $name . " Logs", 
+            "description" => "This gives this ".$name." member the ability to view ".$name." logs", 
+            "key" => "viewLogs"
         );
     });
 
