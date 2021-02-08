@@ -152,20 +152,9 @@
         public function method_edit() {
             
             if (!empty($this->methodData->submit)) {
-                
-                $update = $this->db->prepare("
-                    UPDATE userStats SET US_bio = :bio, US_pic = :pic WHERE US_id = :id
-                ");
-                $update->bindParam(":bio", $this->methodData->bio);
-                $update->bindParam(":pic", $this->methodData->pic);
-                $update->bindParam(":id", $this->user->info->US_id);
-                $update->execute();
-                
-                $this->alerts[] = $this->page->buildElement("success", array("text" => 'Profile Updated, <a href="?page=profile">View</a>.'));
-                
-                $this->user->info->US_bio = $this->methodData->bio;
-                $this->user->info->US_pic = $this->methodData->pic;
-            
+                $this->user->set("US_bio", $this->methodData->bio);
+                $this->user->set("US_pic", $this->methodData->pic);
+                $this->error('Profile Updated, <a href="?page=profile">View</a>.', "success");
             }
             
             $this->construct = false;
