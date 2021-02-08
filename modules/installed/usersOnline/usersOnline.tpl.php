@@ -16,7 +16,7 @@
                                             <span class="action">
                                                 {>userName} 
                                             </span> 
-                                            <span class="commit">
+                                            <span class="cooldown">
                                                 {date}
                                             </span> 
                                         </p>
