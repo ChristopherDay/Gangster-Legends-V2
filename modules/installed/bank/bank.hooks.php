@@ -1,6 +1,6 @@
 <?php
 
-    new hook("locationMenu", function () {
+    new hook("moneyMenu", function () {
         return array(
             "url" => "?page=bank", 
             "text" => "Bank"
