@@ -86,6 +86,7 @@
     
     }
 
+    ob_clean();
     $page->printPage();
 
     $page->success = true;

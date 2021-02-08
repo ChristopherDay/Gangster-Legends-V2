@@ -9,7 +9,7 @@
                 $add = " WHERE L_id = :id";
             }
             
-            $locations = $this->db->prepare("
+            $sql = "
                 SELECT
                     L_id as 'id',  
                     L_name as 'name',
@@ -18,16 +18,14 @@
                     L_bulletCost as 'bulletCost',
                     L_cooldown as 'cooldown'
                 FROM locations" . $add . "
-                ORDER BY L_name, L_cost"
-            );
+                ORDER BY L_name, L_cost";
 
             if ($locationsID == "all") {
-                $locations->execute();
-                return $locations->fetchAll(PDO::FETCH_ASSOC);
+                return $this->db->selectAll($sql);
             } else {
-                $locations->bindParam(":id", $locationsID);
-                $locations->execute();
-                return $locations->fetch(PDO::FETCH_ASSOC);
+                return $this->db->select($sql, array(
+                    ":id" => $locationsID
+                ));
             }
         }
 
@@ -60,18 +58,15 @@
                         $this->html .= $this->page->buildElement("error", array("text" => $error));
                     }
                 } else {
-                    $insert = $this->db->prepare("
+                    $insert = $this->db->insert("
                         INSERT INTO locations (L_name, L_cost, L_bullets, L_bulletCost, L_cooldown)  VALUES (:name, :cost, :bullets, :bulletCost, :cooldown);
-                    ");
-                    $insert->bindParam(":name", $this->methodData->name);
-                    $insert->bindParam(":cost", $this->methodData->cost);
-                    $insert->bindParam(":bullets", $this->methodData->bullets);
-                    $insert->bindParam(":bulletCost", $this->methodData->bulletCost);
-                    $insert->bindParam(":cooldown", $this->methodData->cooldown);
-                    
-                    
-                    $insert->execute();
-
+                    ", array(
+                        ":name" => $this->methodData->name,
+                        ":cost" => $this->methodData->cost,
+                        ":bullets" => $this->methodData->bullets,
+                        ":bulletCost" => $this->methodData->bulletCost,
+                        ":cooldown" => $this->methodData->cooldown
+                    ));
 
                     $this->html .= $this->page->buildElement("success", array("text" => "This location has been created"));
 
@@ -100,17 +95,16 @@
                         $this->html .= $this->page->buildElement("error", array("text" => $error));
                     }
                 } else {
-                    $update = $this->db->prepare("
+                    $update = $this->db->update("
                         UPDATE locations SET L_name = :name, L_cost = :cost, L_bullets = :bullets, L_bulletCost = :bulletCost, L_cooldown = :cooldown WHERE L_id = :id
-                    ");
-                    $update->bindParam(":name", $this->methodData->name);
-                    $update->bindParam(":cost", $this->methodData->cost);
-                    $update->bindParam(":bullets", $this->methodData->bullets);
-                    $update->bindParam(":bulletCost", $this->methodData->bulletCost);
-                    $update->bindParam(":cooldown", $this->methodData->cooldown);
-                    
-                    $update->bindParam(":id", $this->methodData->id);
-                    $update->execute();
+                    ", array(
+                        ":name" => $this->methodData->name,
+                        ":cost" => $this->methodData->cost,
+                        ":bullets" => $this->methodData->bullets,
+                        ":bulletCost" => $this->methodData->bulletCost,
+                        ":cooldown" => $this->methodData->cooldown,
+                        ":id" => $this->methodData->id
+                    ));
 
                     $this->html .= $this->page->buildElement("success", array("text" => "This location has been updated"));
 
@@ -135,10 +129,11 @@
             }
 
             if (isset($this->methodData->commit)) {
-                $delete = $this->db->prepare("
+                $delete = $this->db->delete("
                     DELETE FROM locations WHERE L_id = :id;
-                ");
-                $delete->bindParam(":id", $this->methodData->id);
+                ", array(
+                    ":id" => $this->methodData->id
+                ));
                 $delete->execute();
 
                 header("Location: ?page=admin&module=locations");

@@ -16,10 +16,9 @@
 
             $gang = new Gang($this->user->info->US_gang);
 
-            $gangBank = $this->db->prepare("SELECT * FROM gangs WHERE G_id = :g");
-            $gangBank->bindParam(":g", $this->user->info->US_gang);
-            $gangBank->execute();
-            $gangBank = $gangBank->fetch(PDO::FETCH_ASSOC);
+            $gangBank = $this->db->select("SELECT * FROM gangs WHERE G_id = :g", array(
+                ":g" => $this->user->info->US_gang
+            ));
             
             $this->html .= $this->page->buildElement("bank", array(
                 "canWithdrawCash" => $gang->can("withdrawCash"),
@@ -52,10 +51,9 @@
                 "text" => "You are not in a gang!"
             ));
 
-            $gang = $this->db->prepare("SELECT * FROM gangs WHERE G_id = :g");
-            $gang->bindParam(":g", $this->user->info->US_gang);
-            $gang->execute();
-            $gang = $gang->fetch(PDO::FETCH_ASSOC);
+            $gang = $this->db->select("SELECT * FROM gangs WHERE G_id = :g", array(
+                ":g" => $this->user->info->US_gang
+            ));
 
             $g = new Gang($this->user->info->US_gang);
 
@@ -63,7 +61,7 @@
                 
                 if (!$this->methodData->deposit) $this->methodData->deposit = "0";
 
-                $money = str_replace(array(',', '$'), array('', ''), $this->methodData->deposit);
+                $money = abs(intval(str_replace(array(',', '$'), array('', ''), $this->methodData->deposit)));
                 
                 if ($money < 0) {                
                     $this->alerts[] = $this->page->buildElement("error", array(
@@ -76,11 +74,10 @@
                     
                 } else {
                     
-                    $update = $this->db->prepare("
-                        UPDATE gangs SET ".$this->type." = ".$this->type." - :w WHERE G_id = :id");
-                    $update->bindParam(":w", $money);
-                    $update->bindParam(":id", $this->user->info->US_gang);
-                    $update->execute();
+                    $update = $this->db->update("UPDATE gangs SET ".$this->type." = ".$this->type." - :w WHERE G_id = :id", array(
+                        ":w" => $money,
+                        ":id" => $this->user->info->US_gang
+                    ));
                     
                     if ($this->type == "G_money") {
                         $this->alerts[] = $this->page->buildElement("success", array(
@@ -102,7 +99,7 @@
 
                 if (!$this->methodData->deposit) $this->methodData->deposit = "0";
                 
-                $money = str_replace(array(',', '$'), array('', ''), $this->methodData->deposit);
+                $money = abs(intval(str_replace(array(',', '$'), array('', ''), $this->methodData->deposit)));
                 
                 if ($money < 0) {                
                     $this->alerts[] = $this->page->buildElement("error", array(
@@ -116,12 +113,10 @@
                     
                     $bank = $money * $this->tax;
                     
-                    $update = $this->db->prepare("
-                        UPDATE gangs SET " . $this->type . " = " . $this->type . " + :deposit WHERE G_id = :id
-                    ");
-                    $update->bindParam(":deposit", $bank);
-                    $update->bindParam(":id", $this->user->info->US_gang);
-                    $update->execute();
+                    $update = $this->db->update("UPDATE gangs SET " . $this->type . " = " . $this->type . " + :deposit WHERE G_id = :id", array(
+                        ":deposit" => $bank,
+                        ":id" => $this->user->info->US_gang
+                    ));
                     
                     if ($this->type == "G_money") {
                         $this->alerts[] = $this->page->buildElement("success", array(

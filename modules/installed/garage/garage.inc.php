@@ -8,26 +8,26 @@
         
         public function constructModule() {
             
-            $garage = $this->db->prepare("SELECT * from garage INNER JOIN cars ON (CA_id = GA_car) WHERE GA_uid = :uid");
-            $garage->bindParam(':uid', $this->user->info->US_id);
-            $garage->execute();
+            $garage = $this->db->selectAll("
+                SELECT * from garage 
+                INNER JOIN cars ON (CA_id = GA_car) 
+                INNER JOIN locations ON (GA_location = L_id)
+                WHERE GA_uid = :uid", array(
+                ':uid' => $this->user->info->US_id
+            ));
             
             $cars = array();
             
-            while ($car = $garage->fetchObject()) {
-            
-                $loc = $this->db->prepare("SELECT * FROM locations WHERE L_id = ".$car->GA_location);
-                $loc->execute();
-                $loc = $loc->fetchObject();
-                
-                $multi = (100 - $car->GA_damage) /100;
-                $value = round(($car->CA_value * $multi));   
+            foreach ($garage as $car) {
+                        
+                $multi = (100 - $car["GA_damage"]) /100;
+                $value = round(($car["CA_value"] * $multi));   
                 
                 $cars[] = array(
-                    "name" => $car->CA_name, 
-                    "location" => $loc->L_name, 
-                    "damage" => $car->GA_damage.'%', 
-                    "id" => $car->GA_id, 
+                    "name" => $car["CA_name"], 
+                    "location" => $car["L_name"], 
+                    "damage" => $car["GA_damage"].'%', 
+                    "id" => $car["GA_id"], 
                     "value" => number_format($value)
                 );
                 
@@ -41,30 +41,30 @@
             
             $id = $this->methodData->id;
             
-            $car = $this->db->prepare("SELECT * FROM garage INNER JOIN cars ON (CA_id = GA_car) WHERE GA_id = :car");
-            $car->bindParam(':car', $id);
-            $car->execute();
-            $car = $car->fetchObject();
+            $car = $this->db->select("SELECT * FROM garage INNER JOIN cars ON (CA_id = GA_car) WHERE GA_id = :car", array(
+                ':car' => $id
+            ));
             
-            if (empty($car) || $car->GA_uid != $this->user->id) {
+            if (empty($car) || $car["GA_uid"] != $this->user->id) {
                 
-                $this->alerts[] = $this->page->buildElement('error', array("text"=>'You dont own this car or it does not exist!'));
+                $this->error('You dont own this car or it does not exist!');
             
             } else {
                 
-                $this->db->query("DELETE FROM garage WHERE GA_id = ".$car->GA_id);
-                $multi = (100 - $car->GA_damage) /100;
-                $value = round(($car->CA_value * $multi));   
+                $this->db->delete("DELETE FROM garage WHERE GA_id = :id", array(
+                    ":id" => $car["GA_id"]
+                ));
+                $multi = (100 - $car["GA_damage"]) /100;
+                $value = round(($car["CA_value"] * $multi));   
                 
-                $this->alerts[] = $this->page->buildElement('success', array("text"=>'You sold your car for $'.number_format($value).'!'));
-                
-                $this->db->query("UPDATE userStats SET US_money = US_money + $value WHERE US_id = ".$this->user->id);
+                $this->error('You sold your car for $'.number_format($value).'!', "success");
+                $this->user->add("US_money", $value);
      
                 $actionHook = new hook("userAction");
                 $action = array(
                     "user" => $this->user->id, 
                     "module" => "garage.sell", 
-                    "id" => $car->CA_id, 
+                    "id" => $car["CA_id"], 
                     "success" => true, 
                     "reward" => $value
                 );
@@ -78,30 +78,26 @@
             
             $id = $this->methodData->id;
             
-            $car = $this->db->prepare("SELECT * FROM garage INNER JOIN cars ON (CA_id = GA_car) WHERE GA_id = :car");
-            $car->bindParam(':car', $id);
-            $car->execute();
-            $car = $car->fetchObject();
+            $car = $this->db->select("SELECT * FROM garage INNER JOIN cars ON (CA_id = GA_car) WHERE GA_id = :car", array(
+                ':car' => $id
+            ));
             
-            if (empty($car) || $car->GA_uid != $this->user->id) {
-                
-                $this->alerts[] = $this->page->buildElement('error', array("text"=>'You dont own this car or it does not exist!'));
-            
+            if (empty($car) || $car["GA_uid"] != $this->user->id) {
+                $this->error('You dont own this car or it does not exist!');
             } else {
                 
-                $this->db->query("DELETE FROM garage WHERE GA_id = ".$car->GA_id);
-                $multi = (100 - $car->GA_damage) /100;
-                $value = round(($car->CA_value * $multi))/15;   
+                $this->db->query("DELETE FROM garage WHERE GA_id = ".$car["GA_id"]);
+                $multi = (100 - $car["GA_damage"]) /100;
+                $value = round(($car["CA_value"] * $multi))/15;   
                 
-                $this->alerts[] = $this->page->buildElement('success', array("text"=>'You crushed your car for '.number_format($value).' bullets!'));
-                
-                $this->db->query("UPDATE userStats SET US_bullets = US_bullets + $value WHERE US_id = ".$this->user->id);
-     
+                $this->error('You crushed your car for '.number_format($value).' bullets!', "success");
+                $this->user->add("US_bullets", $value);
+
                 $actionHook = new hook("userAction");
                 $action = array(
                     "user" => $this->user->id, 
                     "module" => "garage.crush", 
-                    "id" => $car->CA_id, 
+                    "id" => $car["CA_id"], 
                     "success" => true, 
                     "reward" => $value
                 );
@@ -115,44 +111,40 @@
             
             $id = $this->methodData->id;
             
-            $car = $this->db->prepare("SELECT * FROM garage INNER JOIN cars ON (CA_id = GA_car) WHERE GA_id = :car");
-            $car->bindParam(':car', $id);
-            $car->execute();
-            $car = $car->fetchObject();
+            $car = $this->db->select("SELECT * FROM garage INNER JOIN cars ON (CA_id = GA_car) WHERE GA_id = :car", array(
+                ':car' => $id
+            ));
             
-            if (empty($car) || $car->GA_uid != $this->user->id) {
-                
-                $this->alerts[] = $this->page->buildElement('error', array("text"=>'You dont own this car or it does not exist!'));
-            
+            if (empty($car) || $car["GA_uid"] != $this->user->id) {
+                $this->error('You dont own this car or it does not exist!');
             } else {
                 
-                $multi = $car->GA_damage / 100;
+                $multi = $car["GA_damage"] / 100;
                 if ($multi > 0.2) {
                     $multi = $multi - 0.1;
                 }
                 
-                $value = round(($car->CA_value * $multi)); 
+                $value = round(($car["CA_value"] * $multi)); 
                 
                 if ($value < $this->user->info->US_money) {
                 
-                    $this->alerts[] = $this->page->buildElement('success', array("text"=>'You repaired your car for $'.number_format($value).'!'));
-                    $this->db->query("UPDATE garage SET GA_damage = 0 WHERE GA_id = ".$car->GA_id);
-                    $this->db->query("UPDATE userStats SET US_money = US_money - $value WHERE US_id = ".$this->user->id);
-     
+                    $this->error('You repaired your car for $'.number_format($value).'!', "success");
+                    $this->db->update("UPDATE garage SET GA_damage = 0 WHERE GA_id = :id", array(
+                        ":id" => $car["GA_id"]
+                    ));
+                    $this->user->subtract("US_money", $value);
                     $actionHook = new hook("userAction");
                     $action = array(
                         "user" => $this->user->id, 
                         "module" => "garage.repair", 
-                        "id" => $car->CA_id, 
+                        "id" => $car["CA_id"], 
                         "success" => true, 
                         "reward" => $value
                     );
                     $actionHook->run($action);
                     
                 } else {
-                
-                    $this->alerts[] = $this->page->buildElement('error', array("text"=>'You do not have enough money to do this, you need $'.number_format($value).'!'));
-                    
+                    $this->error('You do not have enough money to do this, you need $'.number_format($value).'!');
                 }
             
             }

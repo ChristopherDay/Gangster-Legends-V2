@@ -16,6 +16,8 @@
                 $params[":id"] = $id;
             }
 
+            $params[":location"] = $this->user->info->US_location;
+
             $inJail = !$this->user->checkTimer("jail");
 
             $inSuperMax = $inJail && $this->user->getTimer("jail") == $this->user->getTimer("superMax");
@@ -28,7 +30,7 @@
                 $divide = 1;
             }
 
-            $usersInJail = $this->db->prepare("
+            $usersInJail = $this->db->selectAll("
                 SELECT DISTINCT 
                     `U_id` as 'id', 
                     `U_name` as 'name', 
@@ -52,14 +54,7 @@
                     `jail`.`UT_time` > UNIX_TIMESTAMP()
                     ".$add."
                 ORDER BY US_rank ASC, U_name
-            ");
-
-            $usersInJail->bindParam(":location", $this->user->info->US_location);
-            foreach ($params as $key => $value) {
-                $usersInJail->bindParam($key, $value);
-            }
-            $usersInJail->execute();
-            $usersInJail = $usersInJail->fetchAll(PDO::FETCH_ASSOC);
+            ", $params);
 
             foreach ($usersInJail as $key => $value) {
                 $u = new User($value["id"]);
@@ -112,14 +107,8 @@
                 $user = new user($id);
                 $user->updateTimer("jail", time()-1);
 
-                $u = $this->db->prepare("
-                    UPDATE 
-                        userStats 
-                    SET 
-                        US_exp = US_exp + 1 
-                    WHERE 
-                        US_id = ".$this->user->id);
-                $u->execute();
+                $this->user->add("US_exp", 1);
+
 
                 $actionHook = new hook("userAction");
                 $action = array(

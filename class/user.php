@@ -421,11 +421,11 @@
 
         }
 
-        public function add($value, $stat) {
+        public function add($stat, $value) {
             $this->set($stat, $this->info->$stat + $value);
         }
 
-        public function subtract($value, $stat) {
+        public function subtract($stat, $value) {
             $this->set($stat, $this->info->$stat - $value);
         }
 

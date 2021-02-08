@@ -3,21 +3,20 @@
         $shooter = $users["shooter"];
         $killed = $users["killed"];
 
-        $properties = $shooter->db->prepare("SELECT * FROM properties WHERE PR_user = :killed");
-        $properties->bindParam(":killed", $killed->info->U_id);
-        $properties->execute();
+        $properties = $shooter->db->selectAll("SELECT * FROM properties WHERE PR_user = :killed", array(
+            ":killed" => $killed->info->U_id
+        ));
 
-        $properties = count($properties->fetchAll(PDO::FETCH_ASSOC));
+        $properties = count($properties);
 
         if ($properties) {
 
-            $update = $shooter->db->prepare("
+            $update = $shooter->db->update("
                 UPDATE properties SET PR_user = :shooter WHERE PR_user = :killed
-            ");
-
-            $update->bindParam(":shooter", $shooter->info->U_id);
-            $update->bindParam(":killed", $killed->info->U_id);
-            $update->execute();
+            ", array(
+                ":shooter" => $shooter->info->U_id,
+                ":killed" => $killed->info->U_id
+            ));
 
             $shooter->newNotification("You took over $properties properties after shooting " . $killed->info->U_name);
 

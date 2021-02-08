@@ -8,19 +8,18 @@
         
         public function constructModule() {
             
-            $theft = $this->db->prepare("SELECT * FROM theft");
-            $theft->execute();
+            $theft = $this->db->selectAll("SELECT * FROM theft ORDER BY T_chance DESC");
             
             $theftArray = array();
-            while ($row = $theft->fetchObject()) {
+            foreach ($theft as $t) {
             
-                $percent = $row->T_chance + (@$this->user->info->US_rank*2);
+                $percent = $t["T_chance"] + (@$this->user->info->US_rank*2);
 
                 if ($percent > 100) $percent = 100;
 
                 $theftArray[] = array(
-                    "name" => $row->T_name, 
-                    "id" => $row->T_id, 
+                    "name" => $t["T_name"], 
+                    "id" => $t["T_id"], 
                     "percent" => $percent
                 );
                 
@@ -50,27 +49,23 @@
             if ($this->user->checkTimer('theft')) {
                 
                 $theftTime = 180;
-                $theft = $this->db->prepare("SELECT * FROM theft WHERE T_id = :id");
-                $theft->bindParam(':id', $id);
-                $theft->execute();
-                
-                $theftInfo = $theft->fetchObject();
+                $theftInfo = $this->db->select("SELECT * FROM theft WHERE T_id = :id", array(
+                    ':id' => $id
+                ));
                 
                 $jailChance = mt_rand(1, 3);
                 $chance = mt_rand(1, 100);
-                $carDamage = mt_rand(1, $theftInfo->T_maxDamage);
-                $userChance = $theftInfo->T_chance + ($this->user->info->US_rank * 2);
+                $carDamage = mt_rand(0, $theftInfo["T_maxDamage"]);
+                $userChance = $theftInfo["T_chance"] + ($this->user->info->US_rank * 2);
 
                 if ($userChance > 100) {
                     $userChance = 100;
                 }
                 
-                $cars = $this->db->prepare("SELECT * FROM cars WHERE CA_value <= :maxCar AND CA_value >= :minCar");
-                $cars->bindParam(':minCar', $theftInfo->T_worstCar);
-                $cars->bindParam(':maxCar', $theftInfo->T_bestCar);
-                $cars->execute();
-                
-                $cars = $cars->fetchAll(PDO::FETCH_ASSOC);
+                $cars = $this->db->selectAll("SELECT * FROM cars WHERE CA_value <= :maxCar AND CA_value >= :minCar", array(
+                    ':minCar' => $theftInfo["T_worstCar"],
+                    ':maxCar' => $theftInfo["T_bestCar"]
+                ));
                 
                 $total = 0;
                 
@@ -114,17 +109,16 @@
                     $this->alerts[] = $this->page->buildElement('success', array(
                         "text" => 'You successfuly stole a '.$carName.' with '.$carDamage.'% damage.'
                     ));
-                    $query = "UPDATE userStats SET US_exp = US_exp + 2 WHERE US_id = :uid";
-                    $u = $this->db->prepare($query);
-                    $u->bindParam(':uid', $this->user->info->US_id);
-                    $u->execute();
+
+                    $this->user->add("US_exp", 2);
+
                     
-                    $insert = $this->db->prepare("INSERT INTO garage (GA_uid, GA_car, GA_damage, GA_location) VALUES (:uid, :car, :damage, :loc)");
-                    $insert->bindParam(':uid', $this->user->info->US_id);
-                    $insert->bindParam(':loc', $this->user->info->US_location);
-                    $insert->bindParam(':car', $car);
-                    $insert->bindParam(':damage', $carDamage);
-                    $insert->execute();
+                    $insert = $this->db->insert("INSERT INTO garage (GA_uid, GA_car, GA_damage, GA_location) VALUES (:uid, :car, :damage, :loc)", array(
+                        ':uid' => $this->user->info->US_id,
+                        ':loc' => $this->user->info->US_location,
+                        ':car' => $car,
+                        ':damage' => $carDamage
+                    ));
 
                 }
 

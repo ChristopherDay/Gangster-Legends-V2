@@ -9,7 +9,7 @@
                 $add = " WHERE T_id = :id";
             }
             
-            $theft = $this->db->prepare("
+            $sql = "
                 SELECT
                     T_id as 'id',  
                     T_name as 'name',  
@@ -18,16 +18,14 @@
                     T_maxDamage as 'maxDamage',  
                     T_bestCar as 'bestCar'
                 FROM theft" . $add . "
-                ORDER BY T_chance, T_maxDamage"
-            );
+                ORDER BY T_chance, T_maxDamage";
 
             if ($theftID == "all") {
-                $theft->execute();
-                return $theft->fetchAll(PDO::FETCH_ASSOC);
+                return $this->db->selectAll($sql);
             } else {
-                $theft->bindParam(":id", $theftID);
-                $theft->execute();
-                return $theft->fetch(PDO::FETCH_ASSOC);
+                return $this->db->select($sql, array(
+                    ":id" => $theftID
+                ));
             }
         }
 
@@ -70,16 +68,15 @@
                         $this->html .= $this->page->buildElement("error", array("text" => $error));
                     }
                 } else {
-                    $insert = $this->db->prepare("
+                    $insert = $this->db->insert("
                         INSERT INTO theft (T_name, T_chance, T_worstCar, T_maxDamage, T_bestCar)  VALUES (:name, :chance, :worstCar, :maxDamage, :bestCar);
-                    ");
-                    $insert->bindParam(":name", $this->methodData->name);
-                    $insert->bindParam(":chance", $this->methodData->chance);
-                    $insert->bindParam(":worstCar", $this->methodData->worstCar);
-                    $insert->bindParam(":maxDamage", $this->methodData->maxDamage);
-                    $insert->bindParam(":bestCar", $this->methodData->bestCar);
-                    $insert->execute();
-
+                    ", array(
+                        ":name" => $this->methodData->name,
+                        ":chance" => $this->methodData->chance,
+                        ":worstCar" => $this->methodData->worstCar,
+                        ":maxDamage" => $this->methodData->maxDamage,
+                        ":bestCar" => $this->methodData->bestCar
+                    ));
 
                     $this->html .= $this->page->buildElement("success", array("text" => "This theft has been created"));
 
@@ -108,16 +105,16 @@
                         $this->html .= $this->page->buildElement("error", array("text" => $error));
                     }
                 } else {
-                    $update = $this->db->prepare("
+                    $update = $this->db->update("
                         UPDATE theft SET T_name = :name, T_chance = :chance, T_worstCar = :worstCar, T_maxDamage = :maxDamage, T_bestCar = :bestCar WHERE T_id = :id
-                    ");
-                    $update->bindParam(":name", $this->methodData->name);
-                    $update->bindParam(":chance", $this->methodData->chance);
-                    $update->bindParam(":worstCar", $this->methodData->worstCar);
-                    $update->bindParam(":maxDamage", $this->methodData->maxDamage);
-                    $update->bindParam(":bestCar", $this->methodData->bestCar);
-                    $update->bindParam(":id", $this->methodData->id);
-                    $update->execute();
+                    ", array(
+                        ":name" => $this->methodData->name,
+                        ":chance" => $this->methodData->chance,
+                        ":worstCar" => $this->methodData->worstCar,
+                        ":maxDamage" => $this->methodData->maxDamage,
+                        ":bestCar" => $this->methodData->bestCar,
+                        ":id" => $this->methodData->id
+                    ));
 
                     $this->html .= $this->page->buildElement("success", array("text" => "This theft has been updated"));
 
@@ -142,13 +139,12 @@
             }
 
             if (isset($this->methodData->commit)) {
-                $delete = $this->db->prepare("
-                    DELETE FROM theft WHERE T_id = :id;
-                ");
-                $delete->bindParam(":id", $this->methodData->id);
-                $delete->execute();
+                $delete = $this->db->delete("DELETE FROM theft WHERE T_id = :id;", array(
+                    ":id" => $this->methodData->id
+                ));
 
                 header("Location: ?page=admin&module=theft");
+                exit;
 
             }
 

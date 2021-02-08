@@ -9,23 +9,21 @@
                 $add = " WHERE CA_id = :id";
             }
             
-            $cars = $this->db->prepare("
+            $sql = "
                 SELECT
                     CA_id as 'id',  
                     CA_name as 'name',  
                     CA_theftChance as 'theftChance',  
                     CA_value as 'value'
                 FROM cars" . $add . "
-                ORDER BY CA_name, CA_value"
-            );
+                ORDER BY CA_name, CA_value";
 
             if ($carsID == "all") {
-                $cars->execute();
-                return $cars->fetchAll(PDO::FETCH_ASSOC);
+                return $this->db->selectAll($sql);
             } else {
-                $cars->bindParam(":id", $carsID);
-                $cars->execute();
-                return $cars->fetch(PDO::FETCH_ASSOC);
+                return $this->db->select($sql, array(
+                    ":id" => $carsID
+                ));
             }
         }
 
@@ -60,15 +58,13 @@
                         $this->html .= $this->page->buildElement("error", array("text" => $error));
                     }
                 } else {
-                    $insert = $this->db->prepare("
+                    $insert = $this->db->insert("
                         INSERT INTO cars (CA_name, CA_theftChance, CA_value)  VALUES (:name, :theftChance, :value);
-                    ");
-                    $insert->bindParam(":name", $this->methodData->name);
-                    $insert->bindParam(":theftChance", $this->methodData->theftChance);
-                    $insert->bindParam(":value", $this->methodData->value);
-                    
-                    $insert->execute();
-
+                    ", array(
+                        ":name" => $this->methodData->name,
+                        ":theftChance" => $this->methodData->theftChance,
+                        ":value" => $this->methodData->value
+                    ));
 
                     $this->html .= $this->page->buildElement("success", array("text" => "This car has been created"));
 
@@ -97,14 +93,12 @@
                         $this->html .= $this->page->buildElement("error", array("text" => $error));
                     }
                 } else {
-                    $update = $this->db->prepare("
-                        UPDATE cars SET CA_name = :name, CA_theftChance = :theftChance, CA_value = :value WHERE CA_id = :id
-                    ");
-                    $update->bindParam(":name", $this->methodData->name);
-                    $update->bindParam(":theftChance", $this->methodData->theftChance);
-                    $update->bindParam(":value", $this->methodData->value);
-                    $update->bindParam(":id", $this->methodData->id);
-                    $update->execute();
+                    $update = $this->db->update("UPDATE cars SET CA_name = :name, CA_theftChance = :theftChance, CA_value = :value WHERE CA_id = :id", array(
+                        ":name" => $this->methodData->name, 
+                        ":theftChance" => $this->methodData->theftChance, 
+                        ":value" => $this->methodData->value, 
+                        ":id" => $this->methodData->id
+                    ));
 
                     $this->html .= $this->page->buildElement("success", array("text" => "This car has been updated"));
 
@@ -129,14 +123,10 @@
             }
 
             if (isset($this->methodData->commit)) {
-                $delete = $this->db->prepare("
-                    DELETE FROM cars WHERE CA_id = :id;
-                ");
-                $delete->bindParam(":id", $this->methodData->id);
-                $delete->execute();
-
+                $delete = $this->db->delete("DELETE FROM cars WHERE CA_id = :id;", array(
+                    ":id" => $this->methodData->id
+                ));
                 header("Location: ?page=admin&module=cars");
-
             }
 
 
