@@ -87,7 +87,7 @@
                 <div class="panel-heading text-left">
                     {forumInfo.name}
                     <small class="pull-right">
-                        <a href="?page=forum&action=new&id={forum}">
+                        <a href="?page=forum&action=new&id={forum}" class="btn btn-xs btn-success">
                             New Topic
                         </a>
                     </small>
@@ -128,7 +128,7 @@
                     {#unless topics}
                         <div class="crime-holder forum-topic">
                             <p> 
-                                <span class="action" style="line-height: 36px;">
+                                <span class="action">
                                     <em>This forum has no topics.</em>
                                 </span>
                                 <a href="?page=forum&action=new&id={forum}" class="commit">
