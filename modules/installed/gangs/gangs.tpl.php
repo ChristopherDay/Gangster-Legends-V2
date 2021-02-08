@@ -5,8 +5,28 @@
         public $gangInvite = '
             <p>
                 <a href="?page=profile&view={user}">{user}</a> has invited you to join <a href="?page=gangs&action=view&id={id}">{gang}</a>
-                <a class="btn pull-right" href="?page=gangs">View Invites</a>
+                <a class="btn btn-default pull-right" href="?page=gangs">View Invites</a>
             </p>
+        ';
+        
+        public $leaveSure = '
+            <div class="panel panel-default gang-home">
+                <div class="panel-heading text-center">
+                    Are you sure?
+                </div>
+                <div class="panel-body">
+                    <p>
+                        Are you sure you want to leave this gang?
+                    </p>
+
+                    <a href="?page=gangs&action=leave&type=do" class="btn btn-danger">
+                        Yes, Leave!
+                    </a>
+                    <a href="?page=gangs&action=home" class="btn btn-default">
+                        No I want to stay!
+                    </a>
+                </div>
+            </div>
         ';
 
         public $logs = '
@@ -35,18 +55,22 @@
 
 
                     {#unless logs}
-                        <div class="text-center">
-                            <em>There are no logs</em>
+                        <div class="list-group">
+                            <div class="list-group-item">
+                                <div class="text-center">
+                                    <em>There are no logs</em>
+                                </div>
+                            </div>
                         </div>
                     {/unless}
                     {#if logs}
-                        <ul class="list-group text-left">
+                        <div class="list-group text-left">
                             {#each logs}
-                                <li class="list-group-item">
+                                <div class="list-group-item">
                                     {>userName} {log} <small class="pull-right">{date}</small>
-                                </li>
+                                </div>
                             {/each}
-                        </ul>
+                        </div>
                     {/if}
 
                 </div>
@@ -238,6 +262,19 @@
                         </div>
                     {/if}
 
+                    {#unless isBoss}
+                        <div class="panel panel-default gang-home">
+                            <div class="panel-heading">
+                                Leave
+                            </div>
+                            <div class="panel-body">
+                                <a class="btn btn-block btn-danger" href="?page=gangs&action=leave">
+                                    Leave Gang
+                                </a>
+                            </div>
+                        </div>
+                    {/unless}
+
                     {#if canDisband}
                         <div class="panel panel-default gang-home">
                             <div class="panel-heading">Disband</div>
@@ -359,31 +396,36 @@
                 </div>
                 {/unless}            
 
-                {#each locations}
-                    {#if gangID}
-                        <div class="crime-holder"> 
-                            <div class="crime-header">
-                                {locationName}
-                                <span class="pull-right">
-                                    {members} / {maxMembers} Members
-                                </span>
-                            </div>
-                            <p>
-                                <span class="action">
-                                    {gangName}
-                                </span>
-                                <span class="cooldown">
-                                    {>userName}
-                                </span>
-                                <span class="commit">
-                                    <a href="?page=gangs&action=view&id={gangID}">
-                                        view
-                                    </a>
-                                </span> 
-                            </p>
-                        </div>
-                    {/if}
-                {/each}
+                <div class="panel panel-default">
+                    <div class="panel-heading">{_setting "gangName"}s</div>
+                    <div class="panel-body">
+                        {#each locations}
+                            {#if gangID}
+                                <div class="crime-holder"> 
+                                    <div class="crime-header text-left">
+                                        {locationName}
+                                        <span class="pull-right">
+                                            {members} / {maxMembers} Members
+                                        </span>
+                                    </div>
+                                    <p>
+                                        <span class="action">
+                                            {gangName}
+                                        </span>
+                                        <span class="cooldown">
+                                            {>userName}
+                                        </span>
+                                        <span class="commit">
+                                            <a href="?page=gangs&action=view&id={gangID}">
+                                                view
+                                            </a>
+                                        </span> 
+                                    </p>
+                                </div>
+                            {/if}
+                        {/each}
+                    </div>
+                </div>
 
                 <div class="clearfix"></div>
 
