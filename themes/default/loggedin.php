@@ -161,7 +161,7 @@
 
                 </div>
                     
-                <div class="game-container">
+                <div class="game-container text-center">
                     <div data-ajax-element="alerts" data-ajax-type="html">
                         <{alerts}>
                     </div>

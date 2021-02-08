@@ -64,6 +64,9 @@
                 </div>
 
                 <div class="panel panel-default login-form">
+                    <div class="panel-heading">
+                        Gane Stats
+                    </div>
                     <div class="panel-body">
                         {#if loginPostfix}
                             <{loginPostfix}>
