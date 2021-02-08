@@ -29,7 +29,9 @@
                     $this->loggedin = true;
                 }
 
-                $this->nextRank = $this->nextRank();
+                if ($this->info) {
+                    $this->nextRank = $this->nextRank();
+                }
 
             }
 
@@ -69,6 +71,8 @@
             $userInfo->execute();
             
             $this->info = $userInfo->fetchObject();
+
+            if (!isset($this->info->U_id)) return false;
 
             $access = array();
             if (isset($this->info->U_userLevel)) {
@@ -323,7 +327,7 @@
             $page->addToTemplate('gang', $gang);
             $page->addToTemplate('weapon', $weapon->I_name);
             $page->addToTemplate('armor', $armor->I_name);
-            $page->addToTemplate('nextRank', $this->nextRank->R_name);
+            if (isset($this->nextRank->R_name)) $page->addToTemplate('nextRank', $this->nextRank->R_name);
             
         }
         
