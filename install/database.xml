@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<database version="1">
+    <table name="cars">
+        <info>This table holds information about the cars you can steal/use for murder.</info>
+        <columns>
+            <column type="int" length="11" primary="true" auto-increment="true" name="CA_id">
+                Unique ID of the car
+            </column>
+            <column type="varchar" length="128" name="CA_name">
+                Name of the car.
+            </column>
+            <column type="int" length="11" name="CA_value">
+                Value of the car when at 100%
+            </column>
+            <column type="int" length="11" name="CA_theftChance">
+                The chance of success of stealing this car, you can work this out by adding up all of the cars the user is able to steal then with this you can work out a percentage ... {chance}/{sumAllOtherCarChances}*100
+            </column>
+        </columns>
+    </table>
+    <table name="crimes">
+        <info>A lookup of all the crimes users will be able to commit</info>
+        <columns>
+            <column type="int" length="11" primary="true" auto-increment="true" name="c_id">
+                The unique ID of the crime
+            </column>
+            <column type="varchar" length="128" name="C_name">
+                Name of the crime.
+            </column>
+            <column type="int" length="11" name="CA_cooldown">
+                The time in seconds the user has to wait before commiting a new crime.
+            </column>
+            <column type="int" length="11" name="CA_money">
+                The minimum ammount of money the user will get if successfull.
+            </column>
+            <column type="int" length="11" name="CA_maxMoney">
+                The maximum ammount of money the user will get if successfull.
+            </column>
+            <column type="int" length="11" name="CA_level">
+                The minimum level the user has to be to commit this crime.
+            </column>
+        </columns>
+    </table>
+    <table name="gameNews">
+        <info>A table to hold all of the game news</info>
+        <columns>
+            <column type="int" length="11" primary="true" auto-increment="true" name="GN_id">
+                Unique ID of the news article
+            </column>
+            <column type="int" length="11" name="GN_author">
+                User ID of the author
+            </column>
+            <column type="varchar" length="128" name="GN_title">
+                Headline of the article
+            </column>
+            <column type="text" name="GN_text">
+                The article text.
+            </column>
+            <column type="int" length="11" name="GN_author">
+                The date and time of the article, stores as a UNIX timestamp.
+            </column>
+        </columns>
+    </table>
+    <table name="gangs">
+        <info>A lookup of all the gangs</info>
+        <columns>
+            <column type="int" length="11" primary="true" auto-increment="true" name="G_id">
+                Unique ID of the gang.
+            </column>
+            <column type="varchar" length="128" name="GN_name">
+                Name of the gang.
+            </column>
+            <column type="text" name="GN_desc">
+                Description of the gang.
+            </column>
+        </columns>
+    </table>
+
+    <table name="garage">
+        <info>This table holds information about what users own what cars, there damage and location.</info>
+        <columns>
+            <column type="int" length="11" primary="true" auto-increment="true" name="GA_id">
+                The unique ID of the car.
+            </column>
+            <column type="int" length="11" name="GA_uid">
+                User ID of the car owner
+            </column>
+            <column type="int" length="11" name="GA_car">
+                ID of the car, this = cars.CA_id
+            </column>
+            <column type="int" length="11" name="GA_damage">
+                Damage the car has substained, 0 = fully repaired, 1+ = damaged.
+            </column>
+            <column type="int" length="11" name="GA_location">
+                Location the car has been moved to or stolen from.
+            </column>
+        </columns>
+    </table>
+    <table name="locations">
+        <info>This table contains all the locations that users will be able to travel to.</info>
+        <columns>
+            <column type="int" length="11" primary="true" auto-increment="true" name="L_id">
+                Unique ID of the location.
+            </column>
+            <column type="varchar" length="128" name="L_name">
+                Name of the location.
+            </column>
+            <column type="int" length="11" name="L_cost">
+                Cost to travel to this location.
+            </column>
+            <column type="int" length="11" name="L_bullets">
+                The number of bullets this locations bullet factory has.
+            </column>
+            <column type="int" length="11" name="L_bulletCost">
+                The cost of bullets for this location
+            </column>
+            <column type="int" length="11" name="L_cooldown">
+                After traveling to this location, this is the ammount of time in seconds you have to wait before traveling again.
+            </column>
+        </columns>
+    </table>
+    
+</database>
