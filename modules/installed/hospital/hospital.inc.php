@@ -15,8 +15,13 @@
 
             $healthPerc = round(($rank->R_health - $health) / $rank->R_health * 100, 2);
 
-            $time = round($timeToFull / 100 * $healthPerc);
-            $money = round($moneyToFull / 100 * $healthPerc);
+            if ($healthPerc) {
+                $time = round($timeToFull / 100 * $healthPerc);
+                $money = round($moneyToFull / 100 * $healthPerc);
+            } else {
+                $time = 0;
+                $money = 0;
+            }
 
             $users = $this->db->selectAll("
                 SELECT
@@ -61,7 +66,7 @@
 
                 $this->html .= $this->page->buildElement('timer', $crimeError);
                 $this->html .= $this->page->buildElement('inHospital', $info);
-
+                
             }
 
             
@@ -86,3 +91,4 @@
         
     }
 
+?>
