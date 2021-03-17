@@ -42,13 +42,23 @@
 
         $jailPageCheck = $page->modules[$pageToLoad];
 
+        $user = false;
+
         if (!empty($_SESSION['userID'])) {
-            
             $user = new user($_SESSION['userID']);
-            $user->updateTimer('laston', time());
-            $user->checkRank();
+            
+            if (isset($user->info->U_id)) {
+                $user->updateTimer('laston', time());
+                $user->checkRank();
+            } else {
+                $user = false;
+                unset($_SESSION["userID"]);
+            }
 
+        }
 
+        if ($user) {
+            
             if ($_GET["page"] == "logout") {
                 $page->loadPage('logout');
             } else if ($user->info->U_status == 0) {
@@ -86,7 +96,6 @@
     
     }
 
-    ob_clean();
     $page->printPage();
 
     $page->success = true;
