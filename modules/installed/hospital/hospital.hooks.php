@@ -23,10 +23,13 @@
 		}
 	}
 
-    new hook("locationMenu", function () {
-        return array(
+    new hook("locationMenu", function ($user) {
+    	global $page;
+        if ($user) return array(
             "url" => "?page=hospital", 
             "text" => "Hospital", 
+            "timer" => $user->getTimer("hospital"),
             "sort" => 10
         );
     });
+?>

@@ -1,0 +1,12 @@
+{
+    "name": "Search",
+    "version": "1.0.0",
+    "description": "Helpd players find other players",
+    "author": {
+        "name": "Chris Day",
+        "url": "http:\/\/glscript.cdcoding.com"
+    },
+    "pageName": "Player Search",
+    "accessInJail": true,
+    "requireLogin": true
+}
