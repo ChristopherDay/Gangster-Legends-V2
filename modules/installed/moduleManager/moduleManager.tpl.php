@@ -77,48 +77,7 @@
                                         <td></td>
                                     </tr>
                                 {#each modules}
-                                    <tr>
-                                        <td>{name}</td>
-                                        <td class="text-center">
-                                            {#unless installed}
-                                                {#if extracted}
-                                                    <i class="glyphicon text-success glyphicon-ok"></i>
-                                                {/if}
-                                                {#unless extracted}
-                                                    <i class="glyphicon text-danger glyphicon-remove"></i>
-                                                {/unless}
-                                            {/unless}
-                                        </td>
-                                        <td class="text-center">
-                                            {#if installed}
-                                                <i class="glyphicon text-success glyphicon-ok"></i>
-                                            {/if}
-                                            {#unless installed}
-                                                <i class="glyphicon text-danger glyphicon-remove"></i>
-                                            {/unless}
-                                        </td>
-                                        <td class="text-center">
-                                            {#unless installed}
-                                                {#unless extracted}
-                                                    <a href="?page=admin&module=moduleManager&action=install&view={id}&extract={name}">
-                                                        Extract
-                                                    </a>
-                                                {/unless}
-                                            {/unless}
-                                            {#if extracted}
-                                                {#unless installed}
-                                                    <a href="?page=admin&module=moduleManager&action=install&view={id}&installBundleModule={name}">
-                                                        Install
-                                                    </a>
-                                                {/unless}
-                                            {/if}
-                                            {#if installed}
-                                                <a href="?page=admin&module=moduleManager&action=install&view={id}&deactivateBundleModule={name}">
-                                                    De-Activate
-                                                </a>
-                                            {/if}
-                                        </td>
-                                    </tr>
+                                    {>mInfo}
                                 {/each}
                             </tbody>
                         </table>
@@ -180,6 +139,51 @@
                     {/if}
                 </div>
             </div>
+        ';
+
+        public $mInfo = '
+            <tr>
+                <td>{name}</td>
+                <td class="text-center">
+                    {#unless installed}
+                        {#if extracted}
+                            <i class="glyphicon text-success glyphicon-ok"></i>
+                        {/if}
+                        {#unless extracted}
+                            <i class="glyphicon text-danger glyphicon-remove"></i>
+                        {/unless}
+                    {/unless}
+                </td>
+                <td class="text-center">
+                    {#if installed}
+                        <i class="glyphicon text-success glyphicon-ok"></i>
+                    {/if}
+                    {#unless installed}
+                        <i class="glyphicon text-danger glyphicon-remove"></i>
+                    {/unless}
+                </td>
+                <td class="text-center">
+                    {#unless installed}
+                        {#unless extracted}
+                            <a href="?page=admin&module=moduleManager&action=install&view={id}&extract={name}">
+                                Extract
+                            </a>
+                        {/unless}
+                    {/unless}
+                    {#if extracted}
+                        {#unless installed}
+                            <a href="?page=admin&module=moduleManager&action=install&view={id}&installBundleModule={name}">
+                                Install
+                            </a>
+                        {/unless}
+                    {/if}
+                    {#if installed}
+                        <a href="?page=admin&module=moduleManager&action=install&view={id}&deactivateBundleModule={name}">
+                            De-Activate
+                        </a>
+                    {/if}
+                </td>
+            </tr>
         ';
 
         public $moduleList = '
