@@ -6,9 +6,9 @@
 	ini_set('display_startup_errors', 1);
 	error_reporting(E_ALL);
 
-	require "../class/hooks.php";
+	require "../class/hook.php";
 	require "../class/settings.php";
-	require "../class/image.php";
+	require "../class/fastImage.php";
 	require "../class/user.php";
 
 	function heading($step, $text) {
