@@ -2,13 +2,13 @@
 
     $config = array();
 
-    $config["debug"] = 1;
+    $config["debug"] = 0;
 
     $config["db"] = array(
-        "host" => "127.0.0.1", 
-        "database" => "gl23",
-        "user" => "root",
-        "pass" => "***REMOVED***"
+        "host" => "localhost", 
+        "database" => "",
+        "user" => "",
+        "pass" => ""
     );
 
 ?>
