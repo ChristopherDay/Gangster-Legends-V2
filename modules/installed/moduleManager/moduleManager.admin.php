@@ -124,6 +124,13 @@
 
                     $info = $this->getInfo($moduleFolder . "module.json", $moduleName, "modules/installing/");
                 } 
+
+
+                $info["bundleInfo"] = "";
+
+                foreach ($info["modules"] as $value) {
+                    $info["bundleInfo"] .= $this->page->buildElement("mInfo", $value);
+                }
                 
 
                 $this->html .= $this->page->buildElement("moduleOverview", $info);

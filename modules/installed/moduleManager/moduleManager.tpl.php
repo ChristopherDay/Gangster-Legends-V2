@@ -76,9 +76,8 @@
                                         </td>
                                         <td></td>
                                     </tr>
-                                {#each modules}
-                                    {>mInfo}
-                                {/each}
+
+                                    <{bundleInfo}>
                             </tbody>
                         </table>
                     {/if}
@@ -145,45 +144,57 @@
             <tr>
                 <td>{name}</td>
                 <td class="text-center">
-                    {#unless installed}
-                        {#if extracted}
-                            <i class="glyphicon text-success glyphicon-ok"></i>
-                        {/if}
-                        {#unless extracted}
-                            <i class="glyphicon text-danger glyphicon-remove"></i>
-                        {/unless}
-                    {/unless}
+                    {>mInfoExtractedIcon}
                 </td>
                 <td class="text-center">
-                    {#if installed}
-                        <i class="glyphicon text-success glyphicon-ok"></i>
-                    {/if}
-                    {#unless installed}
-                        <i class="glyphicon text-danger glyphicon-remove"></i>
-                    {/unless}
+                    {>mInfoInstalledIcon}
                 </td>
                 <td class="text-center">
-                    {#unless installed}
-                        {#unless extracted}
-                            <a href="?page=admin&module=moduleManager&action=install&view={id}&extract={name}">
-                                Extract
-                            </a>
-                        {/unless}
-                    {/unless}
-                    {#if extracted}
-                        {#unless installed}
-                            <a href="?page=admin&module=moduleManager&action=install&view={id}&installBundleModule={name}">
-                                Install
-                            </a>
-                        {/unless}
-                    {/if}
-                    {#if installed}
-                        <a href="?page=admin&module=moduleManager&action=install&view={id}&deactivateBundleModule={name}">
-                            De-Activate
-                        </a>
-                    {/if}
+                    {>mInfoActions}
                 </td>
             </tr>
+        ';
+
+        public $mInfoActions = '
+            {#unless installed}
+                {#unless extracted}
+                    <a href="?page=admin&module=moduleManager&action=install&view={id}&extract={name}">
+                        Extract
+                    </a>
+                {/unless}
+            {/unless}
+            {#if extracted}
+                {#unless installed}
+                    <a href="?page=admin&module=moduleManager&action=install&view={id}&installBundleModule={name}">
+                        Install
+                    </a>
+                {/unless}
+            {/if}
+            {#if installed}
+                <a href="?page=admin&module=moduleManager&action=install&view={id}&deactivateBundleModule={name}">
+                    De-Activate
+                </a>
+            {/if}
+        ';
+
+        public $mInfoInstalledIcon = '
+            {#if installed}
+                <i class="glyphicon text-success glyphicon-ok"></i>
+            {/if}
+            {#unless installed}
+                <i class="glyphicon text-danger glyphicon-remove"></i>
+            {/unless}
+        ';
+
+        public $mInfoExtractedIcon = '
+            {#unless installed}
+                {#if extracted}
+                    <i class="glyphicon text-success glyphicon-ok"></i>
+                {/if}
+                {#unless extracted}
+                    <i class="glyphicon text-danger glyphicon-remove"></i>
+                {/unless}
+            {/unless}
         ';
 
         public $moduleList = '
