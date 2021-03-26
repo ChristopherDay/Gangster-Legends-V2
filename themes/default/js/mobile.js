@@ -7,4 +7,10 @@ $(function () {
             body.addClass("show-sidebar");
         }
     });
+
+    $(document).on("gl-ajax-page-load", function () {
+        var body = $("body");
+        body.removeClass("show-sidebar");
+    });
+
 });

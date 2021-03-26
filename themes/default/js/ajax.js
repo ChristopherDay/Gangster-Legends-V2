@@ -16,7 +16,6 @@ function ajaxRequest(method, url, data, options) {
 
 	history.pushState(opts, "", url);
 
-
 	return $.ajax(opts);
 
 }
@@ -41,13 +40,14 @@ function handleResponse (data) {
 		});
 	}
 
-
 	if (data.moduleCSSFile) {
 		if (!$("head [rel='stylesheet'][href='"+data.moduleCSSFile+"']").length) $('head').append('<link rel="stylesheet" href="' + data.moduleCSSFile + '" type="text/css" />');
 	}
 	if (data.moduleJSFile) {
 		if (!$("body script[src='"+data.moduleJSFile+"']").length) $('body').append('<script src="' + data.moduleJSFile + '"></script>');
 	}
+
+	$(document).trigger("gl-ajax-page-load");
 }
 
 function bindEvents(el) {
