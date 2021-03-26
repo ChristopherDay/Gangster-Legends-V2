@@ -51,7 +51,7 @@ function handleResponse (data) {
 }
 
 function bindEvents(el) {
-	el.find('form').submit(function() {
+	el.find('form:not([data-not-ajax])').submit(function() {
 	  	var form = $(this);
 		var url = $(this).attr("action");
 	  	var method = form.attr("method").toLowerCase();;
