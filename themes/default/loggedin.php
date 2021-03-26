@@ -82,31 +82,31 @@
                             </div>
                             <div class="list-group-item">
                                 <strong>Money: </strong>
-                                <small class="pull-right">
+                                <small class="pull-right" data-ajax-element="money">
                                     {money}
                                 </small>
                             </div>
                             <div class="list-group-item">
                                 <strong>Bullets: </strong>
-                                <small class="pull-right">
+                                <small class="pull-right" data-ajax-element="bullets">
                                     {bullets}
                                 </small>
                             </div>
                             <div class="list-group-item">
                                 <strong>{_setting "pointsName"}: </strong>
-                                <small class="pull-right">
+                                <small class="pull-right" data-ajax-element="points">
                                     {points}
                                 </small>
                             </div>
                             <div class="list-group-item">
                                 <strong>{_setting "gangName"}: </strong>
-                                <small class="pull-right">
+                                <small class="pull-right"data-ajax-element="gang.name">
                                     {gang.name}
                                 </small>
                             </div>
                             <div class="list-group-item">
                                 <strong>Location: </strong>
-                                <small class="pull-right">
+                                <small class="pull-right" data-ajax-element="location">
                                     {location}
                                 </small>
                             </div>
@@ -174,7 +174,7 @@
 
             <script src="themes/{_theme}/js/jquery.js"></script>
             <!--<script src="themes/{_theme}/js/bootstrap.min.js"></script>-->
-            <!--<script src="themes/{_theme}/js/ajax.js"></script>-->
+            <script src="themes/{_theme}/js/ajax.js"></script>
             <script src="themes/{_theme}/js/timer.js"></script>
             <script src="themes/{_theme}/js/mobile.js"></script>
             {#if moduleJSFile}

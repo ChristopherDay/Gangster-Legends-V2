@@ -51,6 +51,29 @@ function handleResponse (data) {
 }
 
 function bindEvents(el) {
+	el.find('form').submit(function() {
+	  	var form = $(this);
+		var url = $(this).attr("action");
+	  	var method = form.attr("method").toLowerCase();;
+	  	var data = form.serializeArray();
+
+	  	var btn = form.find(".btn:focus" );
+
+	  	if (btn.attr("name") && btn.attr("value")) {
+	  		data.push({
+	  			name:btn.attr("name"), 
+	  			value:btn.attr("value")
+	  		});
+	  	}
+
+
+	  	ajaxRequest(method, url, data).done(function (data) {
+			handleResponse(data);
+		});
+
+		return false;
+	});
+
 	el.find("a:not([data-not-ajax])").bind("click", function (e) {
 		e.preventDefault();
 		var data = $(this).data();
