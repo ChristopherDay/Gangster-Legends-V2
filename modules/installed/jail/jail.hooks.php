@@ -39,6 +39,7 @@
             return array(
                 "url" => "?page=jail", 
                 "extra" => count($usersInJail),
+                "extraID" => "jailCount",
                 "sort" => 998,
                 "text" => "Jail"
             );

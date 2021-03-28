@@ -14,6 +14,7 @@
             "url" => "?page=theft", 
             "text" => "Car Theft", 
             "timer" => $user->getTimer("theft"),
+            "templateTimer" => "theft_timer",
             "sort" => 200
         );
     });

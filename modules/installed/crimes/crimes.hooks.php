@@ -15,6 +15,7 @@
             "url" => "?page=crimes", 
             "text" => "Crimes", 
             "timer" => $user->getTimer("crime"),
+            "templateTimer" => "crime_timer",
             "sort" => 100
         );
     });

@@ -5,6 +5,7 @@
             "url" => "?page=mail", 
             "text" => "Mail", 
             "sort" => -10,
+            "extraID" => "mail", 
             "extra" => $user->getNotificationCount($user->info->U_id, 'mail')
         );
     });

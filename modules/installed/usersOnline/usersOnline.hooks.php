@@ -83,6 +83,7 @@
 
         return array(
             "url" => "?page=usersOnline", 
+            "extraID" => "usersOnline", 
             "extra" => count($online),
             "text" => "Users Online"
         );

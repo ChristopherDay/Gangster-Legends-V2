@@ -113,18 +113,18 @@
                             <div class="list-group-item">
                                 <strong>Health: </strong>
                                 <div class="progress">
-                                    <div class="progress-bar progress-bar-success" style="width: {health}%"></div>
+                                    <div class="progress-bar progress-bar-success" style="width: {health}%" data-ajax-element="health" data-ajax-type="css" data-ajax-css="width" data-ajax-value-postfix="%"></div>
                                 </div>
-                                <small class="pull-right">
+                                <small class="pull-right" data-ajax-element="health" data-ajax-value-postfix="%">
                                     {health}%
                                 </small>
                             </div>
                             <div class="list-group-item">
                                 <strong>Rank: </strong>
                                 <div class="progress">
-                                    <div class="progress-bar progress-bar-success" style="width: {exp_perc}%"></div>
+                                    <div class="progress-bar progress-bar-success" style="width: {exp_perc}%" data-ajax-element="exp_perc" data-ajax-type="css" data-ajax-css="width" data-ajax-value-postfix="%"></div>
                                 </div>
-                                <small class="pull-right">
+                                <small class="pull-right" data-ajax-element="rank">
                                     {rank}
                                 </small>
                             </div>
@@ -142,12 +142,14 @@
                                     {#each items}
                                         {#unless hide}
                                             {#if url}
-                                                <a href="{url}" class="list-group-item">
+                                                <a href="{url}" class="list-group-item" {#if notAjax}data-not-ajax{/if}>
                                                     {text}
                                                     <small class="pull-right">
-                                                        {extra}
+                                                        <span data-ajax-element="{extraID}">
+                                                            {extra}
+                                                        </span>
                                                         {#if timer}
-                                                            <span data-timer-type="inline" data-timer="{timer}"></span>
+                                                            <span data-timer-type="inline" data-timer="{timer}" data-ajax-element="{templateTimer}" data-ajax-type="attr" data-ajax-attr="data-timer"></span>
                                                         {/if}
                                                     </small>
                                                 </a>
@@ -174,7 +176,7 @@
 
             <script src="themes/{_theme}/js/jquery.js"></script>
             <!--<script src="themes/{_theme}/js/bootstrap.min.js"></script>-->
-            <!--<script src="themes/{_theme}/js/ajax.js"></script>-->
+            <script src="themes/{_theme}/js/ajax.js"></script>
             <script src="themes/{_theme}/js/timer.js"></script>
             <script src="themes/{_theme}/js/mobile.js"></script>
             {#if moduleJSFile}

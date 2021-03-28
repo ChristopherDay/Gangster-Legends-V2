@@ -15,6 +15,7 @@
             "url" => "?page=policeChase", 
             "text" => "Police Chase", 
             "timer" => $user->getTimer("chase"),
+            "templateTimer" => "chase_timer",
             "sort" => 300
         );
     });

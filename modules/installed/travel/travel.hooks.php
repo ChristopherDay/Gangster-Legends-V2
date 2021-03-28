@@ -15,6 +15,7 @@
             "url" => "?page=travel",
             "sort" => 1000, 
             "timer" => $user->getTimer("travel"),
+            "templateTimer" => "travel_timer",
             "text" => "Travel"
         );
     });

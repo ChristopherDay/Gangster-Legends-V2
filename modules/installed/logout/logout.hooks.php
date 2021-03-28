@@ -3,6 +3,7 @@
         return array(
             "url" => "?page=logout", 
             "text" => "Logout", 
+            "notAjax" => true,
             "sort" => 1000
         );
     });

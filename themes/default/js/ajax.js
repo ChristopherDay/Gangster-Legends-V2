@@ -20,25 +20,48 @@ function ajaxRequest(method, url, data, options) {
 
 }
 
-function handleResponse (data) {
+function recursiveObject(key, data) {
 	for (var obj in data) {
 		var value = data[obj];
-		$("[data-ajax-element='"+obj+"']").each(function () {
-			var el = $(this);
-			var elData = el.data();
-			switch (elData.ajaxType) {
-				case "html":
-					el.html(value);
-					bindEvents(el);
-				break;
-				case "attr":
-					el.attr(data.ajaxAttr, value);
-				break;
-				default:
-					el.text(value)
-			}
-		});
+
+		if (typeof value == "object") {
+			var newKey = key + obj + ".";
+			recursiveObject(newKey, value);
+		} else {
+			$("[data-ajax-element='"+ key + obj +"']").each(function () {
+				var el = $(this);
+				var elData = el.data();
+				var newValue = value;
+
+				if (elData.ajaxValuePrefix) newValue = elData.ajaxValuePrefix + newValue;
+				if (elData.ajaxValuePostfix) newValue = newValue + elData.ajaxValuePostfix;
+
+				if (obj == "health") {
+					console.log(newValue);
+				}
+
+				switch (elData.ajaxType) {
+					case "css":
+						el.css(elData.ajaxCss, newValue);
+					break
+					case "html":
+						el.html(newValue);
+						bindEvents(el);
+					break;
+					case "attr":
+						el.attr(elData.ajaxAttr, newValue);
+					break;
+					default:
+						el.text(newValue)
+				}
+			});
+		}
 	}
+}
+
+function handleResponse (data) {
+
+	recursiveObject("", data);
 
 	if (data.moduleCSSFile) {
 		if (!$("head [rel='stylesheet'][href='"+data.moduleCSSFile+"']").length) $('head').append('<link rel="stylesheet" href="' + data.moduleCSSFile + '" type="text/css" />');

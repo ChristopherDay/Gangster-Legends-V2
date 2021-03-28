@@ -11,6 +11,7 @@
             $items = array(
                 array(
                     "url" => "?page=admin", 
+                    "notAjax" => true,
                     "text" => "Admin"
                 )
             );
@@ -20,6 +21,7 @@
                     if (isset($v["hide"])) continue; 
                     $items[] = array(
                         "url" => "?page=admin&module=" . $page->loadedModule["id"] . "&action=" . $v["method"], 
+                        "notAjax" => true,
                         "text" => $v["text"]
                     );
                 }
