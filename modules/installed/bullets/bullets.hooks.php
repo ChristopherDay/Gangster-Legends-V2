@@ -14,7 +14,7 @@
         if ($user) return array(
             "url" => "?page=bullets", 
             "timer" => $user->getTimer("bullets"),
-            "templateTimer" => "bullets_timer",
+            "templateTimer" => "bullet_timer",
             "sort" => 999,
             "text" => "Bullet Factory"
         );
