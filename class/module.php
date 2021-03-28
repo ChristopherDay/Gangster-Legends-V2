@@ -12,8 +12,6 @@
             $this->page = $page;
             $this->methodData = (object) array();
             $this->_settings = new Settings();
-
-            $this->generateCSFRToken();
             
             if (isset($user->id)) {
                 $this->user = $user;
@@ -47,10 +45,12 @@
         public function checkCSFRToken($showError = true) {
 
             if (isset($_REQUEST["_CSFR"]) && $_REQUEST["_CSFR"] == $_SESSION["CSFR"]["old"]) {
+                $this->generateCSFRToken();
                 return true;
             }
 
             if ($showError) $this->error("Invalid page request!");
+            $this->generateCSFRToken();
             return false;
 
         }
