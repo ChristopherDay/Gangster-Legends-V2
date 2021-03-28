@@ -44,7 +44,7 @@
 
         public function checkCSFRToken($showError = true) {
 
-            if (isset($_REQUEST["_CSFR"]) && $_REQUEST["_CSFR"] == $_SESSION["CSFR"]["old"]) {
+            if (isset($_REQUEST["_CSFR"]) && $_REQUEST["_CSFR"] == $_SESSION["CSFR"]) {
                 $this->generateCSFRToken();
                 return true;
             }
@@ -56,14 +56,7 @@
         }
 
         public function generateCSFRToken() {
-
-            if (!isset($_SESSION["CSFR"])) {
-                $_SESSION["CSFR"] = array("new" => "", "old" => "");
-            }
-
-            $_SESSION["CSFR"]["old"] = $_SESSION["CSFR"]["new"];
-            $_SESSION["CSFR"]["new"] = md5(mt_rand(1, 10000000));
-
+            $_SESSION["CSFR"] = md5(mt_rand(1, 10000000));
         }
     
         public function timeLeft($ts) {
