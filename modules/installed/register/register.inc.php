@@ -72,6 +72,19 @@
                         "text" => $makeUser
                     ));
                 } else {
+
+
+     
+                    $actionHook = new hook("userAction");
+                    $action = array(
+                        "user" => $makeuser, 
+                        "module" => "register", 
+                        "id" => $makeuser, 
+                        "success" => true, 
+                        "reward" => 0
+                    );
+                    $actionHook->run($action);
+
                     $_SESSION["userID"] = $makeUser;
                     header("Location:?");
                     $this->regError =  $this->page->buildElement('success', array(

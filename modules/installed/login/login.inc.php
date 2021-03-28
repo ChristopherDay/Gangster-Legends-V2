@@ -44,9 +44,9 @@
      
                     $actionHook = new hook("userAction");
                     $action = array(
-                        "user" => $this->user->id, 
+                        "user" => $user->info->U_id, 
                         "module" => "login", 
-                        "id" => $this->user->id, 
+                        "id" => $user->info->U_id, 
                         "success" => true, 
                         "reward" => 0
                     );
