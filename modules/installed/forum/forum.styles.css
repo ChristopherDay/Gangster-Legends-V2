@@ -5,16 +5,6 @@
     margin-bottom: 8px;
 }
 
-.dropdown-toggle-hover {
-    display: inline-block;
-}
-
-.dropdown-toggle-hover:hover .dropdown-menu {
-    display: block;
-    margin-left: -162px;
-    width: 180px;
-}
-
 .quote {
     background-color: #575757;
     border: 1px solid #979797;

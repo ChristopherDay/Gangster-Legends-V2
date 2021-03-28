@@ -206,70 +206,69 @@
                             <h5 class="text-left forum-header">
                                 {>userName}
                                 <small class="pull-right">
-                                    {date}
-                                    <div class="dropdown-toggle-hover">
-                                        <a href="#">
+                                    {date}&nbsp;&nbsp;
+
+                                    <div class="dropdown pull-right">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                             <i class="glyphicon glyphicon-cog"></i>
                                         </a>
-                                        <div class="dropdown">
-                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                            <li>
+                                                <a href="?page=forum&action=topic&id={topic}&quote={id}#reply">
+                                                    <i class="glyphicon glyphicon-comment"></i> Quote
+                                                </a>
+                                            </li>
+                                            {#if canEdit}
                                                 <li>
-                                                    <a href="?page=forum&action=topic&id={topic}&quote={id}#reply">
-                                                        <i class="glyphicon glyphicon-comment"></i> Quote
+                                                    <a href="?page=forum&action=edit&id={id}">
+                                                        <i class="glyphicon glyphicon-pencil"></i> Edit
                                                     </a>
                                                 </li>
-                                                {#if canEdit}
+                                            {/if}
+                                            {#if isAdmin}
+                                                <li role="separator" class="divider"></li>
+                                                {#if firstPost}
                                                     <li>
-                                                        <a href="?page=forum&action=edit&id={id}">
-                                                            <i class="glyphicon glyphicon-pencil"></i> Edit
+                                                        <a href="?page=forum&action=type&id={topic}&type=2">
+                                                            <i class="glyphicon glyphicon-flag"></i> Mark as Important
                                                         </a>
                                                     </li>
-                                                {/if}
-                                                {#if isAdmin}
+                                                    <li>
+                                                        <a href="?page=forum&action=type&id={topic}&type=1">
+                                                            <i class="glyphicon glyphicon-bookmark"></i> Mark as Sticky
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="?page=forum&action=type&id={topic}&type=0">
+                                                            <i class="glyphicon glyphicon-book"></i> Mark as Normal
+                                                        </a>
+                                                    </li>
                                                     <li role="separator" class="divider"></li>
-                                                    {#if firstPost}
-                                                        <li>
-                                                            <a href="?page=forum&action=type&id={topic}&type=2">
-                                                                <i class="glyphicon glyphicon-flag"></i> Mark as Important
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="?page=forum&action=type&id={topic}&type=1">
-                                                                <i class="glyphicon glyphicon-bookmark"></i> Mark as Sticky
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="?page=forum&action=type&id={topic}&type=0">
-                                                                <i class="glyphicon glyphicon-book"></i> Mark as Normal
-                                                            </a>
-                                                        </li>
-                                                        <li role="separator" class="divider"></li>
-                                                        <li>
-                                                            <a href="?page=forum&action=deleteTopic&id={topic}">
-                                                                <i class="glyphicon glyphicon-trash"></i> Delete Topic
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="?page=forum&action=lock&id={topic}">
-                                                                <i class="glyphicon glyphicon-lock"></i> Toggle Lock
-                                                            </a>
-                                                        </li>
-                                                    {/if}
-                                                    {#unless firstPost}
-                                                        <li>
-                                                            <a href="?page=forum&action=delete&id={id}">
-                                                                <i class="glyphicon glyphicon-trash"></i> Delete
-                                                            </a>
-                                                        </li>
-                                                    {/unless}
                                                     <li>
-                                                        <a href="?page=forum&action=mute&id={user.id}">
-                                                            <i class="glyphicon glyphicon-volume-off"></i> Mute User
+                                                        <a href="?page=forum&action=deleteTopic&id={topic}">
+                                                            <i class="glyphicon glyphicon-trash"></i> Delete Topic
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="?page=forum&action=lock&id={topic}">
+                                                            <i class="glyphicon glyphicon-lock"></i> Toggle Lock
                                                         </a>
                                                     </li>
                                                 {/if}
-                                            </ul>
-                                        </div>
+                                                {#unless firstPost}
+                                                    <li>
+                                                        <a href="?page=forum&action=delete&id={id}">
+                                                            <i class="glyphicon glyphicon-trash"></i> Delete
+                                                        </a>
+                                                    </li>
+                                                {/unless}
+                                                <li>
+                                                    <a href="?page=forum&action=mute&id={user.id}">
+                                                        <i class="glyphicon glyphicon-volume-off"></i> Mute User
+                                                    </a>
+                                                </li>
+                                            {/if}
+                                        </ul>
                                     </div>
                                 </small>
                             </h5>
