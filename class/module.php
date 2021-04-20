@@ -39,6 +39,10 @@
                 $this->user->bindVarsToTemplate();
                 
             }
+
+            if (!isset($_SESSION["CSFR"])) {
+                $this->generateCSFRToken();
+            }
             
         }
 
