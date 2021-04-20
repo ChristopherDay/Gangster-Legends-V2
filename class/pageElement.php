@@ -78,6 +78,9 @@
             } 
 
             if ($var == "_CSFRToken") {
+                if (!isset($_SESSION["CSFR"])) {
+                    $_SESSION["CSFR"] = md5(mt_rand(1, 10000000));
+                }
                 $rtn = $_SESSION["CSFR"];
             } else if ($var[0] == '"') {
                 //pass back the string
