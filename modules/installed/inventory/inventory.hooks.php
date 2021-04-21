@@ -4,7 +4,7 @@
     $items->registerNewType("weapon", "equip");
     $items->registerNewType("armor", "equip");
     $items->registerNewType("consumable", "use");
-    $items->registerNewType("knifes", "equip");
+    $items->registerNewType("handWeapon", "equip");
 
     new Hook("moneyMenu", function ($user) {
     	global $page;
@@ -78,11 +78,78 @@
     });
 
     new Hook("itemEffects", function ($data) {
-
     	return array(
-    		"type" => ""
+            "name" => "Increase % Attack",
+    		"type" => "equip", 
+            "use" => function ($base, $value) {
+                return $base + ($base / 100 * $value);
+            }
     	);
+    });
 
+    new Hook("itemEffects", function ($data) {
+        return array(
+            "name" => "Decrease % Attack",
+            "type" => "equip", 
+            "use" => function ($base, $value) {
+                return $base - ($base / 100 * $value);
+            }
+        );
+    });
+
+    new Hook("itemEffects", function ($data) {
+        return array(
+            "name" => "Increase % Defense",
+            "type" => "equip", 
+            "use" => function ($base, $value) {
+                return $base + ($base / 100 * $value);
+            }
+        );
+    });
+
+    new Hook("itemEffects", function ($data) {
+        return array(
+            "name" => "Decrease % Defence",
+            "type" => "equip", 
+            "use" => function ($base, $value) {
+                return $base - ($base / 100 * $value);
+            }
+        );
+    });
+
+    new Hook("itemEffects", function ($data) {
+        return array(
+            "name" => "Increase Base HP",
+            "type" => "equip", 
+            "use" => function ($base, $value) {
+                return $base + ($base / 100 * $value);
+            }
+        );
+    });
+
+    new Hook("itemEffects", function ($data) {
+        return array(
+            "name" => "Decrease Base HP",
+            "type" => "equip", 
+            "use" => function ($base, $value) {
+                return $base - ($base / 100 * $value);
+            }
+        );
+    });
+
+    new Hook("itemEffects", function ($data) {
+        return array(
+            "name" => "Heal X% Health",
+            "type" => "consumable", 
+            "use" => function ($user, $value) {
+                $subtract = $user->rank->R_health / 100 * $value;
+                if ($user->info->US_health > $subtract) {
+                    $user->set("US_health", 0);
+                } else {
+                    $user->subtract("US_health", $subtract);
+                }
+            }
+        );
     });
 
     new Hook("itemActionLink", function ($item) {
