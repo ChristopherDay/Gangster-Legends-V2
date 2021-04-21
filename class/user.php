@@ -636,6 +636,50 @@
             }
             
         }
+
+        public function hasItem($item, $qty = 1) {
+            $item = $this->db->select("
+                SELECT * 
+                FROM userInventory 
+                WHERE UI_user = :user
+                AND UI_item = :item
+            ", array(
+                ":user" => $this->info->U_id, 
+                ":item" => $item
+            ));
+
+            return $item["UI_qty"] >= $qty;
+        }
+
+        public function addItem($item, $qty = 1) {
+            $item = $this->db->insert("
+                INSERT INTO userInventory (
+                    UI_user, UI_item, UI_qty
+                ) VALUES (
+                    :user, :item, :qty
+                ) ON DUPLICATE KEY UPDATE UI_qty = UI_qty + :qty;
+            ", array(
+                ":user" => $this->info->U_id, 
+                ":item" => $item, 
+                ":qty" => $qty
+            ));
+        }
+
+        public function removeItem($item, $qty = 1) {
+            if ($this->hasItem($item, $qty)) {
+                $item = $this->db->update("
+                    UPDATE userInventory SET UI_qty = UI_qty - :qty 
+                    WHERE UI_user = :user
+                    AND UI_item = :item;
+                ", array(
+                    ":user" => $this->info->U_id, 
+                    ":item" => $item, 
+                    ":qty" => $qty
+                ));
+                return true;
+            }
+            return false;
+        }
         
         public function logout() {
         
