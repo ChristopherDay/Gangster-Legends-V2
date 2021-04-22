@@ -1,7 +1,7 @@
 <?php
 
 	function _qty($qty) {
-		if ($qty > 1) return number_format($qty); 
+		if ($qty > 1) return "x" . number_format($qty); 
 		return "";
 	}
 
@@ -47,8 +47,8 @@
 		';
 
 		public $equipedItem = '
-    		<div class="crime-holder inventory-item">
-                <p data-toggle="dropdown">
+    		<div class="crime-holder">
+                <p>
                     <span class="action">
                     	{item.name}
                 		{#unless item}
@@ -59,7 +59,7 @@
                     	<span class="cooldown">&nbsp;</span>
             		{/unless}
                     {#if item}
-	                    <a href="#" class="commit">
+	                    <a href="?page=inventory&action=remove&slot={name}&_CSFR={_CSFRToken}" class="commit">
 	                    	Remove
 	                    </a>
                     {/if}
@@ -186,51 +186,100 @@
                 </div>
             </form>
         ';
-        
+            
+        public $formSelect = '
+            <div class="col-md-{width}">
+                <div class="form-group">
+                    <label class="pull-left">{label}</label>
+                    <select class="form-control" name="meta[ {id} ]" data-value="{value}">
+                        {#each options}
+                            <option value="{id}">{name}</option>
+                        {/each}
+                    </select>
+                </div>
+            </div>
+        ';
+            
+        public $formText = '
+            <div class="col-md-{width}">
+                <div class="form-group">
+                    <label class="pull-left">{label}</label>
+                    <input type="text" class="form-control" name="meta[ {id} ]" value="{value}">
+                </div>
+            </div>
+        ';
+            
+        public $formNumber = '
+            <div class="col-md-{width}">
+                <div class="form-group">
+                    <label class="pull-left">{label}</label>
+                    <input type="number" class="form-control" name="meta[ {id} ]" value="{value}">
+                </div>
+            </div>
+        ';
+            
+        public $formTextarea = '
+            <div class="col-md-{width}">
+                <div class="form-group">
+                    <label class="pull-left">{label}</label>
+                    <textarea class="form-control" name="meta[ {id} ]">{value}</textarea>
+                </div>
+            </div>
+        ';
+
         public $itemForm = '
             <form method="post" action="?page=admin&module=inventory&action={editType}&id={id}">
-                <div class="form-group">
-                    <label class="pull-left">Item Name</label>
-                    <input type="text" class="form-control" name="name" value="{name}">
-                </div>
+
+                <h5>Item Information</h5>
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-8">
                         <div class="form-group">
-                            <label class="pull-left">Cost to buy item ($)</label>
-                            <input type="number" class="form-control" name="cost" value="{cost}">
+                            <label class="pull-left">Item Name</label>
+                            <input type="text" class="form-control" name="name" value="{name}">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label class="pull-left">Cost to buy item ({_setting "pointsName"})</label>
-                            <input type="number" class="form-control" name="points" value="{points}">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label class="pull-left">Damage per bullet</label>
-                            <input type="text" class="form-control" name="damage" value="{damage}">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="pull-left">Minimum rank to buy weapon</label>
-                            <input type="number" class="form-control" name="rank" value="{rank}">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="pull-left">Type of item (1 = weapon, 2 = armor)</label>
+                            <label class="pull-left">
+                                Item Type
+                            </label>
                             <select class="form-control" name="type" data-value="{type}">
-                            	{#each itemTypes}
-                            		<option value="{id}">{name}</option>
-                            	{/each}
+                                {#each itemTypes}
+                                    <option value="{id}" data-item-type="{type}">{name}</option>
+                                {/each}
                             </select>
                         </div>
                     </div>
                 </div>
+
+                <div class="row">
+                    <{inputs}>
+                </div>
+
+                <hr />
+
+                <h5>
+                    Effects
+                    <a href="#" class="btn btn-success btn-xs pull-right new-effect">
+                        New Effect
+                    </a>
+                </h5>
+
+                <div class="effect-data" style="display: none;">
+                    {#each effectTypes}{name}.--.{type}.-.{/each}
+                </div>
+                <div class="item-effects" style="display: none;">
+                    {#each effect}
+                        <div class="item-effect">
+                            <div class="effect">{id} </div>
+                            <div class="value">{value}</div>
+                            <div class="desc">{desc}</div>
+                        </div>
+                    {/each}
+                </div>
+
+                <div class="effects"></div>
+
                 <div class="text-right">
                     <button class="btn btn-default" name="submit" type="submit" value="1">Save</button>
                 </div>

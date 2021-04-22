@@ -4,25 +4,16 @@
 
         private function getItem($itemID = "all") {
             if ($itemID == "all") {
-                $add = " WHERE I_type IN (1, 2)";
+                $add = "";
             } else {
-                $add = " WHERE I_type IN (1, 2) AND I_id = :id";
+                $add = " WHERE I_id = :id";
             }
             
             $item = $this->db->prepare("
                 SELECT
                     I_id as 'id',  
                     I_name as 'name',  
-                    I_cost as 'cost',  
-                    I_points as 'points',  
-                    ROUND(I_damage / 100, 2) as 'damage',  
-                    I_type as 'type',  
-                    I_rank as 'rank', 
-                    CASE I_type
-                        WHEN 1 THEN 'Weapon'
-                        WHEN 2 THEN 'Armor'
-                        ELSE 'Unknown'
-                    END as 'typeDesc'
+                    I_type as 'type'
                 FROM items" . $add
             );
 
@@ -32,30 +23,116 @@
             } else {
                 $item->bindParam(":id", $itemID);
                 $item->execute();
-                return $item->fetch(PDO::FETCH_ASSOC);
+                $data = $item->fetch(PDO::FETCH_ASSOC);
+                
+                $effects = $this->db->selectAll("
+                    SELECT IE_effect as 'id', IE_value as 'value', IE_desc as 'desc'
+                    FROM itemEffects WHERE IE_item = :item;
+                ", array(
+                    ":item" => $itemID
+                ));
+                $data["effect"] = $effects;
+
+                $metaData = $this->db->selectAll("
+                    SELECT * FROM itemMeta WHERE IM_item = :item;
+                ", array(
+                    ":item" => $itemID
+                ));
+
+                $meta = array();
+                foreach ($metaData as $key => $value) {
+                    $meta[$value["IM_meta"]] = $value["IM_value"];
+                }
+
+                $data["meta"] = $meta;
+                return $data;
             }
         }
 
         private function validateItem($item) {
             $errors = array();
 
-            $item["damage"] *= 100;
-
-            if (strlen($item["name"]) < 6) {
+            if (strlen($item["name"]) < 3) {
                 $errors[] = "Item name is to short, this must be atleast 5 characters";
-            }
-            if (!intval($item["damage"])) {
-                $errors[] = "No damage specified";
             }
             if (!intval($item["type"])) {
                 $errors[] = "No type specified";
             }
-            if (!intval($item["rank"])) {
-                $errors[] = "No rank specified";
-            } 
 
             return $errors;
             
+        }
+
+        public function saveMeta ($data, $item) {
+            $this->db->delete("DELETE FROM itemMeta WHERE IM_item = :item", array(
+                ":item" => $item
+            ));
+            foreach ($data as $meta => $value) {
+                $this->db->insert("INSERT INTO itemMeta (IM_item, IM_meta, IM_value) VALUES (:item, :meta, :value)", array(
+                    ":item" => $item,
+                    ":meta" => trim($meta),
+                    ":value" => $value
+                ));
+            }
+            return array();
+        }
+
+        public function saveEffects ($item) {
+            $this->db->delete("DELETE FROM itemEffects WHERE IE_item = :item", array(
+                ":item" => $item
+            ));
+
+            if (!isset($this->methodData->effect)) return;
+
+            $data = $this->methodData->effect;
+
+            foreach ($data as $effect) {
+                $this->db->insert("INSERT INTO itemEffects (IE_item, IE_effect, IE_value, IE_desc) VALUES (:item, :meta, :value, :desc)", array(
+                    ":item" => $item,
+                    ":meta" => $effect["id"],
+                    ":value" => $effect["value"],
+                    ":desc" => $effect["desc"]
+                ));
+            }
+            return array();
+        }
+
+        public function getInputs ($data) {
+
+            $hook = new Hook("itemMetaData");
+            $inputs = $hook->run();
+
+            $html = "";
+            if (isset($data["meta"])) {
+                foreach ($data["meta"] as $key => $value) {
+                    $data["meta"][trim($key)] = $value;
+                }
+            }
+
+            foreach ($inputs as $input) {
+
+                if (isset($data["meta"]) && $data["meta"][$input["id"]]) {
+                    $input["value"] = $data["meta"][$input["id"]];
+                }
+
+                switch ($input["type"]) {
+                    case "text":
+                        $html .= $this->page->buildElement("formText", $input);
+                    break;
+                    case "textarea":
+                        $data["rows"] = $input["rows"];
+                        $html .= $this->page->buildElement("formTextarea", $input);
+                    break;
+                    case "number":
+                        $html .= $this->page->buildElement("formNumber", $input);
+                    break;
+                    case "select": 
+                        $data["options"] = $input["options"];
+                        $html .= $this->page->buildElement("formSelect", $input);
+                    break;
+                }
+            }
+            return $html;
         }
 
         public function method_new () {
@@ -68,32 +145,34 @@
                 
                 if (count($errors)) {
                     foreach ($errors as $error) {
-                        $this->html .= $this->page->buildElement("error", array("text" => $error));
+                        $this->html .= $this->page->buildElement("error", array(
+                            "text" => $error
+                        ));
                     }
                 } else {
 
-                    $this->methodData->damage =  100;
+                    $insertID = $this->db->insert("
+                        INSERT INTO items (I_name, I_type)  VALUES (:name, :type);
+                    ", array(
+                        ":name" => $this->methodData->name,
+                        ":type" => $this->methodData->type
+                    ));
 
-                    $insert = $this->db->prepare("
-                        INSERT INTO items (I_name, I_damage, I_cost, I_rank, I_type, I_points)  VALUES (:name, :damage, :cost, :rank, :type, :points);
-                    ");
-                    $insert->bindParam(":name", $this->methodData->name);
-                    $insert->bindParam(":damage", $this->methodData->damage);
-                    $insert->bindParam(":cost", $this->methodData->cost);
-                    $insert->bindParam(":points", $this->methodData->points);
-                    $insert->bindParam(":rank", $this->methodData->rank);
-                    $insert->bindParam(":type", $this->methodData->type);
-                    $insert->execute();
+                    $this->saveMeta($this->methodData->meta, $insertID);
+                    $this->saveEffects($insertID);
 
-
-                    $this->html .= $this->page->buildElement("success", array("text" => "This item has been created"));
+                    $this->html .= $this->page->buildElement("success", array(
+                        "text" => "This item has been created"
+                    ));
 
                 }
 
             }
-
-            $item["editType"] = "new";
+            
             $items = new Items();
+            $item["inputs"] = $this->getInputs($item);
+            $item["effectTypes"] = $items->getEffects();
+            $item["editType"] = "new";
             $item["itemTypes"] = $items->types;
             $this->html .= $this->page->buildElement("itemForm", $item);
         }
@@ -101,7 +180,9 @@
         public function method_edit () {
 
             if (!isset($this->methodData->id)) {
-                return $this->html = $this->page->buildElement("error", array("text" => "No item ID specified"));
+                return $this->html = $this->page->buildElement("error", array(
+                    "text" => "No item ID specified"
+                ));
             }
 
             $item = $this->getItem($this->methodData->id);
@@ -115,28 +196,30 @@
                         $this->html .= $this->page->buildElement("error", array("text" => $error));
                     }
                 } else {
-                    $this->methodData->damage *= 100;
-                    $update = $this->db->prepare("
-                        UPDATE items SET I_name = :name, I_damage = :damage, I_cost = :cost, I_points = :points, I_rank = :rank, I_type = :type WHERE I_id = :id
-                    ");
-                    $update->bindParam(":name", $this->methodData->name);
-                    $update->bindParam(":damage", $this->methodData->damage);
-                    $update->bindParam(":cost", $this->methodData->cost);
-                    $update->bindParam(":rank", $this->methodData->rank);
-                    $update->bindParam(":points", $this->methodData->points);
-                    $update->bindParam(":type", $this->methodData->type);
-                    $update->bindParam(":id", $this->methodData->id);
-                    $update->execute();
+                    $update = $this->db->update("
+                        UPDATE items SET I_name = :name, I_type = :type WHERE I_id = :id
+                    ", array(
+                        ":name" => $this->methodData->name,
+                        ":type" => $this->methodData->type,
+                        ":id" => $this->methodData->id
+                    ));
 
-                    $this->html .= $this->page->buildElement("success", array("text" => "This item has been updated"));
+                    $this->saveMeta($this->methodData->meta, $this->methodData->id);
+                    $this->saveEffects($this->methodData->id);
+
+                    $this->html .= $this->page->buildElement("success", array(
+                        "text" => "This item has been updated"
+                    ));
 
                 }
 
             }
 
-            $item["editType"] = "edit";
             $items = new Items();
+            $item["editType"] = "edit";
             $item["itemTypes"] = $items->types;
+            $item["inputs"] = $this->getInputs($item);
+            $item["effectTypes"] = $items->getEffects();
             $this->html .= $this->page->buildElement("itemForm", $item);
         }
 
@@ -153,11 +236,24 @@
             }
 
             if (isset($this->methodData->commit)) {
-                $delete = $this->db->prepare("
+                
+                $this->db->delete("
                     DELETE FROM items WHERE I_id = :id;
-                ");
-                $delete->bindParam(":id", $this->methodData->id);
-                $delete->execute();
+                ", array(
+                    ":id" => $this->methodData->id
+                ));
+
+                $this->db->delete("
+                    DELETE FROM userInventory WHERE UI_item = :id;
+                ", array(
+                    ":id" => $this->methodData->id
+                ));
+
+                $this->db->delete("
+                    DELETE FROM itemMeta WHERE IM_item = :id;
+                ", array(
+                    ":id" => $this->methodData->id
+                ));
 
                 header("Location: ?page=admin&module=blackmarket");
 
@@ -173,81 +269,6 @@
                 "items" => $this->getItem()
             ));
 
-        }
-
-        public function method_calculator () {
-
-            $weapons = $this->db->prepare("
-                SELECT
-                    I_id as 'id',  
-                    I_name as 'name'
-                FROM items
-                WHERE I_type = 1
-            ");
-            $weapons->execute();
-
-            $this->html .= $this->page->buildElement("weaponSelect", array(
-                "weapons" => $weapons->fetchAll(PDO::FETCH_ASSOC)
-            ));
-
-
-            if (isset($this->methodData->weapon)) {
-    
-                $weapon = $this->getItem($this->methodData->weapon);
-
-                $armor = $this->db->prepare("
-                    SELECT * FROM items 
-                    INNER JOIN ranks ON (R_id = I_rank)
-                    WHERE I_type = 2 ORDER BY I_damage DESC
-                ");
-                $armor->execute();
-                $armor = $armor->fetchAll(PDO::FETCH_ASSOC);
-
-                $ranks = $this->db->prepare("SELECT * from ranks ORDER BY R_exp ASC");
-                $ranks->execute();
-                $ranks = $ranks->fetchAll(PDO::FETCH_ASSOC);
-
-                $rows = array();
-                $cols = array();
-
-                array_unshift($armor, array(
-                    "I_name" => "No armor", 
-                    "I_damage" => 100, 
-                    "R_exp" => 0
-                ));
-
-                foreach ($armor as $a) {
-                    $cols[] = array( "name" => $a["I_name"], "damage" => round($a["I_damage"] / 100, 2) );
-                }
-
-                foreach ($ranks as $rank) {
-                    $row = array("cols" => array());
-                    $row["cols"][] = array( "header" => true, "data" => $rank["R_name"] );
-                    $row["cols"][] = array( "header" => true, "data" => number_format($rank["R_health"]) );
-                    foreach ($armor as $a) {
-                        $bullets = $rank["R_health"]  / ($a["I_damage"] / 100) / ($weapon["damage"]);
-                        $bulletsToKill = number_format($bullets);
-                        //$this->html .= debug($a, 1, 1);
-                        //$this->html .= debug($rank, 1, 1);
-                        if ($a["R_exp"] > $rank["R_exp"]) {
-                            $bulletsToKill = "--";
-                        }
-                        $row["cols"][] = array( 
-                            "data" => $bulletsToKill 
-                        );
-                    }
-                    $rows[] = $row;
-                }
-
-                $this->html .= $this->page->buildElement("calculator", array(
-                    "colCount" => count($cols),
-                    "weapon" => $weapon["name"],
-                    "damage" => $weapon["damage"],
-                    "rows" => $rows,
-                    "cols" => $cols
-                ));
-
-            }
         }
 
     }
