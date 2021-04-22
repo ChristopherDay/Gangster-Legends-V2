@@ -13,4 +13,11 @@ CREATE TABLE `itemEffects` (
 	PRIMARY KEY(`IE_effect`, `IE_item`)
 );
 
+CREATE TABLE `itemMeta` (
+	`IM_item` INT(11), 
+	`IM_meta` VARCHAR(32), 
+	`IM_value` TEXT, 
+	PRIMARY KEY(`IM_item`, `IM_meta`)
+);
+
 # I_id, I_name, I_damage, I_cost, I_points, I_type, I_rank
