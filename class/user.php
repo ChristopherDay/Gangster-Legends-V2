@@ -4,8 +4,9 @@
 
     class user {
         
-        public $id, $info, $name, $db, $loggedin = false, $nextRank, $user;
+        public $id, $info, $name, $db, $loggedin = false, $nextRank, $user, $attackPower = 100, $defensePower = 100;
         
+
         // Pass the ID to the class
         function __construct($id = FALSE, $name = FALSE) {
 
@@ -647,6 +648,8 @@
                 ":user" => $this->info->U_id, 
                 ":item" => $item
             ));
+
+            if (!isset($item["UI_qty"])) return false; 
 
             return $item["UI_qty"] >= $qty;
         }
