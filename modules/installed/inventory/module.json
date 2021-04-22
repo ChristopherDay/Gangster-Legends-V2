@@ -28,11 +28,6 @@
             "hide": true,
             "text": "Delete Item",
             "method": "delete"
-        },
-        {
-            "hide": false,
-            "text": "Bullet Calculator",
-            "method": "calculator"
         }
     ]
 }
