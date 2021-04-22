@@ -2,20 +2,16 @@
 
     class inventory extends module {
             
-        public $allowedMethods = array();
+        public $allowedMethods = array(
+            "slot" => array( "type" => "GET" ),
+            "item" => array( "type" => "REQUEST" ),
+        );
 
         public function constructModule () {
 
-        	$hook = new Hook("equipSlot");
-        	$slots = $this->page->sortArray($hook->run());
+        	$items = new Items();
 
-        	$equipSlots = array();
-        	foreach ($slots as $slot) {
-        		$equipSlots[] = array(
-        			"name" => $slot["name"],
-        			"item" => $slot["getItem"]($this->user)
-        		);
-        	}
+            $equipSlots = $items->getSlots($this->user);
 
             $userInventory = $this->db->selectAll("
                 SELECT
@@ -55,4 +51,68 @@
 
         }
 
+        public function method_remove () {
+
+            if (!$this->checkCSFRToken()) return;
+
+            $items = new Items();
+            $slots = $items->getSlots($this->user);
+            foreach ($slots as $slot) {
+
+
+                if ($slot["name"] == $this->methodData->slot) {
+                    $slot["actions"]["remove"]($this->user);
+                    $this->error("You have removed your " . $slot["name"], "success");
+                }
+            }
+
+        }
+
+        public function method_equip () {
+
+            if (!$this->checkCSFRToken()) return;
+
+            if (!$this->user->hasItem($this->methodData->item)) {
+                return $this->error("You don't have this item!");
+            }
+
+            $items = new Items();
+            $slots = $items->getSlots($this->user);
+
+            foreach ($slots as $slot) {
+
+                if ($slot["name"] == $this->methodData->slot) {
+                    $slot["actions"]["remove"]($this->user);
+                    $slot["actions"]["equip"]($this->user, $this->methodData->item);
+                    $this->user->removeItem($this->methodData->item);
+                    $this->error("You have equiped a " . $slot["name"], "success");
+                }
+            }
+
+        }
+
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
