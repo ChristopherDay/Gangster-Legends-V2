@@ -6,7 +6,6 @@
         
         public $id, $info, $name, $db, $loggedin = false, $nextRank, $user, $attackPower = 100, $defensePower = 100;
         
-
         // Pass the ID to the class
         function __construct($id = FALSE, $name = FALSE) {
 
@@ -42,7 +41,7 @@
         
         // This function will return all the information for the user
         public function getInfo($return = false) {
-            
+
             if (!empty($this->name)) {
                 $userInfo = $this->db->prepare("
                     SELECT 
@@ -116,13 +115,38 @@
                     "onlineStatus" => $this->getStatus(false)
                 );
             }
-            
+
+            $this->applyItemEffects();
+
             if ($return) {
                 return $this->info;
             }
             
         }
         
+        public function applyItemEffects() {
+
+            $items = new Items();
+
+            $equipSlots = $items->getSlots($this);
+            $effects = $items->getEffects();
+
+            if (!count($equipSlots)) return;
+
+            foreach ($equipSlots as $slot) {
+                if ($slot) {
+                    if ($slot["item"]) {
+                        foreach ($slot["item"]["effects"] as $effect) {
+                            $effectInfo = $items->findEffect($effects, $effect["effect"]);
+                            $effectInfo["use"]($this, $effect["value"]);
+                        }
+
+                    }
+                }
+            }
+
+        }
+
         public function hasAdminAccessTo($module) {
             return in_array($module, $this->adminModules) || in_array("*", $this->adminModules);
         }
