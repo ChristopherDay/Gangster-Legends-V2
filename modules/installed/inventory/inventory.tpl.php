@@ -7,7 +7,49 @@
 
     class inventoryTemplate extends template {
 
-		public $inventory = '
+		public $information = '
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    {name}
+                </div>
+                <div class="panel-body">
+                    <p>
+                        [{description}]
+                    </p>
+                </div>  
+            </div>
+            <div class="row text-left">
+                <div class="col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Information
+                        </div>
+                        <div class="panel-body">
+                            {#each information}
+                                {#if label}<strong>{label}:</strong>{/if} <{value}><br />
+                            {/each}
+                        </div>  
+                    </div>
+                </div>
+                <div class="col-md-6">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Effects
+                        </div>
+                        <div class="panel-body">
+                            <ul>
+                                {#each effects}
+                                    <li>[{desc}]</li>
+                                {/each}
+                            </ul>
+                        </div>  
+                    </div>
+                </div>
+            </div>
+        ';
+
+        public $inventory = '
 			<div class="row">
 				<div class="col-md-7">
 					<div class="panel panel-default">
@@ -97,9 +139,6 @@
                 <thead>
                     <tr>
                         <th>Item</th>
-                        <th width="70px">Damage</th>
-                        <th width="120px">Type</th>
-                        <th width="170px">Cost</th>
                         <th width="100px">Actions</th>
                     </tr>
                 </thead>
@@ -107,9 +146,6 @@
                     {#each items}
                         <tr>
                             <td>{name}</td>
-                            <td>{damage}</td>
-                            <td>{typeDesc}</td>
-                            <td>${cost} + {points} {_setting "pointsName"}</td>
                             <td>
                                 [<a href="?page=admin&module=inventory&action=edit&id={id}">Edit</a>] 
                                 [<a href="?page=admin&module=inventory&action=delete&id={id}">Delete</a>]

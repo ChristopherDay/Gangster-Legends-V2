@@ -51,6 +51,18 @@
 
         }
 
+        public function method_information () {
+            $this->construct = false;
+
+            $items = new Items();
+            $item = $items->getItem($this->methodData->item);
+
+            $hook = new Hook("itemInformation");
+            $item["information"] = $this->page->sortArray($hook->run($item));
+
+            $this->html .= $this->page->buildElement("information", $item); 
+        }
+
         public function method_remove () {
 
             if (!$this->checkCSFRToken()) return;
@@ -58,8 +70,6 @@
             $items = new Items();
             $slots = $items->getSlots($this->user);
             foreach ($slots as $slot) {
-
-
                 if ($slot["name"] == $this->methodData->slot) {
                     $slot["actions"]["remove"]($this->user);
                     $this->error("You have removed your " . $slot["name"], "success");
