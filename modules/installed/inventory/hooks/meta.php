@@ -19,7 +19,7 @@
             "id" => "cost", 
             "sort" => 3,
             "width" => 6,
-            "label" => "Item Cost", 
+            "label" => "Item Value", 
             "type" => "number",
             "validate" => function ($value) { return true; }
         );
