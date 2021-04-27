@@ -1,29 +1,16 @@
 <?php
-	
-	if (!empty($_SESSION['userID'])) {
-
-		global $page;
-
-		$module = $page->landingPage;
-
-		if (isset($_GET["page"])) {
-			$module = $_GET["page"];
-		}
 
 
-		if (isset($page->modules[$module])) {
-	
+    new hook("moduleLoad", function ($module) {
+		global $page, $user;
+		if (isset($page->modules[$module]) && $user) {	
 			$pageModule = $page->modules[$module];
-
-	        $u = new user($_SESSION['userID']);
-			if (!$u->checkTimer("hospital")) {
-				if (!$pageModule["accessInJail"]) $_GET["page"] = "hospital"; 
+			if (!$user->checkTimer("hospital")) {
+				if (!$pageModule["accessInJail"]) return "hospital"; 
 			}
-
 		}
-	}
-
-
+        return $module;
+    });
 
     new hook("userInformation", function ($user) {
         global $page;    
