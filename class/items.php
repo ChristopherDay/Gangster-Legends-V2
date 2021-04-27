@@ -19,6 +19,7 @@
 			$hook = new Hook("equipSlot");
         	$slots = $this->page->sortArray($hook->run());
         	$equipSlots = array();
+
         	foreach ($slots as $slot) {
         		$equipSlots[] = array(
         			"name" => $slot["name"],
@@ -35,22 +36,51 @@
 			return $effects;
 		}
 
+		public function findEffect($effects, $effect) {
+			foreach ($effects as $value) {
+				if ($value["name"] == $effect) {
+					return $value;
+				}
+			}
+		}
+
 		public function getItem($id) {
 			if (!$id) return false; 
 			$item = $this->db->select("
 				SELECT 
 					I_id as 'id', 
 					I_name as 'name', 
-					I_damage as 'damage', 
-					I_cost as 'cost', 
-					I_points as 'points', 
-					I_type as 'type', 
-					I_rank as 'rank'
+					I_type as 'type'
 				FROM items 
 				WHERE I_id = :id
 			", array(
 				":id" => $id
 			));
+
+			if (!$item) return false;
+
+			$meta = $this->db->selectAll("
+				SELECT * FROM itemMeta WHERE IM_item = :item
+			", array(
+				":item" => $item["id"]
+			));
+
+			foreach ($meta as $key => $value) {
+				$item[$value["IM_meta"]] = $value["IM_value"];
+			}
+
+
+			$item["effects"] = $this->db->selectAll("
+				SELECT
+					IE_effect as 'effect',
+					IE_item as 'item',
+					IE_value as 'value',
+					IE_desc as 'desc'
+				FROM itemEffects WHERE IE_item = :item
+			", array(
+				":item" => $item["id"]
+			));
+
 			return $item;
 		}
 
