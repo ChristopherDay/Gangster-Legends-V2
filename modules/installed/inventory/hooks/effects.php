@@ -54,7 +54,7 @@
             "type" => "equip", 
             "use" => function (&$user, $value) {
                 $base = $user->rank->R_health;
-                $user->rank->R_health = $base + ($base / 100 * $value);
+                $user->rank->R_health = $base + $value;
                 return $user;
             }
         );
