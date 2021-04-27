@@ -76,6 +76,10 @@ class page {
         }
         return $html;
     } 
+
+    private function money($money) {
+        return "$" . number_format($money);
+    }
     
     private function load($page) {
         

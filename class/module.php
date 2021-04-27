@@ -212,7 +212,7 @@
         }
         
         public function money($cash) {
-            return "$" . number_format($cash);
+            return $this->page->money($cash);
         }
 
         public function date($ts = '-1') {
