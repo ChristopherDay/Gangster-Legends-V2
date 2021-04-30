@@ -78,11 +78,11 @@
             "type" => "use", 
             "use" => function ($user, $value) {
                 $subtract = $user->rank->R_health / 100 * $value;
-                if ($user->info->US_health > $subtract) {
-                    $user->set("US_health", 0);
-                } else {
-                    $user->subtract("US_health", $subtract);
-                }
+
+                $new = $user->info->US_health - $subtract;
+                if ($new < 0) $new = 0;
+
+                $user->set("US_health", $new);
             }
         );
     });
@@ -102,7 +102,8 @@
             "name" => "Add Money",
             "type" => "use", 
             "use" => function ($user, $value) {
-                $user->add($value, "US_money");
+
+                $user->add("US_money", $value);
             }
         );
     });
@@ -112,7 +113,7 @@
             "name" => "Add Bullets",
             "type" => "use", 
             "use" => function ($user, $value) {
-                $user->add($value, "US_bullets");
+                $user->add("US_bullets", $value);
             }
         );
     });
