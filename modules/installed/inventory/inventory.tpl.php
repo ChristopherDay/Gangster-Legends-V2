@@ -124,11 +124,9 @@
                 </p>
 				<ul class="list-group inventory-actions">
 					{#each links}
-						<li class="list-group-item">
-							<a href="{link}">
-								{name}
-							</a>
-						</li>
+						<a href="{link}" class="list-group-item">
+							{name}
+						</a>
 					{/each}
 				</ul>
             </div>

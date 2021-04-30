@@ -27,3 +27,6 @@
 	top: 40px;
 }
 
+.inventory-actions a:hover {
+	background-color: #111 !important;
+}
