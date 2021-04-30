@@ -78,9 +78,42 @@
 
         }
 
+        public function method_use () {
+            
+            //if (!$this->checkCSFRToken()) return;
+
+            if (!$this->user->hasItem($this->methodData->item)) {
+                return $this->error("You don't have this item!");
+            }
+
+            $items = new Items();
+
+            $item = $items->getItem($this->methodData->item);
+
+            $type = $items->getType(false, $item["type"]);
+            
+            if ($type["type"] == "use") {
+
+                $effects = $items->getEffects();
+
+                foreach ($item["effects"] as $effect) {
+                    $effectInfo = $items->findEffect($effects, $effect["effect"]);
+                    $effectInfo["use"]($this->user, $effect["value"]);
+                }
+
+                $this->user->removeItem($item["id"]);
+            } else {
+                return $this->error("This item can't be used!");
+            }
+
+
+
+
+        }
+
         public function method_equip () {
 
-            //if (!$this->checkCSFRToken()) return;
+            if (!$this->checkCSFRToken()) return;
 
             if (!$this->user->hasItem($this->methodData->item)) {
                 return $this->error("You don't have this item!");
