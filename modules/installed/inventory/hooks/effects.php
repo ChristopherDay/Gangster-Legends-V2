@@ -110,6 +110,17 @@
 
     new Hook("itemEffects", function () {
         return array(
+            "name" => "Add EXP",
+            "type" => "use", 
+            "use" => function ($user, $value) {
+
+                $user->add("US_exp", $value);
+            }
+        );
+    });
+
+    new Hook("itemEffects", function () {
+        return array(
             "name" => "Add Bullets",
             "type" => "use", 
             "use" => function ($user, $value) {
