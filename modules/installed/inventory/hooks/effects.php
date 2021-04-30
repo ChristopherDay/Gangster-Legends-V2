@@ -99,6 +99,19 @@
 
     new Hook("itemEffects", function () {
         return array(
+            "name" => "Give Item",
+            "type" => "use", 
+            "use" => function ($user, $value) {
+                $items = explode(",", $value);
+                foreach ($items as $item) {
+                    $user->addItem($item);
+                }
+            }
+        );
+    });
+
+    new Hook("itemEffects", function () {
+        return array(
             "name" => "Add Money",
             "type" => "use", 
             "use" => function ($user, $value) {
