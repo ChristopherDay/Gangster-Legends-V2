@@ -19,6 +19,7 @@
     require __DIR__ . "/hooks/links.php";
     require __DIR__ . "/hooks/meta.php";
     require __DIR__ . "/hooks/info.php";
+    require __DIR__ . "/hooks/equip.php";
 
 
 

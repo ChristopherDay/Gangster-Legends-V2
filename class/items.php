@@ -24,6 +24,7 @@
         		$equipSlots[] = array(
         			"name" => $slot["name"],
         			"item" => $slot["getItem"]($user), 
+        			"types" => $slot["types"],
         			"actions" => $slot
         		);
         	}
