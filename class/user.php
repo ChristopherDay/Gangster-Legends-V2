@@ -322,10 +322,6 @@
 
             $page->addToTemplate('isAdmin', count($this->adminModules) != 0);
             
-            $hook = new Hook("userInformation");
-
-            $hook->run($this);
-            
             $rank = $this->getRank();
             $gang = $this->getGang();
             $weapon = $this->getWeapon();
@@ -353,6 +349,9 @@
             $page->addToTemplate('weapon', $weapon->I_name);
             $page->addToTemplate('armor', $armor->I_name);
             if (isset($this->nextRank->R_name)) $page->addToTemplate('nextRank', $this->nextRank->R_name);
+
+            $hook = new Hook("userInformation");
+            $hook->run($this);
             
         }
         
