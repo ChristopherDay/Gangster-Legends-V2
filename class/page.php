@@ -77,7 +77,7 @@ class page {
         return $html;
     } 
 
-    private function money($money) {
+    public function money($money) {
         return "$" . number_format($money);
     }
     
