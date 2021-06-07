@@ -16,8 +16,8 @@
             
             $this->html .= $this->page->buildElement("bank", array(
                 "tax" => $tax,
-                "deposit" => '$'.number_format($this->user->info->US_money),
-                "withdraw" => '$'.number_format(@$this->user->info->US_bank)
+                "deposit" => $this->user->info->US_money,
+                "withdraw" => $this->user->info->US_bank
             ));
             
         }
@@ -54,9 +54,9 @@
 
             $this->user->set("US_money", $this->user->info->US_money - $money);
             $user->set("US_money", $user->info->US_money + $money);
-            $user->newNotification(htmlentities($this->user->info->U_name) . " has sent you $" . number_format($money));
+            $user->newNotification(htmlentities($this->user->info->U_name) . " has sent you " . $this->money($money));
 
-            $this->error("You have sent $" . number_format($money) . " to " . htmlentities($user->info->U_name), "success");
+            $this->error("You have sent " . $this->money($money) . " to " . htmlentities($user->info->U_name), "success");
 
             $actionHook = new hook("userAction");
             $action = array(
@@ -90,7 +90,7 @@
                     $update->bindParam(":id", $this->user->info->US_id);
                     $update->execute();
                     
-                    $this->alerts[] = $this->page->buildElement("success", array("text"=>"You have withdrawn $".number_format($money)."!"));
+                    $this->alerts[] = $this->page->buildElement("success", array("text"=>"You have withdrawn ".$this->money($money)."!"));
                     
                     $this->user->info->US_money += $money;
                     $this->user->info->US_bank -= $money;
@@ -129,7 +129,7 @@
                     $update->bindParam(":id", $this->user->info->US_id);
                     $update->execute();
                     
-                    $this->alerts[] = $this->page->buildElement("success", array("text"=>"You sent $".number_format($money)." to your money launder, he in return deposits $".number_format($bank)." into your bank account!"));
+                    $this->alerts[] = $this->page->buildElement("success", array("text"=>"You sent ".$this->money($money)." to your money launder, he in return deposits ".$this->money($bank)." into your bank account!"));
                     
                     $this->user->info->US_bank += $bank;
                     $this->user->info->US_money -= $money;

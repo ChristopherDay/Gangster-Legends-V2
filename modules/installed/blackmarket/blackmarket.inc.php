@@ -33,17 +33,15 @@
                 ORDER BY I_damage
             ";
 
-            $weapons = $this->db->prepare($sql . "ASC");
-            $weapons->bindParam(":type", $this->weaponType);
-            $weapons->bindParam(":userEXP", $this->user->info->US_exp);
-            $weapons->execute();
-            $weapons = $weapons->fetchAll(PDO::FETCH_ASSOC);
+            $weapons = $this->db->selectAll($sql . "ASC", array(
+                ":type" => $this->weaponType,
+                ":userEXP" => $this->user->info->US_exp
+            ));
 
-            $armor = $this->db->prepare($sql . "DESC");
-            $armor->bindParam(":type", $this->armorType);
-            $armor->bindParam(":userEXP", $this->user->info->US_exp);
-            $armor->execute();
-            $armor = $armor->fetchAll(PDO::FETCH_ASSOC);
+            $armor = $this->db->selectAll($sql . "DESC", array(
+                ":type" => $this->armorType,
+                ":userEXP" => $this->user->info->US_exp
+            ));
 
             array_unshift($weapons, array(
                 "id" => 0, 
@@ -57,6 +55,8 @@
                 "cantBuy" => true
             ));
 
+
+
             $this->html .= $this->page->buildElement("blackMarket", array(
                 "location" => $this->user->getLocation(), 
                 "weapons" => $this->userOwns($this->user->info->US_weapon, $weapons),
@@ -65,14 +65,19 @@
         }
 
         public function method_buy() {
-            $item = $this->db->prepare("
+            $item = $this->db->select("
                 SELECT * FROM items INNER JOIN ranks ON I_rank = R_id WHERE I_id = :id
-            ");
-            $item->bindParam(":id", $this->methodData->item);
-            $item->execute();
-            
-            $item = $item->fetch(PDO::FETCH_ASSOC);
+            ", array(
+                ":id" => $this->methodData->item
+            ));
 
+            $hook = new Hook("alterModuleData");
+            $hookData = array(
+                "module" => "blackmarket",
+                "user" => $this->user,
+                "data" => $item
+            );
+            $item = $hook->run($hookData, 1)["data"];
 
             if (!$item["I_id"]) {
                 $this->alerts[] = $this->page->buildElement('error', array(
@@ -152,7 +157,17 @@
 
         public function userOwns($itemID, $items) {
             foreach ($items as $key => $item) {
-                $items[$key]["owned"] = ($item["id"] == $itemID);
+                $item["owned"] = ($item["id"] == $itemID);
+
+                $hook = new Hook("alterModuleData");
+                $hookData = array(
+                    "module" => "blackmarket",
+                    "user" => $this->user,
+                    "data" => $item
+                );
+                $item = $hook->run($hookData, 1)["data"];
+
+                $items[$key] = $item;
             }
             return $items;
         }

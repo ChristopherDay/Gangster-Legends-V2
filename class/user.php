@@ -309,7 +309,7 @@
             if ($health < 0) $health = 0;
 
             $page->addToTemplate('pic', $pic);
-            $page->addToTemplate('money', '$'.number_format($this->info->US_money));
+            $page->addToTemplate('money', $page->money($this->info->US_money));
             $page->addToTemplate('bullets', number_format($this->info->US_bullets));
             $page->addToTemplate('backfire', number_format($this->info->US_backfire));
             $page->addToTemplate('points', $this->info->US_points);
@@ -502,7 +502,7 @@
                 
                 if ($newRank->R_cashReward) $rewards[] = array( 
                     "name" => "Cash" ,
-                    "value" => "$" . number_format($newRank->R_cashReward) 
+                    "value" => $page($newRank->R_cashReward) 
                 );
 
                 $text = $page->buildElement("levelUpNotification", array(
@@ -624,6 +624,7 @@
 
             $hook = new Hook("userTimerUpdated");
             $data = array(
+                "old" => $oldTimer, 
                 "timer" => $timer, 
                 "time" => $time, 
                 "user" => $user

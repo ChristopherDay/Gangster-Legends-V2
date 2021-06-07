@@ -21,7 +21,7 @@
                                             {name}
                                         </span> 
                                         <span class="cooldown">
-                                            {#if cost} ${number_format cost} {/if}
+                                            {#if cost} {#money cost} {/if}
                                             {#if points}
                                                 {#if cost} + {/if}
                                                 {number_format points} {_setting "pointsName"}
@@ -57,7 +57,7 @@
                                             {name} 
                                         </span> 
                                         <span class="cooldown">
-                                            {#if cost} ${number_format cost} {/if}
+                                            {#if cost} {#money cost} {/if}
                                             {#if points}
                                                 {#if cost} + {/if}
                                                 {number_format points} {_setting "pointsName"}

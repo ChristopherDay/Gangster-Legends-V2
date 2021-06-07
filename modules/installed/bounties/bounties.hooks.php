@@ -10,6 +10,7 @@
 
 
     new hook("userKilled", function ($users) {
+        global $page;
         $shooter = $users["shooter"];
         $killed = $users["killed"];
 
@@ -30,7 +31,7 @@
             $update->execute();
 
             $shooter->newNotification(
-                "You collected a bounty of $" . number_format($bounty) . " after shooting " . $killed->info->U_name
+                "You collected a bounty of " . $page->money($bounty) . " after shooting " . $killed->info->U_name
             );
 
             $shooter->set("US_money", $shooter->info->US_money + $bounty);

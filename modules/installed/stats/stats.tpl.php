@@ -88,7 +88,7 @@
                                 </li>
                                 <li class="list-group-item">
                                     Cash
-                                    <span class="badge">${number_format cash}</span>
+                                    <span class="badge">{#money cash}</span>
                                 </li>
                                 <li class="list-group-item">
                                     Bullets

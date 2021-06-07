@@ -463,9 +463,9 @@
                 ":id" => $gang["id"] 
             ));
 
-            $this->error("You have upgraded your gang capacity for $".number_format($cost)."!", "success");
+            $this->error("You have upgraded your gang capacity for ".$this->money($cost)."!", "success");
 
-            $g->log("upgraded the gang capacity for $".number_format($cost)."!");
+            $g->log("upgraded the gang capacity for ".$this->money($cost)."!");
 
             $this->method_home();
         }
@@ -596,7 +596,7 @@
             }
 
             if ($this->user->info->US_money < $cost) {
-                return $this->error("You need $" . number_format($cost) . " to start a gang!");
+                return $this->error("You need " . $this->money($cost) . " to start a gang!");
             }
 
             if (strlen($name) < 4 || strlen($name) > 24) {

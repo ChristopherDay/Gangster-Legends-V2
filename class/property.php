@@ -12,6 +12,8 @@
 
         public function getOwnership($location = false) {
 
+            global $page;
+
             if (!$location) $location = $this->user->info->US_location;
 
             $property = $this->db->select("
@@ -57,7 +59,7 @@
             }
 
             $property["_profit"] = $property["profit"];
-            $property["profit"] = "$" . number_format($property["profit"]);
+            $property["profit"] = $page->money($property["profit"]);
 
             return $property;
 

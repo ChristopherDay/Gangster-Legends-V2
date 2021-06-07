@@ -48,7 +48,7 @@
                                 <p>
                                     To heal it will take {time} 
                                     {#if money}
-                                        and cost ${number_format money}
+                                        and cost {#money money}
                                     {/if}!
                                 </p>
                                 <p>

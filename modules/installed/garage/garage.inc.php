@@ -28,7 +28,7 @@
                     "location" => $car["L_name"], 
                     "damage" => $car["GA_damage"].'%', 
                     "id" => $car["GA_id"], 
-                    "value" => number_format($value)
+                    "value" => $value
                 );
                 
             }
@@ -57,7 +57,7 @@
                 $multi = (100 - $car["GA_damage"]) /100;
                 $value = round(($car["CA_value"] * $multi));   
                 
-                $this->error('You sold your car for $'.number_format($value).'!', "success");
+                $this->error('You sold your car for '.$this->money($value).'!', "success");
                 $this->user->add("US_money", $value);
      
                 $actionHook = new hook("userAction");
@@ -128,7 +128,7 @@
                 
                 if ($value < $this->user->info->US_money) {
                 
-                    $this->error('You repaired your car for $'.number_format($value).'!', "success");
+                    $this->error('You repaired your car for '.$this->money($value).'!', "success");
                     $this->db->update("UPDATE garage SET GA_damage = 0 WHERE GA_id = :id", array(
                         ":id" => $car["GA_id"]
                     ));
@@ -144,7 +144,7 @@
                     $actionHook->run($action);
                     
                 } else {
-                    $this->error('You do not have enough money to do this, you need $'.number_format($value).'!');
+                    $this->error('You do not have enough money to do this, you need '.$this->money($value).'!');
                 }
             
             }

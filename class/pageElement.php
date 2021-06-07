@@ -69,6 +69,13 @@
                         return $this->convertBBCodeToHTML($context->get($args));
                     }
                 );
+                $this->handlebars->addHelper("money",
+                    function($template, $context, $args, $source){
+                        global $page;
+                        return $page->money($context->get($args));
+
+                    }
+                );
             }  
 
             /* convert old <{var}> to the new {{var} */

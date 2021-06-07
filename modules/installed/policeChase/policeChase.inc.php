@@ -45,7 +45,7 @@
                     
                     $this->user->updateTimer('chase', 300, true);
                     
-                    $this->alerts[] = $this->page->buildElement('success', array("text"=>'You got away, you were paid $'.number_format($winnings).'!'));
+                    $this->alerts[] = $this->page->buildElement('success', array("text"=>'You got away, you were paid ' . $this->money($winnings).'!'));
 
                     $actionHook = new hook("userAction");
                     $action = array(
