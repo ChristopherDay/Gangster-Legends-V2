@@ -14,7 +14,7 @@
                                 {location} 
                             </span>
                             <span class="cooldown">
-                                ({cooldown})&nbsp;&nbsp;&nbsp;&nbsp;${cost} 
+                                ({cooldown})&nbsp;&nbsp;&nbsp;&nbsp;{#money cost} 
                             </span>
                             <span class="commit">
                                 <a href="?page=travel&action=fly&location={id}">Travel</a>
@@ -54,7 +54,7 @@
                     {#each locations}
                         <tr>
                             <td>{name}</td>
-                            <td>${cost}</td>
+                            <td>{#money cost}</td>
                             <td>{bullets}</td>
                             <td>${bulletCost}</td>
                             <td>{cooldown} seconds</td>

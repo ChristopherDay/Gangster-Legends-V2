@@ -33,10 +33,16 @@ function checkTimer(interval) {
         if(addClass == 'timer-done' && $(this).attr('data-remove-when-done') != undefined) {
             $(this).parent().remove();
         }
-            
+
+        var days = Math.floor(time / 86400);
+
         var hours = Math.floor(time/3600);
         var mins = Math.floor((time - (hours * 3600))/60);
         var sec = time % 60;
+
+        if (days > 0) {
+            hours -= days * 24;
+        }
 
         if (hours < 10) hours = '0' + hours;
         if (mins < 10) mins = '0' + mins;
@@ -48,10 +54,16 @@ function checkTimer(interval) {
             var sec = "00";
         }
 
+        var output = hours+":"+mins+":"+sec;
+
+        if (days > 0) {
+            output = days + " Day"+(days>1?"s":"")+" " + output
+        }
+
         if ($(this).attr('data-timer-type') == 'name') {
-            $(this).removeClass(removeClass).addClass(addClass).find('span').eq(1).html(hours+":"+mins+":"+sec);
+            $(this).removeClass(removeClass).addClass(addClass).find('span').eq(1).html(output);
         } else {
-            $(this).removeClass(removeClass).addClass(addClass).html(hours+":"+mins+":"+sec);
+            $(this).removeClass(removeClass).addClass(addClass).html(output);
         }
         
     });

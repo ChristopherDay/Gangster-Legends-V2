@@ -19,5 +19,3 @@ CREATE TABLE `itemMeta` (
 	`IM_value` TEXT, 
 	PRIMARY KEY(`IM_item`, `IM_meta`)
 );
-
-# I_id, I_name, I_damage, I_cost, I_points, I_type, I_rank

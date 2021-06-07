@@ -19,3 +19,17 @@
             "text" => "Travel"
         );
     });
+
+    new Hook("membershipBenefit", function () {
+        return array(
+            "title" => "Frequent Flyer Discount", 
+            "description" => "All travel costs are reduced by 75%"
+        );
+    });
+
+    new Hook("alterModuleData", function ($data) {
+        if ($data["module"] == "travel" && !$data["user"]->checkTimer("membership")) {
+            $data["data"]["L_cost"] = ceil($data["data"]["L_cost"] * 0.25);
+        }
+        return $data;
+    });

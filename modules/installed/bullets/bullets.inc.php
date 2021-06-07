@@ -27,23 +27,21 @@
 
             if (!$hoursSinceLastRestock) return;
 
-            $locations = $this->db->prepare("SELECT * FROM locations");
-            $locations->execute();
-            $allLocations = $locations->fetchAll(PDO::FETCH_ASSOC);
+            $allLocations = $this->db->selectAll("SELECT * FROM locations");
 
             foreach ($allLocations as $location) {
                 $newBullets = $this->getNewBulletStock($hoursSinceLastRestock);
-                $update = $this->db->prepare("
+                $update = $this->db->update("
                     UPDATE locations SET L_bullets = L_bullets + :qty WHERE L_id = :id
-                ");
-                $update->bindParam(":qty", $newBullets);
-                $update->bindParam(":id", $location["L_id"]);
-                $update->execute();
+                ", array(
+                    ":qty" => $newBullets,
+                    ":id" => $location["L_id"]
+                ));
             }
 
             $max = abs(intval($settings->loadSetting("maxBulletStock", true, 40000)));
 
-            $update = $this->db->query("
+            $update = $this->db->update("
                 UPDATE locations SET L_bullets = $max WHERE L_bullets > $max
             ");
 
@@ -75,9 +73,11 @@
 
             $this->restock();
             
-            $location = $this->db->prepare("SELECT * FROM locations WHERE L_id = ?");
-            $location->execute(array($this->user->info->US_location));
-            $loc = $location->fetchObject();
+            $location = $this->db->select("
+                SELECT * FROM locations WHERE L_id = :id
+            ", array(
+                "id" => $this->user->info->US_location
+            ));
                         
             $this->property = new Property($this->user, "bullets");
             $owner = $this->property->getOwnership();
@@ -93,8 +93,8 @@
                 $perk = getPercReward(4, $this->user);
             } 
 
-            $owner["locationName"] = $loc->L_name;
-            $owner["stock"] = number_format($loc->L_bullets);
+            $owner["locationName"] = $location["L_name"];
+            $owner["stock"] = number_format($location["L_bullets"]);
             $owner["maxBuy"] = abs(intval($settings->loadSetting("maxBulletBuy", true, 250))) + $perk;
             $owner["cost"] = $this->money($this->bulletCost);
 
@@ -135,11 +135,11 @@
                 ));
             }
 
-            $update = $this->db->prepare("
+            $update = $this->db->update("
                 UPDATE userStats SET US_money = US_money - 1000000 WHERE US_id = :id
-            ");
-            $update->bindParam(":id", $this->user->id);
-            $update->execute();
+            ", array(
+                ":id" => $this->user->id
+            ));
 
             $this->property->transfer($this->user->id);
 
@@ -154,9 +154,9 @@
             $qty = abs(intval($this->methodData->bullets));
             $settings = new Settings();
             
-            $location = $this->db->prepare("SELECT * FROM locations WHERE L_id = ?");
-            $location->execute(array($this->user->info->US_location));
-            $loc = $location->fetchObject();
+            $location = $this->db->select("SELECT * FROM locations WHERE L_id = :id", array(
+                ":id" =>$this->user->info->US_location
+            ));
             
             $this->property = new Property($this->user, "bullets");
             $owner = $this->property->getOwnership();
@@ -176,37 +176,26 @@
             
             if ($qty == 0) {
             
-                $this->alerts[] = $this->page->buildElement('error', array(
-                    "text"=>'Please enter a value greater then 0!'
-                ));
+                $this->error('Please enter a value greater then 0!');
             
             } else if (!$this->user->checkTimer('bullets')) {
                 
                 $timeLeft = $this->user->getTimer('bullets');
                 $timeLeft = $this->timeLeft($timeLeft);
 
-                $error = array(
-                    "text"=>'You can\'t buy bullets yet!'
-                );
-                $this->alerts[] = $this->page->buildElement('error', $error);
+                $this->error("You can't buy bullets yet!");
                 
             } else if ($qty > $maxBuy) {
-                $this->alerts[] = $this->page->buildElement('error', array(
-                    "text"=>'You can only buy '.number_format($maxBuy).' bullets at once'
-                ));
-            } else if ($loc->L_bullets < $qty) {
-                $this->alerts[] = $this->page->buildElement('error', array(
-                    "text"=>'The bullet factory does not have enough stock to fufil this order!'
-                ));
+                $this->error('You can only buy '.number_format($maxBuy).' bullets at once');
+            } else if ($location["L_bullets"] < $qty) {
+                $this->error('The bullet factory does not have enough stock to fufil this order!');
             } else if ($cost > $this->user->info->US_money) {
-                $this->alerts[] = $this->page->buildElement('error', array(
-                    "text"=>'You need ' . $this->money($cost) . " to buy " . $qty . " bullets"
-                ));
+                $this->error('You need ' . $this->money($cost) . " to buy " . $qty . " bullets"
+                );
             } else {
             
-                $this->alerts[] = $this->page->buildElement('success', array(
-                    "text"=>'You bought '.$qty.' bullets for $'.number_format($cost)
-                ));
+                $this->error('You bought '.$qty.' bullets for '.$this->money($cost)
+                , "success");
                 
                 $query = "
                     UPDATE userStats SET 
@@ -216,10 +205,10 @@
                         US_id = :id
                 "; 
                 
-                $uUser = $this->db->prepare($query);
-                $uUser->bindParam(":money", $cost);
-                $uUser->bindParam(":id", $this->user->id);
-                $uUser->execute();
+                $uUser = $this->db->update($query, array(
+                    ":money" => $cost,
+                    ":id" => $this->user->id
+                ));
 
                 $actionHook = new hook("userAction");
                 $action = array(
@@ -234,17 +223,21 @@
                 if ($owner["user"]) {
                     $profit = $cost * 0.5;
                     $this->property->updateProfit($profit);
-                    $uUser = $this->db->prepare("UPDATE userStats SET US_bank = US_bank + :money WHERE US_id = :id");
-                    $uUser->bindParam(":id", $owner["user"]["id"]);
-                    $uUser->bindParam(":money", $profit);
-                    $uUser->execute();
+                    $uUser = $this->db->update("
+                        UPDATE userStats SET US_bank = US_bank + :money WHERE US_id = :id
+                    ", array(
+                        ":id" => $owner["user"]["id"],
+                        ":money" => $profit
+                    ));
                 }
 
                 $this->user->updateTimer('bullets', 60, true);
                 
-                $uLoc = $this->db->prepare("UPDATE locations SET L_bullets = L_bullets - $qty WHERE L_id= :loc");
-                $uLoc->bindParam(":loc", $loc->L_id);
-                $uLoc->execute();
+                $uLoc = $this->db->update("
+                    UPDATE locations SET L_bullets = L_bullets - $qty WHERE L_id= :loc
+                ", array(
+                    ":loc" => $location["L_id"]
+                ));
             }
             
         }
