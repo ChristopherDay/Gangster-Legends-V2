@@ -7,169 +7,94 @@
         );
         
         public $pageName = '';
-        
-        public $weaponType = 1;
-        public $armorType = 2;
 
         public function constructModule() {
+            $item = new Items();
+            $types = $item->types;
 
-            $sql = "
-                SELECT
-                    I_id as 'id',  
-                    I_name as 'name',  
-                    I_cost as 'cost',  
-                    I_points as 'points',  
-                    ROUND(I_damage / 100, 2) as 'damage',  
-                    I_type as 'type',  
-                    I_rank as 'rank', 
-                    CASE I_type
-                        WHEN ".$this->weaponType." THEN 'Weapon'
-                        WHEN ".$this->armorType." THEN 'Armor'
-                        ELSE 'Unknown'
-                    END as 'typeDesc'
-                FROM items
-                INNER JOIN ranks ON R_id = I_rank
-                WHERE R_exp <= :userEXP AND I_type = :type
-                ORDER BY I_damage
-            ";
+            foreach ($types as $typeKey => $type) {
 
-            $weapons = $this->db->selectAll($sql . "ASC", array(
-                ":type" => $this->weaponType,
-                ":userEXP" => $this->user->info->US_exp
-            ));
+                $type["items"] = $this->db->selectAll("SELECT I_id FROM items WHERE I_type = :type", array(
+                    ":type" => $type["id"]
+                ));
 
-            $armor = $this->db->selectAll($sql . "DESC", array(
-                ":type" => $this->armorType,
-                ":userEXP" => $this->user->info->US_exp
-            ));
+                foreach ($type["items"] as $itemKey => $itemID) {
+                    $type["items"][$itemKey] = $item->getItem($itemID["I_id"]);
+                }
 
-            array_unshift($weapons, array(
-                "id" => 0, 
-                "name" => "No weapon", 
-                "cantBuy" => true
-            ));
-
-            array_unshift($armor, array(
-                "id" => 0, 
-                "name" => "No armor", 
-                "cantBuy" => true
-            ));
+                $types[$typeKey] = $type;
+            }
 
 
+                
+            $hook = new Hook("alterModuleData");
+            $hookData = array(
+                "module" => "blackMarket.list",
+                "user" => $this->user,
+                "data" => $types
+            );
+            $types = $hook->run($hookData, 1)["data"];
 
             $this->html .= $this->page->buildElement("blackMarket", array(
-                "location" => $this->user->getLocation(), 
-                "weapons" => $this->userOwns($this->user->info->US_weapon, $weapons),
-                "armor" => $this->userOwns($this->user->info->US_armor, $armor)
+                "types" => $types
             ));
         }
 
         public function method_buy() {
-            $item = $this->db->select("
-                SELECT * FROM items INNER JOIN ranks ON I_rank = R_id WHERE I_id = :id
-            ", array(
-                ":id" => $this->methodData->item
-            ));
+
+            if (!$this->checkCSFRToken()) return;
+
+            $items = new Items();
+
+            $item = $items->getItem($this->methodData->item);
+
+            $data = array(
+                "user" => $this->user, 
+                "item" => $item
+            );
+
+            $buyItemCheck = new Hook("buyItem");
+            $errors = $buyItemCheck->run($data);
+
+            if ($errors) {
+                foreach ($errors as $error) {
+                    if (is_string($error)) {
+                        return $this->error($error);
+                    }
+                }
+            }
 
             $hook = new Hook("alterModuleData");
             $hookData = array(
-                "module" => "blackmarket",
+                "module" => "blackmarket.item",
                 "user" => $this->user,
                 "data" => $item
             );
             $item = $hook->run($hookData, 1)["data"];
 
-            if (!$item["I_id"]) {
-                $this->alerts[] = $this->page->buildElement('error', array(
-                    "text" => "This item does not exist"
-                ));
-            } else if ($item["I_id"] == $this->user->info->US_weapon || $item["I_id"] == $this->user->info->US_armor) {
-                $this->alerts[] = $this->page->buildElement('error', array(
-                    "text" => "You already own this item"
-                ));
-            } else if ($item["R_exp"] > $this->user->info->US_exp) {
-                $this->alerts[] = $this->page->buildElement('error', array(
-                    "text" => "You can't buy this item yet"
-                ));
-            } else if ($item["I_cost"] > $this->user->info->US_money) {
-                $this->alerts[] = $this->page->buildElement('error', array(
-                    "text" => "You dont have enough money to buy a " . $item["I_name"]
-                ));
-            } else if ($item["I_points"] > $this->user->info->US_points) {
-                $this->alerts[] = $this->page->buildElement('error', array(
-                    "text" => 'You dont have enough {_setting "pointsName"} to buy a ' . $item["I_name"]
-                ));
-            } else {
-                $this->alerts[] = $this->page->buildElement('success', array(
-                    "text" => "You now own a " . $item["I_name"]
-                ));
+            if (!$item["id"]) {
+                return $this->error("This item does not exist");
+            } 
 
-                switch ((int) $item["I_type"]) {
-                    case 1:
-                        $col = "US_weapon";
-                    break;
-                    case 2:
-                        $col = "US_armor";
-                    break;
-                    default:
-                        $col = false;
-                    break;
-                } 
+            if ($item["cost"] > $this->user->info->US_money) {
+                return $this->error("You dont have enough money to buy a " . $item["name"]);
+            } 
 
-                if ($col) {
-                    $update = $this->db->prepare("
-                        UPDATE 
-                            userStats 
-                        SET 
-                            ".$col." = :itemID, 
-                            US_money = US_money - :cost, 
-                            US_points = US_points - :points 
-                        WHERE US_id = :user
-                    ");
+            $this->error("You bought a " . $item["name"], "success");
 
-                    $update->bindParam(":itemID", $item["I_id"]);
-                    $update->bindParam(":cost", $item["I_cost"]);
-                    $update->bindParam(":points", $item["I_points"]);
-                    $update->bindParam(":user", $this->user->id);
-                    $update->execute();
+            $this->user->subtract("US_money", $item["cost"]);
+            $this->user->addItem($item["id"]);
+            
+            $actionHook = new hook("userAction");
+            $action = array(
+                "user" => $this->user->id, 
+                "module" => "blackmarket", 
+                "id" => $item["id"], 
+                "success" => true, 
+                "reward" => 0
+            );
+            $actionHook->run($action);
 
-                    $this->user->info->$col = $item["I_id"];
-                    $this->user->info->US_money -= $item["I_cost"];
-                    $this->user->info->US_points -= $item["I_points"];
-
-
-                    
-                    $actionHook = new hook("userAction");
-                    $action = array(
-                        "user" => $this->user->id, 
-                        "module" => "blackmarket", 
-                        "id" => $item["I_id"], 
-                        "success" => true, 
-                        "reward" => 0
-                    );
-                    $actionHook->run($action);
-
-                }
-
-            }
-
-        }
-
-        public function userOwns($itemID, $items) {
-            foreach ($items as $key => $item) {
-                $item["owned"] = ($item["id"] == $itemID);
-
-                $hook = new Hook("alterModuleData");
-                $hookData = array(
-                    "module" => "blackmarket",
-                    "user" => $this->user,
-                    "data" => $item
-                );
-                $item = $hook->run($hookData, 1)["data"];
-
-                $items[$key] = $item;
-            }
-            return $items;
         }
     }
 
