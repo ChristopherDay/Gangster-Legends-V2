@@ -329,17 +329,17 @@
 
             
             if (isset($this->nextRank->R_exp)) {
+                $this->info->maxRank = false;
                 if ($rank->R_id == $this->nextRank->R_id) {
                     $this->nextRank = $this->nextRank();
                 }
                 $expIntoNextRank =  $this->info->US_exp - $rank->R_exp;
                 $expNeededForNextRank = $this->nextRank->R_exp - $rank->R_exp;
                 $expperc = round($expIntoNextRank / $expNeededForNextRank * 100, 2);
-                $this->info->maxRank = false;
             } else {
+                $thisRank = $this->getRank();
+                $expperc = 100;
                 $this->info->maxRank = true;
-                $thisRank = $this->getRank($this->info->U_id);
-                $expperc = round($this->info->US_exp / $thisRank->R_exp * 100, 2) % 100;
             }
             
             $page->addToTemplate('maxRank', $this->info->maxRank);
@@ -502,7 +502,7 @@
                 
                 if ($newRank->R_cashReward) $rewards[] = array( 
                     "name" => "Cash" ,
-                    "value" => $page($newRank->R_cashReward) 
+                    "value" => $page->money($newRank->R_cashReward) 
                 );
 
                 $text = $page->buildElement("levelUpNotification", array(

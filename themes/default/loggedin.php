@@ -127,12 +127,19 @@
                             </div>
                             <div class="list-group-item">
                                 <strong>Rank: </strong>
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-success" style="width: {exp_perc}%" data-ajax-element="exp_perc" data-ajax-type="css" data-ajax-css="width" data-ajax-value-postfix="%"></div>
-                                </div>
-                                <small class="pull-right" data-ajax-element="rank">
-                                    {rank}
-                                </small>
+
+                                {#if maxRank}
+                                    <small class="pull-right" data-ajax-element="rank">
+                                        {rank} (Max Rank)
+                                    </small>
+                                {else}
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-success" style="width: {exp_perc}%" data-ajax-element="exp_perc" data-ajax-type="css" data-ajax-css="width" data-ajax-value-postfix="%"></div>
+                                    </div>
+                                    <small class="pull-right" data-ajax-element="rank">
+                                        {rank}
+                                    </small>
+                                {/if}
                             </div>
                         </div>
                     </div>
