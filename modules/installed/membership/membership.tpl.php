@@ -55,19 +55,7 @@
 					</div>
 				</div>
 			</div>
-		';
-
-        public $premiumMembershipHolder = '
-            {#each premiumMembership}
-            <div class="crime-holder">
-                <p>
-                    <span class="action">
-                        {name} 
-                    </span>
-           </div>
-           {/each}
-        ';
-        
+		';        
 
         public $premiumMembershipList = '
             <table class="table table-condensed table-striped table-bordered table-responsive">
