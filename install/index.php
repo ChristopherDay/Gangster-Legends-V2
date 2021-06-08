@@ -9,6 +9,7 @@
 	require "../class/hook.php";
 	require "../class/settings.php";
 	require "../class/fastImage.php";
+	require "../class/items.php";
 	require "../class/user.php";
 
 	function heading($step, $text) {

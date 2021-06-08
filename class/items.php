@@ -17,7 +17,9 @@
 
 		public function getSlots($user) {
 			$hook = new Hook("equipSlot");
-        	$slots = $this->page->sortArray($hook->run());
+			$slots = $hook->run();
+			if (!$this->page) return array();
+        	$slots = $this->page->sortArray($slots);
         	$equipSlots = array();
 
         	foreach ($slots as $slot) {
