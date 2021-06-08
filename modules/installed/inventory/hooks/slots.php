@@ -13,7 +13,7 @@
                 $items->getType("weapon")
             ),
     		"equip" => function ($user, $item) {
-                if ($user->hasItem($user->info->US_weapon)) {
+                if ($user->hasItem($item)) {
     				$user->set("US_weapon", $item);
                 }
     		}, 
@@ -39,7 +39,7 @@
     			$items->getType("armor")
     		),
     		"equip" => function ($user, $item) {
-                if ($user->hasItem($user->info->US_armor)) {
+                if ($user->hasItem($item)) {
     				$user->set("US_armor", $item);
                 }
     		}, 

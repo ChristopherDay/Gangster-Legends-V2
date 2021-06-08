@@ -113,8 +113,6 @@
 
         public function method_equip () {
 
-            if (!$this->checkCSFRToken()) return;
-
             if (!$this->user->hasItem($this->methodData->item)) {
                 return $this->error("You don't have this item!");
             }
@@ -122,11 +120,15 @@
             $items = new Items();
             $slots = $items->getSlots($this->user);
 
+            if (!$this->checkCSFRToken()) return;
+
             foreach ($slots as $slot) {
+
 
                 if ($slot["name"] == $this->methodData->slot) {
                     
                     $item = $items->getItem($this->methodData->item);
+                    
 
                     $data = array(
                         "user" => $this->user, 
@@ -146,11 +148,10 @@
                         }
                     }
 
+
                     if ($valid) {
                         $slot["actions"]["remove"]($this->user);
                         $slot["actions"]["equip"]($this->user, $this->methodData->item);
-
-
                         $this->user->removeItem($this->methodData->item);
                         $this->error("You have equiped " . $item["name"], "success");
                     }

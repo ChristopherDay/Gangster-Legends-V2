@@ -16,7 +16,7 @@
                     $links[] = array(
                         "name" => "Equip " . $slot["name"],
                         "sort" => 10,
-                        "link" => "?page=inventory&action=equip&slot=" . $slot["name"]. "&item=" . $item["id"] . "&_CSFR={_CSFRToken}"
+                        "link" => "?page=inventory&action=equip&slot=" . $slot["name"]. "&item=" . $item["id"] 
                     );
                 }
             }
@@ -41,7 +41,7 @@
             $links[] = array(
                 "name" => "Use",
                 "sort" => 10,
-                "link" => "?page=inventory&action=use&item=" . $item["id"] . "&_CSFR={_CSFRToken}"
+                "link" => "?page=inventory&action=use&item=" . $item["id"]
             );
         }
 

@@ -124,7 +124,7 @@
                 </p>
 				<ul class="list-group inventory-actions">
 					{#each links}
-						<a href="{link}" class="list-group-item">
+						<a href="{link}&_CSFR={_CSFRToken}" class="list-group-item">
 							{name}
 						</a>
 					{/each}
