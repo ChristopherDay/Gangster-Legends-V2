@@ -242,12 +242,8 @@ CREATE TABLE IF NOT EXISTS `properties` (
 
 CREATE TABLE IF NOT EXISTS `items` (
   `I_id` INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT , 
-  `I_name` VARCHAR(128) NOT NULL , 
-  `I_damage` INT(11) NOT NULL DEFAULT 0 , 
-  `I_cost` INT(11) NOT NULL DEFAULT 0 , 
-  `I_points` INT(11) NOT NULL DEFAULT 0 , 
-  `I_type` INT(11) NOT NULL DEFAULT 0 , 
-  `I_rank` INT(11) NOT NULL DEFAULT 0
+  `I_name` VARCHAR(128) NOT NULL ,  
+  `I_type` INT(11) NOT NULL DEFAULT 0
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `detectives` (
@@ -267,3 +263,32 @@ CREATE TABLE IF NOT EXISTS `bounties` (
   `B_cost` INT(11) NOT NULL DEFAULT 0
 ) ENGINE = InnoDB;
 
+CREATE TABLE IF NOT EXISTS `premiumMembership` (
+  `PM_id` int(11) NOT NULL AUTO_INCREMENT,
+  `PM_desc` varchar(255) NOT NULL,
+  `PM_seconds` int(11) NOT NULL,
+  `PM_cost` int(11) NOT NULL,
+  PRIMARY KEY (`PM_id`)
+) DEFAULT CHARSET=utf8;
+
+CREATE TABLE `userInventory` (
+  `UI_user` INT(11), 
+  `UI_item` INT(11), 
+  `UI_qty` INT(11), 
+  PRIMARY KEY(`UI_user`, `UI_item`)
+);
+
+CREATE TABLE `itemEffects` (
+  `IE_effect` VARCHAR(32), 
+  `IE_item` INT(11), 
+  `IE_value` VARCHAR(128), 
+  `IE_desc` VARCHAR(128), 
+  PRIMARY KEY(`IE_effect`, `IE_item`)
+);
+
+CREATE TABLE `itemMeta` (
+  `IM_item` INT(11), 
+  `IM_meta` VARCHAR(32), 
+  `IM_value` TEXT, 
+  PRIMARY KEY(`IM_item`, `IM_meta`)
+);
