@@ -359,6 +359,9 @@ class Template
         $name = $current[Tokenizer::NAME];
 
         if ($name == "_CSFRToken") {
+            if (!isset($_SESSION["CSFR"])) {
+                $_SESSION["CSFR"] = md5(mt_rand(1, 10000000));
+            }
             return $_SESSION["CSFR"];
         }
 
