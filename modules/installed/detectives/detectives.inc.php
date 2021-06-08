@@ -77,7 +77,7 @@
                 $cost = $costPerDetective * $detectives * $duration;
 
                 if ($cost > $this->user->info->US_money) {
-                    return $this->error("You need $".number_format($cost)." to do this!");
+                    return $this->error("You need ".$this->money($cost)." to do this!");
                 }
 
                 $success = (mt_rand(1, 100) <= ($detectives * 4) * $duration)?1:0;

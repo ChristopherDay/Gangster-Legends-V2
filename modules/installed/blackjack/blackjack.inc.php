@@ -212,7 +212,7 @@ class blackjack extends module {
 
         if ($user == $dealer) {
             $this->html .= $this->page->buildElement("info", array(
-                "text" => "You drew, $" . number_format($game["bet"]) . " was returned"
+                "text" => "You drew, " . $this->money($game["bet"]) . " was returned"
             ));    
             $winnings = $game["bet"];
             $this->userWins($winnings);
@@ -220,14 +220,14 @@ class blackjack extends module {
             $game["gameOver"] = true;
         } else if ($user > $dealer) {
             $this->html .= $this->page->buildElement("success", array(
-                "text" => "The dealer went bust, you won $" . number_format($game["bet"])
+                "text" => "The dealer went bust, you won " . $this->money($game["bet"])
             ));
             $winnings = ($game["bet"] * 2);
             $this->userWins($winnings);
             $game["gameOver"] = true;
         } else if ($user < $dealer) {
             $this->html .= $this->page->buildElement("error", array(
-                "text" => "The dealer won, you lost your bet of $" . number_format($game["bet"])
+                "text" => "The dealer won, you lost your bet of " . $this->money($game["bet"])
             ));
 
             $game["gameOver"] = true;
@@ -247,12 +247,12 @@ class blackjack extends module {
         if ($score == 0) {
             $game["gameOver"] = true;
             $this->html .= $this->page->buildElement("error", array(
-                "text" => "You went bust and lost $" . number_format($game["bet"])
+                "text" => "You went bust and lost " . $this->money($game["bet"])
             ));
         } else if ($score == 22) {
             $game["gameOver"] = true;
             $this->html .= $this->page->buildElement("success", array(
-                "text" => "You got blackjack and won $" . number_format($game["bet"] * 1.5)
+                "text" => "You got blackjack and won " . $this->money($game["bet"] * 1.5)
             ));
             $winnings = ($game["bet"] * 2.5);
             $this->userWins($winnings);

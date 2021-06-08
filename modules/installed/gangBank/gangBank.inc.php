@@ -23,8 +23,8 @@
             $this->html .= $this->page->buildElement("bank", array(
                 "canWithdrawCash" => $gang->can("withdrawCash"),
                 "canWithdrawBullets" => $gang->can("withdrawBullets"),
-                "deposit" => '$'.number_format($this->user->info->US_money),
-                "withdraw" => '$'.number_format($this->user->info->US_bank),
+                "deposit" => $this->money($this->user->info->US_money),
+                "withdraw" => $this->money($this->user->info->US_bank),
                 "bullets" => number_format($this->user->info->US_bullets), 
                 "cash" => $gangBank["G_money"], 
                 "bullets" => $gangBank["G_bullets"] 
@@ -81,9 +81,9 @@
                     
                     if ($this->type == "G_money") {
                         $this->alerts[] = $this->page->buildElement("success", array(
-                            "text"=>"You have withdrawn $".number_format($money)."!"
+                            "text"=>"You have withdrawn ".$this->money($money)."!"
                         ));
-                        $g->log("withdrew $".number_format($money));
+                        $g->log("withdrew ".$this->money($money));
                     } else {
                         $this->alerts[] = $this->page->buildElement("success", array(
                             "text"=>"You have withdrawn ".number_format($money)." bullets!"
@@ -120,9 +120,9 @@
                     
                     if ($this->type == "G_money") {
                         $this->alerts[] = $this->page->buildElement("success", array(
-                            "text"=>"You sent $".number_format($money)." to your money launder, he in return deposits $".number_format($bank)." into your gangs bank account!"
+                            "text"=>"You sent ".$this->money($money)." to your money launder, he in return deposits ".$this->money($bank)." into your gangs bank account!"
                         ));
-                        $g->log("deposited $".number_format($money));
+                        $g->log("deposited ".$this->money($money));
                     } else {
                         $this->alerts[] = $this->page->buildElement("success", array(
                             "text"=>"You deposited ".number_format($bank)." bullets into your gangs bank account!"

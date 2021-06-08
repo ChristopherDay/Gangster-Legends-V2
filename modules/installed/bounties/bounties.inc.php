@@ -84,7 +84,7 @@
                 $cost = $this->methodData->cost;
 
                 if ($cost > $this->user->info->US_money) {
-                    return $this->error("You need $".number_format($cost)." for this bounty");
+                    return $this->error("You need " . $this->money($cost) . " for this bounty");
                 }
 
                 $insert = $this->db->prepare("
@@ -96,7 +96,7 @@
                     UPDATE userStats SET US_money = US_money - :cost WHERE US_id = :uid;
                 ");
 
-                $user->newNotification("Someone just put a $" . number_format($cost) . " bounty on you");
+                $user->newNotification("Someone just put a " . $this->money($cost) . " bounty on you");
 
                 $userID = $this->user->id;
 
@@ -121,7 +121,7 @@
                 $actionHook->run($action);
 
                 $this->alerts[] = $this->page->buildElement("success", array(
-                    "text" => "You put a $" . number_format($cost) . " bounty on " . $user->info->U_name
+                    "text" => "You put a " . $this->money($cost) . " bounty on " . $user->info->U_name
                 ));
 
 

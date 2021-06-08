@@ -10,7 +10,7 @@
 
     new hook("adminWidget-table", function ($user) {
         
-        global $db;
+        global $db, $page;
 
         $stats = $db->select("
             SELECT 
@@ -59,7 +59,7 @@
                 array(
                     "columns" => array(
                         array( "value" => "Money" ),
-                        array( "value" => "$" . number_format((int) $stats["cash"]) ),
+                        array( "value" => $page->money((int) $stats["cash"]) ),
                     )
                 ), 
                 array(

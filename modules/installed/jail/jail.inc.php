@@ -58,7 +58,17 @@
 
             foreach ($usersInJail as $key => $value) {
                 $u = new User($value["id"]);
-                $usersInJail[$key]["user"] = $u->user;
+                $value["user"] = $u->user;
+
+                $hook = new Hook("alterModuleData");
+                $hookData = array(
+                    "module" => "jail",
+                    "user" => $this->user,
+                    "data" => $value
+                );
+                $value = $hook->run($hookData, 1)["data"];
+
+                $usersInJail[$key] = $value;
             }
 
             if ($id) {

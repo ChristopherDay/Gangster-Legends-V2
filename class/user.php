@@ -4,7 +4,7 @@
 
     class user {
         
-        public $id, $info, $name, $db, $loggedin = false, $nextRank, $user;
+        public $id, $info, $name, $db, $loggedin = false, $nextRank, $user, $attackPower = 100, $defensePower = 100;
         
         // Pass the ID to the class
         function __construct($id = FALSE, $name = FALSE) {
@@ -41,7 +41,7 @@
         
         // This function will return all the information for the user
         public function getInfo($return = false) {
-            
+
             if (!empty($this->name)) {
                 $userInfo = $this->db->prepare("
                     SELECT 
@@ -115,13 +115,38 @@
                     "onlineStatus" => $this->getStatus(false)
                 );
             }
-            
+
+            $this->applyItemEffects();
+
             if ($return) {
                 return $this->info;
             }
             
         }
         
+        public function applyItemEffects() {
+
+            $items = new Items();
+
+            $equipSlots = $items->getSlots($this);
+            $effects = $items->getEffects();
+
+            if (!count($equipSlots)) return;
+
+            foreach ($equipSlots as $slot) {
+                if ($slot) {
+                    if ($slot["item"]) {
+                        foreach ($slot["item"]["effects"] as $effect) {
+                            $effectInfo = $items->findEffect($effects, $effect["effect"]);
+                            $effectInfo["use"]($this, $effect["value"]);
+                        }
+
+                    }
+                }
+            }
+
+        }
+
         public function hasAdminAccessTo($module) {
             return in_array($module, $this->adminModules) || in_array("*", $this->adminModules);
         }
@@ -284,7 +309,7 @@
             if ($health < 0) $health = 0;
 
             $page->addToTemplate('pic', $pic);
-            $page->addToTemplate('money', '$'.number_format($this->info->US_money));
+            $page->addToTemplate('money', $page->money($this->info->US_money));
             $page->addToTemplate('bullets', number_format($this->info->US_bullets));
             $page->addToTemplate('backfire', number_format($this->info->US_backfire));
             $page->addToTemplate('points', $this->info->US_points);
@@ -297,10 +322,6 @@
 
             $page->addToTemplate('isAdmin', count($this->adminModules) != 0);
             
-            $hook = new Hook("userInformation");
-
-            $hook->run($this);
-            
             $rank = $this->getRank();
             $gang = $this->getGang();
             $weapon = $this->getWeapon();
@@ -308,17 +329,17 @@
 
             
             if (isset($this->nextRank->R_exp)) {
+                $this->info->maxRank = false;
                 if ($rank->R_id == $this->nextRank->R_id) {
                     $this->nextRank = $this->nextRank();
                 }
                 $expIntoNextRank =  $this->info->US_exp - $rank->R_exp;
                 $expNeededForNextRank = $this->nextRank->R_exp - $rank->R_exp;
                 $expperc = round($expIntoNextRank / $expNeededForNextRank * 100, 2);
-                $this->info->maxRank = false;
             } else {
+                $thisRank = $this->getRank();
+                $expperc = 100;
                 $this->info->maxRank = true;
-                $thisRank = $this->getRank($this->info->U_id);
-                $expperc = round($this->info->US_exp / $thisRank->R_exp * 100, 2) % 100;
             }
             
             $page->addToTemplate('maxRank', $this->info->maxRank);
@@ -328,6 +349,9 @@
             $page->addToTemplate('weapon', $weapon->I_name);
             $page->addToTemplate('armor', $armor->I_name);
             if (isset($this->nextRank->R_name)) $page->addToTemplate('nextRank', $this->nextRank->R_name);
+
+            $hook = new Hook("userInformation");
+            $hook->run($this);
             
         }
         
@@ -478,7 +502,7 @@
                 
                 if ($newRank->R_cashReward) $rewards[] = array( 
                     "name" => "Cash" ,
-                    "value" => "$" . number_format($newRank->R_cashReward) 
+                    "value" => $page->money($newRank->R_cashReward) 
                 );
 
                 $text = $page->buildElement("levelUpNotification", array(
@@ -600,6 +624,7 @@
 
             $hook = new Hook("userTimerUpdated");
             $data = array(
+                "old" => $oldTimer, 
                 "timer" => $timer, 
                 "time" => $time, 
                 "user" => $user
@@ -635,6 +660,52 @@
                 }
             }
             
+        }
+
+        public function hasItem($item, $qty = 1) {
+            $item = $this->db->select("
+                SELECT * 
+                FROM userInventory 
+                WHERE UI_user = :user
+                AND UI_item = :item
+            ", array(
+                ":user" => $this->info->U_id, 
+                ":item" => $item
+            ));
+
+            if (!isset($item["UI_qty"])) return false; 
+
+            return $item["UI_qty"] >= $qty;
+        }
+
+        public function addItem($item, $qty = 1) {
+            $item = $this->db->insert("
+                INSERT INTO userInventory (
+                    UI_user, UI_item, UI_qty
+                ) VALUES (
+                    :user, :item, :qty
+                ) ON DUPLICATE KEY UPDATE UI_qty = UI_qty + :qty;
+            ", array(
+                ":user" => $this->info->U_id, 
+                ":item" => $item, 
+                ":qty" => $qty
+            ));
+        }
+
+        public function removeItem($item, $qty = 1) {
+            if ($this->hasItem($item, $qty)) {
+                $item = $this->db->update("
+                    UPDATE userInventory SET UI_qty = UI_qty - :qty 
+                    WHERE UI_user = :user
+                    AND UI_item = :item;
+                ", array(
+                    ":user" => $this->info->U_id, 
+                    ":item" => $item, 
+                    ":qty" => $qty
+                ));
+                return true;
+            }
+            return false;
         }
         
         public function logout() {

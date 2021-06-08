@@ -76,6 +76,21 @@ class page {
         }
         return $html;
     } 
+
+    public function money($money) {
+
+        $defaultMoneyFunction = function ($money) {
+            return "$" . number_format($money);
+        };
+
+        $hook = new Hook("currencyFormat");
+        $func = $hook->run($defaultMoneyFunction, true);
+
+        if (is_callable($func)) {
+            return $func($money);
+        }
+
+    }
     
     private function load($page) {
         

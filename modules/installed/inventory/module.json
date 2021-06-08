@@ -1,0 +1,33 @@
+{
+    "name": "Inventory",
+    "version": "1.0.0",
+    "description": "A user inventory",
+    "author": {
+        "name": "Chris Day",
+        "url": "http:\/\/glscript.cdcoding.com"
+    },
+    "pageName": "Inventory",
+    "accessInJail": false,
+    "requireLogin": true,
+    "adminGroup": "Items",
+    "admin": [
+        {
+            "text": "View Items",
+            "method": "view"
+        },
+        {
+            "text": "New Item",
+            "method": "new"
+        },
+        {
+            "hide": true,
+            "text": "Edit Item",
+            "method": "edit"
+        },
+        {
+            "hide": true,
+            "text": "Delete Item",
+            "method": "delete"
+        }
+    ]
+}

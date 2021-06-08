@@ -82,15 +82,9 @@
                     return $this->error("You dont have " . number_format($bullets) . " bullets to shoot!");
                 }
 
-                if ($this->user->info->US_weapon == 0) {
-                    return $this->error("You dont have a weapon!");
-                } 
 
-                $weapon = $this->getItem($this->user->info->US_weapon);
-                $armor = $this->getItem($userToKill->info->US_armor);
-
-                $damage = floor($weapon["damage"] * $bullets);
-                $health = floor($userToKill->rank->R_health / $armor["damage"]);
+                $damage = floor($this->user->attackPower / $userToKill->defensePower * $bullets);
+                $health = $userToKill->rank->R_health;
 
                 $damageDonePercent = $damage / $health;
 

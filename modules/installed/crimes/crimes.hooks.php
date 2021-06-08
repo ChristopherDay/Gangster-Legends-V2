@@ -20,3 +20,16 @@
         );
     });
 
+    new Hook("membershipBenefit", function () {
+        return array(
+            "title" => "Getaway Driver", 
+            "description" => "All crime timers are reduced by 25%"
+        );
+    });
+
+    new Hook("alterModuleData", function ($data) {
+        if ($data["module"] == "crimes" && !$data["user"]->checkTimer("membership")) {
+            $data["data"]["C_cooldown"] = ceil($data["data"]["C_cooldown"] * 0.75);
+        }
+        return $data;
+    });

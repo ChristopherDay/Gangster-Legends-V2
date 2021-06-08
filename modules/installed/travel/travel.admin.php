@@ -32,7 +32,7 @@
         private function validateLocations($locations) {
             $errors = array();
 
-            if (strlen($locations["name"]) < 6) {
+            if (strlen($locations["name"]) < 3) {
                 $errors[] = "Location name is to short, this must be at least 5 characters";
             }
             

@@ -12,8 +12,16 @@
             
             $theftArray = array();
             foreach ($theft as $t) {
+
+                $hook = new Hook("alterModuleData");
+                $hookData = array(
+                    "module" => "theft",
+                    "user" => $this->user,
+                    "data" => $t
+                );
+                $t = $hook->run($hookData, 1)["data"];
             
-                $percent = $t["T_chance"] + (@$this->user->info->US_rank*2);
+                $percent = $t["T_chance"];
 
                 if ($percent > 100) $percent = 100;
 
@@ -52,11 +60,19 @@
                 $theftInfo = $this->db->select("SELECT * FROM theft WHERE T_id = :id", array(
                     ':id' => $id
                 ));
+
+                $hook = new Hook("alterModuleData");
+                $hookData = array(
+                    "module" => "theft",
+                    "user" => $this->user,
+                    "data" => $theftInfo
+                );
+                $theftInfo = $hook->run($hookData, 1)["data"];
                 
                 $jailChance = mt_rand(1, 3);
                 $chance = mt_rand(1, 100);
                 $carDamage = mt_rand(0, $theftInfo["T_maxDamage"]);
-                $userChance = $theftInfo["T_chance"] + ($this->user->info->US_rank * 2);
+                $userChance = $theftInfo["T_chance"];
 
                 if ($userChance > 100) {
                     $userChance = 100;

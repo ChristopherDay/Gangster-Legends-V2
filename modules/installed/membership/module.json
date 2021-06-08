@@ -1,0 +1,33 @@
+{
+    "name": "Premium Membership",
+    "version": "1.0.0",
+    "description": "",
+    "author": {
+        "name": "Chris Day",
+        "url": "http:\/\/glscript.cdcoding.com"
+    },
+    "pageName": "Premium Membership", 
+    "requireLogin": true,
+    "accessInJail": true,
+    "adminGroup": "Points",
+    "admin": [
+        {
+            "text": "View Membership",
+            "method": "view"
+        }, {
+            "text": "New Membership",
+            "method": "new"
+        }, {
+            "text": "Settings",
+            "method": "settings"
+        }, {
+            "hide": true,
+            "text": "Edit Package",
+            "method": "edit"
+        }, {
+            "hide": true,
+            "text": "Delete Package",
+            "method": "delete"
+        }
+    ]
+}

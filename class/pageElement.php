@@ -1,5 +1,12 @@
 <?php
 
+    
+    require __DIR__ . '/handlebars/Autoloader.php';
+    Handlebars\Autoloader::register();
+
+    use Handlebars\Handlebars;
+    use Handlebars\Loader\FilesystemLoader;
+
     require("nbbc.php");
 
     class pageElement {
@@ -14,91 +21,7 @@
             $this->templateName = $templateName;
         }
 
-        public function each($matches) {
-            $var = $matches[1];
-            $items = $this->items;
-            $item = $this->stringToArrayConversion($var, $items);
-            $template = $matches[2];
-            $rtn = "";
-            if (!$item) return "";
-            foreach ($item as $key => $items) {
-                $html = new pageElement($items, $this->template, $this->templateName);
-                $rtn .= $html->parse($template);
-            }
-            return $rtn;
-        }
-        
-        public function __if($matches) {
-            $var = $matches[1];
-            $template = $matches[2];
-            $items = $this->items;
-            $item = $this->stringToArrayConversion($var, $items);
-            if (is_array($item)) $item = count($item);
-            if ($item && $item != "0") {
-                $html = new pageElement($items, $this->template, $this->templateName);
-                $rtn = $html->parse($template);
-                return $rtn;
-            }
-            return "";
-        }
-        
-        public function unless($matches) {
-            $var = $matches[1];
-            $template = $matches[2];
-            $items = $this->items;
-            $item = $this->stringToArrayConversion($var, $items);
-            if (is_array($item)) $item = count($item);
-            if (!$item || $item == "0") {
-                $html = new pageElement($items, $this->template, $this->templateName);
-                $rtn = $html->parse($template);
-                return $rtn;
-            }
-            return "";
-        }
-        
-        public function replaceHTML($matches) {
-            $var = $matches[1];
-            $items = $this->items;
-            return $this->stringToArrayConversion($var, $this->items);  
-        }
-        
-        public function replaceBBCode($matches) {
-            $var = $matches[1];
-            $items = $this->items;
-            return $this->convertBBCodeToHTML(htmlspecialchars($this->stringToArrayConversion($var, $this->items)));
-        }
-        
-        public function replace($matches) {
-            $var = $matches[1];
-
-            $parts = explode(" ", $var);
-
-            if (count($parts) == 2) {
-                $var = $parts[1];
-            } 
-
-            if ($var == "_CSFRToken") {
-                $rtn = $_SESSION["CSFR"];
-            } else if ($var[0] == '"') {
-                //pass back the string
-                $var = str_replace('"', "", $var);
-                $rtn = $var;
-            } else {
-                $items = $this->items;
-                $rtn = htmlspecialchars($this->stringToArrayConversion($var, $this->items));
-            }
-            
-            if (count($parts) == 2) {
-                $rtn = $parts[0]($rtn);
-            } 
-
-            return $rtn;
-        }
-        
-        public function subTemplate($matches) {
-            $var = $matches[1];
-            return $this->parse($this->template->$var, $var);
-        }
+        public $bbcode = false;
 
         /* 
             full bbcodes list available here 
@@ -106,27 +29,71 @@
         */
         public function convertBBCodeToHTML($text) {
 
-            $bbcode = new BBCode;
-            $settings = new Settings();
 
-            $dir = 'themes/' . $settings->loadSetting("theme") . '/images/smileys';
-            $bbcode->smiley_dir = $dir;
-            $bbcode->smiley_url = $dir;
+            if (!$this->bbcode) {
+                $this->bbcode = new BBCode();
+                $settings = new Settings();
+                
+                $dir = 'themes/' . $settings->loadSetting("theme") . '/images/smileys';
+                $this->bbcode->smiley_dir = $dir;
+                $this->bbcode->smiley_url = $dir;
+                
+                $h = new Hook("customSmiley");
 
-            $h = new Hook("customSmiley");
+                $smileys = $h->run();
 
-            $smileys = $h->run();
-
-            if (is_array($smileys)) {
-                foreach ($smileys as $smiley) {
-                    $bbcode->AddSmiley($smiley["code"], $smiley["image"]);
+                if (is_array($smileys)) {
+                    foreach ($smileys as $smiley) {
+                        $this->bbcode->AddSmiley($smiley["code"], $smiley["image"]);
+                    }
                 }
+
             }
 
-            return $bbcode->Parse($text);
+
+
+
+            return $this->bbcode->Parse($text);
         }
 
-        public function parse($html = false, $subTemplateName = false) {
+        public $handlebars = false;
+
+        public function templateToHTML($html, $templateItems) {
+
+            if (!$this->handlebars) {
+                $this->handlebars = new Handlebars(array(
+                    "glTemplate" => $this->template
+                ));
+                $this->handlebars->addHelper("bbcode",
+                    function($template, $context, $args, $source){
+                        return $this->convertBBCodeToHTML($context->get($args));
+                    }
+                );
+                $this->handlebars->addHelper("money",
+                    function($template, $context, $args, $source){
+                        global $page;
+                        return $page->money($context->get($args));
+
+                    }
+                );
+            }  
+
+            /* convert old <{var}> to the new {{var} */
+            $pattern = '#\<\{(.+)\}\>#siU';
+            $replacement = '{{${1}}}';
+            $html = preg_replace($pattern, $replacement, $html);
+
+            /* convert old [{var}] to the new {#bbcode var} */
+            $pattern = '#\[\{(.+)\}\]#siU';
+            $replacement = '{#bbcode ${1}}';
+            $html = preg_replace($pattern, $replacement, $html);
+
+            $parsed = $this->handlebars->render($html, $templateItems);
+
+            return $parsed;
+        }
+
+        public function parse($html = false, $subTemplateName = false, $elementItems = array()) {
             $find = array();
             $replace = array();
 
@@ -171,62 +138,21 @@
 
                 }
 
-                //ini_set('pcre.jit', false);
-
-                /* remove new lines ... not sure why but it stops nested ifs ... */
-                $html = trim(preg_replace('/\s+/', ' ', $html));
-
-                // process each blocks
-                $html = preg_replace_callback(
-                    '#\{\#each (.+)\}(((?R)|.+)+)\{\/each}#iUsS', 
-                    array($this, "each"), 
-                    $html
-                );
-
-                // process if blocks
-                $html = preg_replace_callback(
-                    '#\{\#if (.+)\}(((?R)|.+)+)\{\/if}#iUsS', 
-                    array($this, "__if"), 
-                    $html
-                );
-                // process unless blocks
-                $html = preg_replace_callback(
-                    '#\{\#unless (.+)\}(((?R)|.+)+)\{\/unless}#iUsS', 
-                    array($this, "unless"), 
-                    $html
-                );
-
-                // replace variables
-                $html = preg_replace_callback(
-                    '#\{\>(.+)\}#iUsS', 
-                    array($this, "subTemplate"), 
-                    $html
-                );
-
-                // replace variables
-                $html = preg_replace_callback(
-                    '#\<\{(.+)\}\>#iUsS', 
-                    array($this, "replaceHTML"), 
-                    $html
-                );
-
-                // replace variables
-                $html = preg_replace_callback(
-                    '#\[\{(.+)\}\]#iUsS', 
-                    array($this, "replaceBBCode"), 
-                    $html
-                );
-
-                // replace variables
-                $html = preg_replace_callback(
-                    '#\{(.+)\}#iUsS', 
-                    array($this, "replace"), 
-                    $html
-                );
+                $html = $this->templateToHTML($html, $this->items);
 
             }
 
             return $html;
+        }
+
+        public $count = 0;
+
+        public function getPregError($whatWentWorng) {
+            $error = preg_last_error();
+            if ($error) debug(array(
+                $whatWentWorng,
+                $error
+            ));
         }
 
         public function stringToArrayConversion ($string, $arr) {

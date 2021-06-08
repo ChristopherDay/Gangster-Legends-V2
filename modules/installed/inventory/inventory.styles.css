@@ -1,0 +1,32 @@
+.inventory-actions {
+	position: absolute;
+	margin-bottom: 0px;
+	display: none;
+	width: 150px;
+	right: 10px;
+	top: 35px;
+	z-index: 1000000;
+}
+
+.inventory-actions.open {
+	display: block;
+}
+
+.inventory-actions .list-group-item {
+	padding: 5px;
+}
+
+.inventory-item {
+	position: relative;
+}
+
+.inventory-items {
+	display: block;
+	right: 0px;
+	left: auto;
+	top: 40px;
+}
+
+.inventory-actions a:hover {
+	background-color: #111 !important;
+}

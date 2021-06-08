@@ -250,7 +250,7 @@
                             <div class="panel-heading">Upgrade Capacity</div>
                             <div class="panel-body">
                                 <p>
-                                    Upgrade capacity to {nextCapacity} members for ${number_format upgradeCost}!
+                                    Upgrade capacity to {nextCapacity} members for {#money upgradeCost}!
                                 </p>
                                 <p>
                                     <a href="?page=gangs&action=upgrade" class="btn btn-success">
@@ -437,7 +437,7 @@
                             <div class="panel-heading">Start a new gang</div>
                             <div class="panel-body">
                                 <p>
-                                    You will need to bribe a government official ${number_format gangCost} to start a gang in their country!
+                                    You will need to bribe a government official {#money gangCost} to start a gang in their country!
                                 </p>
                                 <form action="?page=gangs&action=new" method="post">
 

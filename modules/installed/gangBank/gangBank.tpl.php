@@ -18,7 +18,7 @@
                             <p class="text-right">
                                 {#if canWithdrawCash}
                                     <span class="pull-left">
-                                        <strong>Current Ballance:</strong> ${number_format cash}
+                                        <strong>Current Ballance:</strong> {#money cash}
                                     </span>
                                 {/if}
                                 <button type="submit" class="btn btn-danger" name="bank" value="deposit">

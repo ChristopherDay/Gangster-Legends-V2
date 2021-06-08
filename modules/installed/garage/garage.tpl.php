@@ -33,7 +33,7 @@
                                 <tr>
                                     <td>{name}</td>
                                     <td>{damage}</td>
-                                    <td>${value}</td>
+                                    <td>{#money value}</td>
                                     <td>{location}</td>
                                     <td class="text-center">
                                         <a href="?page=garage&action=sell&id={id}">Sell</a> &nbsp;&nbsp; 

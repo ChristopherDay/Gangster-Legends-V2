@@ -24,17 +24,27 @@
             ));
             
             foreach ($locations as $location) {
+
+                $hook = new Hook("alterModuleData");
+                $hookData = array(
+                    "module" => "travel",
+                    "user" => $this->user,
+                    "data" => $location
+                );
+                $location = $hook->run($hookData, 1)["data"];
+
                 $data[] = array(
                     "location" => $location["L_name"], 
-                    "cost" => number_format($location["L_cost"]), 
+                    "cost" => $location["L_cost"], 
                     "id" => $location["L_id"], 
                     "cooldown" => $this->timeLeft($location["L_cooldown"])
                 );
                 
             }
-                $this->html .= $this->page->buildElement('locationHolder', array(
-                    "locations" => $data
-                ));
+
+            $this->html .= $this->page->buildElement('locationHolder', array(
+                "locations" => $data
+            ));
             
         }
         
@@ -45,6 +55,14 @@
             $location = $this->db->select("SELECT * from locations WHERE L_id = :id ORDER BY L_id", array(
                 ':id'=>  $id
             ));
+
+            $hook = new Hook("alterModuleData");
+            $hookData = array(
+                "module" => "travel",
+                "user" => $this->user,
+                "data" => $location
+            );
+            $location = $hook->run($hookData, 1)["data"];
            
             if (!$location){ 
                 return $this->error("This location does not exist!");
@@ -76,7 +94,7 @@
                     );
                     $actionHook->run($action);
                     
-                    $this->alerts[] = $this->page->buildElement('success', array("text" => 'You traveled to '.$location["L_name"].' for $'.number_format($location["L_cost"]).'!'));
+                    $this->alerts[] = $this->page->buildElement('success', array("text" => 'You traveled to '.$location["L_name"].' for '.$this->money($location["L_cost"]).'!'));
                     
                 }
             } 

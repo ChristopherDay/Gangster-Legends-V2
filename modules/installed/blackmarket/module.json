@@ -8,31 +8,5 @@
     },
     "pageName": "Black Market",
     "accessInJail": false,
-    "requireLogin": true,
-    "adminGroup": "Game Mechanics",
-    "admin": [
-        {
-            "text": "View Items",
-            "method": "view"
-        },
-        {
-            "text": "New Item",
-            "method": "new"
-        },
-        {
-            "hide": true,
-            "text": "Edit Item",
-            "method": "edit"
-        },
-        {
-            "hide": true,
-            "text": "Delete Item",
-            "method": "delete"
-        },
-        {
-            "hide": false,
-            "text": "Bullet Calculator",
-            "method": "calculator"
-        }
-    ]
+    "requireLogin": true
 }

@@ -58,7 +58,7 @@
                                                     {>userName}
                                                 </td>
                                                 <td class="bounty-header">
-                                                    ${number_format cost}
+                                                    {#money cost}
                                                 </td>
                                                 <td class="bounty-header text-center">
                                                     <a href="#" onclick="toggleBounty(this, {uid})">View</a>
@@ -75,7 +75,7 @@
                                                         {/unless}
                                                     </td>
                                                     <td class="bounty-content">
-                                                        ${number_format cost}
+                                                        {#money cost}
                                                     </td>
                                                     <td class="bounty-content text-center">
                                                         <a href="?page=bounties&action=remove&id={id}">Buy Off</a>

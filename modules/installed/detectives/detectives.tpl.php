@@ -10,7 +10,7 @@
                         <div class="panel-heading">Hire Detectives</div>
                         <div class="panel-body">
                             <p>
-                                Before killing a user you first need to find them! It will cost you ${number_format detectiveCost} p/h to hire a detective.
+                                Before killing a user you first need to find them! It will cost you {#money detectiveCost} p/h to hire a detective.
                             </p>
                             <form class="text-left detective-form" action="?page=detectives&action=hire" method="post" >
                                 <input type="hidden" name="cost" value="{detectiveCost}" />
