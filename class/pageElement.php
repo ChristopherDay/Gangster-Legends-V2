@@ -1,7 +1,7 @@
 <?php
 
     
-    require __DIR__ . '/handlebars/Autoloader.php';
+    require __DIR__ . '/Handlebars/Autoloader.php';
     Handlebars\Autoloader::register();
 
     use Handlebars\Handlebars;
