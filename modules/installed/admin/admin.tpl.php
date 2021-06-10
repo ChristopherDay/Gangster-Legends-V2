@@ -16,7 +16,7 @@
                         {#each data}
                             <tr>
                                 {#each columns}
-                                    <th>{value}</th>
+                                    <th><{value}></th>
                                 {/each}
                             </tr>
                         {/each}
