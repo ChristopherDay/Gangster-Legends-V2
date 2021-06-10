@@ -89,9 +89,10 @@
         } else if (!$jailPageCheck["requireLogin"]) {
             $page->loadPage($_GET['page']);
         } else {
-            
-            $page->loadPage("login");
-            
+            $loginPage = "login";
+            $hook = new Hook("loginPage");
+            $loginPage = $hook->run($loginPage, true);
+            $page->loadPage($loginPage);
         }
     
     }

@@ -14,7 +14,7 @@ class page {
         $this->addToTemplate("timestamp", time());
     }
     
-    public $printPage = true, $theme, $template, $success = false, $loginPages = array('login', 'register'), $jailPages = array(), $loginPage, $jailPage, $dontRun = false, $modules = array(), $moduleView, $loadedTheme, $loadedModule, $landingPage;
+    public $printPage = true, $theme, $template, $success = false, $loginPages = array('login', 'register'), $jailPages = array(), $loginPage, $jailPage, $dontRun = false, $modules = array(), $moduleView, $loadedTheme, $loadedModule, $landingPage, $module;
     private $pageHTML, $pageItems, $pageReplace, $alerts = array();
     
     public function loadModuleMetaData() {
@@ -141,7 +141,7 @@ class page {
 
                 include $this->moduleController;
                 
-                $module = new $page();
+                $this->module = new $page();
 
                 $pageName = $page;
 
@@ -239,9 +239,9 @@ class page {
 
                 $customMenus = $this->sortArray($customMenus);
 
-                if (isset($module)) {
-                    $this->addToTemplate('game', $this->htmlOutput($module));
-                    $this->addToTemplate('alerts', $this->alertsOutput($module));
+                if (isset($this->module)) {
+                    $this->addToTemplate('game', $this->htmlOutput($this->module));
+                    $this->addToTemplate('alerts', $this->alertsOutput($this->module));
                 }
 
                 $this->addToTemplate('menus', $this->setActiveLinks($allMenus));
@@ -250,7 +250,7 @@ class page {
                 $this->pageHTML = $this->template->mainTemplate->pageMain;
                 
             } else {
-                die("Module template not found!" . 'modules/installed/' . $page . 'tpl..php');
+                die("Module template not found!" . 'modules/installed/' . $page . 'tpl.php');
             }
             
         } else {
@@ -323,6 +323,9 @@ class page {
         $this->replaceVars();
         
         if (!$this->printPage) return;
+
+        $hook = new Hook("printPage");
+        $hook->run($this);
 
         echo $this->pageHTML;
         
