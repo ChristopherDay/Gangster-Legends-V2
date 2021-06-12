@@ -675,7 +675,7 @@
 
             if (!isset($item["UI_qty"])) return false; 
 
-            return $item["UI_qty"] >= $qty;
+            return $item["UI_qty"] >= abs(intval($qty));
         }
 
         public function addItem($item, $qty = 1) {
@@ -688,7 +688,7 @@
             ", array(
                 ":user" => $this->info->U_id, 
                 ":item" => $item, 
-                ":qty" => $qty
+                ":qty" => abs(intval($qty))
             ));
         }
 
@@ -701,7 +701,7 @@
                 ", array(
                     ":user" => $this->info->U_id, 
                     ":item" => $item, 
-                    ":qty" => $qty
+                    ":qty" => abs(intval($qty))
                 ));
                 return true;
             }
