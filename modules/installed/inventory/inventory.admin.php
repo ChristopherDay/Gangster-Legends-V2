@@ -103,6 +103,7 @@
             $inputs = $hook->run();
 
             $html = "";
+
             if (isset($data["meta"])) {
                 foreach ($data["meta"] as $key => $value) {
                     $data["meta"][trim($key)] = $value;
@@ -111,7 +112,7 @@
 
             foreach ($inputs as $input) {
 
-                if (isset($data["meta"]) && $data["meta"][$input["id"]]) {
+                if (isset($data["meta"]) && isset($data["meta"][$input["id"]])) {
                     $input["value"] = $data["meta"][$input["id"]];
                 }
 
