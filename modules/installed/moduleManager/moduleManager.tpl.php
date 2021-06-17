@@ -43,7 +43,24 @@
                 {/if}
             </div>
             <h2>{name} <small>{version}</small></h2>
-            <p>Developed by <a href="{author.url}" target="_blank">{author.name}</a></p>
+            {#if author.name}
+                <p>
+                    Developed by <a href="{author.url}" target="_blank">{author.name}</a>
+                    {#if notes} <small> - <{notes}></small>{/if}
+                </p>
+            {else}
+                <p>
+                    Developed by: 
+                </p>
+                <ul>
+                    {#each author}
+                        <li>
+                            <a href="{url}" target="_blank">{name}</a>
+                            {#if notes} <small> - <{notes}></small>{/if}
+                        </li>
+                    {/each}
+                </ul>
+            {/if}
             <div class="well">
                 {description}
             </div>
