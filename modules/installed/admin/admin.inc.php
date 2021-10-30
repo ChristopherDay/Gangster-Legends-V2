@@ -80,9 +80,13 @@
             }
 
             $moduleJSFile = "modules/installed/" . $adminModule . "/" . $adminModule . ".admin.script.js";
-
             if (file_exists($moduleJSFile)) {
-                $this->page->addToTemplate("moduleJSFile", $moduleJSFile);
+                $this->page->registerTemplateFile($moduleJSFile);
+            }
+
+            $moduleJSFile = "modules/installed/" . $adminModule . "/" . $adminModule . ".admin.styles.css";
+            if (file_exists($moduleJSFile)) {
+                $this->page->registerTemplateFile($moduleJSFile);
             }
 
             $adminModule = new adminModule();

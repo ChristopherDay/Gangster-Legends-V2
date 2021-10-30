@@ -1,9 +1,15 @@
 <?php
 
     class adminTemplate extends template {
-        public $widgettable = '
-            <div class="col-md-{size}">
+        public $title = '
+            {#if title}
                 <h4>{title}</h4>
+            {/if}
+        ';
+
+        public $widgetTable = '
+            <div class="col-md-{size}">
+                {>title}
                 <table class="table table-condensed table-striped table-bordered no-dt">
                     <thead>
                         <tr>
@@ -23,7 +29,24 @@
                     </tbody>
                 </table>
             </div>
+        ';
 
+        public $widgetChart = '
+            <div class="col-md-{size}">
+                {>title}
+                <div class="admin-chart">
+                    {#if data}
+                        {json_encode data}
+                    {/if}
+                </div>
+            </div>
+        ';
+
+        public $widgetHTML = '
+            <div class="col-md-{size}">
+                {>title}
+                {{html}}
+            </div>
         ';
 
         public $widgets = '
