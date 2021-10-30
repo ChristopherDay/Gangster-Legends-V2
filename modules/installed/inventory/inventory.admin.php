@@ -256,7 +256,7 @@
                     ":id" => $this->methodData->id
                 ));
 
-                header("Location: ?page=admin&module=blackmarket");
+                header("Location: ?page=admin&module=inventory");
 
             }
 
