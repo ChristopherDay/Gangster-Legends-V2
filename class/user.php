@@ -23,8 +23,8 @@
             if (isset($id) || isset($name)) {
                 $this->id = $id;
                 $this->name = $name;
-                $this->getInfo();    
-                
+                $this->getInfo();   
+
                 if (isset($_SESSION['userID']) && $_SESSION['userID'] == $this->id) {
                     $this->loggedin = true;
                 }
@@ -32,6 +32,11 @@
                 if ($this->info) {
                     $this->nextRank = $this->nextRank();
                 }
+                
+                $hook = new Hook("alterUserObject", function (&$user) {
+                    return $user;
+                });
+                $hook->run($this, true);
 
             }
 
@@ -158,33 +163,54 @@
         public function makeUser($username, $email, $password, $userLevel = 1, $userStatus = 1) {
             
             $settings = new settings();
+            $round = new Round();
 
-            $check = $this->db->prepare("SELECT U_id FROM users WHERE U_name = :username OR (U_email = :email AND U_status = 1)");
+            $roundID = false;
+            if ($round->currentRound) {
+                $roundID = $round->currentRound["round"];
+            } else if ($round->nextRound) {
+                $roundID = $round->nextRound["round"];
+            }
+
+            if (!$roundID) {
+                return "Registration is currently closed!";
+            }
+
+            $check = $this->db->prepare("
+                SELECT U_id 
+                FROM users 
+                WHERE (U_name = :username OR U_email = :email) 
+                AND U_round = :round
+            ");
             $check->bindParam(':username', $username);    
             $check->bindParam(':email', $email);    
+            $check->bindParam(':round', $roundID);    
             $check->execute();
             $checkInfo = $check->fetchObject();
             
-            if (isset($checkInfo->U_id)) {
-                
+            if (isset($checkInfo->U_id)) { 
                 return 'Username or EMail are in use!';
-                
             } else {
 
                 $validateUserEmail = !!$settings->loadSetting("validateUserEmail");
                 
-                if ($validateUserEmail) {
+                $validatedBefore = $this->db->select("SELECT * FROM users WHERE U_email = :email AND U_status = 1", array(
+                    ":email" => $email
+                ));
+                
+                if ($validateUserEmail && !$validatedBefore) {
                     $userStatus = 2;
                 }
 
                 $addUser = $this->db->prepare("
-                    INSERT INTO users (U_name, U_email, U_userLevel, U_status) 
-                    VALUES (:username, :email, :userLevel, :userStatus)
+                    INSERT INTO users (U_name, U_email, U_userLevel, U_status, U_round) 
+                    VALUES (:username, :email, :userLevel, :userStatus, :round)
                 ");
                 $addUser->bindParam(':username', $username);
                 $addUser->bindParam(':email', $email);
                 $addUser->bindParam(':userLevel', $userLevel);
                 $addUser->bindParam(':userStatus', $userStatus);
+                $addUser->bindParam(':round', $roundID);
                 $addUser->execute();
 
                 $id = $this->db->lastInsertId();
@@ -708,7 +734,7 @@
             return false;
         }
         
-        public function logout() {
+        public function  logout() {
         
             session_destroy();
             
