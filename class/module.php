@@ -43,6 +43,10 @@
             if (!isset($_SESSION["CSFR"])) {
                 $this->generateCSFRToken();
             }
+
+            new Hook("alterModuleData", function ($data) {
+                return $data;
+            });
             
         }
 
