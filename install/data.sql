@@ -32,6 +32,8 @@ INSERT INTO `ranks` (`R_id`, `R_name`, `R_exp`, `R_limit`, `R_cashReward`, `R_bu
 (2, 'Thug', 50, 0, 150, 60, 10000),
 (3, 'Criminal', 100, 0, 250, 100, 15000);
 
+INSERT INTO `rounds` VALUES (NULL, "Round 1", UNIX_TIMESTAMP() - UNIX_TIMESTAMP() % 86400, UNIX_TIMESTAMP() - UNIX_TIMESTAMP() % 86400 + (60 * 86400));
+
 INSERT INTO `theft` (`T_id`, `T_name`, `T_chance`, `T_maxDamage`, `T_worstCar`, `T_bestCar`) VALUES
 (1, 'Steal from street corner', 50, 100, 1, 1000),
 (2, 'Steel from 24hour car park', 35, 75, 1, 1000),

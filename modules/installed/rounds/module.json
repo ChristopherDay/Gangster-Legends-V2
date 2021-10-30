@@ -1,0 +1,38 @@
+{
+    "name": "Rounds",
+    "version": "1.0.0.0",
+    "description": "This module allows admins to make rounds ",
+    "author": {
+        "name": "Chris Day",
+        "url": "https:\/\/glscript.net"
+    },
+    "pageName": "Rounds",
+    "moduleCantBeDisabled": false,
+    "accessInJail": false,
+    "requireLogin": false,
+    "adminGroup": "Rounds",
+    "admin": [
+        {
+            "text": "View Rounds",
+            "method": "view"
+        },
+        {
+            "text": "New Rounds",
+            "method": "new"
+        },
+        {
+            "hide": true,
+            "text": "Edit Rounds",
+            "method": "edit"
+        },
+        {
+            "hide": true,
+            "text": "Delete Rounds",
+            "method": "delete"
+        },
+        {
+            "text": "Clear Round Data",
+            "method": "clear"
+        }
+    ]
+}

@@ -143,6 +143,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `U_password` varchar(255) NOT NULL DEFAULT '',
   `U_userLevel` int(1) NULL,
   `U_status` int(1) NULL,
+  `U_round` int(11) NOT NULL DEFAULT 1,
   PRIMARY KEY (`U_id`)
 ) DEFAULT CHARSET=utf8;
 
@@ -178,6 +179,14 @@ CREATE TABLE IF NOT EXISTS `weapons` (
   `W_accuracy` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`W_id`)
 ) DEFAULT CHARSET=utf8;
+
+CREATE TABLE `rounds` (
+  `R_id` INT(11) AUTO_INCREMENT, 
+  `R_name` VARCHAR(128), 
+  `R_start` INT(11), 
+  `R_end` INT(11), 
+  PRIMARY KEY(`R_id`)
+);
 
 CREATE TABLE IF NOT EXISTS `roleAccess` ( 
   `RA_role` INT NOT NULL , 
