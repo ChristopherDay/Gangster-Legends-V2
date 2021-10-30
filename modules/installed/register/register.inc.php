@@ -38,11 +38,12 @@
         
         public function method_register() {
 
-            if (!$this->checkCSFRToken()) return;
+            //if (!$this->checkCSFRToken()) return;
             
             $this->regError = '';
             
             $user = @new user();
+            $round = new Round();
             $settings = new settings();
             
             if(preg_match("/^[a-zA-Z0-9]+$/", $this->methodData->username) != 1) {
@@ -73,23 +74,26 @@
                     ));
                 } else {
 
-
-     
                     $actionHook = new hook("userAction");
                     $action = array(
-                        "user" => $makeuser, 
+                        "user" => $makeUser, 
                         "module" => "register", 
-                        "id" => $makeuser, 
+                        "id" => $makeUser, 
                         "success" => true, 
                         "reward" => 0
                     );
                     $actionHook->run($action);
 
                     $_SESSION["userID"] = $makeUser;
-                    header("Location:?");
-                    $this->regError =  $this->page->buildElement('success', array(
-                        "text" => 'You have registered successfuly, you can now log in!'
-                    ));
+
+                    if ($round->currentRound) {
+                        header("Location:?");
+                        $this->regError =  $this->page->buildElement('success', array(
+                            "text" => 'You have registered successfuly, you can now log in!'
+                        ));
+                    } else {
+                        $this->error("You have pre-registered for the next round!", "success");
+                    }
                 }
                 
             } else if (isset($this->methodData->password)) {
