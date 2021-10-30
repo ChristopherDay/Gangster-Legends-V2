@@ -45,7 +45,7 @@
                 <div class="row">
                     <div class="col-md-8">
                         <div class="form-group">
-                            <label class="pull-left">Username or ID</label>
+                            <label class="pull-left">Username, ID or Email</label>
                             <input type="text" class="form-control" name="user" value="{user}">
                         </div>
                     </div>
@@ -65,6 +65,7 @@
                     <tr>
                         <th width="50px">ID</th>
                         <th>User</th>
+                        <th width="150px">Round</th>
                         <th width="100px">Actions</th>
                     </tr>
                 </thead>
@@ -73,6 +74,13 @@
                         <tr>
                             <td>{id}</td>
                             <td>{name}</td>
+                            <td>
+                                {#if round}
+                                    {round}
+                                {else}
+                                    <strong>Unknown</strong>
+                                {/if}
+                            </td>
                             <td>
                                 [<a href="?page=admin&module=users&action=edit&id={id}">Edit</a>] 
                                 [<a href="?page=admin&module=users&action=delete&id={id}">Delete</a>]

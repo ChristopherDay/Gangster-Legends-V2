@@ -9,7 +9,7 @@
             }
 
             if ($search) {
-                $add = " WHERE U_id = :id OR U_name LIKE :search";
+                $add = " WHERE U_id = :id OR U_name LIKE :search OR U_email LIKE :search";
             } else {
                 $add = " WHERE U_id = :id";
             }
@@ -26,10 +26,12 @@
                     US_bank as 'bank', 
                     US_points as 'points', 
                     US_bullets as 'bullets', 
+                    R_name as 'round',
                     US_bio as 'bio', 
                     US_pic as 'pic'
                 FROM users
                 INNER JOIN userStats ON US_id = U_id
+                LEFT OUTER JOIN rounds ON (R_id = U_round)
                 " . $add . "
                 ORDER BY U_name"
             );
