@@ -15,7 +15,7 @@ class page {
     }
     
     public $printPage = true, $theme, $template, $success = false, $loginPages = array('login', 'register'), $jailPages = array(), $loginPage, $jailPage, $dontRun = false, $modules = array(), $moduleView, $loadedTheme, $loadedModule, $landingPage, $module;
-    private $pageHTML, $pageItems, $pageReplace, $alerts = array();
+    private $pageHTML, $pageItems, $pageReplace, $alerts = array(), $files = array("js"=>array(), "css"=>array());
     
     public function loadModuleMetaData() {
         $moduleDirectories = scandir("modules/installed/");
@@ -40,6 +40,14 @@ class page {
                 include_once $moduleHooksFile;
             }
         }
+    }
+
+    public function registerTemplateFile($url) {
+        $ext = strtolower(pathinfo($url)["extension"]);
+        if (!in_array($ext, array_keys($this->files))) {
+            return $this->error($ext . " is an unsupported module file type!");
+        }
+        $this->files[$ext][] = $url;
     }
 
     public function username($user) {
@@ -112,16 +120,13 @@ class page {
                 include_once $this->moduleView;
                 
                 $moduleCSSFile = "modules/installed/" . $page . "/" . $page . ".styles.css";
-
-
                 if (file_exists($moduleCSSFile)) {
-                    $this->addToTemplate("moduleCSSFile", $moduleCSSFile);
+                    $this->registerTemplateFile($moduleCSSFile);
                 }
                 
                 $moduleJSFile = "modules/installed/" . $page . "/" . $page . ".script.js";
-
                 if (file_exists($moduleJSFile)) {
-                    $this->addToTemplate("moduleJSFile", $moduleJSFile);
+                    $this->registerTemplateFile($moduleJSFile);
                 }
 
                 $templateMethod = $page . 'Template';
@@ -271,9 +276,6 @@ class page {
         foreach ($menus as $key => $menu) {
             if (!is_array($menu["items"])) $menu["items"] = array();
             foreach ($menu["items"] as $k => $item) {
-                //debug(array(
-                //    strpos($item["url"], $queryString), $queryString, $item["url"]
-                //));
                 if ($item["url"] && strpos($queryString, $item["url"]) !== false) {
                     $menu["items"][$k]["active"] = true;
                     break;
@@ -307,6 +309,10 @@ class page {
     }
     
     private function replaceVars() {
+
+        $this->addToTemplate("JSFiles", $this->files["js"]);
+        $this->addToTemplate("CSSFiles", $this->files["css"]);
+
         $template = new pageElement($this->pageItems);
 
         if (isset($_SERVER["HTTP_RETURN_JSON"])) {

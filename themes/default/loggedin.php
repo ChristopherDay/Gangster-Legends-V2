@@ -13,6 +13,10 @@
             public $globalTemplates = array();
 
             public function __construct() {
+
+                global $page;
+
+                $page->addToTemplate("gameTime", date("jS F Y, H:i:s"));
      
                 $this->globalTemplates["success"] = '<div class="alert alert-success">
                     <button type="button" class="close">
@@ -49,6 +53,9 @@
             {#if moduleCSSFile}
                 <link href="{moduleCSSFile}" rel="stylesheet" />
             {/if}
+            {#each CSSFiles}
+                <link href="{.}" rel="stylesheet" />
+            {/each}
             <link rel="shortcut icon" href="themes/{_theme}/images/icon.png" />
             <meta name="timestamp" content="{timestamp}">
             <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -66,9 +73,19 @@
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <img src="themes/{_theme}/images/logo.png" alt="Gangster Legends" />
+                            <img src="themes/{_theme}/images/logo.png" alt="Gangster Legends" /> 
                         </div>
                     </div>
+                </div>
+                <div class="text-center">
+                    <small>
+                        {gameTime} - 
+                        {#if round}
+                            {round.name}
+                        {else}
+                            {nextRound.name}
+                        {/if}
+                    </small>
                 </div>
             </div>
                 
@@ -195,6 +212,9 @@
             {#if moduleJSFile}
                 <script src="{moduleJSFile}"></script>
             {/if}
+            {#each JSFiles}
+                <script src="{.}"></script>
+            {/each}
         </body>
     </html>';
             
