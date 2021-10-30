@@ -1,5 +1,9 @@
 <?php
 
+    function __roundDate($ts) {
+        return date("jS F Y H:i", $ts);
+    }
+
     class mainTemplate {
 
         public function __construct() {
@@ -26,6 +30,7 @@
                 <link rel="stylesheet" href="themes/{_theme}/css/bootstrap.min.css">
                 <link rel="stylesheet" href="themes/{_theme}/css/style.css">
                 <link rel="shortcut icon" href="themes/{_theme}/images/icon.png" />
+                <meta name="timestamp" content="{timestamp}">
                 <meta name="viewport" content="width=device-width, initial-scale=1">
             </head>
             
@@ -57,6 +62,17 @@
                             {/each}
                         </ul>
                         <{alerts}>
+
+                        {#unless round}
+                            <div class="alert alert-danger text-center">
+                                {#if nextRound}
+                                    {nextRound.name} starts in <span data-timer-type="inline" data-timer="{nextRound.start}"></span> <br />
+                                    <small>{__roundDate nextRound.start}</small>
+                                {else}
+                                    {game_name} is currently closed!
+                                {/if}
+                            </div>
+                        {/unless}
                         <{game}>
                     </div>
                 </div>
