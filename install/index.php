@@ -10,6 +10,7 @@
 	require "../class/settings.php";
 	require "../class/fastImage.php";
 	require "../class/items.php";
+	require "../class/round.php";
 	require "../class/user.php";
 
 	function heading($step, $text) {
