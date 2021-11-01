@@ -29,7 +29,7 @@
 		<nav class="navbar navbar-default navbar-static-top">
 			<div class="container-fluid">
 				<div class="navbar-header">
-					<a href="#" class="navbar-brand">
+					<a href="?page=admin&module=admin" class="navbar-brand">
 						<img src="themes/{_setting "theme"}/images/logo.png" /> {game_name} ACP 
 					</a>
 				</div>
@@ -41,6 +41,7 @@
 				</form>
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-9">
 					<ul class="nav navbar-nav navbar-right">
+						<li><a href="?page=admin&module=admin">ACP Dashboard</a></li>
 						<li><a href="?">Back To Game</a></li>
 						{#if adminModule}
 							<li><a href="?page={adminModule}">View Module</a></li>
