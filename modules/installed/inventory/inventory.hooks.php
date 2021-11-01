@@ -21,24 +21,8 @@
     require __DIR__ . "/hooks/info.php";
     require __DIR__ . "/hooks/equip.php";
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    new Hook("clearRound", function () {
+        global $db, $page;
+        $db->delete("TRUNCATE TABLE userInventory;");
+        $page->alert("Inventory cleared", "info");
+    });

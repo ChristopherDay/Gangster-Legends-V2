@@ -15,3 +15,9 @@
             "text" => "Mail"
         );
     });
+
+    new Hook("clearRound", function () {
+        global $db, $page;
+        $db->delete("TRUNCATE TABLE mail;");
+        $page->alert("mail cleared", "info");
+    });

@@ -154,4 +154,10 @@
             "key" => "editInfo"
         );
     });
+
+    new Hook("clearRound", function () {
+        global $db, $page;
+        $db->delete("TRUNCATE TABLE gangs;");
+        $page->alert("Gangs cleared", "info");
+    });
     
