@@ -6,6 +6,7 @@
 
 		public $currentRound = null;
 		public $nextRound = null;
+		public $id = 0;
 
 		function __construct() {
 			global $db, $_roundCache;
@@ -13,6 +14,7 @@
 			if ($_roundCache) {
 				$this->currentRound = $_roundCache["currentRound"];
 				$this->nextRound = $_roundCache["nextRound"];
+				$this->id = $_roundCache["id"];
 			} else {
 				$_roundCache["currentRound"] = $this->currentRound = $db->select("
 					SELECT
@@ -34,6 +36,16 @@
 					WHERE R_start > UNIX_TIMESTAMP()
 					ORDER BY R_start ASC
 				");
+
+				$roundID = 0;
+
+				if ($this->currentRound) {
+					$roundID = $this->currentRound["round"];
+				} else if ($this->nextRound) {
+					$roundID = $this->nextRound["round"];
+				}
+
+				$_roundCache["id"] = $this->id = $roundID;
 
 			}
 
