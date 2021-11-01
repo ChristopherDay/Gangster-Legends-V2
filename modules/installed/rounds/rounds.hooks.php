@@ -33,17 +33,3 @@ new hook("moduleLoad", function ($module) {
 	return $module;
 
 });
-
-new hook("adminWidget-html", function ($user) {
-    
-    global $db, $page;
-
-    return array(
-        "size" => 4, 
-        "title" => "Current Round",
-        "type" => "html", 
-        "html" => "<h1>test</h1>"
-    );
-
-});
-
