@@ -12,6 +12,8 @@
                 $this->methodData->top10 = "";
             }
 
+            $round = new Round();
+
             switch (@$this->methodData->top10) {
                 case 'rank': 
                     $type = "rank";
@@ -24,7 +26,7 @@
                     $title = "Top 10 Richest Players"; 
                 break;
             }
-            
+
             $select = $this->db->selectAll("
                 SELECT 
                     * 
@@ -33,9 +35,12 @@
                     INNER JOIN users ON (US_id = U_id) 
                 WHERE 
                     U_userLevel = 1 AND 
-                    U_status != 0
+                    U_status != 0 AND
+                    U_round = :round
                 ORDER BY ".$order." DESC LIMIT 0, 10
-            ");
+            ", array(
+                ":round" => $round->id
+            ));
             
             $i = 1;
             $users = array();
