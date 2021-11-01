@@ -9,13 +9,16 @@
         public function __construct() {
             global $db, $page;
 
+            $round = new Round();
 
             $usersOnline = $db->select("
                 SELECT COUNT(*) as 'count' FROM userTimers WHERE UT_desc = 'laston' AND UT_time > ".(time()-900)."
             ");
             $users = $db->select("
-                SELECT COUNT(*) as 'count' FROM users
-            ");
+                SELECT COUNT(*) as 'count' FROM users WHERE U_round = :round
+            ", array(
+                ":round" => $round->id
+            ));
 
             $page->addToTemplate("usersOnlineNow", number_format($usersOnline["count"]));
             $page->addToTemplate("registeredUsers", number_format($users["count"]));
