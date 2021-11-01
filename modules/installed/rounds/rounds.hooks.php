@@ -13,16 +13,6 @@ new hook("moduleLoad", function ($module) {
 
 	$round = new Round();
 
-	$round->currentRound = $db->select("
-		SELECT
-			R_id as 'round', 
-			R_name as 'name', 
-			R_start as 'start', 
-			R_end as 'end'
-		FROM rounds 
-		WHERE UNIX_TIMESTAMP() BETWEEN R_start AND R_end
-	");
-
 	$page->addToTemplate("round", $round->currentRound);
 
 	if (!$round->currentRound && $page->modules[$module]["requireLogin"]) {
@@ -37,17 +27,6 @@ new hook("moduleLoad", function ($module) {
 	}
 
 	if (!$round->currentRound) {
-		$round->nextRound = $db->select("
-			SELECT
-				R_id as 'round', 
-				R_name as 'name', 
-				R_start as 'start', 
-				R_end as 'end'
-			FROM rounds 
-			WHERE R_start > UNIX_TIMESTAMP()
-			ORDER BY R_start ASC
-		");
-
 		$page->addToTemplate("nextRound", $round->nextRound);
 	}
 
