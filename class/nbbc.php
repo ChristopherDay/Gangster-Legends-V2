@@ -2294,8 +2294,6 @@ class BBCode {
                     $contents = $this->Internal_FinishTag($tag_name);
                     if ($contents === false) {
 
-                        debug($this->lost_start_tags);
-
                         if (@$this->lost_start_tags[$tag_name] > 0) {
                             $this->lost_start_tags[$tag_name]--;
                         }
