@@ -15,7 +15,7 @@
             
         }
         
-        public function handler($number,$string,$file,$line,$context,$major = false) {
+        public function handler($number=0,$string="",$file="",$line=0,$context="",$major = false) {
             
             global $config;
 
