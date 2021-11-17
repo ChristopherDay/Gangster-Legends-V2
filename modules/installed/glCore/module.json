@@ -1,0 +1,12 @@
+{
+    "name": "Gangster Legends Core Engine",
+    "version": "2.5.1",
+    "description": "A free to use text-based PBBG / MMORPG script",
+    "author": {
+        "name": "Chris Day",
+        "url": "http:\/\/glscript.net"
+    },
+    "pageName": "Gangster Legends Engine",
+    "accessInJail": true,
+    "requireLogin": true
+}
