@@ -73,3 +73,22 @@
         );
 
     });
+
+    new hook("adminWidget-alerts", function ($user) {
+        global $db, $page;
+        
+        $settings = new Settings();
+        $savedHash = $settings->loadSetting("glCoreHash");
+        $currentHash = hashDirectory("class/");
+
+        if (!$savedHash) {
+            $setting->update("glCoreHash", $currentHash);
+            $savedHash = $currentHash;
+        }
+
+        if ($savedHash != $currentHash) return array( 
+            "type" => "warning", 
+            "text" => "The Gangster Legends core code has been altered, this can potentially break future upgrades!"
+        );
+        return false;
+    });
