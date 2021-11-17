@@ -52,7 +52,12 @@
         public $widgets = '
             <div class="row">
                 {#each widgets}
-                    <{html}>
+                    {#if divider}  
+                        </div>
+                        <div class="row">
+                    {else}
+                        <{html}>
+                    {/if}
                 {/each}
             </div>
         ';
