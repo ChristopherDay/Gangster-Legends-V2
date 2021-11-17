@@ -31,10 +31,17 @@
 
 			}
 
+			$hash = hashDirectory("../class/");
+			$settings = new Settings();
+			$settings->update("glCoreHash", $hash);
+
 			echo '<ol>
 				<li>Database schema created!</li>
 				<li>Default data inserted!</li>
 			</ol>';
+
+
+
 
 		} else {
 			heading(2, "Create Database");
