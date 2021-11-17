@@ -54,7 +54,7 @@
 
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-md-3 col-lg-2">
+				<div class="col-md-3 col-lg-2 navigation">
                     {#each menus}
 
                         <div class="list-group">

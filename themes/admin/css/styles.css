@@ -14,15 +14,20 @@ body {
 }
 
 .list-group-item {
-	padding: 0px 5px;
-	line-height: 26px
-}
-
-.heading {
 	background-color: #111;
 }
 
-.list-group-item.active {
+.navigation .list-group-item {
+	padding: 0px 5px;
+	line-height: 26px;
+	background-color: #222;
+}
+
+.heading {
+	background-color: #111 !important;
+}
+
+.navigation .list-group-item.active {
 	background-color: #333;
 }
 
