@@ -1,0 +1,21 @@
+{
+    "name": "GL Directory",
+    "version": "1.0.0",
+    "description": "This module allows users to vote for your site on the GL Directory",
+    "author": {
+        "name": "Chris Day",
+        "url": "https:\/\/glscript.net"
+    },
+    "pageName": "GL Directory",
+    "moduleCantBeDisabled": false,
+    "accessInJail": false,
+    "requireLogin": true,
+    "adminGroup": "Voting",
+    "admin": [
+        {
+            "text": "Options",
+            "method": "options",
+            "hide": false
+        }
+    ]
+}
