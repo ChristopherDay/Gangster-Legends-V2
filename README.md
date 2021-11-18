@@ -25,6 +25,6 @@ Gangster Legends v2 is a open source PBBG game engine written in PHP using a MyS
 
 # Example
 
-A demo can be found at http://glscript.cdcoding.com/demo/
+A demo can be found at http://demo.glscript.net/ 
 
-The email is `Admin@yourgame.co.uk` and the password is `adminPass` 
+**After registering you will become an admin automatically, this is only on the demo site.**
