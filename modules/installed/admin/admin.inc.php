@@ -11,7 +11,7 @@
             $adminModule = $this->methodData->module;
 
             if (!count($this->user->adminModules)) {
-                header("Location:?page=" . $this->page->landingPage);
+                $this->page->redirectTo($this->page->landingPage);
                 exit;
             }
 
@@ -19,7 +19,7 @@
                 !in_array($this->methodData->module, $this->user->adminModules) &&
                 !in_array("*", $this->user->adminModules)
             ) {
-                header("Location:?page=" . $this->page->landingPage);
+                $this->page->redirectTo($this->page->landingPage);
                 exit;
             }
 
@@ -35,11 +35,16 @@
         private function viewModule() {
 
             $adminModule = $this->methodData->module;
-            $this->moduleInfo = @$this->page->modules[$adminModule];
+            
+            if (!in_array($adminModule, array_keys($this->page->modules))) {
+				$this->page->redirectTo('admin');
+				exit;
+			}
+            
+            $this->moduleInfo = $this->page->modules[$adminModule];
 
             if (!$this->moduleInfo || !$this->moduleInfo["admin"]) {
-
-                return $this->html = $this->page->buildElement("error", array("text"=>"This module does not exits or have an admin panel"));
+                return $this->html = $this->page->buildElement("error", array("text" => "This module does not exist or have an admin panel"));
             }
             
             $items = array();
