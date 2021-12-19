@@ -48,7 +48,7 @@
                         </div>
                         <div class="col-md-4 text-right">
                             <p>
-                                <a href="?page=gangs&action=logs&time={next.time}">{next.date} &raquo;</a>
+                               {#if next}<a href="?page=gangs&action=logs&time={next.time}">{next.date} &raquo;</a>{/if}
                             </p>
                         </div>
                     </div>
@@ -58,7 +58,7 @@
                         <div class="list-group">
                             <div class="list-group-item">
                                 <div class="text-center">
-                                    <em>There are no logs</em>
+                                    <em>There are no logs for {current}</em>
                                 </div>
                             </div>
                         </div>
