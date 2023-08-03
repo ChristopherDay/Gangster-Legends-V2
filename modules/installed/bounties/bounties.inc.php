@@ -149,8 +149,6 @@
                 GROUP BY B_userToKill
                 ORDER BY SUM(B_cost) DESC
             ");
-
-            $active->bindParam(":id", $this->user->id);
             $active->execute();
 
             $bounties = $active->fetchAll(PDO::FETCH_ASSOC);
