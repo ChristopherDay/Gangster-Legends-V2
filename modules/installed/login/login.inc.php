@@ -29,7 +29,7 @@
         
         public function method_login() {
 
-            if (!$this->checkCSFRToken()) return;
+            //if (!$this->checkCSFRToken()) return;
             
             $round = new Round();
 
