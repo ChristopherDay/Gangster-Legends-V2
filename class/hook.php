@@ -49,3 +49,5 @@
             return $rtn;
         }
     }
+
+    $hook = new Hook("alterModuleData", function ($data) { return $data; });

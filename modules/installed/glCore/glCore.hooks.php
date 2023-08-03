@@ -82,7 +82,7 @@
         $currentHash = hashDirectory("class/");
 
         if (!$savedHash) {
-            $setting->update("glCoreHash", $currentHash);
+            $settings->update("glCoreHash", $currentHash);
             $savedHash = $currentHash;
         }
 
