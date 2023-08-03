@@ -43,13 +43,13 @@
             ));
 
             if (!isset($userExists["U_id"])) {
-                $this->error('You have entered a wrong email/password!');    
+                return $this->error('You have entered a wrong email/password!');    
             }
 
             $user = new User($userExists["U_id"]);
 
             if ($user->info->U_password != $user->encrypt($user->info->U_id . $this->methodData->password)) {
-                $this->error('You have entered a wrong email/password!');
+                return $this->error('You have entered a wrong email/password!');
             }
 
             if (!$round->currentRound || $round->currentRound["round"] != $userExists["U_round"]) {
