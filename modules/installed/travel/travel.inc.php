@@ -25,7 +25,7 @@
             
             foreach ($locations as $location) {
 
-                $hook = new Hook("alterModuleData");
+                $hook = new Hook("alterModuleData", function ($data) { return $data; });
                 $hookData = array(
                     "module" => "travel",
                     "user" => $this->user,
@@ -56,7 +56,7 @@
                 ':id'=>  $id
             ));
 
-            $hook = new Hook("alterModuleData");
+            $hook = new Hook("alterModuleData", function ($data) { return $data; });
             $hookData = array(
                 "module" => "travel",
                 "user" => $this->user,

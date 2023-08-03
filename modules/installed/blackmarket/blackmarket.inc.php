@@ -27,7 +27,7 @@
 
 
                 
-            $hook = new Hook("alterModuleData");
+            $hook = new Hook("alterModuleData", function ($data) { return $data; });
             $hookData = array(
                 "module" => "blackMarket.list",
                 "user" => $this->user,
@@ -64,7 +64,7 @@
                 }
             }
 
-            $hook = new Hook("alterModuleData");
+            $hook = new Hook("alterModuleData", function ($data) { return $data; });
             $hookData = array(
                 "module" => "blackmarket.item",
                 "user" => $this->user,

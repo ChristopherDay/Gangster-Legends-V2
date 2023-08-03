@@ -16,7 +16,7 @@
             $crimeInfo = array();
             foreach ($crimes as $crime) {
                 
-                $hook = new Hook("alterModuleData");
+                $hook = new Hook("alterModuleData", function ($data) { return $data; });
                 $hookData = array(
                     "module" => "crimes",
                     "user" => $this->user,
@@ -66,7 +66,7 @@
                     ':crime' => $crimeID
                 ));
 
-                $hook = new Hook("alterModuleData");
+                $hook = new Hook("alterModuleData", function ($data) { return $data; });
                 $hookData = array(
                     "module" => "crimes",
                     "user" => $this->user,

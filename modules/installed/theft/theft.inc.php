@@ -13,7 +13,7 @@
             $theftArray = array();
             foreach ($theft as $t) {
 
-                $hook = new Hook("alterModuleData");
+                $hook = new Hook("alterModuleData", function ($data) { return $data; });
                 $hookData = array(
                     "module" => "theft",
                     "user" => $this->user,
@@ -61,7 +61,7 @@
                     ':id' => $id
                 ));
 
-                $hook = new Hook("alterModuleData");
+                $hook = new Hook("alterModuleData", function ($data) { return $data; });
                 $hookData = array(
                     "module" => "theft",
                     "user" => $this->user,

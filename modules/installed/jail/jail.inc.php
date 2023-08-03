@@ -60,7 +60,7 @@
                 $u = new User($value["id"]);
                 $value["user"] = $u->user;
 
-                $hook = new Hook("alterModuleData");
+                $hook = new Hook("alterModuleData", function ($data) { return $data; });
                 $hookData = array(
                     "module" => "jail",
                     "user" => $this->user,
