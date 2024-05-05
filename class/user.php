@@ -262,7 +262,10 @@
         }
 
         public function activationCode($id, $username) {
-            return substr($this->encrypt($id . $username), 0, 6);
+            $s = new Settings();
+            $salt = $s->loadSetting("ActivationCodeSalt", true, mt_rand(1000000000, 2000000000));
+            $offset = $s->loadSetting("ActivationCodeOffset", true, mt_rand(0, 32));
+            return substr($this->encrypt($salt . $id . $username), $offset, 16);
         }
 
         public function getNotificationCount($id, $type = 'all') {
